@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "DatLich";
+    Layout = "~/Views/Shared/GuestLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8 m-auto">
+        <div class="ltn__form-box contact-form-box box-shadow white-bg">
+            <h4 class="title-2">Đặt lịch khám</h4>
+            <form id="contact-form" action="mail.php" method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-item input-item-name">
+                            <input type="text" name="name" placeholder="Họ và tên">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-item input-item-email">
+                            <input type="text" name="tel" placeholder="Số điện thoại">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-item input-item-email">
+                            <input type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-item input-item-subject">
+                            <input placeholder="Ngày sinh" class="textbox-n" type="text" onfocus="(this.type='date')" id="date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-item input-item-subject">
+                            <input placeholder="Ngày khám" class="textbox-n" type="text" onfocus="(this.type='datetime-local')" id="date">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="input-item input-item-textarea">
+                    <textarea name="message" placeholder="Ghi chú"></textarea>
+                </div>
+                <div class="btn-wrapper mt-0">
+                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Đặt lịch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
