@@ -1,0 +1,25 @@
+
+@model TES_MEDICAL.GUI.Models.CTTrieuChung
+@{
+
+}
+
+
+
+
+<tr>
+
+
+    <td style="display:none"><input name="MaBenh" class="inputCTTrieuChung" data-val="true" data-val-required="The id field is required." id="id" type="hidden" value="@Model.MaBenh"></td>
+    <td> @Html.EditorFor(model => Model.TenTrieuChung, new { htmlAttributes = new { @Name = "TenTrieuChung", @placeholder = "TenTrieuChung", @class = "form-control-sm inputCTTrieuChung" } })</td>
+    <td> @Html.EditorFor(model => Model.ChiTietTrieuChung, new { htmlAttributes = new { @Name = "ChiTietTrieuChung", @placeholder = "ChiTietTrieuChung", @class = "form-control-sm inputCTTrieuChung" } })</td>
+
+
+
+
+
+    <td class="text-center"> <a class="btn btn-danger btn-sm  remove"> <i class="fa fa-trash"></i></a></td>
+
+</tr>
+
+
