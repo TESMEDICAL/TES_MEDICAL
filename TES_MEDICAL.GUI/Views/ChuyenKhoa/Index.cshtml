@@ -60,7 +60,8 @@
 
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-fullscreen">
+    @*<div class="modal-dialog modal-fullscreen">*@
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -288,10 +289,8 @@
 
             $.ajax({
                 url: '/ChuyenKhoa/Detail/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: true,
                 data: {
                     id: id_
@@ -299,10 +298,12 @@
 
                 success: function (result) {
                     $myModalContent.html(result);
+                    /*$modal.modal('show');*/
                     $('#btSave').hide();
                     $('#btupdate').hide();
                     $('#btPrint').show();
                     $modal.modal('show');
+                    
 
 
                     $('#preloader-wrapper').toggleClass('hide');

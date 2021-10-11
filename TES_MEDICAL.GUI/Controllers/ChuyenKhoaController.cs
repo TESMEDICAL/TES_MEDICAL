@@ -105,8 +105,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
-
                 return PartialView("_partialDetail", _service.Get(id));
             }
         }
