@@ -1,0 +1,113 @@
+
+
+@model TES_MEDICAL.GUI.Models.Benh
+
+<div class="container-fluid" id="pannelBenh">
+    <h1>Thông tin</h1>
+    <hr />
+
+
+    <div class="row m-2">
+
+        <div class="col-6 row">
+            <div class="col-4" style="font-weight:bold!important">
+                TenBenh
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.TenBenh)
+            </div>
+        </div>
+
+
+        <div class="col-6 row">
+            <div class="col-4" style="font-weight:bold!important">
+                ThongTin
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.ThongTin)
+            </div>
+        </div>
+
+
+        <div class="col-6 row">
+            <div class="col-4" style="font-weight:bold!important">
+                MaCK
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.MaCK)
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="position-relative" style="height:100px">
+        <h2 class="position-absolute bottom-0 start-0">CTTrieuChung</h2>
+    </div>
+    <div class="row">
+        <table class="table table table-striped text-left w-100" id="tableNhanVien">
+            <thead class="align-middle text-center">
+                <tr>
+
+                    <th>
+
+                        STT
+                    </th>
+
+                    <th>
+
+                        Detail
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody class="tbody">
+                @{
+                    var stt = 1;
+                    foreach (var item in Model.CTTrieuChung)
+                    {
+                        <tr>
+                            <td width="50px" class="text-center">#@stt</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 row">
+                                        <div class="col-4" style="font-weight:bold!important">
+                                            TenTrieuChung
+                                        </div>
+                                        <div class="col-8">
+                                            @item.TenTrieuChung
+                                        </div>
+                                    </div>
+                                    <div class="col-4 row">
+                                        <div class="col-4" style="font-weight:bold!important">
+                                            ChiTietTrieuChung
+                                        </div>
+                                        <div class="col-8">
+                                            @item.ChiTietTrieuChung
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </td>
+                        </tr>
+
+                        stt++;
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+

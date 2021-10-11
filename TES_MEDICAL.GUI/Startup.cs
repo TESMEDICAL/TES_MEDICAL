@@ -5,11 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TES_MEDICAL.Entities.Models;
+using TES_MEDICAL.GUI.Extension;
+using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
+using TES_MEDICAL.GUI.Services;
 
 namespace TES_MEDICAL.GUI
 {
@@ -25,8 +29,13 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DataContextConnection")));
+          
             services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services
+              .AddDatabase(Configuration)
+              .AddRepositories().AddServices();
+              
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,97 @@
+
+
+
+@model IPagedList<DichVu>
+
+@using X.PagedList.Mvc.Core;
+
+
+@using X.PagedList;
+@using X.PagedList.Web.Common
+<div id="list">
+
+    <div style="min-height:400px">
+        <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
+            <thead class="bg-success">
+                <tr>
+
+                    <th>
+
+                        TenDV
+                    </th>
+
+                    <th>
+
+                        DonGia
+                    </th>
+
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                @foreach (var item in ViewBag.Names as IEnumerable<DichVu>)
+                {
+                    <tr>
+
+
+
+
+                        <td>@item.TenDV</td>
+
+
+
+
+
+                        <td>@item.DonGia</td>
+
+
+
+
+                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaDV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaDV')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaDV')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-right">
+
+        @{
+            var pageRender = new PagedListRenderOptions
+            {
+                MaximumPageNumbersToDisplay = 5,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayPageCountAndCurrentLocation = false,
+                UlElementClasses = new[] { "pagination" },
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
+
+
+                ContainerDivClasses = new[] { "pagination-container" }
+
+
+            };
+        }
+        @{
+            var searchModel = ViewBag.Data as DichVuSearchModel;
+        }
+
+
+        @Html.PagedListPager((IPagedList<DichVu>)ViewBag.Names, page => Url.Action("PageList", new { page, TenDVSearch = searchModel.TenDVSearch, DonGiaSearch = searchModel.DonGiaSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
