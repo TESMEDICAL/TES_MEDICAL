@@ -11,7 +11,6 @@ namespace TES_MEDICAL.GUI.Models
         {
             CTTrieuChung = new HashSet<CTTrieuChung>();
         }
-
         public string TenTrieuChung { get; set; }
         public string TenTrieuChungKhongDau { get; set; }
 
