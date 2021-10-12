@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
         }
 
-        public async Task<ActionResult> Index(ThuocSearchModel model)
+        public async Task<IActionResult> Index(ThuocSearchModel model)
         {
 
             if (!model.Page.HasValue) model.Page = 1;
@@ -36,7 +36,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult> PageList(ThuocSearchModel model)
+        public async Task<IActionResult> PageList(ThuocSearchModel model)
         {
 
             var listmodel = await _service.SearchByCondition(model);
@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<ActionResult> Add()
+        public async Task<IActionResult> Add()
         {
 
             return PartialView("_partialAdd", new Thuoc());
@@ -71,8 +71,8 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpPost]
 
-
-        public async Task<ActionResult> Add(Thuoc model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Thuoc model)
         {
 
             model.MaThuoc = Guid.NewGuid();
@@ -85,7 +85,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpGet]
 
-        public async Task<ActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -99,7 +99,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult> Detail(Guid id)
+        public async Task<IActionResult> Detail(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -115,8 +115,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-
-        public async Task<ActionResult> Edit(Thuoc model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Thuoc model)
         {
 
             if (await _service.Edit(model) != null)
@@ -128,7 +128,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

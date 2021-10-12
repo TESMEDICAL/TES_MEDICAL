@@ -110,7 +110,7 @@ KD
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    var obj = $("#frm").serialize()();
 
 
                     $.ajax({
@@ -140,7 +140,7 @@ KD
 
                 });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    var obj = $("#frm").serialize();
                     $.ajax({
                         type: "POST",
                         url: "/Thuoc/Edit",
@@ -179,22 +179,7 @@ KD
 
             });
 
-        $(document).on('click', '.remove', function () {
-
-            $(this).parent().parent().remove();
-
-        });
-
-        function AddView(child) {
-
-            $.ajax({
-                url: '/Thuoc/add' + child,
-
-                success: function (data) {
-                    $("#partial" + child).append(data);
-                }
-            })
-        }
+       
 
         function reloadpage(page) {
             obj = {};

@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
         }
 
-        public async Task<ActionResult> Index(DichVuSearchModel model)
+        public async Task<IActionResult> Index(DichVuSearchModel model)
         {
 
             if (!model.Page.HasValue) model.Page = 1;
@@ -36,7 +36,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult> PageList(DichVuSearchModel model)
+        public async Task<IActionResult> PageList(DichVuSearchModel model)
         {
 
             var listmodel = await _service.SearchByCondition(model);
@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public ActionResult Add()
+        public IActionResult Add()
         {
 
             return PartialView("_partialAdd", new DichVu());
@@ -71,8 +71,8 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpPost]
 
-
-        public async Task<ActionResult> Add(DichVu model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(DichVu model)
         {
 
             model.MaDV = Guid.NewGuid();
@@ -85,7 +85,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpGet]
 
-        public async Task<ActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -99,7 +99,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult> Detail(Guid id)
+        public async Task<IActionResult> Detail(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -115,8 +115,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-
-        public async Task<ActionResult> Edit(DichVu model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(DichVu model)
         {
 
             if (await _service.Edit(model) != null)
@@ -128,7 +128,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,6 +15,7 @@ namespace TES_MEDICAL.GUI.Models
         }
 
         public Guid MaCK { get; set; }
+   
         public string TenCK { get; set; }
 
         public virtual ICollection<Benh> Benh { get; set; }
