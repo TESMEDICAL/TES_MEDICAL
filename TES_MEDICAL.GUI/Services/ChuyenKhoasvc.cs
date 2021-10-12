@@ -29,7 +29,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        public async Task <ChuyenKhoa> Add(ChuyenKhoa model)
+        public async Task<ChuyenKhoa> Add(ChuyenKhoa model)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                   
+
                     await transaction.CommitAsync();
                     return model;
 
@@ -117,7 +117,7 @@ namespace TES_MEDICAL.GUI.Services
             try
             {
 
-                var find =await _context.ChuyenKhoa.FindAsync(Id);
+                var find = await _context.ChuyenKhoa.FindAsync(Id);
 
 
                 _context.ChuyenKhoa.Remove(find);
@@ -140,7 +140,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<IPagedList<ChuyenKhoa>> SearchByCondition(ChuyenKhoaSearchModel model)
         {
 
-            IEnumerable<ChuyenKhoa> listUnpaged =null;
+            IEnumerable<ChuyenKhoa> listUnpaged = null;
             listUnpaged = _context.ChuyenKhoa.OrderBy(x => x.TenCK);
 
 
@@ -173,7 +173,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        protected  IEnumerable<ChuyenKhoa> GetAllFromDatabase()
+        protected IEnumerable<ChuyenKhoa> GetAllFromDatabase()
         {
             List<ChuyenKhoa> data = new List<ChuyenKhoa>();
 

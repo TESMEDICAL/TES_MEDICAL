@@ -22,12 +22,12 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
         }
 
-        public async Task<ActionResult> Index(BenhSearchModel model)
+        public async Task<IActionResult> Index(BenhSearchModel model)
         {
 
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
-            ViewBag.MaCK = _service.ChuyenKhoaNav();
+            ViewBag.MaCK = await _service.ChuyenKhoaNav();
 
 
             ViewBag.Names = listPaged;
@@ -38,7 +38,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult> PageList(BenhSearchModel model)
+        public async Task<IActionResult> PageList(BenhSearchModel model)
         {
 
             var listmodel = await _service.SearchByCondition(model);
@@ -63,14 +63,14 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
-        public  ActionResult addCTTrieuChung()
+        public IActionResult addCTTrieuChung()
         {
 
             return PartialView("_CTTrieuChungView", new CTTrieuChung());
         }
 
 
-        public async Task<ActionResult> Add()
+        public async Task<IActionResult> Add()
         {
             ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
 
@@ -79,8 +79,8 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpPost]
 
-
-        public async Task<ActionResult> Add(Benh model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Benh model)
         {
 
             model.MaBenh = Guid.NewGuid();
@@ -93,7 +93,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         [HttpGet]
 
-        public async Task<ActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -109,7 +109,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult> Detail(Guid id)
+        public async Task<IActionResult> Detail(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -126,8 +126,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-
-        public async Task<ActionResult> Edit(Benh model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Benh model)
         {
 
             if (await _service.Edit(model) != null)
@@ -139,7 +139,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

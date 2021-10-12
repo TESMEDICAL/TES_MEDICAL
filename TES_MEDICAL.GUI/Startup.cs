@@ -34,9 +34,11 @@ namespace TES_MEDICAL.GUI
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services
               .AddDatabase(Configuration)
-              .AddRepositories().AddServices();
+
+              .AddRepositories();
             services.AddRazorPages()
         .AddRazorRuntimeCompilation();
+
 
         }
 

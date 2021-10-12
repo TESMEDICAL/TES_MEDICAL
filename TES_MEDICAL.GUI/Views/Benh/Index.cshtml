@@ -104,6 +104,11 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+        function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
         $(document).ready(
 
             function () {
@@ -116,7 +121,11 @@
                     $.ajax({
                         type: "POST",
                         url: "/Benh/Add",
-                        data: obj,
+                        data:
+                        {
+                            __RequestVerificationToken: gettoken(),
+                            model: obj
+                        },
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
@@ -146,7 +155,10 @@
                         type: "POST",
                         url: "/Benh/Edit",
                         dataType: "json",
-                        data: obj,
+                        data: {
+                            __RequestVerificationToken: gettoken(),
+                            model: obj
+                        },
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
