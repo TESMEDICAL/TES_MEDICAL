@@ -27,7 +27,7 @@ namespace TES_MEDICAL.GUI.Extension
                 }
             );
 
-           
+
 
             return services;
         }
@@ -35,13 +35,13 @@ namespace TES_MEDICAL.GUI.Extension
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
-                .AddScoped<IBenh,Benhsvc>()
-                .AddScoped<IDichVu,DichVusvc>()
-                .AddScoped<IThuoc,Thuocsvc>()
-                .AddScoped<IChuyenKhoa,ChuyenKhoasvc>();
+                .AddScoped<IBenh, Benhsvc>()
+                .AddScoped<IDichVu, DichVusvc>()
+                .AddScoped<IThuoc, Thuocsvc>()
+                .AddScoped<IChuyenKhoa, ChuyenKhoasvc>();
 
 
-                
+
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)

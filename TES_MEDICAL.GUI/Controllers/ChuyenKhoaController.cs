@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
         }
 
-        public async Task <ActionResult> Index(ChuyenKhoaSearchModel model)
+        public async Task<ActionResult> Index(ChuyenKhoaSearchModel model)
         {
 
             if (!model.Page.HasValue) model.Page = 1;
@@ -46,7 +46,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-                
+
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
@@ -92,7 +92,7 @@ namespace TES_MEDICAL.GUI.Controllers
             else
             {
 
-                return PartialView("_partialedit",await _service.Get(id));
+                return PartialView("_partialedit", await _service.Get(id));
             }
 
         }

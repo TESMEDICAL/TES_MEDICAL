@@ -15,6 +15,7 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaDV { get; set; }
         public string TenDV { get; set; }
         public decimal DonGia { get; set; }
+        public bool TrangThai { get; set; }
 
         public virtual ICollection<ChiTietDV> ChiTietDV { get; set; }
     }

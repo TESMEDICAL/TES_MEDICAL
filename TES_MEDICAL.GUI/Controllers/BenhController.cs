@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
-        public  ActionResult addCTTrieuChung()
+        public ActionResult addCTTrieuChung()
         {
 
             return PartialView("_CTTrieuChungView", new CTTrieuChung());

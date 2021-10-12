@@ -1,4 +1,4 @@
-
+KD
 
 @model TES_MEDICAL.GUI.Models.ThuocSearchModel
 @using X.PagedList;
@@ -13,56 +13,51 @@
 
 
 
-    <div class="m-3" >
+<div class="m-3">
 
 
-        <div>
+    <div>
 
-            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
-            {
-                @Html.AntiForgeryToken()
-                
-                                                                                      <div class="col-2 mr-2">
-                                     @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm",@placeholder ="Lọc theo TenThuoc" } })
-                                    </div>
-                 
-                                                                                                           <div class="col-2 mr-2">
-                                     @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm",@placeholder ="Lọc theo DonGia" } })
-                                    </div>
-                 
-                                                                       <div class="col-2 mr-2">
-                                     @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm",@placeholder ="Lọc theo ThongTin" } })
-                                    </div>
-                 
-                                                                                                                                   
-                   
-               
-            
-                
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
+        {
+            @Html.AntiForgeryToken()
 
-                 <div class="col-4">
-                                      
-               <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-                                  
-            <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
-            <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-                </div>
-           
-                
+            <div class="col-2 mr-2">
+                @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo TenThuoc" } })
+            </div>
 
-            }
-          
-        </div>
+            <div class="col-2 mr-2">
+                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo DonGia" } })
+            </div>
+
+            <div class="col-2 mr-2">
+                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo ThongTin" } })
+            </div>
+
+
+            <div class="col-4">
+
+                <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+
+                <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+            </div>
 
 
 
-
+        }
 
     </div>
-    <div id="nameListContainer">
-        <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Thuoc>" />
-      
-    </div>
+
+
+
+
+
+</div>
+<div id="nameListContainer">
+    <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Thuoc>" />
+
+</div>
 
 
 
@@ -71,24 +66,24 @@
     <div class="modal-dialog modal-fullscreen">
         <!-- Modal content-->
         <div class="modal-content">
-          
-                <div class="modal-header">
-                    
-                   
-                </div>
-                <div class="modal-body">
-             
-                    <div id="myModalContent">
 
-                    </div>
-                </div>
+            <div class="modal-header">
 
-            
+
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
                     <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                     <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
                     <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -99,6 +94,8 @@
 
 
 @section scripts{
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
     <script>
 
         var $id = "";
@@ -111,12 +108,12 @@
         $(document).ready(
 
             function () {
-            
+
                 $("#btSave").click(function () {
-                     var obj = $("#frm").serializeObject();
-                                         
-                    
-                         $.ajax({
+                    var obj = $("#frm").serializeObject();
+
+
+                    $.ajax({
                         type: "POST",
                         url: "/Thuoc/Add",
                         data: obj,
@@ -138,13 +135,13 @@
                             $('#preloader-wrapper').toggleClass('hide');
                         }
                     });
-                   
 
-                   
+
+
                 });
                 $("#btupdate").click(function () {
-                     var obj = $("#frm").serializeObject();
-                                              $.ajax({
+                    var obj = $("#frm").serializeObject();
+                    $.ajax({
                         type: "POST",
                         url: "/Thuoc/Edit",
                         dataType: "json",
@@ -166,8 +163,8 @@
                             $('#preloader-wrapper').toggleClass('hide');
                         }
                     });
-                    
-                   
+
+
                 });
                 $("#btclose").click(function () {
 
@@ -182,13 +179,13 @@
 
             });
 
-         $(document).on('click', '.remove', function () {
+        $(document).on('click', '.remove', function () {
 
             $(this).parent().parent().remove();
 
         });
 
-         function AddView(child) {
+        function AddView(child) {
 
             $.ajax({
                 url: '/Thuoc/add' + child,
@@ -201,7 +198,7 @@
 
         function reloadpage(page) {
             obj = {};
-          
+
             obj.Page = page;
             $.ajax({
                 url: '/Thuoc/PageList/',
@@ -227,12 +224,12 @@
 
 
         function PrintPreview(id) {
-            $.print("#"+id);
+            $.print("#" + id);
         }
 
         function Edit(id_) {
             $myModalContent.html("");
-          
+
             $.ajax({
                 url: '/Thuoc/Edit/',
 
@@ -248,7 +245,7 @@
                     $myModalContent.html(result);
                     $('#btSave').hide();
                     $('#btupdate').show();
-                      $('#btPrint').hide();
+                    $('#btPrint').hide();
                     $modal.modal('show');
 
 
@@ -264,7 +261,7 @@
         function Create() {
 
             $myModalContent.html("");
-           
+
             $.ajax({
                 url: '/Thuoc/Add/',
 
@@ -278,7 +275,7 @@
                     $myModalContent.html(result);
                     $('#btSave').show();
                     $('#btupdate').hide();
-                      $('#btPrint').hide();
+                    $('#btPrint').hide();
                     $modal.modal('show');
 
 
@@ -291,7 +288,7 @@
 
         }
 
-          function _Detail(id_) {
+        function _Detail(id_) {
             $myModalContent.html("");
 
             $.ajax({
@@ -309,7 +306,7 @@
                     $myModalContent.html(result);
                     $('#btSave').hide();
                     $('#btupdate').hide();
-                      $('#btPrint').show();
+                    $('#btPrint').show();
                     $modal.modal('show');
 
 
@@ -353,8 +350,8 @@
         }
 
         function Timkiem() {
-            
-           
+
+
             $.ajax({
                 url: '/Thuoc/PageList/',
 
@@ -365,8 +362,8 @@
 
 
                 success: function (result) {
-                   
-                   
+
+
                     if (result.status == -2) {
                         toastr.success(result.text);
 
