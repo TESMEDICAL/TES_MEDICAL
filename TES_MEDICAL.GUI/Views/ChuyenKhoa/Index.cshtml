@@ -92,6 +92,7 @@
 
 
 @section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
 
         var $id = "";
@@ -107,37 +108,37 @@
 
                 $("#btSave").click(function () {
                     if ($("#frm").valid()) {
-                        var obj = $("#frm").serializeObject();
+                        var obj = $("#frm").serialize();
 
 
-                        $.ajax({
-                            type: "POST",
-                            url: "/ChuyenKhoa/Add",
-                            data: obj,
-                            success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/ChuyenKhoa/Add",
+                        data: obj,
+                        success: function (result) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                            if (result.status >= 1) {
 
-                                    toastr.success(result.text);
-                                    reloadpage(1);
-                                }
-                                else {
-                                    toastr.warning(result.text);
-                                }
-                            },
-                            error: function (errormessage) {
-                                alert(errormessage.responseText);
-                            },
-                            failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                toastr.success(result.text);
+                                reloadpage(1);
                             }
-                        });
-                    }
-    
-                });
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                        }
+                    });
 
+
+
+                });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    var obj = $("#frm").serialize();
                     $.ajax({
                         type: "POST",
                         url: "/ChuyenKhoa/Edit",
@@ -176,22 +177,7 @@
 
             });
 
-        $(document).on('click', '.remove', function () {
 
-            $(this).parent().parent().remove();
-
-        });
-
-        function AddView(child) {
-
-            $.ajax({
-                url: '/ChuyenKhoa/add' + child,
-
-                success: function (data) {
-                    $("#partial" + child).append(data);
-                }
-            })
-        }
 
         function reloadpage(page) {
             obj = {};
@@ -285,66 +271,9 @@
 
         }
 
-        function _Detail(id_) {
-            $myModalContent.html("");
-
-            $.ajax({
-                url: '/ChuyenKhoa/Detail/',
-                type: "Get",
-                timeout: 20000,
-                async: true,
-                data: {
-                    id: id_
-                },
-
-                success: function (result) {
-                    $myModalContent.html(result);
-                    /*$modal.modal('show');*/
-                    $('#btSave').hide();
-                    $('#btupdate').hide();
-                    $('#btPrint').show();
-                    $modal.modal('show');
-                    
-
-
-                    $('#preloader-wrapper').toggleClass('hide');
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                }
-            });
-        }
 
 
 
-        function _delete(id) {
-            var cf = confirm('Bạn muốn xoá bản ghi này?');
-            if (cf) {
-                $.ajax({
-                    type: "POST",
-                    url: "/ChuyenKhoa/Delete",
-                    data: { "id": id },
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
-                            toastr.success(result.text);
-
-                            reloadpage();
-                        }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                    },
-                    error: function (errormessage) {
-                        toastr.warning(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-            }
-
-        }
 
         function Timkiem() {
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,11 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult GioiThieu()
         {
-
             return View();
         }
+
         public IActionResult DatLich()
         {
 

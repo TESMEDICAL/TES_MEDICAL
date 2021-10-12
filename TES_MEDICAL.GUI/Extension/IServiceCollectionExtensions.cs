@@ -27,7 +27,7 @@ namespace TES_MEDICAL.GUI.Extension
                 }
             );
 
-           
+
 
             return services;
         }
@@ -43,13 +43,9 @@ namespace TES_MEDICAL.GUI.Extension
                 
 
 
-                
+
         }
 
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            return services
-                .AddScoped<Benhsvc>();
-        }
+      
     }
 }

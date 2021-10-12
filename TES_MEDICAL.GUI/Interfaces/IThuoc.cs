@@ -12,11 +12,11 @@ namespace TES_MEDICAL.GUI.Interfaces
     public interface IThuoc
     {
         Task<Thuoc> Add(Thuoc model);
-        Task <Thuoc> Get(Guid id);
-        Task <Thuoc> Edit(Thuoc model);
-        Task <bool> Delete(Guid Id);
-        Task <IPagedList<Thuoc>> SearchByCondition(ThuocSearchModel model);
-        
+        Task<Thuoc> Get(Guid id);
+        Task<Thuoc> Edit(Thuoc model);
+        Task<bool> Delete(Guid Id);
+        Task<IPagedList<Thuoc>> SearchByCondition(ThuocSearchModel model);
+
     }
 }
 
