@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Compile Remove="Models\Claim\**" />
+    <Content Remove="Helpers\**" />
+    <Content Remove="Models\Claim\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="Models\Claim\**" />
+    <None Remove="Helpers\**" />
+    <None Remove="Models\Claim\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Benh\Index.cshtml" />
     <None Include="Views\Benh\_CTTrieuChungView.cshtml" />
     <None Include="Views\Benh\_NameListPartial.cshtml" />
@@ -65,8 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Models\Claim\" />
+    <Folder Include="Helper\" />
     <Folder Include="wwwroot\GuestElement\" />
   </ItemGroup>
 
