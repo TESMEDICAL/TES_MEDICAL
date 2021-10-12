@@ -40,7 +40,7 @@
                         <div class="col-md-7">
                             <div class="ltn__top-bar-menu">
                                 <ul>
-                                    <li><a href="mailto:info@webmail.com?Subject=Flower%20greetings%20to%20you"><i class="icon-mail"></i> cskh@tesmedical.com</a></li>
+                                    <li><a href="mailto:cskh@tesmedical.com"><i class="icon-mail"></i> cskh@tesmedical.com</a></li>
                                     <li><a href="locations.html"><i class="icon-placeholder"></i> CVPM Quang Trung, Q.12, TP. HCM</a></li>
                                 </ul>
                             </div>
@@ -112,7 +112,7 @@
                                     <div class="ltn__main-menu">
                                         <ul>
                                             <li>
-                                                <a href="#">Trang chủ</a>
+                                                <a href="/Home">Trang chủ</a>
                                                 <!-- <ul class="sub-menu menu-pages-img-show ltn__sub-menu-col-2---">
                                                     <li>
                                                         <a href="index.html">Home Style 01</a>
@@ -144,7 +144,7 @@
                                                 </ul> -->
                                             </li>
                                             <li>
-                                                <a href="#">Đặt lịch</a>
+                                                <a href="/Home/DatLich">Đặt lịch</a>
                                                 <!-- <ul>
                                                     <li><a href="shop.html">Shop</a></li>
                                                     <li><a href="shop-grid.html">Shop Grid</a></li>
@@ -555,7 +555,17 @@
         <!-- ABOUT US AREA START -->
     </div>
     <!-- Body Content Start -->
-    @RenderBody()
+    <div class="p-4">
+        @RenderBody()
+    </div>
+
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
     <!-- Body Content End -->
     <footer class="ltn__footer-area  ">
         <div class="footer-top-area  section-bg-1 plr--5">
@@ -887,7 +897,31 @@
         </div>
     </div>
     <!-- MODAL AREA END -->
-    </div>
+
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "110103367328444");
+        chatbox.setAttribute("attribution", "biz_inbox");
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v12.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+
     <!-- Body main wrapper end -->
     <!-- preloader area start -->
     <div class="preloader d-none" id="preloader">
@@ -906,5 +940,8 @@
 
 </body>
 </html>
+
+
+
 
 
