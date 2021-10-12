@@ -109,7 +109,7 @@
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    var obj = $("#frm").serialize();
 
 
                     $.ajax({
@@ -139,7 +139,7 @@
 
                 });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    var obj = $("#frm").serialize;
                     $.ajax({
                         type: "POST",
                         url: "/DichVu/Edit",
@@ -178,22 +178,7 @@
 
             });
 
-        $(document).on('click', '.remove', function () {
-
-            $(this).parent().parent().remove();
-
-        });
-
-        function AddView(child) {
-
-            $.ajax({
-                url: '/DichVu/add' + child,
-
-                success: function (data) {
-                    $("#partial" + child).append(data);
-                }
-            })
-        }
+       
 
         function reloadpage(page) {
             obj = {};

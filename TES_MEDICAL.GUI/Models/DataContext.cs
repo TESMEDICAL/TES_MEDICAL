@@ -8,7 +8,7 @@ namespace TES_MEDICAL.GUI.Models
 {
     public partial class DataContext : DbContext
     {
-        //public CLINIC_DBSContext()
+        //public DataContext()
         //{
         //}
 
@@ -125,13 +125,13 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.ChiTietDV)
                     .HasForeignKey(d => d.MaDV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChiTietDV__MaDV__2E1BDC42");
+                    .HasConstraintName("FK__ChiTietDV__MaDV__5812160E");
 
                 entity.HasOne(d => d.MaPhieuKhamNavigation)
                     .WithMany(p => p.ChiTietDV)
                     .HasForeignKey(d => d.MaPhieuKham)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChiTietDV__MaPhi__2D27B809");
+                    .HasConstraintName("FK__ChiTietDV__MaPhi__571DF1D5");
             });
 
             modelBuilder.Entity<ChiTietSinhHieu>(entity =>
@@ -189,7 +189,7 @@ namespace TES_MEDICAL.GUI.Models
             modelBuilder.Entity<DichVu>(entity =>
             {
                 entity.HasKey(e => e.MaDV)
-                    .HasName("PK__DichVu__2725865780BF008C");
+                    .HasName("PK__DichVu__2725865790C1C308");
 
                 entity.Property(e => e.MaDV).ValueGeneratedNever();
 

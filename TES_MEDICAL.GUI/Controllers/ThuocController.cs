@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-   
+
     public class ThuocController : Controller
     {
         private readonly IThuoc _service;
@@ -22,24 +22,24 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
         }
 
-        public async Task <ActionResult> Index(ThuocSearchModel model)
+        public async Task<IActionResult> Index(ThuocSearchModel model)
         {
-           
+
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
-                          
+
             ViewBag.Names = listPaged;
             ViewBag.Data = model;
             return View(new ThuocSearchModel());
         }
-       
-      
+
+
         [HttpGet]
-       
-        public async Task <ActionResult> PageList(ThuocSearchModel model)
+
+        public async Task<IActionResult> PageList(ThuocSearchModel model)
         {
-            
-        var listmodel = await _service.SearchByCondition(model);
+
+            var listmodel = await _service.SearchByCondition(model);
             if (listmodel.Count() > 0)
             {
 
@@ -47,7 +47,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-                
+
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
@@ -59,47 +59,33 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
 
-          
+
         }
-                
-        
-        public async Task <ActionResult> Add()
+
+
+        public async Task<IActionResult> Add()
         {
-                       
-            return PartialView("_partialAdd",new Thuoc() );
+
+            return PartialView("_partialAdd", new Thuoc());
 
         }
         [HttpPost]
-       
 
-        public async Task <ActionResult> Add( Thuoc model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Thuoc model)
         {
-         
-                             model.MaThuoc = Guid.NewGuid();
-                             if (await _service.Add(model) != null)
+
+            model.MaThuoc = Guid.NewGuid();
+            if (await _service.Add(model) != null)
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-           
-            
-        } 
-        [HttpGet]
-       
-        public async Task <ActionResult> Edit(Guid id)
-        {
-            if (await _service.Get(id) == null)
-            {
-                return NotFound();;
-            }
-            else
-            {
-                     
-              return PartialView("_partialedit",await _service.Get(id));
-            }
-               
+
+
         }
-          [HttpGet]
-        public async Task <ActionResult> Detail(Guid id)
+        [HttpGet]
+
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -107,30 +93,44 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-                      
-             
-                return PartialView("_partialDetail",await _service.Get(id));
+
+                return PartialView("_partialedit", await _service.Get(id));
+            }
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            if (await _service.Get(id) == null)
+            {
+                return NotFound(); ;
+            }
+            else
+            {
+
+
+                return PartialView("_partialDetail", await _service.Get(id));
             }
         }
 
-       
+
         [HttpPost]
-       
-        public async Task <ActionResult> Edit( Thuoc model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Thuoc model)
         {
-          
-                 if (await _service.Edit(model)!=null)
+
+            if (await _service.Edit(model) != null)
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-           
-           
+
+
         }
 
         [HttpPost]
-        public async Task <ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (await _service.Delete(id)) 
+            if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
