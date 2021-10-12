@@ -65,6 +65,7 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Models\Claim\" />
+    <Folder Include="wwwroot\GuestElement\" />
   </ItemGroup>
 
 </Project>

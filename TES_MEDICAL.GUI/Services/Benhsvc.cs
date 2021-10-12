@@ -44,27 +44,18 @@ namespace TES_MEDICAL.GUI.Services
 
                                 new SqlParameter { ParameterName = "@Mabenh", Value= item.MaBenh },
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item.TenTrieuChung },
-                                 new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
+                                new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
                             };
                             var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
 
                         }
                     }
 
-
-
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     return model;
 
                 }
-
-
-
-
-
-
-
 
             }
             catch (Exception ex)
@@ -79,19 +70,16 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             var item = await _context.Benh
-                                                  .Include(p => p.CTTrieuChung)
-
-                .FirstOrDefaultAsync(i => i.MaBenh == id);
-
+                            .Include(p => p.CTTrieuChung)
+                            .FirstOrDefaultAsync(i => i.MaBenh == id);
 
             if (item == null)
             {
                 return null;
             }
             return item;
-
-
         }
+
         public async Task<Benh> Edit(Benh model)
         {
             try
