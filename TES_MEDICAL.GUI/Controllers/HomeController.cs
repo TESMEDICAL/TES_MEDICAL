@@ -25,11 +25,11 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult GioiThieu()
         {
-
             return View();
         }
+
         public IActionResult DatLich()
         {
 

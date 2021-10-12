@@ -34,8 +34,12 @@ namespace TES_MEDICAL.GUI
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services
               .AddDatabase(Configuration)
+
               .AddRepositories();
-              
+            services.AddRazorPages()
+        .AddRazorRuntimeCompilation();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
