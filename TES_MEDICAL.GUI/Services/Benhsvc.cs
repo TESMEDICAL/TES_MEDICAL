@@ -25,10 +25,6 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-
-
-
-
         public async Task<Benh> Add(Benh model)
         {
             try
@@ -50,8 +46,8 @@ namespace TES_MEDICAL.GUI.Services
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item.TenTrieuChung },
                                 new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
                             };
-                          var result =  _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
-                            
+                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
+
                         }
                     }
 
@@ -105,7 +101,7 @@ namespace TES_MEDICAL.GUI.Services
                         {
 
                             item.MaBenh = model.MaBenh;
-                           
+
                             List<SqlParameter> parms = new List<SqlParameter>
                             {
 
@@ -114,7 +110,7 @@ namespace TES_MEDICAL.GUI.Services
                                  new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
                             };
                             var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
-                           
+
 
                         }
 
@@ -191,8 +187,6 @@ namespace TES_MEDICAL.GUI.Services
 
             IEnumerable<Benh> listUnpaged;
             listUnpaged = _context.Benh.OrderBy(x => x.TenBenh);
-
-
 
             if (!string.IsNullOrWhiteSpace(model.TenBenhSearch))
 
