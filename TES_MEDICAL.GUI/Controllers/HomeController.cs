@@ -34,6 +34,17 @@ namespace TES_MEDICAL.GUI.Controllers
 
             return View();
         }
+
+        public IActionResult ResultDatLich()
+        {
+            return View();
+        }
+
+        public IActionResult LichSuDatLich()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
