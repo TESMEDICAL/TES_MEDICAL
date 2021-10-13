@@ -46,12 +46,17 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
             model.MaPhieu = "PK_" + Helper.GetUniqueKey();
-            if (await _service.DatLich(model) != null)
+            if (ModelState.IsValid)
             {
+               
+                if (await _service.DatLich(model) != null)
+                {
 
-                return RedirectToAction("ResultDatLich", "Home",new { MaPhieu= model.MaPhieu });
-            }
-            else
+                    return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
+                }
+            }    
+           
+            
                 return View(model);
 
         }
