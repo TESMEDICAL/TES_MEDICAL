@@ -7,7 +7,7 @@ namespace TES_MEDICAL.GUI.Models
 {
     public partial class PhieuDatLich
     {
-        public Guid MaPhieu { get; set; }
+        public string MaPhieu { get; set; }
         public string SDT { get; set; }
         public string Email { get; set; }
         public string TenBN { get; set; }

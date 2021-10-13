@@ -38,6 +38,7 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddTransient<IBenh, Benhsvc>()
                 .AddScoped<IDichVu, DichVusvc>()
                 .AddScoped<IThuoc, Thuocsvc>()
+                .AddScoped<ICustomer,Customersvc>()
                 .AddScoped<IChuyenKhoa, ChuyenKhoasvc>();
 
 
