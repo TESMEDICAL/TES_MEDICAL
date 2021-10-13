@@ -78,6 +78,7 @@
   <ItemGroup>
     <Folder Include="Helper\" />
     <Folder Include="wwwroot\GuestElement\" />
+    <Folder Include="wwwroot\MainElement\" />
   </ItemGroup>
 
 </Project>
