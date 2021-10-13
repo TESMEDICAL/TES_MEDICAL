@@ -7,7 +7,7 @@
 <div>
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
-        @Html.AntiForgeryToken()
+
 
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,7 +21,7 @@
 
 
         <div class="form-group col-4">
-            @Html.LabelFor(model => model.TenBenh, "TenBenh", htmlAttributes: new { @class = "control-label col-md-6" })
+            @Html.LabelFor(model => model.TenBenh, "Tên Bệnh", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenBenh, "", new { @class = "text-danger" })
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group col-4">
-            @Html.LabelFor(model => model.ThongTin, "ThongTin", htmlAttributes: new { @class = "control-label col-md-6" })
+            @Html.LabelFor(model => model.ThongTin, "Thông Tin", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group col-4">
-            @Html.LabelFor(model => model.MaCK, "MaCK", htmlAttributes: new { @class = "control-label col-md-6" })
+            @Html.LabelFor(model => model.MaCK, "Chuyên khoa", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
@@ -52,7 +52,7 @@
     }
     <div>
         <div class="position-relative" style="height:100px">
-            <h2 class="position-absolute bottom-0 start-0">CTTrieuChung</h2>
+            <h2 class="position-absolute bottom-0 start-0">Chi tiết trang chủ</h2>
         </div>
 
 
@@ -64,19 +64,19 @@
 
                     <th>
 
-                        TenTrieuChung
+                        Tên triệu chứng
                     </th>
 
 
                     <th>
 
-                        ChiTietTrieuChung
+                        Chi tiết triệu chứng
                     </th>
 
 
 
 
-                    <th class="text-center col-2">   <button type="button" class="btn btn-sm btn-success mr-2 mr-auto text-nowrap" id="AddCTTrieuChung" onclick="AddView('CTTrieuChung')"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;CTTrieuChung</button></th>
+                    <th class="text-center col-2">   <button type="button" class="btn btn-sm btn-success mr-2 mr-auto text-nowrap" id="AddCTTrieuChung" onclick="AddView('CTTrieuChung')"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Chi tiết triệu chứng</button></th>
                 </tr>
             </thead>
 
@@ -98,7 +98,7 @@
 
 
 </div>
-
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
 <script>
 

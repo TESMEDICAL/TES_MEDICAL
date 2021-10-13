@@ -15,7 +15,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<ChuyenKhoa> Get(Guid id);
         Task<ChuyenKhoa> Edit(ChuyenKhoa model);
         Task<bool> Delete(Guid Id);
-        Task <IPagedList<ChuyenKhoa>> SearchByCondition(ChuyenKhoaSearchModel model);
+        Task<IPagedList<ChuyenKhoa>> SearchByCondition(ChuyenKhoaSearchModel model);
 
     }
 }

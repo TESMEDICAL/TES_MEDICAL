@@ -23,17 +23,17 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenBenhSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo TenBenh" } })
+                @Html.EditorFor(model => model.TenBenhSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo Tên bệnh" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo ThongTin" } })
+                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo Thông tin" } })
             </div>
 
 
 
 
-
+            
 
 
             <div class="col-4">
@@ -104,67 +104,82 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+        function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
         $(document).ready(
 
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
-                    obj.CTTrieuChung = $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung');
+
+                    if ($("#frm").valid()) {
+                        var obj = $("#frm").serializeObject();
+                        obj.CTTrieuChung = $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung');
 
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/Benh/Add",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Benh/Add",
+                            data:
+                            {
+                                __RequestVerificationToken: gettoken(),
+                                model: obj
+                            },
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                reloadpage(1);
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
                             }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
-
-
+                        });
+                    }
 
                 });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
-                    obj.CTTrieuChung = $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung');
-                    $.ajax({
-                        type: "POST",
-                        url: "/Benh/Edit",
-                        dataType: "json",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
-                                toastr.success(result.text);
-                                reloadpage(1);
-                            }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
 
+                    if ($("#frm").valid()) {
+                        var obj = $("#frm").serializeObject();
+                        obj.CTTrieuChung = $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung');
+                        $.ajax({
+                            type: "POST",
+                            url: "/Benh/Edit",
+                            dataType: "json",
+                            data: {
+                                __RequestVerificationToken: gettoken(),
+                                model: obj
+                            },
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status >= 1) {
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                            }
+                        });
+                    }
 
                 });
                 $("#btclose").click(function () {

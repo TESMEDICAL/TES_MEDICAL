@@ -23,11 +23,11 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenDVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo TenDV" } })
+                @Html.EditorFor(model => model.TenDVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên dịch vụ" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo DonGia" } })
+                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo đơn giá" } })
             </div>
 
 
@@ -109,60 +109,62 @@
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
 
+                    if ($("#frm").valid()) {
+                        var obj = $("#frm").serialize();
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/DichVu/Add",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/DichVu/Add",
+                            data: obj,
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                reloadpage(1);
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
                             }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
-
-
+                        });
+                    }
 
                 });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
-                    $.ajax({
-                        type: "POST",
-                        url: "/DichVu/Edit",
-                        dataType: "json",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
-                                toastr.success(result.text);
-                                reloadpage(1);
+                    
+                    if ($("#frm").valid()) {
+                        var obj = $("#frm").serialize;
+                        $.ajax({
+                            type: "POST",
+                            url: "/DichVu/Edit",
+                            dataType: "json",
+                            data: obj,
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status >= 1) {
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
                             }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
-
+                        });
+                    }
 
                 });
                 $("#btclose").click(function () {
@@ -178,22 +180,7 @@
 
             });
 
-        $(document).on('click', '.remove', function () {
-
-            $(this).parent().parent().remove();
-
-        });
-
-        function AddView(child) {
-
-            $.ajax({
-                url: '/DichVu/add' + child,
-
-                success: function (data) {
-                    $("#partial" + child).append(data);
-                }
-            })
-        }
+       
 
         function reloadpage(page) {
             obj = {};

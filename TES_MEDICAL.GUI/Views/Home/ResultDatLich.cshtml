@@ -1,0 +1,85 @@
+﻿@model PhieuDatLich
+
+
+@{
+    ViewData["Title"] = "ResultDatLich";
+    Layout = null;
+    }
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Vicodin - Medical eCommerce HTML Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="~/GuestElement/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="~/GuestElement/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="~/GuestElement/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="~/GuestElement/css/responsive.css">
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <!-- Add your site or application content here -->
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <!-- 404 area start -->
+        <div class="ltn__coming-soon-area section-bg-2 text-color-white bg-overlay-theme-black-90 bg-image" data-bs-bg="img/bg/15.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="coming-soon-inner">
+                            <div class="section-title-area ltn__section-title-2">
+                                <h6 class="section-subtitle ltn__secondary-color">Hello, @Model.TenBN</h6>
+                                <h1 class="section-title white-color">Bạn đã đặt lịch thành công</h1>
+                                <h2 class="section-title white-color">Mã đặt lịch "@Model.MaPhieu". Vui lòng lưu mã để tiện theo dõi</h2>
+                                <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
+                            </div>
+                            <div class="ltn__countdown mb-20" data-countdown="@Model.NgayKham?.ToString("yyyy/MM/dd hh:mm:ss")"></div>
+
+                            <div class="ltn__newsletter-inner mt-50">
+                                <h3>Thông tin của bạn</h3>
+                                <form action="#" class="ltn__form-box">
+                                    <input type="text" name="hoten" placeholder="Họ và tên: @Model.TenBN" disabled>
+                                    <input type="text" name="tel" placeholder="Ngày sinh: @Model.NgaySinh?.ToString("dd/MM/yyyy")" disabled>
+                                    <input type="text" name="tel" placeholder="Số điện thoại: @Model.SDT" disabled>
+                                    <input type="text" name="email" placeholder="Email: @Model.Email" disabled>
+                                    <input type="text" name="ngaykham" placeholder="Ngày khám : @Model.NgayKham" disabled>
+
+                                </form>
+                            </div>
+                            <div class="btn-wrapper mt-50">
+                                <a href="/Home/GioiThieu" class="btn theme-btn-2 btn-effect-2 text-uppercase">Liên hệ ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 404 area end -->
+
+    </div>
+    <!-- Body main wrapper end -->
+    <!-- All JS Plugins -->
+    <script src="~/GuestElement/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="~/GuestElement/js/main.js"></script>
+
+</body>
+</html>
+
+
