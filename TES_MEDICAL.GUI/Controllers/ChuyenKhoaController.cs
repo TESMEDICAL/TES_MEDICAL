@@ -17,9 +17,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ChuyenKhoaController : Controller
     {
         private readonly IChuyenKhoa _service;
-        public ChuyenKhoaController(IChuyenKhoa service)
+        private readonly IValidate _valiservice;
+        public ChuyenKhoaController(IChuyenKhoa service, IValidate valiservice)
         {
             _service = service;
+            _valiservice = valiservice;
         }
 
         public async Task<IActionResult> Index(ChuyenKhoaSearchModel model)
@@ -86,6 +88,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
+        public async Task<IActionResult> ValidateChuyenKhoa(string TenCK)
+        {
+            if (await _valiservice.ExistsChuyenKhoa(TenCK) )
+            {
+                return Json(data: "Tên chuyên khoa đã tồn tại");
+            }
+            return Json(data: true);
+        }
+
+
         [HttpGet]
 
         public async Task<IActionResult> Edit(Guid id)

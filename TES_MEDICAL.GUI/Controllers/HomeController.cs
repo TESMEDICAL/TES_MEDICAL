@@ -37,6 +37,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult DatLich()
         {
+            
 
             return View();
         }
