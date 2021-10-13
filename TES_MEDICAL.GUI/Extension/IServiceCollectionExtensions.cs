@@ -35,10 +35,12 @@ namespace TES_MEDICAL.GUI.Extension
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
-                .AddTransient<IBenh, Benhsvc>()
+                .AddScoped<IBenh, Benhsvc>()
                 .AddScoped<IDichVu, DichVusvc>()
                 .AddScoped<IThuoc, Thuocsvc>()
-                .AddScoped<IChuyenKhoa, ChuyenKhoasvc>();
+                .AddScoped<IChuyenKhoa, ChuyenKhoasvc>()
+                .AddScoped<IValidate, ValidateSvc>();
+                
 
 
 

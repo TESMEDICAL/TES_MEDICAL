@@ -1,5 +1,3 @@
-
-
 @model TES_MEDICAL.GUI.Models.ChuyenKhoa
 
 <h4>Tạo mới</h4>
@@ -8,6 +6,7 @@
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
+
 
         <div class="text-danger"></div>
 
@@ -31,6 +30,8 @@
 
 
 
+
+
 </div>
 
 
@@ -43,4 +44,5 @@
 
     });
 </script>
+
 
