@@ -577,7 +577,7 @@ var App = function() {
                     if (themeLink.length) {
                         themeLink.attr('href', themeColorCke);
                     } else {
-                        $('link[href="css/themes.css"]')
+                        $('link[href="/MainElement/css/themes.css"]')
                             .before('<link id="theme-link" rel="stylesheet" href="' + themeColorCke + '">');
 
                         themeLink = $('#theme-link');
@@ -610,7 +610,7 @@ var App = function() {
                 if (themeLink.length) {
                     themeLink.attr('href', themeColor);
                 } else {
-                    $('link[href="css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + themeColor + '">');
+                    $('link[href="/MainElement/css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + themeColor + '">');
                     themeLink = $('#theme-link');
                 }
             }

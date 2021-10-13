@@ -12,5 +12,16 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
+
+        public IActionResult ThemPhieuKham()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ThemDichVu()
+        {
+            return PartialView("_AddDichVu");
+        }
     }
 }
