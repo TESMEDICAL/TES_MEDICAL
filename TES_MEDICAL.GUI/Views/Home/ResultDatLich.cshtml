@@ -1,4 +1,7 @@
-﻿@{
+﻿@model PhieuDatLich
+
+
+@{
     ViewData["Title"] = "ResultDatLich";
     Layout = null;
     }
@@ -41,20 +44,21 @@
                     <div class="col-lg-12">
                         <div class="coming-soon-inner">
                             <div class="section-title-area ltn__section-title-2">
-                                <h6 class="section-subtitle ltn__secondary-color">Hello, Thanh Duy</h6>
+                                <h6 class="section-subtitle ltn__secondary-color">Hello, @Model.TenBN</h6>
                                 <h1 class="section-title white-color">Bạn đã đặt lịch thành công</h1>
-                                <h5 class="ltn__secondary-color">@DateTime.Now</h5>
+                                <h2 class="section-title white-color">Mã đặt lịch "@Model.MaPhieu". Vui lòng lưu mã để tiện theo dõi</h2>
+                                <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
                             </div>
-                            <div class="ltn__countdown mb-20" data-countdown="2021/10/15"></div>
+                            <div class="ltn__countdown mb-20" data-countdown="@Model.NgayKham?.ToString("yyyy/MM/dd hh:mm:ss")"></div>
 
                             <div class="ltn__newsletter-inner mt-50">
                                 <h3>Thông tin của bạn</h3>
                                 <form action="#" class="ltn__form-box">
-                                    <input type="text" name="hoten" placeholder="Họ và tên: Đặng Thanh Duy" disabled>
-
-                                    <input type="text" name="tel" placeholder="Số điện thoại: 0979510278" disabled>
-                                    <input type="text" name="email" placeholder="Email: dangthanhduy@gmail.com" disabled>
-                                    <input type="text" name="ngaykham" placeholder="Ngày khám : @DateTime.Now" disabled>
+                                    <input type="text" name="hoten" placeholder="Họ và tên: @Model.TenBN" disabled>
+                                    <input type="text" name="tel" placeholder="Ngày sinh: @Model.NgaySinh?.ToString("dd/MM/yyyy")" disabled>
+                                    <input type="text" name="tel" placeholder="Số điện thoại: @Model.SDT" disabled>
+                                    <input type="text" name="email" placeholder="Email: @Model.Email" disabled>
+                                    <input type="text" name="ngaykham" placeholder="Ngày khám : @Model.NgayKham" disabled>
 
                                 </form>
                             </div>

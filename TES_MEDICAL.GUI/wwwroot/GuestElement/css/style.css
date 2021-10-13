@@ -893,7 +893,7 @@ textarea {
     font-size: 16px;
     color: var(--ltn__paragraph-color);
     width: 100%;
-    margin-bottom: 30px;
+   
     border-radius: 0;
     padding-right: 40px;
 }
@@ -962,7 +962,9 @@ button:focus {
 
 /* input-item */
 .input-item {
-  position: relative; }
+  position: relative;
+  margin-bottom:30px;
+}
   .input-item.ltn__custom-icon::before {
     position: absolute;
     top: 35%;
