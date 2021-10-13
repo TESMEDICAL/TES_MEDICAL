@@ -13,7 +13,7 @@ namespace TES_MEDICAL.GUI.Models
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
         public string SDT { get; set; }
 
-        [Required(ErrorMessage = "Bạn cần nhập Email")]
+       
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập họ và tên")]
