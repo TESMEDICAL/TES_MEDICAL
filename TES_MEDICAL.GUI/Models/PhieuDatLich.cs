@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,6 +26,7 @@ namespace TES_MEDICAL.GUI.Models
         [DataType(DataType.DateTime, ErrorMessage = "Ngày không hợp lệ")]
         [Required(ErrorMessage = "Bạn cần chọn ngày khám")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Remote(action: "ValidateDatlich", controller: "Home")]
         public DateTime? NgayKham { get; set; }
     }
 }

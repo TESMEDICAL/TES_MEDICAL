@@ -17,11 +17,13 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICustomer _service;
+        private readonly IValidate _valid;
        
-        public HomeController(ILogger<HomeController> logger, ICustomer service)
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid)
         {
             _logger = logger;
             _service = service;
+            _valid = valid;
         }
 
         public IActionResult Index()
@@ -46,7 +48,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
             model.MaPhieu = "PK_" + Helper.GetUniqueKey();
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _valid.CheckNgayKham(model.NgayKham))
             {
                
                 if (await _service.DatLich(model) != null)
@@ -59,6 +61,15 @@ namespace TES_MEDICAL.GUI.Controllers
             
                 return View(model);
 
+        }
+
+        public IActionResult ValidateDatlich(DateTime? NgayKham)
+        {
+            if ( ! _valid.CheckNgayKham(NgayKham))
+            {
+                return Json(data: "Ngày khám phải lớn hơn ngày hiện tại");
+            }
+            return Json(data: true);
         }
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)

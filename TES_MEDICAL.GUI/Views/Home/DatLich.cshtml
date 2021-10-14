@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="input-item input-item-subject">
-                           
+
                             <input placeholder="Ngày sinh" class="textbox-n" type="text" onfocus="(this.type='date')" asp-for="NgaySinh">
                             <span asp-validation-for="NgaySinh" class="text-danger"></span>
                         </div>
@@ -47,11 +47,11 @@
                     <textarea name="message" placeholder="Ghi chú"></textarea>
                 </div>
                 <div class="btn-wrapper mt-0">
-                   
+
                     <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Đặt lịch</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

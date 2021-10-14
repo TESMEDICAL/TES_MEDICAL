@@ -15,9 +15,16 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
+
+        public bool CheckNgayKham(DateTime? ngay)
+        {
+            return ngay > DateTime.Now;
+        }
+
         public async Task<bool> ExistsChuyenKhoa(string ten)
         {
             return await _context.ChuyenKhoa.AnyAsync(x => x.TenCK == ten);
         }
+
     }
 }
