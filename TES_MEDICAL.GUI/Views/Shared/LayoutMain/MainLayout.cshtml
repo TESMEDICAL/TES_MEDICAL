@@ -404,17 +404,17 @@
                                 <span class="sidebar-header-title">Dược sĩ</span>
                             </li>
 
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-file-medical sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "ToaThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("ToaThuoc","DuocSi")"><i class="fas fa-file-medical sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="fab fa-algolia sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc đang phát</span></a>
+                            <li class="@Html.IsSelected(actions: "ToaThuocDangPhat", controllers: "DuocSi")">
+                                <a href="@Url.Action("ToaThuocDangPhat","DuocSi")"><i class="fab fa-algolia sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc đang phát</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-history sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử</span></a>
+                            <li class="@Html.IsSelected(actions: "LichSuThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("LichSuThuoc","DuocSi")"><i class="fas fa-history sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("DanhSachThuoc","DuocSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
                             </li>
                         </ul>
                         <!-- END Sidebar Navigation -->

@@ -32,5 +32,25 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_ChiTietDangPhat");
         }
+
+        public IActionResult LichSuThuoc()
+        {
+            return View();
+        }
+        public IActionResult ChiTietLichSu()
+        {
+            return PartialView("_ChiTietLichSu");
+        }
+
+        public IActionResult DanhSachThuoc()
+        {
+            return View();
+        }
+
+        public IActionResult ChiTietThuoc()
+        {
+            return PartialView("_ChiTietThuoc");
+        }
+
     }
 }
