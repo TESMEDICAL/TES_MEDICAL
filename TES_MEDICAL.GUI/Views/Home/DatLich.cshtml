@@ -31,13 +31,13 @@
                     <div class="col-md-6">
                         <div class="input-item input-item-subject">
 
-                            <input placeholder="Ngày sinh" class="textbox-n" type="text" onfocus="(this.type='date')" asp-for="NgaySinh">
+                            <input placeholder="Ngày sinh" asp-format="{0:dd/MM/yyyy}" class="textbox-n" type="text" onfocus="(this.type='date')" asp-for="NgaySinh">
                             <span asp-validation-for="NgaySinh" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-item input-item-subject">
-                            <input placeholder="Ngày khám" class="textbox-n" type="text" onfocus="(this.type='datetime-local')" asp-for="NgayKham">
+                            <input placeholder="Ngày khám" class="textbox-n" asp-format="{0:dd/MM/yyyy HH:mm}" type="text" onfocus="(this.type='datetime-local')" asp-for="NgayKham">
                             <span asp-validation-for="NgayKham" class="text-danger"></span>
                         </div>
                     </div>

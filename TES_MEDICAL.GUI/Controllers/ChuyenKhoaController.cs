@@ -70,6 +70,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpPost]
+
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Add(ChuyenKhoa model)
@@ -88,6 +89,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
+        [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> ValidateChuyenKhoa(string TenCK)
         {
             if (await _valiservice.ExistsChuyenKhoa(TenCK) )

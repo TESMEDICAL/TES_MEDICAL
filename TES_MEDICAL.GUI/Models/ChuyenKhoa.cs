@@ -18,7 +18,7 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaCK { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập tên Chuyên Khoa")]
-        [Remote(action: "ValidateChuyenKhoa", controller: "ChuyenKhoa")]
+      
         public string TenCK { get; set; }
 
         public virtual ICollection<Benh> Benh { get; set; }
