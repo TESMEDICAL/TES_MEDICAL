@@ -370,12 +370,12 @@
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a><a href="javascript:void(0)" data-toggle="tooltip" title="Create the most amazing pages with the widget kit!"><i class="gi gi-lightbulb"></i></a></span>
                                 <span class="sidebar-header-title">Tiếp nhận</span>
                             </li>
-                            <li class="@(ViewBag.Current == "themphieukham" ? "active" : "")">
-                                <a href="/tiepnhan/themphieukham"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+                            <li class="@Html.IsSelected(actions: "ThemPhieuKham", controllers: "TiepNhan")">
+                                <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
                                
                             </li>
-                            <li class="@(ViewBag.Current == "quanlydatlich" ? "active" : "")">
-                                <a href="/tiepnhan/quanlydatlich"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
+                            <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
+                                <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
                             </li>
                             <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
                                 <a href="/tiepnhan/capnhatdichvu"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
