@@ -45,6 +45,12 @@
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
+    <style>
+        .active:hover {
+            background-color: #666;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!-- Page Wrapper -->
@@ -354,31 +360,32 @@
 
                         <!-- END Theme Colors -->
                         <!-- Sidebar Navigation -->
-                        <ul class="sidebar-nav">
+                        <ul class="sidebar-nav" onclick="myActive(e)">
                             <li>
-                                <a href="index.html" class=" active"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
+                                <a href="index.html"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
                             </li>
 
                             <!-- Phần Tiếp Nhận -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a><a href="javascript:void(0)" data-toggle="tooltip" title="Create the most amazing pages with the widget kit!"><i class="gi gi-lightbulb"></i></a></span>
-                                <span class="sidebar-header-title">Phần tiếp nhận</span>
+                                <span class="sidebar-header-title">Tiếp nhận</span>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+                            <li class="@(ViewBag.Current == "themphieukham" ? "active" : "")">
+                                <a href="/tiepnhan/themphieukham"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+                               
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
+                            <li class="@(ViewBag.Current == "quanlydatlich" ? "active" : "")">
+                                <a href="/tiepnhan/quanlydatlich"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
+                            <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
+                                <a href="/tiepnhan/capnhatdichvu"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
                             </li>
 
 
                             <!-- Phần Bác Sĩ -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a></span>
-                                <span class="sidebar-header-title">Phần bác sĩ</span>
+                                <span class="sidebar-header-title">Bác sĩ</span>
                             </li>
 
                             <li>
@@ -394,7 +401,7 @@
                             <!-- Phần Dược Sĩ -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a></span>
-                                <span class="sidebar-header-title">Phần dược sĩ</span>
+                                <span class="sidebar-header-title">Dược sĩ</span>
                             </li>
 
                             <li>
@@ -607,7 +614,18 @@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-    
+    <!--Script chạy Active trên Menu-->
+    <script>
+        function myActive(e) {
+            var elems = document.querySelectorAll(".active");
+            [].forEach.call(elems, function (el) {
+                el.classList.remove("active");
+            });
+            e.target.className = "active";
+        }
+    </script>
+    <!--Kết thúc Script chạy Active trên Menu-->
+
 
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
