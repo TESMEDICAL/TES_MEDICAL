@@ -21,9 +21,9 @@ namespace TES_MEDICAL.GUI.Services
             return ngay > DateTime.Now;
         }
 
-        public async Task<bool> ExistsChuyenKhoa(string ten)
+        public bool ExistsChuyenKhoa(string ten)
         {
-            return await _context.ChuyenKhoa.AnyAsync(x => x.TenCK == ten);
+            return  _context.ChuyenKhoa.Any(x => x.TenCK == ten);
         }
 
     }

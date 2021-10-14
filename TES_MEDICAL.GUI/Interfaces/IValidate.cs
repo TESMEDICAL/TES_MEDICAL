@@ -7,7 +7,7 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IValidate
     {
-        Task<bool> ExistsChuyenKhoa(string ten);
+        bool ExistsChuyenKhoa(string ten);
         bool CheckNgayKham(DateTime? ngay);
     }
 }
