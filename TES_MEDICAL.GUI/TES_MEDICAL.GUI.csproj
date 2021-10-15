@@ -5,13 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\**" />
     <Compile Remove="Models\Claim\**" />
-    <Content Remove="Helpers\**" />
     <Content Remove="Models\Claim\**" />
-    <EmbeddedResource Remove="Helpers\**" />
     <EmbeddedResource Remove="Models\Claim\**" />
-    <None Remove="Helpers\**" />
     <None Remove="Models\Claim\**" />
   </ItemGroup>
 
@@ -64,8 +60,8 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.10" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
 		  
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -76,8 +72,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
     <Folder Include="wwwroot\GuestElement\" />
+    <Folder Include="wwwroot\MainElement\" />
   </ItemGroup>
 
 </Project>

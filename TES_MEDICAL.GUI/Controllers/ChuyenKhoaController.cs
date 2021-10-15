@@ -17,9 +17,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ChuyenKhoaController : Controller
     {
         private readonly IChuyenKhoa _service;
+       
         public ChuyenKhoaController(IChuyenKhoa service)
         {
             _service = service;
+            
         }
 
         public async Task<IActionResult> Index(ChuyenKhoaSearchModel model)
@@ -68,6 +70,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpPost]
+
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Add(ChuyenKhoa model)
@@ -80,12 +83,17 @@ namespace TES_MEDICAL.GUI.Controllers
                 else
                     return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            return Json(model);
-
+            return PartialView("_partialAdd", model);
            
 
 
+
+
+
         }
+       
+
+
         [HttpGet]
 
         public async Task<IActionResult> Edit(Guid id)
@@ -119,13 +127,15 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ChuyenKhoa model)
         {
-
-            if (await _service.Edit(model) != null)
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
+            if (ModelState.IsValid)
+            {
+                model.MaCK = Guid.NewGuid();
+                if (await _service.Edit(model) != null)
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                else
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            return PartialView("_partialedit", model);
         }
 
         [HttpPost]
