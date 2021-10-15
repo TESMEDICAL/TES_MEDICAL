@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewData["Title"] = "DanhSachThuoc";
+    Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+}
+
+<div class="col-12">
+    <div class="block">
+        <div style="float:left;">
+            <input placeholder="Tìm kiếm theo tên thuốc">
+            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+        </div>
+
+        <div class="form-group" style="float:right">
+            <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-sync text-white"></i>  Làm mới</button><br />
+            <input type="checkbox" style="margin-top:25px" /> Hiển thị tất cả
+
+        </div>
+
+        <div class="form-group">
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Tên thuốc</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tên thuốc A</th>
+                        <td>100</td>
+                        <td>Còn bán</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" onclick="OpenChiTietThuoc()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<!--Model chính-->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent" class="modal-fullscreen">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    ///
+    function OpenChiTietThuoc() {
+        $.ajax({
+            url: "/BacSi/ChiTietThuoc/",
+            type: 'GET',
+            success: function (response) {
+                $("#myModalContent").html(response);
+                $('#myModal').modal('show');
+                $('#btSave').show();
+                $('#btupdate').hide();
+
+            }
+        });
+    }
+</script>
+
