@@ -92,7 +92,8 @@ $(function(){
    
 
     connection.on("ReceiveMessage", (message) => {
-     
+
+
         toastr.success(message);
       
         

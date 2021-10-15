@@ -2,7 +2,7 @@
 <!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!-->
 <html class="no-js" lang="en">
- <!--<![endif]-->
+<!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
@@ -26,10 +26,40 @@
     <link rel="apple-touch-icon" href="~/MainElement/img/icon180.png" sizes="180x180">
     <!-- END Icons -->
     <!-- Stylesheets -->
-    <!-- Bootstrap is included in its original form, unaltered -->
-    <link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/toastr.css">
 
+    <style>
+        .modal-fullscreen {
+            width: 100vw !important;
+            max-width: none !important;
+            height: 100% !important;
+            margin: 0 !important;
+            overflow: scroll;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="~/css/PagedList.css" />
+    <link rel="stylesheet" href="~/css/toastr.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+
+
+
+
+
+
+
+    <!-- Bootstrap is included in its original form, unaltered -->
+    @*<link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">*@
 
 
     <!-- Related styles of various icon packs and plugins -->
@@ -612,28 +642,38 @@
     <!-- END User Settings -->
     <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
     <script src="~/MainElement/js/vendor/jquery.min.js"></script>
-    <script src="~/MainElement/js/vendor/bootstrap.min.js"></script>
+    @*<script src="~/MainElement/js/vendor/bootstrap.min.js"></script>*@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-    <!--Script chạy Active trên Menu-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/toastr.js"></script>
+    <link rel="stylesheet" href="~/css/PagedList.css" />
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/formToObject.js"></script>
+    <script src="~/js/jquery.inputmask.bundle.js"></script>
+    <script src="~/js/jQuery.print.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
-        function myActive(e) {
-            var elems = document.querySelectorAll(".active");
-            [].forEach.call(elems, function (el) {
-                el.classList.remove("active");
-            });
-            e.target.className = "active";
-        }
+        $(document).ready(function () {
+
+
+            $("#Phone").inputmask("9999-999-999");
+
+
+        });
     </script>
-    <!--Kết thúc Script chạy Active trên Menu-->
+    @RenderSection("Scripts", required: false)
+
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
     <script src="https://maps.googleapis.com/maps/api/js?key="></script>
     <script src="~/MainElement/js/helpers/gmaps.min.js"></script>
-    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/toastr.js"></script>
-    <script src="~/MainElement/js/site.js"></script>
 
     <!-- Load and execute javascript code used only in this page -->
     <script src="~/MainElement/js/pages/index.js"></script>

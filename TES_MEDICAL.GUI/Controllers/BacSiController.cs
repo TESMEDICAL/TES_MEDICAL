@@ -6,40 +6,31 @@ using System.Threading.Tasks;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-    public class DuocSiController : Controller
+    public class BacSiController : Controller
     {
         public IActionResult Index()
         {
-            return View("ToaThuoc");
+            return View("PhieuKham");
         }
 
-        public IActionResult ToaThuoc()
+        public IActionResult PhieuKham()
         {
             return View();
         }
 
-        public IActionResult ChiTietToaThuoc()
-        {
-            return PartialView("_ChiTietToaThuoc");
-        }
-
-        public IActionResult ToaThuocDangPhat()
+        public IActionResult KhamBenh()
         {
             return View();
         }
 
-        public IActionResult ChiTietDangPhat()
+        public IActionResult LichSuKham()
         {
-            return PartialView("_ChiTietDangPhat");
+            return PartialView("_LichSuKham");
         }
 
-        public IActionResult LichSuThuoc()
+        public IActionResult XacNhanKetQua()
         {
-            return View();
-        }
-        public IActionResult ChiTietLichSu()
-        {
-            return PartialView("_ChiTietLichSu");
+            return PartialView("_XacNhanKetQua");
         }
 
         public IActionResult DanhSachThuoc()
@@ -51,6 +42,5 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_ChiTietThuoc");
         }
-
     }
 }
