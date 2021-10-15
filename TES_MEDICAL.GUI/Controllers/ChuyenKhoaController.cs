@@ -17,11 +17,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ChuyenKhoaController : Controller
     {
         private readonly IChuyenKhoa _service;
-        private readonly IValidate _valiservice;
-        public ChuyenKhoaController(IChuyenKhoa service, IValidate valiservice)
+       
+        public ChuyenKhoaController(IChuyenKhoa service)
         {
             _service = service;
-            _valiservice = valiservice;
+            
         }
 
         public async Task<IActionResult> Index(ChuyenKhoaSearchModel model)
@@ -70,6 +70,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpPost]
+
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Add(ChuyenKhoa model)
@@ -82,20 +83,15 @@ namespace TES_MEDICAL.GUI.Controllers
                 else
                     return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            return Json(model);
-
+            return PartialView("_partialAdd", model);
            
 
 
+
+
+
         }
-        public async Task<IActionResult> ValidateChuyenKhoa(string TenCK)
-        {
-            if (await _valiservice.ExistsChuyenKhoa(TenCK) )
-            {
-                return Json(data: "Tên chuyên khoa đã tồn tại");
-            }
-            return Json(data: true);
-        }
+       
 
 
         [HttpGet]

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>TIẾP NHẬN BỆNH NHÂN - CLIENT</title>
+    <title>@ViewData["Title"]</title>
 
     <meta name="description" content="ProUI is a Responsive Bootstrap Admin Template created by pixelcave and published on Themeforest.">
     <meta name="author" content="pixelcave">
@@ -28,8 +28,10 @@
     <!-- Stylesheets -->
     <!-- Bootstrap is included in its original form, unaltered -->
     <link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/toastr.css">
 
-    
+
+
     <!-- Related styles of various icon packs and plugins -->
     <link rel="stylesheet" href="~/MainElement/css/plugins.css">
 
@@ -45,6 +47,12 @@
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
+    <style>
+        .active:hover {
+            background-color: #666;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!-- Page Wrapper -->
@@ -354,60 +362,61 @@
 
                         <!-- END Theme Colors -->
                         <!-- Sidebar Navigation -->
-                        <ul class="sidebar-nav">
+                        <ul class="sidebar-nav" onclick="myActive(e)">
                             <li>
-                                <a href="index.html" class=" active"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
+                                <a href="index.html"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
                             </li>
 
                             <!-- Phần Tiếp Nhận -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a><a href="javascript:void(0)" data-toggle="tooltip" title="Create the most amazing pages with the widget kit!"><i class="gi gi-lightbulb"></i></a></span>
-                                <span class="sidebar-header-title">Phần tiếp nhận</span>
+                                <span class="sidebar-header-title">Tiếp nhận</span>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+                            <li class="@Html.IsSelected(actions: "ThemPhieuKham", controllers: "TiepNhan")">
+                                <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
+                            <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
+                                <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
+                            <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
+                                <a href="/tiepnhan/capnhatdichvu"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
                             </li>
 
 
                             <!-- Phần Bác Sĩ -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a></span>
-                                <span class="sidebar-header-title">Phần bác sĩ</span>
+                                <span class="sidebar-header-title">Bác sĩ</span>
                             </li>
 
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
+                            <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
+                                <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
+                            <li class="@Html.IsSelected(actions: "KhamBenh", controllers: "BacSi")">
+                                <a href="@Url.Action("KhamBenh","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
+                                <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
                             </li>
 
                             <!-- Phần Dược Sĩ -->
                             <li class="sidebar-header">
                                 <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a></span>
-                                <span class="sidebar-header-title">Phần dược sĩ</span>
+                                <span class="sidebar-header-title">Dược sĩ</span>
                             </li>
 
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-file-medical sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "ToaThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("ToaThuoc","DuocSi")"><i class="fas fa-file-medical sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="fab fa-algolia sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc đang phát</span></a>
+                            <li class="@Html.IsSelected(actions: "ToaThuocDangPhat", controllers: "DuocSi")">
+                                <a href="@Url.Action("ToaThuocDangPhat","DuocSi")"><i class="fab fa-algolia sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc đang phát</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-history sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử</span></a>
+                            <li class="@Html.IsSelected(actions: "LichSuThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("LichSuThuoc","DuocSi")"><i class="fas fa-history sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "DuocSi")">
+                                <a href="@Url.Action("DanhSachThuoc","DuocSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
                             </li>
                         </ul>
                         <!-- END Sidebar Navigation -->
@@ -607,12 +616,24 @@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-    
-
+    <!--Script chạy Active trên Menu-->
+    <script>
+        function myActive(e) {
+            var elems = document.querySelectorAll(".active");
+            [].forEach.call(elems, function (el) {
+                el.classList.remove("active");
+            });
+            e.target.className = "active";
+        }
+    </script>
+    <!--Kết thúc Script chạy Active trên Menu-->
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
     <script src="https://maps.googleapis.com/maps/api/js?key="></script>
     <script src="~/MainElement/js/helpers/gmaps.min.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/toastr.js"></script>
+    <script src="~/MainElement/js/site.js"></script>
 
     <!-- Load and execute javascript code used only in this page -->
     <script src="~/MainElement/js/pages/index.js"></script>

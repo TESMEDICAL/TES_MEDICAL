@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "QuanLyDatLich";
+    Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+}
+
+<div class="col-12">
+    <div class="block">
+        <div style="float:left;">
+            <input  placeholder="Tìm kiếm theo tên">
+            <input style="margin-left:5px"  placeholder="Tìm kiếm theo SĐT">  
+            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+        </div>
+
+        <div class="form-group" style="float:right">
+            <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-sync text-white"></i>  Làm mới</button><br />
+            <input type="checkbox" style="margin-top:25px" /> Hiển thị tất cả
+
+        </div>
+        
+        <div class="form-group">
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Tên bênh nhân</th>
+                        <th scope="col">Ngày sinh</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Bác sĩ</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Cao Tân Lộc</th>
+                        <td>09/04/2001</td>
+                        <td>09352545545</td>
+                        <td>Dr. Thanh Hoàng</td>
+                        <td class="text-nowrap">
+                            <a class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th>Đinh Ngọc Thắng</th>
+                        <td>09/04/2001</td>
+                        <td>09352545545</td>
+                        <td>Dr. Thái Sơn</td>
+                        <td class="text-nowrap">
+                            <a class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th>Bùi Ngọc Huyền</th>
+                        <td>09/04/2001</td>
+                        <td>09352545545</td>
+                        <td>Dr. Lộc</td>
+                        <td class="text-nowrap">
+                            <a class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+            
+        </div>
+
+    </div>
+</div>

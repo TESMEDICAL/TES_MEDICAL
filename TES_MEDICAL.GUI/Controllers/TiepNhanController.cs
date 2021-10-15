@@ -10,11 +10,12 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("ThemPhieuKham");
         }
 
         public IActionResult ThemPhieuKham()
         {
+            ViewBag.Current = "themphieukham";
             return View();
         }
 
@@ -22,6 +23,24 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult ThemDichVu()
         {
             return PartialView("_AddDichVu");
+        }
+
+        [HttpGet]
+        public IActionResult XacNhanDichVu()
+        {
+            return PartialView("_XacNhanDichVu");
+        }
+
+        public IActionResult QuanLyDatLich()
+        {
+            ViewBag.Current = "quanlydatlich";
+            return View();
+        }
+
+        public IActionResult CapNhatDichVu()
+        {
+            ViewBag.Current = "capnhatdichvu";
+            return View();
         }
     }
 }
