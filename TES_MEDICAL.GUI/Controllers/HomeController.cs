@@ -47,6 +47,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
+            
             model.MaPhieu = "PK_" + Helper.GetUniqueKey();
             if (ModelState.IsValid)
             {
