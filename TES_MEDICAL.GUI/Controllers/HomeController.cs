@@ -50,14 +50,14 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "ThanhDuy", "HEllo");
+            
             model.MaPhieu = "PK_" + Helper.GetUniqueKey();
             if (ModelState.IsValid)
             {
 
                 if (await _service.DatLich(model) != null)
                 {
-
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
