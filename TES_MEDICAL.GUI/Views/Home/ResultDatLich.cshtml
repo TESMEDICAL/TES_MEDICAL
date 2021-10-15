@@ -45,8 +45,8 @@
                         <div class="coming-soon-inner">
                             <div class="section-title-area ltn__section-title-2">
                                 <h6 class="section-subtitle ltn__secondary-color">Hello, @Model.TenBN</h6>
-                                <h1 class="section-title white-color">Bạn đã đặt lịch thành công</h1>
-                                <h2 class="section-title white-color">Mã đặt lịch "@Model.MaPhieu". Vui lòng lưu mã để tiện theo dõi</h2>
+                                <h1 class="section-title white-color" style="font-size:50px">Bạn đã đặt lịch thành công</h1>
+                                <h2 class="section-title white-color" style="font-size:50px">Mã đặt lịch <span style="color: yellow;">@Model.MaPhieu</span><br> Vui lòng lưu mã để tiện theo dõi</h2>
                                 <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
                             </div>
                             <div class="ltn__countdown mb-20" data-countdown="@Model.NgayKham?.ToString("yyyy/MM/dd hh:mm:ss")"></div>
