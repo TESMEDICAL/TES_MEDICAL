@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Helpers;
+using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
@@ -17,11 +18,15 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICustomer _service;
-       
-        public HomeController(ILogger<HomeController> logger, ICustomer service)
+        private readonly IValidate _valid;
+        private IHubContext<SignalServer> _hubContext;
+
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid,  IHubContext<SignalServer> hubContext)
         {
             _logger = logger;
             _service = service;
+            _valid = valid;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -45,19 +50,20 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "ThanhDuy", "HEllo");
             model.MaPhieu = "PK_" + Helper.GetUniqueKey();
             if (ModelState.IsValid)
             {
-               
+
                 if (await _service.DatLich(model) != null)
                 {
 
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
-            }    
-           
-            
-                return View(model);
+            }
+
+
+            return View(model);
 
         }
 

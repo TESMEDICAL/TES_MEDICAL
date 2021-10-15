@@ -5,12 +5,11 @@
 }
 <style>
     .modal-fullscreen {
-        
         max-width: none !important;
         height: 500px !important;
         /*margin: 0 !important;*/
         overflow-y: scroll;
-        overflow-x:hidden;
+        overflow-x: hidden;
     }
 </style>
 
@@ -37,13 +36,13 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label" for="example-text-input">Họ và tên</label>
                     <div class="col-md-9">
-                        <input type="text" id="example-text-input" name="example-text-input" class="form-control" placeholder="Họ và tên bệnh nhân">   
+                        <input type="text" id="example-text-input" name="example-text-input" class="form-control" placeholder="Họ và tên bệnh nhân">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label" for="example-email-input">Ngày sinh</label>
                     <div class="col-md-9">
-                        <input type="date" id="example-email-input" name="example-email-input" class="form-control" placeholder="Enter Email">           
+                        <input type="date" id="example-email-input" name="example-email-input" class="form-control" placeholder="Enter Email">
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,7 +60,7 @@
                     <div class="col-md-9">
                         <textarea id="example-textarea-input" name="example-textarea-input" rows="3" class="form-control" placeholder="Content.."></textarea>
                     </div>
-                </div>   
+                </div>
             </form>
             <!-- END Basic Form Elements Content -->
         </div>
@@ -116,52 +115,52 @@
 
 <div class="col-12">
     <div class="block">
-        
-            <div class="form-group" style="float:right">
-                <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
 
+        <div class="form-group" style="float:right">
+            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+
+        </div>
+        <div class="form-group">
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Dịch vụ</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Khám tổng quát</td>
+                        <td>150.000 VNĐ</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Khám tổng quát</td>
+                        <td>150.000 VNĐ</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group" style="text-align:right">
+                @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@
+                <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
+                <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
             </div>
-            <div class="form-group">
-                <table class=" table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Dịch vụ</th>
-                            <th scope="col">Đơn giá</th>
-                            <th scope="col">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Khám tổng quát</td>
-                            <td>150.000 VNĐ</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Khám tổng quát</td>
-                            <td>150.000 VNĐ</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td></td>
-                            <td></td>
-                            <td>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="form-group" style="text-align:right">
-                    @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@
-                    <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
-                    <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
-                </div>
-            </div>
+        </div>
 
 
-        
+
 
     </div>
 </div>
@@ -179,7 +178,7 @@
             <div class="modal-body">
 
                 <div id="myModalContent" class="modal-fullscreen">
-                    
+
                 </div>
             </div>
 
@@ -198,6 +197,7 @@
 </div>
 
 <script>
+
     //Hàm mở modal của thêm dịch vụ
     function OpenThemDichVu() {
         $.ajax({
