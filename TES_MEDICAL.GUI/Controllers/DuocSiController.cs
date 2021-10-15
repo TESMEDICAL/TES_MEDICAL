@@ -10,7 +10,7 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("ToaThuoc");
         }
 
         public IActionResult ToaThuoc()

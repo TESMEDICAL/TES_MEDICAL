@@ -10,7 +10,7 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("PhieuKham");
         }
 
         public IActionResult PhieuKham()
@@ -26,6 +26,11 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult LichSuKham()
         {
             return PartialView("_LichSuKham");
+        }
+
+        public IActionResult XacNhanKetQua()
+        {
+            return PartialView("_XacNhanKetQua");
         }
 
         public IActionResult DanhSachThuoc()
