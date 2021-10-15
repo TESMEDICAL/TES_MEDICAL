@@ -28,8 +28,10 @@
     <!-- Stylesheets -->
     <!-- Bootstrap is included in its original form, unaltered -->
     <link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/toastr.css">
 
-    
+
+
     <!-- Related styles of various icon packs and plugins -->
     <link rel="stylesheet" href="~/MainElement/css/plugins.css">
 
@@ -372,7 +374,7 @@
                             </li>
                             <li class="@Html.IsSelected(actions: "ThemPhieuKham", controllers: "TiepNhan")">
                                 <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
-                               
+
                             </li>
                             <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
                                 <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
@@ -625,12 +627,13 @@
         }
     </script>
     <!--Kết thúc Script chạy Active trên Menu-->
-
-
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
     <script src="https://maps.googleapis.com/maps/api/js?key="></script>
     <script src="~/MainElement/js/helpers/gmaps.min.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/toastr.js"></script>
+    <script src="~/MainElement/js/site.js"></script>
 
     <!-- Load and execute javascript code used only in this page -->
     <script src="~/MainElement/js/pages/index.js"></script>

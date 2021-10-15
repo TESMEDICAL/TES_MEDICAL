@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Extension;
+using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Services;
@@ -36,6 +37,8 @@ namespace TES_MEDICAL.GUI
               .AddDatabase(Configuration)
 
               .AddRepositories();
+
+            services.AddSignalR();
             services.AddRazorPages()
         .AddRazorRuntimeCompilation();
 
@@ -59,9 +62,13 @@ namespace TES_MEDICAL.GUI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+          
+           
             app.UseAuthorization();
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<SignalServer>("/signalServer");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
