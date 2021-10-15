@@ -27,8 +27,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _service = service;
             _valid = valid;
             _hubContext = hubContext;
-            _valid = valid;
-            _hubContext = hubContext;
+           
         }
 
         public IActionResult Index()
