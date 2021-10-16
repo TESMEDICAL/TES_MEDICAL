@@ -12,7 +12,9 @@
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap.min.css" />
+    
+    
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="~/MainElement/img/favicon.png">
@@ -635,6 +637,12 @@
     <script src="~/js/toastr.js"></script>
     <script src="~/MainElement/js/site.js"></script>
 
+    <link href="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" />
+    <link href="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap.min.js" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+" />
+
+    @RenderSection("Scripts", required: false)
     <!-- Load and execute javascript code used only in this page -->
     <script src="~/MainElement/js/pages/index.js"></script>
     <script>$(function () { Index.init(); });</script>

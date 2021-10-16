@@ -3,11 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Interfaces;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
     public class TiepNhanController : Controller
     {
+        private readonly ITiepNhan _service;
+        public TiepNhanController(ITiepNhan service)
+        {
+            _service = service;
+        }
         public IActionResult Index()
         {
             return View("ThemPhieuKham");
@@ -31,10 +37,10 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_XacNhanDichVu");
         }
 
-        public IActionResult QuanLyDatLich()
+        public async Task<IActionResult> QuanLyDatLich()
         {
-            ViewBag.Current = "quanlydatlich";
-            return View();
+            var listDatLich = await _service.GetAllPhieuDatLich();
+            return View(listDatLich);
         }
 
         public IActionResult CapNhatDichVu()
@@ -42,5 +48,7 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.Current = "capnhatdichvu";
             return View();
         }
+
+        
     }
 }
