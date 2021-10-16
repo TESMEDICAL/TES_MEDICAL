@@ -12,5 +12,10 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
+
+        public IActionResult ThemNguoiDung()
+        {
+            return PartialView("_ThemNguoiDung");
+        }
     }
 }

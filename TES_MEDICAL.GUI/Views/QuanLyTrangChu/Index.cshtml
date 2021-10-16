@@ -1,51 +1,102 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
+<h4 style="text-align:center; font-weight:bold">QUẢN LÝ BÀI VIẾT</h4>
+<br />
 
 <div class="col-12">
     <div class="block">
-        <form enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
-            <div class="block-title">
-                <h2><strong>Thêm bài viết</strong></h2>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-5" style="padding-inline: 38px;">
-                    <label class="col-3 control-label" for="example-textarea-input">Tiêu đề</label>
-                    <div class="col-6">
-                        <textarea id="example-textarea-input" name="example-textarea-input" rows="2" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="col-sm-6" style="padding-inline: 40px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Trạng thái</label>
-                        <div class="col-8">
-                            <input type="checkbox" id="example-checkbox1" name="example-checkbox1" value="option1"> Đang hoạt động
-                        </div>
-                    </div>
+        <div style="float:left;">
+            <input placeholder="Tìm kiếm theo tiêu đề">
+            <input style="margin-left:5px;" placeholder="Tìm theo mã bài viết">
+            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+        </div>
 
-                    <div class="col-sm-6" style="padding-inline: 40px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Thể loại</label>
-                        <div class="col-8">
-                            <select class="form-control" size="1">
-                                <option value="0">Nam</option>
-                                <option value="1">Nữ</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="form-group">
-                <div style="padding-inline: 38px;">
-                    <label class="col-3 control-label" for="example-textarea-input">Nội dung bài viết</label>
-                    <div class="col-6">
-                        <textarea id="example-textarea-input" name="example-textarea-input" rows="15" class="form-control" placeholder="Nội dung ....."></textarea>
-                    </div>
-                </div>
-            </div>
-        </form>
+        <div class="form-group" style="float:right">
+            <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-plus text-white"></i>  Thêm</button>
+            <button class="btn" style="background-color:seagreen; color:white; margin-left:5px;"><i class="fa fa-sync text-white"></i>  Làm mới</button>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã bài viết</th>
+                        <th scope="col">Tiêu đề</th>
+                        <th scope="col">Trạng Thái</th>
+                        <th scope="col" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>BV001</th>
+                        <td>Tình hình COVID ngày 16/10</td>
+                        <td>Đang hoạt động</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" title="Cập nhật"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Xoá"> <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenBaiViet()"><i class="fas fa-eye" aria-hidden="true"></i></a>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>BV002</th>
+                        <td>Biến chủng Delta mới gây nguy hiểm</td>
+                        <td>Đang hoạt động</td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" title="Cập nhật"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Xoá"> <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fas fa-eye" aria-hidden="true"></i></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<!--Model chính-->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-fullscreen">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+            </div>
+            <div class="modal-body">
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //Hàm mở modal xem trước bài viết
+    function OpenBaiViet() {
+        $.ajax({
+            url: "/QuanLyTrangChu/XemBaiViet/",
+            type: 'GET',
+            success: function (response) {
+                $("#myModalContent").html(response);
+                $('#myModal').modal('show');
+            }
+        });
+    }
+</script>
+
+
 

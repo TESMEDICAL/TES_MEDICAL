@@ -12,5 +12,20 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
+
+        public IActionResult ThemBaiViet()
+        {
+            return View();
+        }
+
+        public IActionResult ChinhSuaBaiViet()
+        {
+            return View();
+        }
+
+        public IActionResult XemBaiViet()
+        {
+            return PartialView("_PreviewBaiViet");
+        }
     }
 }

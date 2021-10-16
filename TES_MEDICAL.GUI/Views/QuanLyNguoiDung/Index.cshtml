@@ -4,74 +4,121 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
+<h4 style="text-align:center; font-weight:bold">QUẢN LÝ NGƯỜI DÙNG</h4>
+<br />
+
 <div class="col-12">
     <div class="block">
-        <form enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
-            <div class="block-title">
-                <h2><strong>Thêm nhân viên</strong></h2>
-            </div>
-            <div class="form-group">
+        <div style="float:left;">
+            <input placeholder="Tìm kiếm theo tên">
+            <input style="margin-left:5px;" placeholder="Tìm theo số điện thoại">
+            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+        </div>
 
-                <div class="col-sm-9">
-                    <div class="col-sm-6" style="padding-inline: 38px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Email</label>
-                        <div class="col-6">
-                            <input type="email" class="form-control" placeholder="Vui lòng nhập email">
-                        </div>
-                    </div>
-                    <div class="col-sm-6" style="padding-inline: 38px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Họ tên</label>
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Vui lòng nhập họ tên nhân viên">
-                        </div>
-                    </div>
+        <div class="form-group" style="float:right">
+            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemMoi()"><i class="fa fa-plus text-white"></i>  Thêm</button>
+            <button class="btn" style="background-color:seagreen; color:white; margin-left:5px;"><i class="fa fa-sync text-white"></i>  Làm mới</button>
+        </div>
+        <br />
 
-                    <div class="col-sm-4" style="padding-inline: 38px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Số điện thoại</label>
-                        <div class="col-8">
-                            <input type="number" class="form-control" placeholder="Vui lòng nhập số điện thoại">
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="padding-inline: 38px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Mật khẩu</label>
-                        <div class="col-8">
-                            <input type="password" class="form-control" placeholder="Vui lòng nhập mật khẩu">
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="padding-inline: 38px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Xác nhận mật khẩu</label>
-                        <div class="col-8">
-                            <input type="text" class="form-control" placeholder="Vui lòng nhập ">
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="padding-inline: 40px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Thể loại</label>
-                        <div class="col-8">
-                            <select class="form-control" size="1">
-                                <option value="0">Nam</option>
-                                <option value="1">Nữ</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="padding-inline: 40px;">
-                        <label class="col-3 control-label" for="example-textarea-input">Trạng thái</label>
-                        <div class="col-8">
-                            <input type="checkbox" id="example-checkbox1" name="example-checkbox1" value="option1"> Đang hoạt động
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-2" style="margin-left: 30px;">
-                    <div style="text-align: center;">
-                        <img src="img/f81d20690390f5ceac81.jpg" alt="" style="width: 150px;">
+        <div class="form-group">
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Họ tên</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Điện thoại</th>
+                        <th scope="col">Chức vụ</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Trần Ngọc Lụa</th>
+                        <td>duonglovelua@gmail.com</td>
+                        <td>0979510278</td>
+                        <td>Admin</td>
+                        <td>Đang hoạt động</td>
+                        <td>
+                            <img src="~/GuestElement/img/anhduy.jpg" style="width:110px" />
+                        </td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" title="Cập nhật"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Xoá"> <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"><i class="fas fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
 
-                    </div>
-                    <br>
-                    <div style="text-align: center;">
-                        <button type="button" class="btn btn-info">Chọn file</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+                    <tr>
+                        <th>Trần Ngọc Lụa</th>
+                        <td>duonglovelua@gmail.com</td>
+                        <td>0979510278</td>
+                        <td>Admin</td>
+                        <td>Đang hoạt động</td>
+                        <td>
+                            <img src="~/GuestElement/img/anhduy.jpg" style="width:110px" />
+                        </td>
+                        <td class="text-nowrap text-center">
+                            <a class="btn btn-info btn-sm active" title="Cập nhật"> <i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Xoá"> <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Thông tin"><i class="fas fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<!--Model chính-->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" id="btUse" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Huỷ</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //Hàm mở modal của Lịch sử khám
+    function OpenThemMoi() {
+        $.ajax({
+            url: "/QuanLyNguoiDung/ThemNguoiDung/",
+            type: 'GET',
+            success: function (response) {
+                $("#myModalContent").html(response);
+                $('#myModal').modal('show');
+                $('#btSend').hide();
+                $('#btUse').show();
+
+            }
+        });
+    }
+</script>
+
+
 
