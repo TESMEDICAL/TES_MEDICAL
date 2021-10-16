@@ -39,7 +39,7 @@
            
             <li class="nav-header">CHỨC NĂNG ADMIN</li>
             <li class="nav-item">
-                <a href="pages/calendar.html" class="nav-link">
+                <a href="@Url.Action("Index","QuanLyTrangChu")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "QuanLyTrangChu")">
                     <i class="nav-icon fas fa-blog"></i>
                     <p>
                         Quản lý trang chủ
@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/gallery.html" class="nav-link">
+                <a href="@Url.Action("Index","QuanLyNguoiDung")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "QuanLyNguoiDung")">
                     <i class="nav-icon fas fa-users-cog"></i>
                     <p>
                         Quản lý người dùng
@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="pages/kanban.html" class="nav-link">
+                <a href="@Url.Action("Index","NhanVienYTe")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "NhanVienYTe")">
                     <i class="nav-icon fas fa-user-md"></i>
                     <p>
                         Nhân viên y tế
@@ -64,7 +64,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="@Url.Action("Index","Thuoc")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Thuoc")">
                     <i class="nav-icon fas fa-pills"></i>
                     <p>
                         Thuốc
@@ -73,7 +73,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="@Url.Action("Index","ChuyenKhoa")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "ChuyenKhoa")">
                     <i class="nav-icon fas fa-briefcase-medical"></i>
                     <p>
                         Chuyên khoa
@@ -82,7 +82,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="@Url.Action("Index","Benh")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Benh")">
                     <i class="nav-icon fas fa-book-medical"></i>
                     <p>
                         Thông tin bệnh
@@ -100,15 +100,15 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="pages/search/simple.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Chức năng 1</p>
+                        <a href="@Url.Action("Index","Report")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Report")">
+                            <i class="fas fa-hand-holding-usd nav-icon"></i>
+                            <p>Doanh Thu</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/search/enhanced.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Chức năng 2</p>
+                        <a href="@Url.Action("ReportBenhNhan","Report")" class="nav-link @Html.IsSelected(actions: "ReportBenhNhan", controllers: "Report")">
+                            <i class="fas fa-hospital-user nav-icon"></i>
+                            <p>Bệnh nhân</p>
                         </a>
                     </li>
                 </ul>

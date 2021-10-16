@@ -17,5 +17,15 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_ThemNguoiDung");
         }
+
+        public IActionResult EditNguoiDung()
+        {
+            return PartialView("_EditNguoiDung");
+        }
+
+        public IActionResult ChiTietNguoiDung()
+        {
+            return PartialView("_ChiTietNguoiDung");
+        }
     }
 }

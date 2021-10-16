@@ -4,8 +4,9 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
-<h4 style="text-align:center; font-weight:bold">QUẢN LÝ NGƯỜI DÙNG</h4>
+<h4 style="text-align:center; font-weight:bold">QUẢN LÝ NHÂN VIÊN Y TẾ</h4>
 <br />
+
 
 <div class="col-12">
     <div class="block bg-light">
@@ -16,8 +17,8 @@
         </div>
 
         <div class="form-group" style="float:right">
-            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemMoi()"><i class="fa fa-plus text-white"></i>  Thêm</button>
-            <button class="btn" style="background-color:seagreen; color:white; margin-left:5px;"><i class="fa fa-sync text-white"></i>  Làm mới</button>
+            <a class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemMoi()"><i class="fa fa-plus text-white"></i>  Thêm</a>
+            <a class="btn" style="background-color:seagreen; color:white; margin-left:5px;"><i class="fa fa-sync text-white"></i>  Làm mới</a>
         </div>
         <br />
 
@@ -36,10 +37,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Trần Ngọc Lụa</th>
-                        <td>duonglovelua@gmail.com</td>
-                        <td>0979510278</td>
-                        <td>Admin</td>
+                        <th>Đinh Ngọc Thắng</th>
+                        <td>thangdn@gmail.com</td>
+                        <td>09185545589</td>
+                        <td>Bác sĩ</td>
                         <td>Đang hoạt động</td>
                         <td>
                             <img src="~/GuestElement/img/anhduy.jpg" style="width:110px" />
@@ -50,24 +51,6 @@
                             <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenDetail()"><i class="fas fa-info-circle" aria-hidden="true"></i></a>
                         </td>
                     </tr>
-
-                    <tr>
-                        <th>Trần Ngọc Lụa</th>
-                        <td>duonglovelua@gmail.com</td>
-                        <td>0979510278</td>
-                        <td>Admin</td>
-                        <td>Đang hoạt động</td>
-                        <td>
-                            <img src="~/GuestElement/img/anhduy.jpg" style="width:110px" />
-                        </td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active" title="Cập nhật"> <i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Xoá"> <i class="fas fa-trash-alt" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Thông tin"><i class="fas fa-info-circle" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-
-
                 </tbody>
             </table>
         </div>
@@ -105,10 +88,10 @@
 </div>
 
 <script>
-    //Hàm mở modal của thêm người dùng
+    //Hàm mở modal của thêm nhân viên y tế
     function OpenThemMoi() {
         $.ajax({
-            url: "/QuanLyNguoiDung/ThemNguoiDung/",
+            url: "/NhanVienYTe/ThemNvYTe/",
             type: 'GET',
             success: function (response) {
                 $("#myModalContent").html(response);
@@ -120,36 +103,33 @@
         });
     }
 
-    //Hàm mở modal của edit người dùng
+    //Hàm mở modal của chỉnh sửa nhân viên y tế
     function OpenEdit() {
         $.ajax({
-            url: "/QuanLyNguoiDung/EditNguoiDung/",
+            url: "/NhanVienYTe/EditNhanVienYTe/",
             type: 'GET',
             success: function (response) {
                 $("#myModalContent").html(response);
                 $('#myModal').modal('show');
-                $('#btSave').hide();
                 $('#btUpdate').show();
+                $('#btSave').hide();
+
             }
         });
     }
 
-    //Hàm mở modal của chi tiết người dùng
+    //Hàm mở modal của detail nhân viên y tế
     function OpenDetail() {
         $.ajax({
-            url: "/QuanLyNguoiDung/ChiTietNguoiDung/",
+            url: "/NhanVienYTe/DetailNhanVienYTe/",
             type: 'GET',
             success: function (response) {
                 $("#myModalContent").html(response);
                 $('#myModal').modal('show');
-                $('#btSave').hide();
                 $('#btUpdate').hide();
+                $('#btSave').hide();
+
             }
         });
     }
-
-
 </script>
-
-
-
