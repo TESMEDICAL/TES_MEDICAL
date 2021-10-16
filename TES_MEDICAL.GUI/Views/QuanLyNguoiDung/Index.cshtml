@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
+}
+
+<div class="col-12">
+    <div class="block">
+        <form enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Thêm nhân viên</strong></h2>
+            </div>
+            <div class="form-group">
+
+                <div class="col-sm-9">
+                    <div class="col-sm-6" style="padding-inline: 38px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Email</label>
+                        <div class="col-6">
+                            <input type="email" class="form-control" placeholder="Vui lòng nhập email">
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="padding-inline: 38px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Họ tên</label>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Vui lòng nhập họ tên nhân viên">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" style="padding-inline: 38px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Số điện thoại</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="padding-inline: 38px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Mật khẩu</label>
+                        <div class="col-8">
+                            <input type="password" class="form-control" placeholder="Vui lòng nhập mật khẩu">
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="padding-inline: 38px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Xác nhận mật khẩu</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" placeholder="Vui lòng nhập ">
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="padding-inline: 40px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Thể loại</label>
+                        <div class="col-8">
+                            <select class="form-control" size="1">
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="padding-inline: 40px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Trạng thái</label>
+                        <div class="col-8">
+                            <input type="checkbox" id="example-checkbox1" name="example-checkbox1" value="option1"> Đang hoạt động
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="margin-left: 30px;">
+                    <div style="text-align: center;">
+                        <img src="img/f81d20690390f5ceac81.jpg" alt="" style="width: 150px;">
+
+                    </div>
+                    <br>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-info">Chọn file</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

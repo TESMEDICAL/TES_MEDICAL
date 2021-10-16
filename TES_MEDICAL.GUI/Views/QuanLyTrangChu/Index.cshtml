@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
+}
+
+<div class="col-12">
+    <div class="block">
+        <form enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Thêm bài viết</strong></h2>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5" style="padding-inline: 38px;">
+                    <label class="col-3 control-label" for="example-textarea-input">Tiêu đề</label>
+                    <div class="col-6">
+                        <textarea id="example-textarea-input" name="example-textarea-input" rows="2" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="col-sm-6" style="padding-inline: 40px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Trạng thái</label>
+                        <div class="col-8">
+                            <input type="checkbox" id="example-checkbox1" name="example-checkbox1" value="option1"> Đang hoạt động
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6" style="padding-inline: 40px;">
+                        <label class="col-3 control-label" for="example-textarea-input">Thể loại</label>
+                        <div class="col-8">
+                            <select class="form-control" size="1">
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div style="padding-inline: 38px;">
+                    <label class="col-3 control-label" for="example-textarea-input">Nội dung bài viết</label>
+                    <div class="col-6">
+                        <textarea id="example-textarea-input" name="example-textarea-input" rows="15" class="form-control" placeholder="Nội dung ....."></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
