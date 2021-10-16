@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="~/css/toastr.css" />
 
 
-<style >
+<style>
     .a {
         text-decoration: none !important
     }
@@ -45,6 +45,8 @@
                 <th style="text-align:center">Ngày sinh</th>
 
                 <th style="text-align:center">Số điện thoại</th>
+                <th style="text-align:center">Ngày khám</th>
+
                 <th style="text-align:center">Thao tác</th>
 
             </tr>
@@ -54,13 +56,13 @@
             {
                 <tr>
                     <td>@item.TenBN</td>
-                    <td>@item.NgaySinh</td>
+                    <td>@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
                     <td>@item.SDT</td>
-
+                    <td>@item.NgayKham</td>
                     <td class="text-nowrap">
                         <a class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         <a class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></a>
-                        <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        <a onclick="OpenChiTietDatLich('@item.MaPhieu')"  class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             }
@@ -74,19 +76,46 @@
 
     @*</div>*@
 </div>
+
+<!--Model chính-->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="far fa-print"></i>&nbsp;In hoá đơn</button>
+                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
-    
-  
-   
-  
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         $('#ListTable').DataTable({
-            "order": [[0, "desc"]],
+            "order": [[3, "asc"]],
             "language": {
                 "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
                 "zeroRecords": "Không có kết quả",
@@ -102,7 +131,26 @@
                 },
             }
         });
+        //Hàm mở modal của Chi tiết Toa Thuốc
+        function OpenChiTietDatLich(_id) {
+            $.ajax({
+                url: "/TiepNhan/ChiTietDatLich/",
+                type: 'GET',
+                data: {
+                    id: _id
+                },
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').show();
+                    $('#btupdate').hide();
+
+                }
+            });
+        }
     </script>
+
+
 
 }
 
