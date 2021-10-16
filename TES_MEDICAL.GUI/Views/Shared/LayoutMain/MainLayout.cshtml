@@ -12,9 +12,25 @@
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
-    
+
+    <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+    <link rel="stylesheet" href="~/MainElement/css/main.css">
+    <link rel="stylesheet" href="~/css/toastr.css" />
+
+
+    <style>
+        a {
+            text-decoration: none !important
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+
+   
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="~/MainElement/img/favicon.png">
@@ -29,7 +45,7 @@
     <!-- END Icons -->
     <!-- Stylesheets -->
     <!-- Bootstrap is included in its original form, unaltered -->
-    <link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">*@
     <link rel="stylesheet" href="~/css/toastr.css">
 
 
@@ -495,7 +511,7 @@
                 <div id="page-content">
                     <!-- Dashboard Header -->
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
-                    <div class="content-header content-header-media">
+                    <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
                             <div class="row">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
@@ -504,13 +520,13 @@
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div style="margin-right: 65px;">
-                                    <div class="text-right">
+                                <div class="col-3  ms-auto">
+                                    
                                         <h2 class="animation-hatch">
                                             <strong>27&deg; C</strong><br>
                                             <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                         </h2>
-                                    </div>
+                                  
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
@@ -613,8 +629,13 @@
     </div>
     <!-- END User Settings -->
     <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
-    <script src="~/MainElement/js/vendor/jquery.min.js"></script>
-    <script src="~/MainElement/js/vendor/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
@@ -637,10 +658,8 @@
     <script src="~/js/toastr.js"></script>
     <script src="~/MainElement/js/site.js"></script>
 
-    <link href="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" />
-    <link href="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap.min.js" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
-" />
+
+
 
     @RenderSection("Scripts", required: false)
     <!-- Load and execute javascript code used only in this page -->
