@@ -67,7 +67,15 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
 
-     
+        public IActionResult ValidateDatlich(DateTime? NgayKham)
+        {
+            if ( ! _valid.CheckNgayKham(NgayKham))
+            {
+                return Json(data: "Ngày khám phải lớn hơn ngày hiện tại");
+            }
+            return Json(data: true);
+        }
+
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
         {
             var model = await _service.GetPhieuDat(MaPhieu);
