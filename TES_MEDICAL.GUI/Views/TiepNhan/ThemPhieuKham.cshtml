@@ -3,6 +3,7 @@
     ViewData["Title"] = "ThemPhieuKham";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
+
 <style>
     .modal-fullscreen {
         max-width: none !important;
@@ -32,36 +33,49 @@
                         <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-10">
-                        <input type="text" id="" class="form-control" >
-                    </div>
-                   
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="example-text-input">Họ và tên</label>
-                    <div class="col-md-9">
-                        <input type="text" id="example-text-input" name="example-text-input" class="form-control" placeholder="Họ và tên bệnh nhân">
+                        <input type="text" id="" class="form-control" placeholder="Vui lòng nhập họ tên">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="example-email-input">Ngày sinh</label>
-                    <div class="col-md-9">
-                        <input type="date" id="example-email-input" name="example-email-input" class="form-control" placeholder="Enter Email">
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-2">
+                        <label for="Hoten" class="col-form-label">SĐT</label>
+                    </div>
+                    <div class="col-10">
+                        <input type="number" id="" class="form-control" placeholder="Vui lòng nhập số điện thoại">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="example-password-input">Giới tính</label>
-                    <div class="col-md-9">
-                        <select id="example-select" name="example-select" class="form-control" size="1">
+
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-2">
+                        <label for="Hoten" class="col-form-label">Ngày sinh</label>
+                    </div>
+                    <div class="col-10">
+                        <input type="date" id="" class="form-control">
+                    </div>
+                </div>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-2">
+                        <label for="Hoten" class="col-form-label">Giới tính</label>
+                    </div>
+                    <div class="col-10">
+                        <!-- <select id="example-select" name="example-select" class="form-control" size="1">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
+                        </select> -->
+                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
+                            <option value="1">Nam</option>
+                            <option value="2">Nữ</option>
+
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="example-textarea-input">Địa chỉ</label>
-                    <div class="col-md-9">
-                        <textarea id="example-textarea-input" name="example-textarea-input" rows="3" class="form-control" placeholder="Content.."></textarea>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-2">
+                        <label for="Hoten" class="col-form-label">Địa chỉ</label>
+                    </div>
+                    <div class="col-10">
+                        <textarea type="textarea" id="" class="form-control"></textarea>
                     </div>
                 </div>
             </form>
@@ -83,34 +97,34 @@
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
             <form enctype="multipart/form-data" class="form-horizontal form-bordered p-0" onsubmit="return false;">
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <label class="col-md-5 control-label" for="example-select">Chuyên khoa</label>
-                        <div class="col-md-7">
-                            <select id="example-select" name="example-select" class="form-control" size="1">
-                                <option value="0">Khoa nội</option>
-                                <option value="1">Tim Mạch</option>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Chuyên khoa</label>
+                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
+                            <option value="1">Khoa phổi</option>
+                            <option value="2">Khoa nội</option>
 
-                            </select>
-                        </div>
+                        </select>
                     </div>
-                    <div class="col-sm-6">
-                        <label class="col-md-5 control-label" for="example-select">Bác sĩ</label>
-                        <div class="col-md-7">
-                            <select id="example-select" name="example-select" class="form-control" size="1">
-                                <option value="0">Dr. Bảo Dương</option>
-                                <option value="1">Dr. Thanh Hoàng</option>
-                            </select>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Bác sĩ</label>
+                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
+                            <option value="1">Cao Tân Lộc</option>
+                            <option value="2">Đinh Ngọc Thắng</option>
+
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <div class="col-2">
+                            <label for="Hoten" class="col-form-label">Triệu chứng</label>
                         </div>
+                        <div class="col-12">
+                            <textarea type="textarea" id="" class="form-control" style="height: 128px;"></textarea>
+                        </div>
+
                     </div>
                 </div>
-
-                <div class="form-group" style="padding-inline: 38px;">
-                    <label class="col-3 control-label" for="example-textarea-input">Triệu chứng</label>
-                    <div class="col-6">
-                        <textarea id="example-textarea-input" name="example-textarea-input" rows="12" class="form-control" placeholder="Content.."></textarea>
-                    </div>
-                </div>
+                
             </form>
         </div>
     </div>
@@ -138,25 +152,36 @@
                         <th scope="row">1</th>
                         <td>Khám tổng quát</td>
                         <td>150.000 VNĐ</td>
-                        <td></td>
+                        <td>
+                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">1</th>
                         <td>Khám tổng quát</td>
                         <td>150.000 VNĐ</td>
-                        <td></td>
+                        <td>
+                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                        </td>
                     </tr>
                     <tr>
-                        <th></th>
-                        <td></td>
-                        <td></td>
+                        <th scope="row">1</th>
+                        <td>Khám tổng quát</td>
+                        <td>150.000 VNĐ</td>
                         <td>
+                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group" style="text-align:right">
-                @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@
+                <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
             </div>
@@ -233,3 +258,4 @@
 
 
 </script>
+Đang hiển thị 4630976894900975087.

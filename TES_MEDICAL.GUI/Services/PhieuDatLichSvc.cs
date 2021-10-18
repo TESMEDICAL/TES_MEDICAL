@@ -15,6 +15,31 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
+
+        public async Task<PhieuDatLich> Edit(PhieuDatLich model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    var existingLich = _context.PhieuDatLich.Find(model.MaPhieu);
+                    existingLich.NgayKham = model.NgayKham;
+                 
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return model;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
         public async Task<IEnumerable<PhieuDatLich>> GetAllPhieuDatLich()
         {
             return await _context.PhieuDatLich.ToListAsync();

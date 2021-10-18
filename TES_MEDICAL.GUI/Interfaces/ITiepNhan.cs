@@ -11,5 +11,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<IEnumerable<PhieuDatLich>> GetAllPhieuDatLich();
 
         Task<PhieuDatLich> GetPhieuDatLichById(string id);
+
+        Task<PhieuDatLich> Edit(PhieuDatLich model);
     }
 }
