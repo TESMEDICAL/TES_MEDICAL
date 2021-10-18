@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -54,10 +55,11 @@ namespace TES_MEDICAL.GUI.Controllers
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
-
-                if (await _service.DatLich(model) != null)
+                var result = await _service.DatLich(model);
+                if (result!=null)
                 {
-                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
+                   
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage",result.TenBN,result.NgaySinh?.ToString("dd/MM/yyyy"),result.SDT, model.NgayKham,model.MaPhieu);
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
