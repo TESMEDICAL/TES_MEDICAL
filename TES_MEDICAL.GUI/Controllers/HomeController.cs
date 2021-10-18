@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Helpers;
@@ -19,6 +20,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICustomer _service;
         private readonly IValidate _valid;
+        
         private IHubContext<SignalServer> _hubContext;
 
         public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid,  IHubContext<SignalServer> hubContext)
@@ -58,6 +60,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (await _service.DatLich(model) != null)
                 {
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
+                    Helper.SendMail("duongdoan.0904@gmail.com", "TES-MEDICAL", message(model));
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
@@ -83,6 +86,22 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        private string message(PhieuDatLich model)
+        {
+            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
+            {
+                string readFile = reader.ReadToEnd();
+                string StrContent = string.Empty;
+                StrContent = readFile;
+                //Assing the field values in the template
+                StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
+                return StrContent.ToString();
+            }
+
         }
     }
 }

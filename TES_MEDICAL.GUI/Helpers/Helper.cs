@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,5 +31,47 @@ namespace TES_MEDICAL.GUI.Helpers
             result.Append(DateTime.Now.ToString().GetHashCode().ToString("x"));
             return result.ToString();
         }
+
+        //Hàm SendMail
+        public static bool SendMail(string receiver, string Subject, string message)
+        {
+            try
+            {
+
+                var senderEmail = new MailAddress("jamesky9401@gmail.com");
+                var receiverEmail = new MailAddress(receiver, "Khách Hàng");
+                var password = "Anhthu1521@@";
+                var sub = Subject;
+                var body = message;
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = int.Parse("587"),
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    IsBodyHtml = true,
+                    Subject = sub,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
+                }
+
+                return true;
+
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
     }
 }
+
