@@ -61,7 +61,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (await _service.DatLich(model) != null)
                 {
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
-                    Helper.SendMail(model.Email, "TES-MEDICAL", message(model));
+                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model));
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
