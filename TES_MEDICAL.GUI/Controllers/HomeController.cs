@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
@@ -60,7 +61,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (await _service.DatLich(model) != null)
                 {
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
-                    Helper.SendMail("duongdoan.0904@gmail.com", "TES-MEDICAL", message(model));
+                    Helper.SendMail(model.Email, "TES-MEDICAL", message(model));
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
@@ -91,6 +92,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
         private string message(PhieuDatLich model)
         {
+            var request = HttpContext.Request;
+            var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
             {
@@ -99,6 +102,8 @@ namespace TES_MEDICAL.GUI.Controllers
                 StrContent = readFile;
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
+                StrContent = StrContent.Replace("{UrlResult}", _baseURL);
+                //Url.Action("ResultDatLich", "Home", new { maPhieu = HttpUtility.UrlEncode(model.MaPhieu) }, _baseURL);
                 return StrContent.ToString();
             }
 
