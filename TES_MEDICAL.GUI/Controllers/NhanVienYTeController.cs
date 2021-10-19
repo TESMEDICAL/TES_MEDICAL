@@ -13,9 +13,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class NhanVienYTeController : Controller
     {
         private readonly INhanVienYte _service;
-        public NhanVienYTeController(INhanVienYte service)
+        private readonly IChuyenKhoa _chuyenkhoaRep;
+        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep)
         {
             _service = service;
+            _chuyenkhoaRep = chuyenkhoaRep;
         }
 
         public async Task<ActionResult> Index(NhanVienYteSearchModel model)
@@ -23,7 +25,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
-            ViewBag.ChuyenKhoa = _service.ChuyenKhoaNav();
+            ViewBag.ChuyenKhoa = await _chuyenkhoaRep.GetAll();
 
 
             ViewBag.Names = listPaged;
@@ -59,7 +61,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<ActionResult> Add()
         {
-            ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK");
+            ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
             return PartialView("_partialAdd", new NhanVienYte());
 
@@ -89,7 +91,7 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-                ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK", item.ChuyenKhoa);
+                ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
 
                 return PartialView("_partialedit", item);
@@ -107,7 +109,7 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-                ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK", item.ChuyenKhoa);
+                ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK", item.ChuyenKhoa);
 
 
                 return PartialView("_partialDetail", item);

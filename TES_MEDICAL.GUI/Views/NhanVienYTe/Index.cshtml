@@ -22,15 +22,15 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo HoTen" } })
+                @Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.SDTNVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo SDTNV" } })
+                @Html.EditorFor(model => model.SDTNVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo số điện thoại" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.DropDownListFor(model => model.ChuyenKhoaSearch, new SelectList(@ViewBag.ChuyenKhoa, "MaCK", "TenCK"), "Lọc theo ChuyenKhoa", new { @class = "mr-2 mb-2 form-control-sm" })
+                @Html.DropDownListFor(model => model.ChuyenKhoaSearch, new SelectList(@ViewBag.ChuyenKhoa, "MaCK", "TenCK"), "Lọc theo chuyên khoa", new { @class = "mr-2 mb-2 form-control-sm" })
 
             </div>
 
@@ -68,7 +68,7 @@
 
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
