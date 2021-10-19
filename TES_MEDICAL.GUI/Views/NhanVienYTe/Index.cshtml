@@ -1,8 +1,9 @@
-@model TES_MEDICAL.GUI.Models.ThuocSearchModel
+﻿@model TES_MEDICAL.GUI.Models.NhanVienYteSearchModel
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
 @{
     ViewData["Title"] = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
@@ -21,16 +22,22 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
+                @Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo HoTen" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo đơn giá" } })
+                @Html.EditorFor(model => model.SDTNVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo SDTNV" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo thông tin" } })
+                @Html.DropDownListFor(model => model.ChuyenKhoaSearch, new SelectList(@ViewBag.ChuyenKhoa, "MaCK", "TenCK"), "Lọc theo ChuyenKhoa", new { @class = "mr-2 mb-2 form-control-sm" })
+
             </div>
+
+
+
+
+
 
 
             <div class="col-4">
@@ -53,7 +60,7 @@
 
 </div>
 <div id="nameListContainer">
-    <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Thuoc>" />
+    <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<NhanVienYte>" />
 
 </div>
 
@@ -81,7 +88,7 @@
                 <div class="text-right">
                     <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
                     <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelNhanVienYte')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
                     <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -92,8 +99,6 @@
 
 
 @section scripts{
-    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
-
     <script>
 
         var $id = "";
@@ -108,65 +113,59 @@
             function () {
 
                 $("#btSave").click(function () {
+                    var obj = $("#frm").serializeObject();
 
-                    if ($("#frm").valid()) {
-                        var obj = $("#frm").serialize();
-                        $.ajax({
-                            type: "POST",
-                            url: "/Thuoc/Add",
-                            data: obj,
-                            success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
 
-                                    toastr.success(result.text);
-                                    reloadpage(1);
-                                }
-                                else {
-                                    toastr.warning(result.text);
-                                }
-                            },
-                            error: function (errormessage) {
-                                alert(errormessage.responseText);
-                            },
-                            failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                    $.ajax({
+                        type: "POST",
+                        url: "/NhanVienYte/Add",
+                        data: obj,
+                        success: function (result) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                reloadpage(1);
                             }
-                        });
-                    }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                        }
+                    });
 
-                   
+
 
                 });
                 $("#btupdate").click(function () {
-
-                    if ($("#frm").valid()) {
-                        var obj = $("#frm").serialize();
-                        $.ajax({
-                            type: "POST",
-                            url: "/Thuoc/Edit",
-                            dataType: "json",
-                            data: obj,
-                            success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
-                                }
-                                else {
-                                    toastr.warning(result.text);
-                                }
-                            },
-                            error: function (errormessage) {
-                                alert(errormessage.responseText);
-                            },
-                            failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                    var obj = $("#frm").serializeObject();
+                    $.ajax({
+                        type: "POST",
+                        url: "/NhanVienYte/Edit",
+                        dataType: "json",
+                        data: obj,
+                        success: function (result) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                            if (result.status >= 1) {
+                                toastr.success(result.text);
+                                reloadpage(1);
                             }
-                        });
-                    }
-
-                    
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                        }
+                    });
 
 
                 });
@@ -183,14 +182,29 @@
 
             });
 
-       
+        $(document).on('click', '.remove', function () {
+
+            $(this).parent().parent().remove();
+
+        });
+
+        function AddView(child) {
+
+            $.ajax({
+                url: '/NhanVienYte/add' + child,
+
+                success: function (data) {
+                    $("#partial" + child).append(data);
+                }
+            })
+        }
 
         function reloadpage(page) {
             obj = {};
 
             obj.Page = page;
             $.ajax({
-                url: '/Thuoc/PageList/',
+                url: '/NhanVienYte/PageList/',
 
                 type: "Get",
                 timeout: 20000,
@@ -220,7 +234,7 @@
             $myModalContent.html("");
 
             $.ajax({
-                url: '/Thuoc/Edit/',
+                url: '/NhanVienYte/Edit/',
 
                 type: "Get",
                 timeout: 20000,
@@ -252,7 +266,7 @@
             $myModalContent.html("");
 
             $.ajax({
-                url: '/Thuoc/Add/',
+                url: '/NhanVienYte/Add/',
 
                 type: "Get",
                 timeout: 20000,
@@ -281,7 +295,7 @@
             $myModalContent.html("");
 
             $.ajax({
-                url: '/Thuoc/Detail/',
+                url: '/NhanVienYte/Detail/',
 
                 type: "Get",
                 timeout: 20000,
@@ -314,7 +328,7 @@
             if (cf) {
                 $.ajax({
                     type: "POST",
-                    url: "/Thuoc/Delete",
+                    url: "/NhanVienYte/Delete",
                     data: { "id": id },
                     success: function (result) {
                         $('#preloader-wrapper').toggleClass('hide');
@@ -342,7 +356,7 @@
 
 
             $.ajax({
-                url: '/Thuoc/PageList/',
+                url: '/NhanVienYte/PageList/',
 
                 type: "Get",
                 timeout: 20000,

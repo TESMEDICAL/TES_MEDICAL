@@ -40,9 +40,14 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<IThuoc, Thuocsvc>()
                 .AddScoped<ICustomer, Customersvc>()
                 .AddScoped<IValidate, ValidateSvc>()
-                .AddScoped<IChuyenKhoa, ChuyenKhoasvc>()
+                .AddScoped<INhanVienYte,NhanVienYtesvc>()
+                .AddScoped<INguoiDung,NguoiDungsvc>()
+                .AddScoped<IChuyenKhoa, ChuyenKhoasvc>();
+
+           
                 .AddScoped<ITiepNhan, PhieuDatLichSvc>();
                 
+
 
 
 

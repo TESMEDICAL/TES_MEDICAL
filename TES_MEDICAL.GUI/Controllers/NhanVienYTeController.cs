@@ -1,5 +1,4 @@
-
-using TES_MEDICAL.GUI.Interfaces;
+﻿using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
@@ -9,34 +8,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
-
 namespace TES_MEDICAL.GUI.Controllers
 {
-
-    public class ThuocController : Controller
+    public class NhanVienYTeController : Controller
     {
-        private readonly IThuoc _service;
-        public ThuocController(IThuoc service)
+        private readonly INhanVienYte _service;
+        public NhanVienYTeController(INhanVienYte service)
         {
             _service = service;
         }
 
-        public async Task<IActionResult> Index(ThuocSearchModel model)
+        public async Task<ActionResult> Index(NhanVienYteSearchModel model)
         {
 
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
+            ViewBag.ChuyenKhoa = _service.ChuyenKhoaNav();
+
 
             ViewBag.Names = listPaged;
             ViewBag.Data = model;
-            return View(new ThuocSearchModel());
+            return View(new NhanVienYteSearchModel());
         }
 
-
         [HttpGet]
-
-        public async Task<IActionResult> PageList(ThuocSearchModel model)
+        public async Task<ActionResult> PageList(NhanVienYteSearchModel model)
         {
 
             var listmodel = await _service.SearchByCondition(model);
@@ -59,23 +55,21 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
 
-
         }
 
-
-        public async Task<IActionResult> Add()
+        public async Task<ActionResult> Add()
         {
+            ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK");
 
-             return PartialView("_partialAdd", new Thuoc());
+            return PartialView("_partialAdd", new NhanVienYte());
 
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(Thuoc model)
+        public async Task<ActionResult> Add(NhanVienYte model)
         {
 
-            model.MaThuoc = Guid.NewGuid();
+            model.MaNV = Guid.NewGuid();
             if (await _service.Add(model) != null)
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
@@ -83,40 +77,45 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
-        [HttpGet]
 
-        public async Task<IActionResult> Edit(Guid id)
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(Guid id)
         {
-            if (await _service.Get(id) == null)
+            var item = await _service.Get(id);
+            if (item == null)
             {
                 return NotFound(); ;
             }
             else
             {
+                ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK", item.ChuyenKhoa);
 
-                return PartialView("_partialedit", await _service.Get(id));
+
+                return PartialView("_partialedit", item);
             }
 
         }
+
         [HttpGet]
-        public async Task<IActionResult> Detail(Guid id)
+        public async Task<ActionResult> Detail(Guid id)
         {
-            if (await _service.Get(id) == null)
+            var item = await _service.Get(id);
+            if (item == null)
             {
                 return NotFound(); ;
             }
             else
             {
+                ViewBag.ChuyenKhoa = new SelectList(_service.ChuyenKhoaNav(), "MaCK", "TenCK", item.ChuyenKhoa);
 
 
-                return PartialView("_partialDetail", await _service.Get(id));
+                return PartialView("_partialDetail", item);
             }
         }
-
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Thuoc model)
+        public async Task<ActionResult> Edit(NhanVienYte model)
         {
 
             if (await _service.Edit(model) != null)
@@ -124,18 +123,32 @@ namespace TES_MEDICAL.GUI.Controllers
             else
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
 
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
+
+
+
+        public IActionResult ThemNvYTe()
+        {
+            return PartialView("_AddNhanVienYTe");
+        }
+
+        public IActionResult EditNhanVienYTe()
+        {
+            return PartialView("_EditNhanVienYTe");
+        }
+
+        public IActionResult DetailNhanVienYTe()
+        {
+            return PartialView("_DetailNhanVienYTe");
+        }
     }
 }
-
-

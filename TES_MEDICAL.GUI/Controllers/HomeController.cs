@@ -70,6 +70,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
+
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
         {
             var model = await _service.GetPhieuDat(MaPhieu);
