@@ -14,7 +14,7 @@ namespace TES_MEDICAL.GUI.Helpers
     {
         public static string GetUniqueKey()
         {
-            int maxSize = 8;
+            int maxSize = 3;
             char[] chars = new char[62];
             string a;
             a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
