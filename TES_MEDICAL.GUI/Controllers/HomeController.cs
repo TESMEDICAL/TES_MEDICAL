@@ -5,8 +5,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
@@ -20,6 +22,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICustomer _service;
         private readonly IValidate _valid;
+        
         private IHubContext<SignalServer> _hubContext;
 
         public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext)
@@ -59,7 +62,12 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (result != null)
                 {
 
+                  
+                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
+
+
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
+
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
@@ -86,6 +94,26 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        private string message(PhieuDatLich model)
+        {
+            var request = HttpContext.Request;
+            var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
+            {
+                string readFile = reader.ReadToEnd();
+                string StrContent = string.Empty;
+                StrContent = readFile;
+                //Assing the field values in the template
+                StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
+                StrContent = StrContent.Replace("{UrlResult}", _baseURL);
+                //Url.Action("ResultDatLich", "Home", new { maPhieu = HttpUtility.UrlEncode(model.MaPhieu) }, _baseURL);
+                return StrContent.ToString();
+            }
+
         }
     }
 }
