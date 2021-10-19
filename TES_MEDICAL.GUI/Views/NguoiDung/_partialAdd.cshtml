@@ -1,0 +1,93 @@
+
+
+@model TES_MEDICAL.GUI.Models.NguoiDung
+
+<h4>Tạo mới</h4>
+<hr />
+<div>
+    @using (Html.BeginForm(null, null, FormMethod.Get, new { @class="d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+         
+        <div class="text-danger"></div>
+                 
+        
+                                              <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.MatKhau, "MatKhau", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.HoTen, "HoTen", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.SDT, "SDT", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.HinhAnh, "HinhAnh", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        <div class="form-group col-4"> 
+              @Html.LabelFor(model => model.ChucVu, "ChucVu", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                    
+                                                        
+                <div class="form-group form-check col-6">
+                   
+                   <label class="form-check-label">
+                        @Html.CheckBoxFor(model=>model.TrangThai) TrangThai
+                   </label>
+                  </div>
+                   
+                         
+
+
+  
+
+    }
+     
+
+
+
+            
+</div>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+                                                                                                                                                        
+    });
+</script>
+
