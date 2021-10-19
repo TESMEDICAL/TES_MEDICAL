@@ -1,93 +1,56 @@
-
-
-
 @model IPagedList<NguoiDung>
 
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
+
+
 <div id="list" >
    
     <div style="min-height:400px">
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
             <thead class="bg-success">
-                <tr>
-                                                                                                                                                                                                       
+                <tr>                                                                                                                                                                                                      
                     <th>
-                    
-                        HoTen
+                        Họ tên
+                    </th>
+                                                                      
+                    <th>                   
+                        Số điện thoại
                     </th>
                                                                        
-                    <th>
-                    
-                        SDT
+                    <th>                   
+                        Hình ảnh
                     </th>
                                                                        
-                    <th>
-                    
-                        HinhAnh
+                    <th>                    
+                        Chức vụ
                     </th>
                                                                        
-                    <th>
-                    
-                        ChucVu
-                    </th>
-                                                                       
-                    <th>
-                    
-                        TrangThai
+                    <th>                    
+                        Trạng thái
                     </th>
                                                               
-                    <th>ACTION</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<NguoiDung>)
                 {
                     <tr>
-                                                                      
+                        <td>@item.HoTen</td>
 
-                     
-                                                                          
+                        <td>@item.SDT</td>
 
-                     
-                                                                          
+                        <td>@item.HinhAnh</td>
 
-                     
-                                                                                  
-                                                  <td>@item.HoTen</td>
-                                                    
-                                             
 
-                     
-                                                                                  
-                                                  <td>@item.SDT</td>
-                                                    
-                                             
+                        <td>@item.ChucVu</td>
 
-                     
-                                                                                  
-                                                  <td>@item.HinhAnh</td>
-                                                    
-                                             
 
-                     
-                                                                                  
-                                                  <td>@item.ChucVu</td>
-                                                    
-                                             
+                        <td>@item.TrangThai</td>
 
-                     
-                                                                                  
-                                                  <td>@item.TrangThai</td>
-                                                    
-                                             
-
-                     
-                                                                              <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
-                                                   
+                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                     </tr>
                 }
             </tbody>
@@ -96,32 +59,32 @@
     
     
     <div class="text-right">
-      
-                        @{ 
-                            var pageRender = new PagedListRenderOptions
-                            {
-                               MaximumPageNumbersToDisplay = 5,
-                                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-                                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                                DisplayLinkToNextPage = PagedListDisplayMode.Always,
-                                DisplayPageCountAndCurrentLocation = false,
-                                UlElementClasses = new[] { "pagination" },
-                                LiElementClasses = new string[] { "page-item" },
-                                PageClasses = new string[] { "page-link" },
+        @{
+            var pageRender = new PagedListRenderOptions
+            {
+                MaximumPageNumbersToDisplay = 5,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayPageCountAndCurrentLocation = false,
+                UlElementClasses = new[] { "pagination" },
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
 
 
-                                ContainerDivClasses = new[] { "pagination-container" }
+                ContainerDivClasses = new[] { "pagination-container" }
 
 
-                            };
-                         } 
-         @{ 
+            };
+        }
+
+        @{
             var searchModel = ViewBag.Data as NguoiDungSearchModel;
         }
-       
-             
-        @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page , HoTenSearch  = searchModel.HoTenSearch,   SDTSearch  = searchModel.SDTSearch,  TrangThaiSearch  = searchModel.TrangThaiSearch   }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+
+
+        @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page, HoTenSearch = searchModel.HoTenSearch, SDTSearch = searchModel.SDTSearch, TrangThaiSearch = searchModel.TrangThaiSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
    
 
