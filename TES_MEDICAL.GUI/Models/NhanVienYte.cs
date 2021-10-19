@@ -22,6 +22,7 @@ namespace TES_MEDICAL.GUI.Models
         public string EmailNV { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập mật khẩu")]
+        [DataType(DataType.Password)]
         public string MatKhau { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập lại mật khẩu")]

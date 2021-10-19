@@ -16,7 +16,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task <NhanVienYte> Edit(NhanVienYte model);
         Task <bool> Delete(Guid Id);
         Task <IPagedList<NhanVienYte>> SearchByCondition(NhanVienYteSearchModel model);
-        IEnumerable<ChuyenKhoa>ChuyenKhoaNav();
+        //IEnumerable<ChuyenKhoa>ChuyenKhoaNav();
         
     }
 }

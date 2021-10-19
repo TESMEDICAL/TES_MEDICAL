@@ -142,10 +142,10 @@ namespace TES_MEDICAL.GUI.Services
             
          
         }
-                 public  IEnumerable<ChuyenKhoa> ChuyenKhoaNav()
-        {
-            return _context.ChuyenKhoa.ToList();
-        }
+        //         public  IEnumerable<ChuyenKhoa> ChuyenKhoaNav()
+        //{
+        //    return _context.ChuyenKhoa.ToList();
+        //}
 
                  
        
