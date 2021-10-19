@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using System.IO;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -72,16 +71,53 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
        
 
-        public async Task <ActionResult> Add( NguoiDung model)
+        public async Task <ActionResult> Add([Bind("Email,MatKhau,ConfirmPassword,HoTen,SDT,HinhAnh,ChucVu,TrangThai")] NguoiDung model, [FromForm] IFormFile file)
         {
-         
-                             model.MaNguoiDung = Guid.NewGuid();
-                             if (await _service.Add(model) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            string filePath = "";
+            //IFormFile file = HttpContext.Request.Form.Files[0];
+            var filePathDefault = "final.png";
+
+            if (file == null)
+            {
+                model.HinhAnh = filePathDefault;
+            }
             else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-           
+            {
+                //file = HttpContext.Request.Form.Files[0];
+                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
             
+            model.MaNguoiDung = Guid.NewGuid();
+            
+
+            if (await _service.Add(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
+                
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+
+            //model.MaNguoiDung = Guid.NewGuid();
+            //if (await _service.Add(model) != null)
+            //    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            //else
+            //    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
+
         } 
         [HttpGet]
        

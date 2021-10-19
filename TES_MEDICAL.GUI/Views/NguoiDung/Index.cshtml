@@ -107,13 +107,27 @@
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    //var obj = $("#frm").serializeObject();
+                    var formData = new FormData();
+                    var fileUpload = $("#upload-back").get(0);
+                    var file = fileUpload.files[0];
 
+                    formData.append("file", file);
+                    formData.append('MaNguoiDung', $("#MaNguoiDung").val());
+                    formData.append('Email', $("#Email").val());
+                    formData.append('MatKhau', $("#MatKhau").val());
+                    formData.append('ConfirmPassword', $("#ConfirmPassword").val());
+                    formData.append('HoTen', $("#HoTen").val());
+                    formData.append('SDT', $("#SDT").val());
+                    formData.append('ChucVu', $("#ChucVu").val());
+                    formData.append('TrangThai', $("#TrangThai").val());
 
                     $.ajax({
                         type: "POST",
                         url: "/NguoiDung/Add",
-                        data: obj,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
