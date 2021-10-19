@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,18 +22,18 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IValidate _valid;
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid,  IHubContext<SignalServer> hubContext)
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext)
         {
             _logger = logger;
             _service = service;
             _valid = valid;
             _hubContext = hubContext;
-           
+
         }
 
         public IActionResult Index()
         {
-            
+
             return View();
         }
 
@@ -43,21 +44,22 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult DatLich()
         {
-            
+
 
             return View();
         }
-       
+
         [HttpPost]
         public async Task<IActionResult> DatLich(PhieuDatLich model)
         {
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
-
-                if (await _service.DatLich(model) != null)
+                var result = await _service.DatLich(model);
+                if (result != null)
                 {
-                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Có 1 lịch đặt mới");
+
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
                 }
             }
@@ -67,7 +69,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
 
-     
+
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
         {
             var model = await _service.GetPhieuDat(MaPhieu);

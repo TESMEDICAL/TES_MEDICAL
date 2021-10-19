@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TES_MEDICAL.GUI.Helpers
@@ -28,6 +29,12 @@ namespace TES_MEDICAL.GUI.Helpers
             { result.Append(chars[b % (chars.Length - 1)]); }
             result.Append(DateTime.Now.ToString().GetHashCode().ToString("x"));
             return result.ToString();
+        }
+        public static string convertToUnSign3(string s)
+        {
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string temp = s.Normalize(NormalizationForm.FormD);
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
     }
 }

@@ -21,11 +21,11 @@ namespace TES_MEDICAL.GUI.Models
         public string TenBN { get; set; }
         [DataType(DataType.Date, ErrorMessage = "Ngày không hợp lệ")]
         [Required(ErrorMessage = "Bạn cần chọn ngày sinh")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+       
         public DateTime? NgaySinh { get; set; }
         [DataType(DataType.DateTime, ErrorMessage = "Ngày không hợp lệ")]
         [Required(ErrorMessage = "Bạn cần chọn ngày khám")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        
 
         public DateTime? NgayKham { get; set; }
 
