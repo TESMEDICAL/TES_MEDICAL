@@ -24,6 +24,16 @@
     <None Include="Views\ChuyenKhoa\_partialedit.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\NguoiDung\Index.cshtml" />
+    <None Include="Views\NguoiDung\_NameListPartial.cshtml" />
+    <None Include="Views\NguoiDung\_partialAdd.cshtml" />
+    <None Include="Views\NguoiDung\_partialDetail.cshtml" />
+    <None Include="Views\NguoiDung\_partialedit.cshtml" />
+    <None Include="Views\NhanVienYte\Index.cshtml" />
+    <None Include="Views\NhanVienYte\_NameListPartial.cshtml" />
+    <None Include="Views\NhanVienYte\_partialAdd.cshtml" />
+    <None Include="Views\NhanVienYte\_partialDetail.cshtml" />
+    <None Include="Views\NhanVienYte\_partialedit.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />

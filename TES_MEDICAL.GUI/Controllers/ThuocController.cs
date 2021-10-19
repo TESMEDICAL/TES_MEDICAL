@@ -66,11 +66,11 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> Add()
         {
 
-            return PartialView("_partialAdd", new Thuoc());
+             return PartialView("_partialAdd", new Thuoc());
 
         }
-        [HttpPost]
 
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model)
         {

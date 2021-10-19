@@ -117,7 +117,7 @@ namespace TES_MEDICAL.GUI.Services
 
                         else
                         {
-                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh,item.TenTrieuChung);
+                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh);
 
 
                             exist.TenTrieuChung = item.TenTrieuChung;

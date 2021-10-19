@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TES_MEDICAL.GUI.Models
 {
-    public partial class PhieuDatLich : IValidatableObject
+    public partial class PhieuDatLich
     {
-        public string MaPhieu { get; set; }
+       public string MaPhieu { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
         public string SDT { get; set; }
@@ -38,5 +37,6 @@ namespace TES_MEDICAL.GUI.Models
                     new[] { nameof(NgayKham) });
             }
         }
+        
     }
 }

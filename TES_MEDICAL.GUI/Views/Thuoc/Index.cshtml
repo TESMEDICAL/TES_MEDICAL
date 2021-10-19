@@ -1,5 +1,3 @@
-KD
-
 @model TES_MEDICAL.GUI.Models.ThuocSearchModel
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
@@ -112,9 +110,7 @@ KD
                 $("#btSave").click(function () {
 
                     if ($("#frm").valid()) {
-                        var obj = $("#frm").serialize()();
-
-
+                        var obj = $("#frm").serialize();
                         $.ajax({
                             type: "POST",
                             url: "/Thuoc/Add",
