@@ -42,7 +42,7 @@
                         <td></td>
                         <td>Ngày khám</td>
                         <th>
-                            <input placeholder="Ngày khám" class="textbox-n" asp-format="{0:dd/MM/yyyy HH:mm}" type="text" onfocus="(this.type='datetime-local')" asp-for="@Model.NgayKham">
+                            <input  class="textbox-n"  type="text" onfocus="(this.type='datetime-local')" value="@Model.NgayKham?.ToString("MM/dd/yyyy HH:mm")" asp-for="@Model.NgayKham">
                         </th>
                         <td></td>
                     </tr>

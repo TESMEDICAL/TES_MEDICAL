@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +13,32 @@ namespace TES_MEDICAL.GUI.Controllers
     public class TiepNhanController : Controller
     {
         private readonly ITiepNhan _service;
-        public TiepNhanController(ITiepNhan service)
+        private readonly IChuyenKhoa _chuyenkhoaRep;
+       
+        public TiepNhanController(
+            ITiepNhan service,
+            IChuyenKhoa chuyenKhoaRep
+            
+            
+            )
         {
             _service = service;
+            _chuyenkhoaRep = chuyenKhoaRep;
+            
         }
         public IActionResult Index()
         {
             return View("ThemPhieuKham");
         }
+        
+        public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
 
-        public IActionResult ThemPhieuKham()
         {
-            ViewBag.Current = "themphieukham";
+            ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
+            var model = await _service.GetPhieuDatLichById(MaPhieu);
+            if(!string.IsNullOrWhiteSpace(MaPhieu))
+
+            ViewBag.BenhNhan = new BenhNhan { HoTen = model.TenBN, NgaySinh = model.NgaySinh, SDT = model.SDT, Email = model.Email };
             return View();
         }
 
@@ -38,10 +54,10 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_XacNhanDichVu");
         }
 
-        public async Task<IActionResult> QuanLyDatLich()
+        public IActionResult QuanLyDatLich()
         {
-            var listDatLich = await _service.GetAllPhieuDatLich();
-            return View(listDatLich);
+           
+            return View();
         }
 
         public IActionResult CapNhatDichVu()
@@ -58,14 +74,15 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (await _service.GetPhieuDatLichById(id) == null)
+            var result = await _service.GetPhieuDatLichById(id);
+            if (result == null)
             {
                 return NotFound(); ;
             }
             else
             {
 
-                return PartialView("_PartialViewEditLich", await _service.GetPhieuDatLichById(id));
+                return PartialView("_PartialViewEditLich", result);
             }
 
         }
@@ -87,7 +104,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ReloadPage()
         {
             var listDatLich = await _service.GetAllPhieuDatLich();
-            return PartialView("_PartialReloadPage",listDatLich);
+            return Json(listDatLich, new JsonSerializerSettings());
         }
 
     }

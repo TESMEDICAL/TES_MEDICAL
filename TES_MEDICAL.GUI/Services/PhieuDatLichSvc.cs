@@ -45,6 +45,11 @@ namespace TES_MEDICAL.GUI.Services
             return await _context.PhieuDatLich.ToListAsync();
         }
 
+        public async Task<IEnumerable<ChuyenKhoa>> GetListCK()
+        {
+            return await _context.ChuyenKhoa.ToListAsync();
+        }
+
         public async Task<PhieuDatLich> GetPhieuDatLichById(string id)
         {
             return await _context.PhieuDatLich.FindAsync(id);

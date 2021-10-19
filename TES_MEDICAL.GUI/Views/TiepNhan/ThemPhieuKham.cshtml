@@ -1,7 +1,16 @@
-﻿
+﻿@model PhieuKham
 @{
     ViewData["Title"] = "ThemPhieuKham";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+    var bn = new BenhNhan();
+    if(ViewBag.BenhNhan!=null)
+    {
+        bn = ViewBag.BenhNhan as BenhNhan;
+    }
+   
+
+    var NgaySinh = bn.NgaySinh?.ToString("yyyy-MM-dd");
+
 }
 
 <style>
@@ -30,10 +39,10 @@
             <form action="page_forms_general.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten" class="col-form-label">Họ tên</label>
+                        <label for="Hoten"  class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-10">
-                        <input type="text" id="" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        <input type="text" value="@(bn.HoTen??"")" class="form-control" placeholder="Vui lòng nhập họ tên">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -41,7 +50,7 @@
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
                     <div class="col-10">
-                        <input type="number" id="" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <input type="number" value="@(bn.SDT??"")" id="" class="form-control" placeholder="Vui lòng nhập số điện thoại">
                     </div>
                 </div>
 
@@ -50,7 +59,7 @@
                         <label for="Hoten" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" id="" class="form-control">
+                        <input type="date" value="@(NgaySinh)" id="" class="form-control">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -100,11 +109,10 @@
                 <div class="form-group row">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Chuyên khoa</label>
-                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
-                            <option value="1">Khoa phổi</option>
-                            <option value="2">Khoa nội</option>
-
+                        <select id="MaCK" style="font-size: 13px;" class="form-select"  asp-items="@ViewBag.ListCK">
+                           
                         </select>
+                        
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Bác sĩ</label>
@@ -241,6 +249,7 @@
         });
     }
 
+    
     //Hàm mở modal của nút xác nhận
     function OpenXacNhanDV() {
         $.ajax({

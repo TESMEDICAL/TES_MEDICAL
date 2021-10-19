@@ -23,7 +23,7 @@ namespace TES_MEDICAL.GUI.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Bạn cần chọn ngày sinh")]
-        public DateTime NgaySinh { get; set; }
+        public DateTime? NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Bạn cần chọn giới tính")]
         public bool GioiTinh { get; set; }

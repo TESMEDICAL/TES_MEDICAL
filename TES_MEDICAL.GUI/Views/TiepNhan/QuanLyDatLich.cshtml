@@ -6,9 +6,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
 
-<link rel="stylesheet" href="~/css/toastr.css" />
+
 
 
 <style>
@@ -16,61 +16,10 @@
         text-decoration: none !important
     }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-<!-- Font Awesome Icons -->
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!-- overlayScrollbars -->
 
 <div class="col-12" id="listLich">
-    @*<div class="block">
-        <div style="float:left;">
-            <input placeholder="Tìm kiếm theo tên">
-            <input style="margin-left:5px" placeholder="Tìm kiếm theo SĐT">
-            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-        </div>
 
-        <div class="form-group" style="float:right">
-            <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-sync text-white"></i>  Làm mới</button><br />
-            <input type="checkbox" style="margin-top:25px" /> Hiển thị tất cả
-
-        </div>*@
-
-    @*<div class="form-group">*@
-    <table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%">
-        <thead>
-            <tr>
-                <th style="text-align:center">Tên bệnh nhân</th>
-                <th style="text-align:center">Ngày sinh</th>
-
-                <th style="text-align:center">Số điện thoại</th>
-                <th style="text-align:center">Ngày khám</th>
-
-                <th style="text-align:center">Thao tác</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.TenBN</td>
-                    <td>@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
-                    <td>@item.SDT</td>
-                    <td>@item.NgayKham</td>
-                    <td class="text-nowrap">
-                        <a onclick="OpenEditDatLich('@item.MaPhieu')" class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></a>
-                        <a onclick="OpenChiTietDatLich('@item.MaPhieu')"  class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                    </td>
-                </tr>
-            }
-
-
-        </tbody>
-
-    </table>
+    <div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>
 
     @*</div>*@
 
@@ -81,57 +30,37 @@
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content"  id="myModalContent">
 
-            <div class="modal-header">
+          
 
-                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-            </div>
-            <div class="modal-body">
-
-                <div id="myModalContent">
-
-                </div>
-            </div>
-
-
-            <div class="modal-footer">
-                <div class="text-right">
-                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="far fa-print"></i>&nbsp;Cập nhật</button>
-
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                </div>
-            </div>
+                
+         
         </div>
 
     </div>
 </div>
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="~/js/datetime.js"></script>
+
+   
     <script>
-        $('#ListTable').DataTable({
-            "order": [[3, "asc"]],
-            "language": {
-                "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
-                "zeroRecords": "Không có kết quả",
-                "info": "Trang: _PAGE_ / _PAGES_",
-                "infoEmpty": "Không có yêu cầu nào",
-                "infoFiltered": "(filtered from _MAX_ total records)",
-                "search": "Tìm:",
-                "paginate": {
-                    "first": "Trang đầu",
-                    "last": "Trang cuối",
-                    "next": ">",
-                    "previous": "<"
-                },
-            }
-        });
-        //Hàm mở modal của Chi tiết Toa Thuốc
-        function OpenChiTietDatLich(_id) {
+        var table;
+        var obj = {};
+        $(document).ready(
+
+            function () {
+
+                ReloadPage();
+             
+            });
+       
+        ////Hàm mở modal của Chi tiết đặt lịch
+        function Detail(_id) {
             $.ajax({
                 url: "/TiepNhan/ChiTietDatLich/",
                 type: 'GET',
@@ -147,8 +76,8 @@
                 }
             });
         }
-
-        function OpenEditDatLich(_id) {
+        //Mở modal edit đặt lịch
+        function Edit(_id) {
             $.ajax({
                 url: "/TiepNhan/Edit/",
                 type: 'GET',
@@ -176,6 +105,7 @@
             if ($("#frm").valid()) {
 
                 var obj = $("#frm").serialize();
+                console.log(new Date(obj.NgayKham))
                 $.ajax({
                     type: "POST",
                     url: "/TiepNhan/Edit",
@@ -185,28 +115,13 @@
                         $('#preloader-wrapper').toggleClass('hide');
                         if (result.status >= 1) {
                             toastr.success(result.text);
-                            ReloadPage();
-                            $('#ListTable').DataTable({
-                                "order": [[3, "asc"]],
-                                "language": {
-                                    "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
-                                    "zeroRecords": "Không có kết quả",
-                                    "info": "Trang: _PAGE_ / _PAGES_",
-                                    "infoEmpty": "Không có yêu cầu nào",
-                                    "infoFiltered": "(filtered from _MAX_ total records)",
-                                    "search": "Tìm:",
-                                    "paginate": {
-                                        "first": "Trang đầu",
-                                        "last": "Trang cuối",
-                                        "next": ">",
-                                        "previous": "<"
-                                    },
-                                }
-                            });
+                            ReloadPage()
+                           
                         }
                         else {
                             toastr.warning(result.text);
                         }
+                        ReloadPage();
                     },
                     error: function (errormessage) {
                         alert(errormessage.responseText);
@@ -218,16 +133,73 @@
 
             }
         });
+       
 
         function ReloadPage() {
+            $('#listLich').html('<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>')
+            
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
                 type: "GET",
                 timeout: 20000,
                 async: false,
+                dataType: "json",
                 success: function (result) {
+                    $('#listLich').html('<table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%"></table >')
+                    table =  $('#ListTable').DataTable({
+                        destroy: true,
+                        data: result,
+                        columns: [
+                            { data: 'TenBN', title: 'Tên bệnh nhân' },
+                            { data: 'NgaySinh', title: 'Ngày sinh' },
+                            { data: 'SDT', title: 'Số điện thoại' },
+                            { data: 'NgayKham', title: 'Ngày khám' },
+                            {
+                                title:'Thao tác',
+                                data: null,
+                                render: function (data) {
+                                    return `<a onclick =Edit('${data.MaPhieu}') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick = Detail('${data.MaPhieu}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`;
+                                }
+                            },
+                            {
+                                visible: false,
+                                title:'Khong dau',
+                                data: null,
+                                render: function (data) {
+                                    return accents_supr(data.TenBN);
+                                }
+                            }
 
-                    $('#listLich').html(result);
+                        ],
+                        "order": [[3, "asc"]],
+                        "language": {
+                            "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                            "zeroRecords": "Không có kết quả",
+                            "info": "Trang: _PAGE_ / _PAGES_",
+                            "infoEmpty": "Không có yêu cầu nào",
+                            "infoFiltered": "(filtered from _MAX_ total records)",
+                            "search": "Tìm: ",
+                            "paginate": {
+                                "first": "Trang đầu",
+                                "last": "Trang cuối",
+                                "next": ">",
+                                "previous": "<"
+                            },
+                        },
+                        columnDefs: [
+                            {
+                            targets: 1,
+                            render: $.fn.dataTable.render.moment("YYYY-MM-DDTHH:mm:ss.sssZ",'DD/MM/YYYY')
+                            },
+                            {
+                                targets: 3,
+                                render: $.fn.dataTable.render.moment("YYYY-MM-DDTHH:mm:ss.sssZ", 'DD/MM/YYYY HH:mm')
+                            }
+
+
+                        ]
+
+                    });
 
                 },
                 error: function (errormessage) {
@@ -236,6 +208,46 @@
 
             });
         }
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalServer")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        // Start the connection.
+        start();
+
+
+        connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
+
+            toastr.success("Có một lịch đặt mới");
+            table.row.add({
+                'TenBN': Ten,
+                'NgaySinh': NgaySinh,
+                'SDT': SDT,
+                'NgayKham': NgayKham,
+                'Khong dau': accents_supr(Ten),
+                'Thao tác': `<a onclick =Edit('${MaPhieu}') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick = Detail('${MaPhieu}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`
+            }).draw(false);
+
+
+        });
+
+        
+      
     </script>
 }
 
