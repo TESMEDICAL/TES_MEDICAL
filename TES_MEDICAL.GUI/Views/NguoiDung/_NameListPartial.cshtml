@@ -47,7 +47,16 @@
                         </td>
 
 
-                        <td>@item.ChucVu</td>
+                        <td>
+                            @if (item.ChucVu == 1)
+                            {
+                                @("Admin")
+                            }
+                            else
+                            {
+                                @("User")
+                            }
+                        </td>
 
 
                         <td>@item.TrangThai</td>

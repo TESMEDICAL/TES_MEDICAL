@@ -68,9 +68,8 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_partialAdd",new NguoiDung() );
 
         }
-        [HttpPost]
-       
 
+        [HttpPost]
         public async Task <ActionResult> Add([Bind("Email,MatKhau,ConfirmPassword,HoTen,SDT,HinhAnh,ChucVu,TrangThai")] NguoiDung model, [FromForm] IFormFile file)
         {
             string filePath = "";

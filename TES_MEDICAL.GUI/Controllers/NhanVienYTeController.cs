@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.IO;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -68,15 +69,42 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(NhanVienYte model)
+        public async Task<ActionResult> Add([Bind("EmailNV,MatKhau,ConfirmPassword,HoTen,SDTNV,ChucVu,TrangThai,Hinh,ChuyenKhoa")] NhanVienYte model, [FromForm] IFormFile file)
         {
+            string filePath = "";
+            var filePathDefault = "final.png";
+
+            if (file == null)
+            {
+                model.Hinh = filePathDefault;
+            }
+            else
+            {
+                //model.Hinh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                model.Hinh = fileName;
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
 
             model.MaNV = Guid.NewGuid();
-            if (await _service.Add(model) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
 
+            if (await _service.Add(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }              
 
         }
 
@@ -117,13 +145,32 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(NhanVienYte model)
+        public async Task<ActionResult> Edit(NhanVienYte model, [FromForm] IFormFile file)
         {
+            string filePath = "";
+            if (file != null)
+            {
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                model.Hinh = fileName;
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
 
             if (await _service.Edit(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
             else
+            {
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+                
 
         }
 

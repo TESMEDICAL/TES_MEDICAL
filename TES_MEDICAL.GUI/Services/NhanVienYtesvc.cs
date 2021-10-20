@@ -89,7 +89,7 @@ namespace TES_MEDICAL.GUI.Services
 
                 var existingNhanVienYte = _context.NhanVienYte.Find(model.MaNV);
                                      existingNhanVienYte.EmailNV = model.EmailNV;
-                                       existingNhanVienYte.MatKhau = model.MatKhau;
+                                       //existingNhanVienYte.MatKhau = model.MatKhau;
                                        existingNhanVienYte.HoTen = model.HoTen;
                                        existingNhanVienYte.SDTNV = model.SDTNV;
                                        existingNhanVienYte.ChucVu = model.ChucVu;

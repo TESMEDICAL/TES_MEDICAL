@@ -20,6 +20,13 @@
                     </div>
                 </div>
 
+                <div class="form-group col-4" style="display:none">
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Hinh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Hinh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
                 <div class="form-group col-md-6">
                     @Html.LabelFor(model => model.EmailNV, "Email nhân viên", htmlAttributes: new { @class = "control-label col-md-6" })
                     <div class="col-12">
@@ -45,22 +52,6 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.MatKhau, "Mật khẩu", htmlAttributes: new { @class = "control-label col-md-6" })
-                    <div class="col-12">
-                        @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.ConfirmPassword, "Mật khẩu xác nhận", htmlAttributes: new { @class = "control-label col-12" })
-                    <div class="col-12">
-                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "control-label col-md-6" })
                     <div class="col-12">
                         @*@Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "form-control" } })*@
@@ -82,7 +73,7 @@
                     </div>
                 </div>
 
-                <div class="form-group form-check col-md-4">
+                <div class="form-group form-check col-md-12">
                     <label class="form-label">Trạng thái</label>
                     <div>
                         <label class="form-check-label">
@@ -99,8 +90,15 @@
             <div class="form-group col-12">
                 @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Hinh, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.EditorFor(model => model.Hinh, new { htmlAttributes = new { @class = "form-control" } })*@
                     @Html.ValidationMessageFor(model => model.Hinh, "", new { @class = "text-danger" })
+
+                    <label class="btn btn-success">
+                        <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
+                    </label>
+                    <div id="image-holder2" class="pt-2">
+                        <img src="~/images/@Model.Hinh" style='width: 100%'>
+                    </div>
                 </div>
             </div>
 
@@ -116,7 +114,22 @@
 
     $(document).ready(function () {
        
-                                                                                                                                                            });
+
+    });
+
+    $('#upload-back').change(function (e) {
+        var self = this;
+
+        var file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+
+            var img = "<img src='" + reader.result + "' style='width: 100%'/>"
+            $('#image-holder2').html(img);
+        };
+        reader.readAsDataURL(file);
+
+    });
 </script>
 
 

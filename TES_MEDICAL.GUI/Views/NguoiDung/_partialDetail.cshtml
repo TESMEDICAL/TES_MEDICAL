@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-sm-9">
         <div class="m-1">
-            <div class="col-12 row">
+            <div class="col-12 row ">
                 <div class="col-4" style="font-weight:bold!important">
                     Email
                 </div>
@@ -16,7 +16,6 @@
                     @Html.DisplayFor(model => model.Email)
                 </div>
             </div>
-
             <div class="col-12 row">
                 <div class="col-4" style="font-weight:bold!important">
                     Họ tên
@@ -62,12 +61,9 @@
 
     <!--Phần hình ảnh-->
     <div class="col-sm-3">   
-            <div class="col-4" style="font-weight:bold!important">
-                Hình ảnh
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.HinhAnh)
-            </div>
+            <img src="~/images/@Model.HinhAnh"  style="width:100px" />
+                @*@Html.DisplayFor(model => model.HinhAnh)*@
+            
     </div>
 </div>
 </div>

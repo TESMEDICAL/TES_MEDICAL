@@ -49,11 +49,26 @@
 
                         <td>@item.SDTNV</td>
 
-                        <td>@item.ChucVu</td>
+                        <td>
+                            @if (item.ChucVu == 1)
+                            {
+                                @("Nhân viên y tế")
+                            }
+                            else if (item.ChucVu == 2)
+                            {
+                                @("Bác sĩ")
+                            }
+                            else
+                            {
+                                @("Dược sĩ")
+                            }
+                        </td>
 
                         <td>@item.TrangThai</td>
 
-                        <td>@item.Hinh</td>
+                        <td>
+                            <img src="~/images/@item.Hinh" style="width:100px" />
+                        </td>
 
                         <td>@item.ChuyenKhoaNavigation.TenCK</td>
 
