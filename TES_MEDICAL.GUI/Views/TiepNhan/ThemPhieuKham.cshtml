@@ -1,29 +1,22 @@
-﻿@model PhieuKham
+﻿@model PhieuKhamViewModel
 @{
     ViewData["Title"] = "ThemPhieuKham";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
     var bn = new BenhNhan();
-    if(ViewBag.BenhNhan!=null)
+    if (ViewBag.BenhNhan != null)
     {
         bn = ViewBag.BenhNhan as BenhNhan;
     }
-   
+
 
     var NgaySinh = bn.NgaySinh?.ToString("yyyy-MM-dd");
 
 }
 
 <style>
-    .modal-fullscreen {
-        max-width: none !important;
-        height: 500px !important;
-        /*margin: 0 !important;*/
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
 </style>
 
-<div class="row">
+<form class="row" id="frm">
     <div class="col-md-6">
         <!-- Basic Form Elements Block -->
         <div class="block">
@@ -36,13 +29,13 @@
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <form action="page_forms_general.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+            <div  class="form-horizontal form-bordered">
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten"  class="col-form-label">Họ tên</label>
+                        <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-10">
-                        <input type="text" value="@(bn.HoTen??"")" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -50,16 +43,16 @@
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
                     <div class="col-10">
-                        <input type="number" value="@(bn.SDT??"")" id="" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <input type="number" asp-for="SDT"  class="form-control" placeholder="Vui lòng nhập số điện thoại">
                     </div>
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten" class="col-form-label">Ngày sinh</label>
+                        <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" value="@(NgaySinh)" id="" class="form-control">
+                        <input type="date" value="@(NgaySinh)" asp-for="NgaySinh"  class="form-control">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -71,9 +64,9 @@
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
                         </select> -->
-                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
+                        <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
+                            <option value="0">Nam</option>
+                            <option value="1">Nữ</option>
 
                         </select>
                     </div>
@@ -81,13 +74,13 @@
 
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten" class="col-form-label">Địa chỉ</label>
+                        <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
                     <div class="col-10">
-                        <textarea type="textarea" id="" class="form-control"></textarea>
+                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
                     </div>
                 </div>
-            </form>
+            </div>
             <!-- END Basic Form Elements Content -->
         </div>
         <!-- END Basic Form Elements Block -->
@@ -105,38 +98,37 @@
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <form enctype="multipart/form-data" class="form-horizontal form-bordered p-0" onsubmit="return false;">
+            <div  class="form-horizontal form-bordered p-0">
                 <div class="form-group row">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Chuyên khoa</label>
-                        <select id="MaCK" style="font-size: 13px;" class="form-select"  asp-items="@ViewBag.ListCK">
-                           
+                        <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
+                            <option value="">Chọn chuyên khoa</option>
                         </select>
-                        
+
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Bác sĩ</label>
-                        <select style="font-size: 13px;" class="form-select" id="specificSizeSelect">
-                            <option value="1">Cao Tân Lộc</option>
-                            <option value="2">Đinh Ngọc Thắng</option>
+                        <select style="font-size: 13px;" class="form-select" asp-for="MaBS">
+                            <option value="">Chọn bác sĩ</option>
 
                         </select>
                     </div>
                     <div class="col-12">
                         <div class="col-2">
-                            <label for="Hoten" class="col-form-label">Triệu chứng</label>
+                            <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         </div>
                         <div class="col-12">
-                            <textarea type="textarea" id="" class="form-control" style="height: 128px;"></textarea>
+                            <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
                         </div>
 
                     </div>
                 </div>
-                
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 <div class="col-12">
     <div class="block">
@@ -146,7 +138,7 @@
 
         </div>
         <div class="form-group">
-            <table class=" table table-striped">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">STT</th>
@@ -155,37 +147,15 @@
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="listDV">
+
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Khám tổng quát</td>
-                        <td>150.000 VNĐ</td>
+
                         <td>
-                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
-                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                            Chưa có dịch vụ nào
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Khám tổng quát</td>
-                        <td>150.000 VNĐ</td>
-                        <td>
-                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
-                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Khám tổng quát</td>
-                        <td>150.000 VNĐ</td>
-                        <td>
-                            <button class="btn btn-info btn-sm btn-sm active"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                            <button class="btn btn-info btn-sm active"> <i class="fa fa-trash"></i></button>
-                            <button class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></button>
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
             <div class="form-group" style="text-align:right">
@@ -201,9 +171,11 @@
     </div>
 </div>
 
+
+
 <!--Model chính-->
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -213,18 +185,18 @@
             </div>
             <div class="modal-body">
 
-                <div id="myModalContent" class="modal-fullscreen">
-
+                <div id="myModalContent">
+                    
                 </div>
             </div>
 
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="far fa-credit-card"></i>&nbsp;Thanh toán</button>
-                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" id="btSave" onclick="SaveDichVu()" class="btn btn-sm btn-success"><i class="far fa-credit-card"></i>&nbsp;Lưu</button>
+                    <button type="button" id="btCheckOut" onclick="ThanhToan()" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
 
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -232,39 +204,136 @@
     </div>
 </div>
 
-<script>
 
-    //Hàm mở modal của thêm dịch vụ
-    function OpenThemDichVu() {
-        $.ajax({
-            url: "/TiepNhan/ThemDichVu/",
-            type: 'GET',
-            success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').modal('show');
-                $('#btSave').show();
-                $('#btupdate').hide();
+@section scripts{
+    <script>
+        var listdv = [];
+        var obj = {};
+        //Hàm mở modal của thêm dịch vụ
+        function OpenThemDichVu() {
 
-            }
+            $.ajax({
+                url: "/TiepNhan/GetListDV/",
+                type: 'GET',
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').show();
+                    $('#btCheckOut').hide();
+
+                }
+            });
+        }
+
+
+        //Hàm mở modal của nút xác nhận
+        function OpenXacNhanDV() {
+            obj = {}
+            obj = $("#frm").serializeObject();
+
+            $("#listDV > tr").each(function () {
+                $tr = $(this)
+
+
+                    var $td = $tr.find("td");
+
+                listdv.push({ MaDV: $td.eq(0).text()})
+
+            });
+            obj.dichVus = listdv
+
+
+            $.ajax({
+                url: "/TiepNhan/XacNhanDichVu/",
+                type: 'POST',
+
+
+                async: true,
+                data: obj,
+
+
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').hide();
+                    $('#btCheckOut').show();
+
+                }
+            });
+        }
+
+        function SaveDichVu() {
+            var s = '';
+
+
+
+            $("#table_dichvu > tbody > tr").each(function (i) {
+                $tr = $(this)
+                if ($tr.find(".form-check-input").is(":checked")) {
+
+                    var $td = $tr.find("td");
+
+
+
+                    s += `<tr><th scope="row">${i}</th><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`;
+
+
+                }
+
+                $("#listDV").html(s);
+            });
+
+        }
+
+        function ThanhToan() {
+          
+            $.ajax({
+                type: "POST",
+                url: "/TiepNhan/FinalCheckOut/",
+                data: obj,
+                success: function (result) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                    if (result.status >= 1) {
+
+                        toastr.success(result.text);
+                        window.location.href = result.redirectUrL;
+                    }
+                    else {
+                        toastr.warning(result.text);
+
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+        $("#MaCK").change(function () {
+
+            var id = $(this).val();
+
+            $("#MaBS").empty();
+            $.get("/tiepnhan/DocTor_Bind", { MaCK: id }, function (data) {
+                var v = "<option>Chose...</option>";
+                $.each(data, function (i, v1) {
+                    v += "<option value=" + v1.Value + ">" + v1.Text + "</option>";
+                });
+                $("#MaBS").html(v);
+            });
+
         });
-    }
+        $(document).on('click', '.remove', function () {
 
-    
-    //Hàm mở modal của nút xác nhận
-    function OpenXacNhanDV() {
-        $.ajax({
-            url: "/TiepNhan/XacNhanDichVu/",
-            type: 'GET',
-            success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').modal('show');
-                $('#btSave').show();
-                $('#btupdate').hide();
-                $('#myModalContent').removeClass("modal-fullscreen");
-            }
+            $(this).parent().parent().remove();
+
         });
-    }
+
+       
 
 
-</script>
-Đang hiển thị 4630976894900975087.
+    </script>
+
+}

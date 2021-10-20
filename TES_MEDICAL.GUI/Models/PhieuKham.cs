@@ -23,7 +23,7 @@ namespace TES_MEDICAL.GUI.Models
         public string TrieuChung { get; set; }
         public string ChanDoan { get; set; }
         public DateTime NgayKham { get; set; }
-        public DateTime NgayTaiKham { get; set; }
+        public DateTime? NgayTaiKham { get; set; }
 
         public virtual BenhNhan MaBNNavigation { get; set; }
         public virtual NhanVienYte MaBSNavigation { get; set; }

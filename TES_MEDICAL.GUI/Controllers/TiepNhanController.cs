@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
+﻿
+using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TES_MEDICAL.GUI.Interfaces;
-using TES_MEDICAL.GUI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using TES_MEDICAL.GUI.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -14,22 +17,26 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly ITiepNhan _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
+        private readonly IDichVu _dichvuRep;
+        private readonly INhanVienYte _nhanvienyteRep;
        
         public TiepNhanController(
             ITiepNhan service,
-            IChuyenKhoa chuyenKhoaRep
+            IChuyenKhoa chuyenKhoaRep,
+            IDichVu dichvuRep,
+            INhanVienYte nhanVienYteRep
             
             
             )
         {
             _service = service;
             _chuyenkhoaRep = chuyenKhoaRep;
+            _dichvuRep = dichvuRep;
+            _nhanvienyteRep = nhanVienYteRep;
             
         }
-        public IActionResult Index()
-        {
-            return View("ThemPhieuKham");
-        }
+        [Route("/TiepNhan")]
+        [Route("/TiepNhan/ThemPhieuKham")]
         
         public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
 
@@ -42,16 +49,58 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ThemDichVu()
+
+        public async Task<JsonResult> DocTor_Bind(Guid MaCK)
         {
-            return PartialView("_AddDichVu");
+            var list = await _nhanvienyteRep.GetAllBS(MaCK);
+            List<SelectListItem> ListBS = new List<SelectListItem>();
+            foreach (var item in list)
+            {
+                ListBS.Add(new SelectListItem { Text = item.HoTen, Value = item.MaNV.ToString() });
+            }
+            return Json(ListBS, new JsonSerializerSettings());
         }
 
         [HttpGet]
-        public IActionResult XacNhanDichVu()
+        public async Task<IActionResult> GetListDV(Guid MaPhieu)
         {
-            return PartialView("_XacNhanDichVu");
+           
+            return PartialView("_AddDichVu",await _dichvuRep.GetDichVu(MaPhieu));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> XacNhanDichVu([FromForm] PhieuKhamViewModel model)
+        {
+            ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS);
+            var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
+            result.dichVus = new List<DichVu>();
+
+            foreach(var item in model.dichVus)
+            {
+                result.dichVus.Add(await _dichvuRep.Get(item.MaDV));
+            }
+            
+            return PartialView("_XacNhanDichVu",result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
+        {
+            
+                    if (await _service.CreatePK(model) != null)
+                    {
+                      
+
+
+                        return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+                    }
+
+                    else
+                        return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
+                
+
+            
         }
 
         public IActionResult QuanLyDatLich()
@@ -91,7 +140,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PhieuDatLich model)
         {
-
+            
             if (await _service.Edit(model) != null)
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
