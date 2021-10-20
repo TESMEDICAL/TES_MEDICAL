@@ -84,7 +84,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\GuestElement\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

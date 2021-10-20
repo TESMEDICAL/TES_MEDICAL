@@ -1,80 +1,62 @@
-KD
-
 @model TES_MEDICAL.GUI.Models.Thuoc
 
 <div class="container-fluid" id="pannelThuoc">
-    <h1>Thông tin</h1>
+    <h4 style="text-align:center; font-weight:bold">THÔNG TIN THUỐC</h4>
     <hr />
+    <div class="row m-4">
+        <!--Phần hình ảnh-->
+        <div class="col-sm-4">
+            <img src="~/images/@Model.HinhAnh" style="width:200px" />
+            @*@Html.DisplayFor(model => model.HinhAnh)*@
 
 
-    <div class="row m-2">
-                    
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Tên thuốc
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.TenThuoc)
+        </div>
+        <div class="col-sm-8">
+            <div>
+                <div class="col-12 row ">
+                    <h3 class="text-success" style="font-weight: bold;">@Model.TenThuoc</h3>
+                    <p style="font-weight: bold;">
+                        Vị trí: @Model.Vitri
+                    </p>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Đơn giá
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.DonGia) -->
+                         
+                        @Model.DonGia.ToString("#,###")
+                    </div>
+                </div>
+
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Thông tin
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.ThongTin) -->
+                        @Model.ThongTin
+                    </div>
+                </div>
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Trạng thái
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.TrangThai) -->
+                        @Model.TrangThai
+                    </div>
+                </div>
             </div>
         </div>
-          
-                     
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Vị trí
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.Vitri)
-            </div>
-        </div>
-          
-                     
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Đơn giá
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.DonGia)
-            </div>
-        </div>
-          
-                     
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Thông tin
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.ThongTin)
-            </div>
-        </div>
-          
-                     
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Trạng thái
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.TrangThai)
-            </div>
-        </div>
-          
-                     
-         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Hình ảnh
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.HinhAnh)
-            </div>
-        </div>
-          
-                
+
+
     </div>
-
-    
-  
-    </div>
-
+</div>
 
 
 

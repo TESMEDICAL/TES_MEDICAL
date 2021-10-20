@@ -109,13 +109,29 @@
             function () {
 
                 $("#btSave").click(function () {
-
                     if ($("#frm").valid()) {
-                        var obj = $("#frm").serialize();
+
+
+                        /*var obj = $("#frm").serialize();*/
+                        var formData = new FormData();
+                        var fileUpload = $("#upload-back").get(0);
+                        var file = fileUpload.files[0];
+
+                        formData.append("file", file);
+                        formData.append('MaThuoc', $("#MaThuoc").val());
+                        formData.append('TenThuoc', $("#TenThuoc").val());
+                        formData.append('Vitri', $("#Vitri").val());
+                        formData.append('DonGia', $("#DonGia").val());
+                        formData.append('ThongTin', $("#ThongTin").val());
+                        formData.append('TrangThai', $("#TrangThai").val());
+                        
+
                         $.ajax({
                             type: "POST",
                             url: "/Thuoc/Add",
-                            data: obj,
+                            processData: false,
+                            contentType: false,
+                            data: formData,
                             success: function (result) {
                                 $('#preloader-wrapper').toggleClass('hide');
                                 if (result.status >= 1) {
@@ -140,14 +156,28 @@
 
                 });
                 $("#btupdate").click(function () {
-
                     if ($("#frm").valid()) {
-                        var obj = $("#frm").serialize();
+                        /*var obj = $("#frm").serialize();*/
+                        var formData = new FormData();
+                        var fileUpload = $("#upload-back").get(0);
+                        var file = fileUpload.files[0];
+                        if ($('#TrangThai').is(':checked')) { formData.append('TrangThai', true) } else { formData.append('TrangThai', false) }
+
+                        formData.append("file", file);
+                        formData.append('MaThuoc', $("#MaThuoc").val());
+                        formData.append('TenThuoc', $("#TenThuoc").val());
+                        formData.append('Vitri', $("#Vitri").val());
+                        formData.append('DonGia', $("#DonGia").val());
+                        formData.append('ThongTin', $("#ThongTin").val());
+                        formData.append('HinhAnh', $("#HinhAnh").val());
+
                         $.ajax({
                             type: "POST",
                             url: "/Thuoc/Edit",
                             dataType: "json",
-                            data: obj,
+                            processData: false,
+                            contentType: false,
+                            data: formData,
                             success: function (result) {
                                 $('#preloader-wrapper').toggleClass('hide');
                                 if (result.status >= 1) {
