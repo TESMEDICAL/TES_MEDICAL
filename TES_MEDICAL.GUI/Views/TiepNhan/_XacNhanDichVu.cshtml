@@ -1,8 +1,7 @@
-﻿
+﻿@model PhieuKhamViewModel
 <style>
     #table1 td {
         width: 100px !important;
-        
     }
 </style>
 
@@ -16,42 +15,55 @@
         <tbody>
             <tr style="width: 50px;">
                 <td style="font-weight:bold;">Tên bệnh nhân</td>
-                <td>Nguyễn Văn A</td>
+                <td>@Model.HoTen</td>
                 <td style="font-weight:bold;">Số điện thoại</td>
-                <td>0939503204</td>
+                <td>@Model.SDT</td>
             </tr>
             <tr>
                 <td style="font-weight:bold;">Ngày sinh</td>
-                <td>1/1/2001</td>
+                <td>@Model.NgaySinh?.ToString("dd/MM/yyyy")</td>
                 <td style="font-weight:bold;">Địa chỉ</td>
-                <td>Quận 12</td>
+                <td>@Model.DiaChi</td>
             </tr>
 
             <tr>
                 <td style="font-weight:bold;">Triệu chứng</td>
-                <td>Ho, chảy mũi, khó thở, nóng lạnh sốt khó thở</td>
-                <td style="font-weight:bold;">Chuyên khoa</td>
-                <td>Khoa phổi</td>
+                <td>@Model.TrieuChung</td>
+                <td style="font-weight:bold;">Bác sĩ</td>
+                <td>@ViewBag.BacSi.HoTen</td>
             </tr>
         </tbody>
     </table>
 </div>
 <hr />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Dịch vụ</th>
+            <th scope="col">Đơn giá</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @for(int i =0;i<Model.dichVus.Count;i++)
+        {
+        <tr style="width: 50px;">
+            <td>@(i+1)</td>
+            <td>@Model.dichVus.ElementAt(i).TenDV</td>
+            <td>@Model.dichVus.ElementAt(i).DonGia VNĐ</td>
+        </tr>
+        }
+    </tbody>
+</table>
 <div class="row">
     <table class="table table-borderless" id="table1">
         <tbody>
-            <tr style="width: 50px;">
-                <td style="font-weight:bold;">Khám tổng quát</td>
-                <td>150.000 VNĐ</td>
-                <td style="font-weight:bold;">Chụp X-Quang</td>
-                <td>200.000 VNĐ</td>
-            </tr>
-            <tr>
-                <td style="font-weight:bold;">Xét nghiệm máu</td>
-                <td>350.000 VNĐ</td>
-                <td style="font-weight:bold;">Xét nghiệm COVID</td>
-                <td>350.000 VNĐ</td>
-            </tr>
+          
+
+
         </tbody>
     </table>
 </div>
