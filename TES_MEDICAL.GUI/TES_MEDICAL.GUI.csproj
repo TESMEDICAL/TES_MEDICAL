@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Claim\**" />
-    <Content Remove="Models\Claim\**" />
-    <EmbeddedResource Remove="Models\Claim\**" />
-    <None Remove="Models\Claim\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Benh\Index.cshtml" />
     <None Include="Views\Benh\_CTTrieuChungView.cshtml" />
     <None Include="Views\Benh\_NameListPartial.cshtml" />
@@ -85,5 +78,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\GuestElement\" />
   </ItemGroup>
+
+  <Import Project="..\TES_MEDICAL.SHARE\TES_MEDICAL.SHARE.projitems" Label="Shared" />
 
 </Project>

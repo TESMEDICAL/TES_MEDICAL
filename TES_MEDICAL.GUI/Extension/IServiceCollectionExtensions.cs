@@ -43,7 +43,8 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<IChuyenKhoa, ChuyenKhoasvc>()
                 .AddScoped<INhanVienYte,NhanVienYtesvc>()
                 .AddScoped<INguoiDung,NguoiDungsvc>()
-                .AddScoped<ITiepNhan, TiepNhanSvc>();
+                .AddScoped<ITiepNhan, TiepNhanSvc>()
+                .AddScoped<IKhamBenh,KhamBenhsvc>();
                 
 
 
