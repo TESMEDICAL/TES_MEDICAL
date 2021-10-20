@@ -152,13 +152,34 @@ namespace TES_MEDICAL.GUI.Controllers
        
         [HttpPost]
        
-        public async Task <ActionResult> Edit( NguoiDung model)
+        public async Task <ActionResult> Edit( NguoiDung model, [FromForm] IFormFile file)
         {
+            string filePath = "";
+            if (file != null)
+            {
+                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
           
-                 if (await _service.Edit(model)!=null)
+            if (await _service.Edit(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
             else
+            {
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+                
            
            
         }
