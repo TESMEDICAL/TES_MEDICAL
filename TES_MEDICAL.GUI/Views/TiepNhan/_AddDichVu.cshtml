@@ -1,4 +1,4 @@
-﻿@model TES_MEDICAL.GUI.Models.DichVu
+﻿@model IEnumerable<DichVu>
 
 <style>
    #table_dichvu td{
@@ -9,20 +9,30 @@
 
 <h4 style="text-align:center; font-weight:bold">CHỌN DỊCH VỤ</h4>
 <br />
-        <table class="table m-auto col-8 px-5" id="table_dichvu">
+        <table class="table m-auto col-8 px-5" id="table_dichvu" style="width:100%">
             <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
                 <tr>
-                    <td>Khám tổng quát</td>
-                    <td><input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" ></td>
+                    <td style="display:none">@item.MaDV</td>
+                    <td>@item.TenDV.</td>
+                    <td>@item.DonGia</td>
+                    <td><input class="form-check-input" type="checkbox"></td>
                 </tr>
-                <tr>
-                    <td>Tim Mạch</td>
-                    <td><input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" ></td>
-                </tr>
-                <tr>
-                    <td>Khám tổng quát</td>
-                    <td><input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" ></td>
-                </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        
+                        <td>Không có dịch vụ nào</td>
+                    </tr>
+                }
+
+
+
             </tbody>
         </table>
 
