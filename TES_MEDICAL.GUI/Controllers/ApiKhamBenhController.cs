@@ -47,6 +47,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return Ok(await _sevices.AddToaThuoc(model,false));
         }
 
+
         // POST api/<ApiKhamBenhController>
         [HttpPost]
         public void Post([FromBody] string value)

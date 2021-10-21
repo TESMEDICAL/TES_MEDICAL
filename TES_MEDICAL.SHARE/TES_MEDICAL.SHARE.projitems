@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SearchModel\DichVuSearchModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SearchModel\ThuocSearchModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\STTPhieuKham.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\STTToaThuoc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Thuoc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TinTuc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ToaThuoc.cs" />

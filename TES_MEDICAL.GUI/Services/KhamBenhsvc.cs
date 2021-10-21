@@ -64,5 +64,30 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
             }
         }
+
+        public async Task<ToaThuoc> GetToaThuoc(Guid MaPK)
+        {
+            return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
+        }
+
+        public async Task<ToaThuoc> AddToaThuoc(ToaThuoc model)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    await _context.ToaThuoc.AddAsync(model);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return model;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
