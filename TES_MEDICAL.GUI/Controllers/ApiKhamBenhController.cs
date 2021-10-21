@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,7 +36,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpGet("GetListPK")]
-        public async Task<IEnumerable<PhieuKham>> GetPK(Guid MaBS)
+        public async Task<IActionResult> GetPK(Guid MaBS)
         {
             return Ok (await _sevices.GetList(MaBS));
         }
