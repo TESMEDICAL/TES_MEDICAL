@@ -17,6 +17,7 @@ namespace TES_MEDICAL.GUI.Models
 
         public virtual PhieuKham MaPhieuKhamNavigation { get; set; }
         public virtual HoaDonThuoc HoaDonThuoc { get; set; }
+        public virtual STTTOATHUOC STTTOATHUOC { get; set; }
         public virtual ICollection<ChiTietToaThuoc> ChiTietToaThuoc { get; set; }
     }
 }
