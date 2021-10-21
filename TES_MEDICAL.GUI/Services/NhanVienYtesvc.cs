@@ -200,7 +200,10 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-
+        public async Task<IEnumerable<NhanVienYte>> GetAllBS(Guid MaCK)
+        {
+            return await _context.NhanVienYte.Where(x => x.ChuyenKhoa == MaCK).ToListAsync();
+        }
         protected IEnumerable<NhanVienYte> GetAllFromDatabase()
         {
             List<NhanVienYte> data = new List<NhanVienYte>();

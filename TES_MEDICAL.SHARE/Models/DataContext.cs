@@ -342,7 +342,7 @@ namespace TES_MEDICAL.GUI.Models
 
                 entity.Property(e => e.MaPK).ValueGeneratedNever();
 
-                entity.Property(e => e.ChanDoan).IsRequired();
+                entity.Property(e => e.ChanDoan);
 
                 entity.Property(e => e.HuyetAp)
                     .HasMaxLength(20)
@@ -358,7 +358,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TrieuChung).IsRequired();
+                entity.Property(e => e.TrieuChung);
 
                 entity.HasOne(d => d.MaBNNavigation)
                     .WithMany(p => p.PhieuKham)
