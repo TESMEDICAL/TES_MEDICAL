@@ -16,8 +16,23 @@ namespace TES_MEDICAL_DOCTORCLIENT
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+            builder.Services
+                          .AddScoped<IAuthenticationService, AuthenticationService>()
+                         .AddScoped<IHttpService, HttpService>()
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+                          .AddScoped<IModal, ModalServices>()
+                          .AddScoped<ILocalStorageService, LocalStorageService>()
+                          .AddScoped<IHomeHttpRepository, Homesvc>()
+                          .AddScoped<IKhachHangHttpRepository, KhachHangsvc>();
+
+
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://duydtharry-001-site1.htempurl.com/") });
+            var host = builder.Build();
+
+            var authenticationService = host.Services.GetRequiredService<IAuthenticationService>();
+            await authenticationService.Initialize();
+
+            await host.RunAsync();
 
             await builder.Build().RunAsync();
         }
