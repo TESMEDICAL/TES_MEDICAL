@@ -20,7 +20,8 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ReloadPage(int TrangThai)
         {
             var listToaThuocCTT = await _service.GetAllToaThuocCTT(TrangThai);
-            return Json(listToaThuocCTT, new JsonSerializerSettings());
+            return Json(listToaThuocCTT);
+            //return Ok(listToaThuocCTT);
         }
 
 

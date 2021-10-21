@@ -18,7 +18,8 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(int TrangThai)
         {
-            return await _context.ToaThuoc.Where(x =>x.TrangThai == TrangThai).ToListAsync();
+            return await _context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation)
+                .Where(x => x.TrangThai == TrangThai).ToListAsync();
         }
     }
 }
