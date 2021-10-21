@@ -21,5 +21,18 @@ namespace TES_MEDICAL.GUI.Services
             return await _context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation)
                 .Where(x => x.TrangThai == TrangThai).ToListAsync();
         }
+
+        public async Task<IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu)
+        {
+            return await _context.ChiTietToaThuoc.Include(x => x.MaThuocNavigation)
+                .Where(x=>x.MaPK == MaPhieu).ToListAsync();
+        }
+
+        public async Task<ToaThuoc> GetToaThuocByMaPhieu(Guid MaPhieu)
+        {
+            return await _context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation).Include(x => x.ChiTietToaThuoc)
+                .FirstOrDefaultAsync(x => x.MaPhieuKham == MaPhieu);
+        }
+
     }
 }

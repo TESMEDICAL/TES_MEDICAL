@@ -23,15 +23,51 @@
 </div>
 
 <!--Model chính-->
+<!--<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg">-->
+        <!-- Modal content-->
+        <!--<div class="modal-content" id="myModalContent">
+
+
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelToaThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+
+        </div>    
+    </div>
+</div>-->
+
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
-        <div class="modal-content" id="myModalContent">
+        <div class="modal-content">
+
+            <div class="modal-header">
 
 
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
 
 
-
+            <div class="modal-footer">
+                <div class="text-right">
+                    
+                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelToaThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -55,12 +91,36 @@
 
             });
 
+        //Hàm in
+        function PrintPreview(MaPhieu) {
+            $.print("#" + MaPhieu);
+        }
+
         //Hàm mở modal của Chi tiết Toa Thuốc
         function OpenToaThuoc() {
             $.ajax({
                 url: "/DuocSi/ChiTietToaThuoc/",
                 type: 'GET',
                 success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').hide();
+                    $('#btupdate').hide();
+
+                }
+            });
+        }
+
+        ////Hàm mở modal của Chi tiết toa thuốc
+        function Detail(_maPhieu) {
+            $.ajax({
+                url: "/DuocSi/ChiTietToaThuoc/",
+                type: 'GET',
+                data: {
+                    MaPhieu: _maPhieu
+                },
+                success: function (response) {
+                    
                     $("#myModalContent").html(response);
                     $('#myModal').modal('show');
                     $('#btSave').show();
@@ -103,7 +163,7 @@
                                 title: 'Thao tác',
                                 data: null,
                                 render: function (data) {
-                                    return `<a class='btn btn-info btn-sm active'> <i class='fas fa-arrow-down'></i></a> <a onclick = Detail('${data.MaPhieuKham}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`;
+                                    return `<a class='btn btn-info btn-sm active'> <i class='fas fa-arrow-down'></i></a> <a onclick = Detail('${data.maPhieuKham}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`;
                                 }
                             },
                             {

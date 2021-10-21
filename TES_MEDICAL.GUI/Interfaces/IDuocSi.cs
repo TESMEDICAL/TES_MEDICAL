@@ -9,5 +9,9 @@ namespace TES_MEDICAL.GUI.Interfaces
     public interface IDuocSi
     {
         Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(int TrangThai);
+
+        Task<ToaThuoc> GetToaThuocByMaPhieu(Guid MaPhieu);
+
+        Task <IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu);
     }
 }
