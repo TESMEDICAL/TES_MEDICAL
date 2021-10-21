@@ -32,6 +32,7 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<PhieuDatLich> PhieuDatLich { get; set; }
         public virtual DbSet<PhieuKham> PhieuKham { get; set; }
         public virtual DbSet<STTPhieuKham> STTPhieuKham { get; set; }
+        public virtual DbSet<STTTOATHUOC> STTTOATHUOC { get; set; }
         public virtual DbSet<Thuoc> Thuoc { get; set; }
         public virtual DbSet<TinTuc> TinTuc { get; set; }
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
@@ -413,6 +414,23 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<STTTOATHUOC>(entity =>
+            {
+                entity.HasKey(e => e.MaPK)
+                    .HasName("PK__STTTOATH__2725E7FDFEC58D61");
+
+                entity.Property(e => e.MaPK).ValueGeneratedNever();
+
+                entity.Property(e => e.UuTien)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.MaPKNavigation)
+                    .WithOne(p => p.STTTOATHUOC)
+                    .HasForeignKey<STTTOATHUOC>(d => d.MaPK)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__STTTOATHUO__MaPK__35BCFE0A");
+            });
 
             modelBuilder.Entity<TinTuc>(entity =>
             {
@@ -459,6 +477,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
+           
 
             OnModelCreatingPartial(modelBuilder);
         }

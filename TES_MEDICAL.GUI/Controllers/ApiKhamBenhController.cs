@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,16 +29,22 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         // GET api/<ApiKhamBenhController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(Guid MaPK)
         {
-            return "value";
+            return Ok(await _sevices.GetToaThuoc(MaPK));
         }
 
         [HttpGet("GetPK")]
         public async Task<IEnumerable<KhamBenhViewModel>> GetPK(Guid MaBS)
         {
             return await _sevices.GetList(MaBS);
+        }
+
+        [HttpPost("ThemToa")]
+        public async Task<IActionResult> ThemToa(ToaThuoc model)
+        {
+            return Ok(await _sevices.AddToaThuoc(model));
         }
 
         // POST api/<ApiKhamBenhController>
