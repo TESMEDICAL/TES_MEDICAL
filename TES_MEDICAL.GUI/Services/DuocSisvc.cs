@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
         }
 
-        public async Task<ToaThuoc> GetToaThuocChuaTT(string MaToaCTT)
+        public async Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(int TrangThai)
         {
-            return await _context.ToaThuoc.FindAsync(MaToaCTT);
+            return await _context.ToaThuoc.Where(x =>x.TrangThai == TrangThai).ToListAsync();
         }
     }
 }

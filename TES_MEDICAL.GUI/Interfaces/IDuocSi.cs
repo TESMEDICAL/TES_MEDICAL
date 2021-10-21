@@ -8,6 +8,6 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IDuocSi
     {
-        Task<ToaThuoc> GetToaThuocChuaTT(string MaToaCTT);
+        Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(int TrangThai);
     }
 }

@@ -1,13 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Interfaces;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
     public class DuocSiController : Controller
     {
+        private readonly IDuocSi _service;
+        public DuocSiController(IDuocSi service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReloadPage(int TrangThai)
+        {
+            var listToaThuocCTT = await _service.GetAllToaThuocCTT(TrangThai);
+            return Json(listToaThuocCTT, new JsonSerializerSettings());
+        }
+
+
         public IActionResult Index()
         {
             return View("ToaThuoc");
