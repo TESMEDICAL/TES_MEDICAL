@@ -6,13 +6,30 @@
 <head>
     <meta charset="utf-8">
 
-    <title>TIẾP NHẬN BỆNH NHÂN - CLIENT</title>
+    <title>@ViewData["Title"]</title>
 
     <meta name="description" content="ProUI is a Responsive Bootstrap Admin Template created by pixelcave and published on Themeforest.">
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    
+    
+    <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+    <link rel="stylesheet" href="~/MainElement/css/main.css">
+    <link rel="stylesheet" href="~/css/toastr.css" />
+
+
+    <style>
+        a {
+            text-decoration: none !important
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="~/MainElement/img/favicon.png">
@@ -27,9 +44,11 @@
     <!-- END Icons -->
     <!-- Stylesheets -->
     <!-- Bootstrap is included in its original form, unaltered -->
-    <link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="~/css/toastr.css">
 
-    
+
+
     <!-- Related styles of various icon packs and plugins -->
     <link rel="stylesheet" href="~/MainElement/css/plugins.css">
 
@@ -372,7 +391,7 @@
                             </li>
                             <li class="@Html.IsSelected(actions: "ThemPhieuKham", controllers: "TiepNhan")">
                                 <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
-                               
+
                             </li>
                             <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
                                 <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
@@ -388,14 +407,14 @@
                                 <span class="sidebar-header-title">Bác sĩ</span>
                             </li>
 
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
+                            <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
+                                <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_social.html"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
+                            <li class="@Html.IsSelected(actions: "KhamBenh", controllers: "BacSi")">
+                                <a href="@Url.Action("KhamBenh","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
                             </li>
-                            <li>
-                                <a href="page_widgets_stats.html"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                            <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
+                                <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
                             </li>
 
                             <!-- Phần Dược Sĩ -->
@@ -491,7 +510,7 @@
                 <div id="page-content">
                     <!-- Dashboard Header -->
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
-                    <div class="content-header content-header-media">
+                    <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
                             <div class="row">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
@@ -500,13 +519,13 @@
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div style="margin-right: 65px;">
-                                    <div class="text-right">
-                                        <h2 class="animation-hatch">
-                                            <strong>27&deg; C</strong><br>
-                                            <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
-                                        </h2>
-                                    </div>
+                                <div class="col-3  ms-auto">
+
+                                    <h2 class="animation-hatch">
+                                        <strong>27&deg; C</strong><br>
+                                        <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
+                                    </h2>
+
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
@@ -516,7 +535,7 @@
                     </div>
                     <!-- END Dashboard Header -->
                     <!-- Body Start -->
-                    <div style="border: solid 0px; padding:5px;">
+                    <div style="border: solid 0px; padding:5px;min-height:600px">
                         @RenderBody()
                     </div>
                     <!-- Body End -->
@@ -609,8 +628,11 @@
     </div>
     <!-- END User Settings -->
     <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
-    <script src="~/MainElement/js/vendor/jquery.min.js"></script>
-    <script src="~/MainElement/js/vendor/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
@@ -625,13 +647,21 @@
         }
     </script>
     <!--Kết thúc Script chạy Active trên Menu-->
-
-
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
     <script src="https://maps.googleapis.com/maps/api/js?key="></script>
     <script src="~/MainElement/js/helpers/gmaps.min.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/formToObject.js"></script>
+    <script src="~/MainElement/js/site.js"></script>
+    <script src="~/js/datatableExt.js"></script>
+ 
 
+
+
+
+    @RenderSection("Scripts", required: false)
     <!-- Load and execute javascript code used only in this page -->
     <script src="~/MainElement/js/pages/index.js"></script>
     <script>$(function () { Index.init(); });</script>

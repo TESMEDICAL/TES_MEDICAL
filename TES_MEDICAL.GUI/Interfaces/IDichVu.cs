@@ -16,6 +16,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<DichVu> Edit(DichVu model);
         Task<bool> Delete(Guid Id);
         Task<IPagedList<DichVu>> SearchByCondition(DichVuSearchModel model);
+        Task<IEnumerable<DichVu>> GetDichVu(Guid MaPK);
 
     }
 }

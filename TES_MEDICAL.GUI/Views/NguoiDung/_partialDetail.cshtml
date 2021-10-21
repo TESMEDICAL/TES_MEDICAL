@@ -1,0 +1,79 @@
+
+
+@model TES_MEDICAL.GUI.Models.NguoiDung
+
+<div class="container-fluid" id="pannelNguoiDung">
+    <h4 style="text-align:center; font-weight:bold">THÔNG TIN NGƯỜI DÙNG</h4>
+    <hr />
+<div class="row">
+    <div class="col-sm-9">
+        <div class="m-1">
+            <div class="col-12 row">
+                <div class="col-4" style="font-weight:bold!important">
+                    Email
+                </div>
+                <div class="col-8">
+                    @Html.DisplayFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="col-12 row">
+                <div class="col-4" style="font-weight:bold!important">
+                    Họ tên
+                </div>
+                <div class="col-8">
+                    @Html.DisplayFor(model => model.HoTen)
+                </div>
+            </div>
+
+
+            <div class="col-12 row">
+                <div class="col-4" style="font-weight:bold!important">
+                    Số điện thoại
+                </div>
+                <div class="col-8">
+                    @Html.DisplayFor(model => model.SDT)
+                </div>
+            </div>
+
+
+            <div class="col-12 row">
+                <div class="col-4" style="font-weight:bold!important">
+                    Chức vụ
+                </div>
+                <div class="col-8">
+                    @Html.DisplayFor(model => model.ChucVu)
+                </div>
+            </div>
+
+
+            <div class="col-12 row">
+                <div class="col-4" style="font-weight:bold!important">
+                    Trạng thái
+                </div>
+                <div class="col-8">
+                    @Html.DisplayFor(model => model.TrangThai)
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!--Phần hình ảnh-->
+    <div class="col-sm-3">   
+            <div class="col-4" style="font-weight:bold!important">
+                Hình ảnh
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.HinhAnh)
+            </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+

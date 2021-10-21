@@ -894,6 +894,7 @@ a.sidebar-title:focus {
     border-bottom: 1px solid #dbe1e8;
 }
 
+
 .content-header-media {
     position: relative;
     height: 120px;
@@ -2674,16 +2675,16 @@ li.dropdown-header {
     overflow-y: auto;
 }
 
-.pagination > li > a,
+/*.pagination > li > a,
 .pagination > li > span  {
     color: #1bbae1;
     margin-left: 5px;
     margin-right: 5px;
     border: none !important;
     border-radius: 25px !important;
-}
+}*/
 
-.pagination > .active > a,
+/*.pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
 .pagination > .active > span:hover,
@@ -2706,7 +2707,7 @@ li.dropdown-header {
 
 .pager > li.disabled > a:hover {
     border-color: #eaedf1;
-}
+}*/
 
 /* Horizontal Navigation */
 .nav-horizontal {

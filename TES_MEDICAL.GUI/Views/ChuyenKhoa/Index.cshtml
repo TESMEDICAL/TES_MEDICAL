@@ -5,7 +5,7 @@
 @using TES_MEDICAL.GUI.Models;
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
 
@@ -149,17 +149,21 @@
                         var obj = $("#frm").serialize();
                         $.ajax({
                             type: "POST",
-                            url: "/ChuyenKhoa/Edit",
-                            dataType: "json",
+                            url: "/ChuyenKhoa/Edit", 
                             data: obj,
                             success: function (result) {
                                 $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                if (result.status != null) {
+                                    if (result.status >= 1) {
+                                        toastr.success(result.text);
+                                        reloadpage(1);
+                                    }
+                                    else {
+                                        toastr.warning(result.text);
+                                    }
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    $myModalContent.html(result);
                                 }
                             },
                             error: function (errormessage) {
@@ -184,7 +188,7 @@
 
 
 
-            });
+        });
 
 
 
