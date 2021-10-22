@@ -72,12 +72,14 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	  <PackageReference Include="Select.HtmlToPdf.NetCore" Version="21.1.0" />
 	  <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\GuestElement\" />
+    <Folder Include="wwwroot\HoaDon\" />
   </ItemGroup>
 
   <ItemGroup>
