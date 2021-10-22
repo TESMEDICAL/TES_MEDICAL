@@ -89,65 +89,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
-            var listDichVu = "";
-            foreach (var item in model.dichVus)
+            if (await _service.CreatePK(model) != null)
             {
-                var Dv = await _dichvuRep.Get(item.MaDV);
-                listDichVu += $"<tr><td class='col-6'><strong>{Dv.TenDV}</strong></td><td class='col-6 text-end'><strong>{Dv.DonGia}</strong></td></tr>";
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
             }
-
-            HoaDon hoaDon = new HoaDon();
-            hoaDon.MaHoaDon = Guid.NewGuid();
-            hoaDon.MaNV = Guid.Parse("C29652E8-F9DB-4BF8-B2FD-FF8518E611F3");
-
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHoaDon}", hoaDon.MaHoaDon.ToString());
-                html = html.Replace("{MaNhanVien}", hoaDon.MaNV.ToString());
-                html = html.Replace("{NgayKham}", DateTime.Now.ToString());
-                html = html.Replace("{HoTen}", model.HoTen);
-                html = html.Replace("{NgaySinh}", model.NgaySinh.ToString());
-                html = html.Replace("{SDT}", model.SDT);
-                html = html.Replace("{DiaChi}", model.DiaChi);
-                html = html.Replace("{listDichVu}", listDichVu);
-
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
-
-                var filePdf = File(
-                    pdf,
-                    "application/pdf",
-                    "StudentList.pdf"
-                    );
-
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", "StudentList.pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);           
-                
-
-                //return File(
-                //    pdf,
-                //    "application/pdf",
-                //    "StudentList.pdf"
-                //    );
-            }
-            return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new JsonSerializerSettings());
-
-            //    if (await _service.CreatePK(model) != null)
-            //{
-            //    return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
-            //}
-            //else
-            //    return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
-
-
-
+            else
+                return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
 
         }
 
