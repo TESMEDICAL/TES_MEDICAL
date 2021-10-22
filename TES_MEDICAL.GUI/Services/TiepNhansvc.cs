@@ -53,7 +53,7 @@ namespace TES_MEDICAL.GUI.Services
                     var benhNhan = new BenhNhan { MaBN = Guid.NewGuid(), HoTen = model.HoTen, SDT = model.SDT, NgaySinh = model.NgaySinh, DiaChi = model.DiaChi, GioiTinh = model.GioiTinh };
                     await _context.BenhNhan.AddAsync(benhNhan);
                   // Thêm phiếu khám với thông tin bệnh nhân
-                    var phieuKham = new PhieuKham {MaPK=Guid.NewGuid(), MaBN = benhNhan.MaBN, MaBS = model.MaBS, NgayKham = DateTime.Now, TrieuChung = model.TrieuChung };
+                    var phieuKham = new PhieuKham {MaPK=Guid.NewGuid(), MaBN = benhNhan.MaBN, MaBS = model.MaBS, NgayKham = DateTime.Now, TrieuChungSoBo = model.TrieuChung };
                     await _context.PhieuKham.AddAsync(phieuKham);
                  
                     //Thêm chi tiết dịch vụ phiếu khám
@@ -65,7 +65,7 @@ namespace TES_MEDICAL.GUI.Services
                     }
                     
                     //Xuất hóa đơn dịch vụ
-                    var HoaDon = new HoaDon { MaHoaDon = Guid.NewGuid(), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = Guid.Parse("6b0d19a9-fe51-458b-a4a6-9841887b60ca"),TongTien = tongtien };
+                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = Guid.Parse("6b0d19a9-fe51-458b-a4a6-9841887b60ca"),TongTien = tongtien };
                     await _context.HoaDon.AddAsync(HoaDon);
 
 

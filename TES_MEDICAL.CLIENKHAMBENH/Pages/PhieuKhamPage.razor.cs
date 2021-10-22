@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.CLIENKHAMBENH.Services;
+using TES_MEDICAL.SHARE.Models.ViewModel;
 
 namespace TES_MEDICAL.CLIENKHAMBENH.Pages
 {
@@ -22,7 +23,7 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Pages
         ILocalStorageService localstorage { get; set; }
         [Inject]
         IKhamBenh khambenhRep { get; set; }
-        public List<PhieuKham> PhieuKhams { get; set; } = new List<PhieuKham>();
+        public List<STTViewModel> PhieuKhams { get; set; } = new List<STTViewModel>();
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();

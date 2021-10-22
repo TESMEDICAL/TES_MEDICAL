@@ -20,7 +20,8 @@ namespace TES_MEDICAL.GUI.Models
         public string Mach { get; set; }
         public string NhietDo { get; set; }
         public string HuyetAp { get; set; }
-        public string TrieuChung { get; set; }
+        public string TrieuChungSoBo { get; set; }
+        public string KetQuaKham { get; set; }
         public string ChanDoan { get; set; }
         public DateTime NgayKham { get; set; }
         public DateTime? NgayTaiKham { get; set; }
