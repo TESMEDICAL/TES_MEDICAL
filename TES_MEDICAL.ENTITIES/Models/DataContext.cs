@@ -204,9 +204,11 @@ namespace TES_MEDICAL.GUI.Models
             modelBuilder.Entity<HoaDon>(entity =>
             {
                 entity.HasKey(e => e.MaHoaDon)
-                    .HasName("PK__HoaDon__835ED13B05CA61BC");
+                    .HasName("PK__HoaDon__835ED13BE8E6487A");
 
-                entity.Property(e => e.MaHoaDon).ValueGeneratedNever();
+                entity.Property(e => e.MaHoaDon)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayHD).HasColumnType("datetime");
 
@@ -216,21 +218,29 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.HoaDon)
                     .HasForeignKey(d => d.MaNV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDon__MaNV__32E0915F");
+                    .HasConstraintName("FK__HoaDon__MaNV__35BCFE0A");
 
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.HoaDon)
                     .HasForeignKey(d => d.MaPK)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDon__MaPK__31EC6D26");
+                    .HasConstraintName("FK__HoaDon__MaPK__34C8D9D1");
             });
 
             modelBuilder.Entity<HoaDonThuoc>(entity =>
             {
                 entity.HasKey(e => e.MaPK)
-                    .HasName("PK__HoaDonTh__2725E7FD25012CDB");
+                    .HasName("PK__HoaDonTh__2725E7FD6887BBCA");
+
+                entity.HasIndex(e => e.MaHD, "UQ__HoaDonTh__2725A6E187D21950")
+                    .IsUnique();
 
                 entity.Property(e => e.MaPK).ValueGeneratedNever();
+
+                entity.Property(e => e.MaHD)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayHD).HasColumnType("datetime");
 
@@ -240,14 +250,15 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.HoaDonThuoc)
                     .HasForeignKey(d => d.MaNV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDonThuo__MaNV__403A8C7D");
+                    .HasConstraintName("FK__HoaDonThuo__MaNV__440B1D61");
 
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithOne(p => p.HoaDonThuoc)
                     .HasForeignKey<HoaDonThuoc>(d => d.MaPK)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDonThuo__MaPK__3F466844");
+                    .HasConstraintName("FK__HoaDonThuo__MaPK__4316F928");
             });
+
 
             modelBuilder.Entity<NguoiDung>(entity =>
             {
@@ -336,10 +347,11 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(50);
             });
 
+
             modelBuilder.Entity<PhieuKham>(entity =>
             {
                 entity.HasKey(e => e.MaPK)
-                    .HasName("PK__PhieuKha__2725E7FD9C84A3CD");
+                    .HasName("PK__PhieuKha__2725E7FDD3F81957");
 
                 entity.Property(e => e.MaPK).ValueGeneratedNever();
 
@@ -359,20 +371,19 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TrieuChung);
-
                 entity.HasOne(d => d.MaBNNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PhieuKham__MaBN__286302EC");
+                    .HasConstraintName("FK__PhieuKham__MaBN__2B3F6F97");
 
                 entity.HasOne(d => d.MaBSNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PhieuKham__MaBS__276EDEB3");
+                    .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
             });
+
 
             modelBuilder.Entity<STTPhieuKham>(entity =>
             {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TES_MEDICAL.SHARE.Models.ViewModel
 {
-    public class KhamBenhViewModel
+    public class STTViewModel
     {
         public int STT { get; set; }
         public Guid MaPK { get; set; }

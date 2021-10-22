@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Models;
+using TES_MEDICAL.GUI.Models.ViewModel;
+using TES_MEDICAL.SHARE.Models.ViewModel;
 
 namespace TES_MEDICAL.CLIENKHAMBENH.Services
 {
     public interface IKhamBenh 
     {
-        Task<List<PhieuKham>> GetPhieuKham(Guid MaBS);
+        Task<List<STTViewModel>> GetPhieuKham(Guid MaBS);
         
     }
     public class KhamBenhsvc : IKhamBenh
@@ -19,7 +21,7 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Services
         {
             _httpService = httpService;
         }
-        public async Task<List<PhieuKham>> GetPhieuKham(Guid MaBS)
+        public async Task<List<STTViewModel>> GetPhieuKham(Guid MaBS)
         {
            
                 
@@ -29,7 +31,7 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Services
                 {
                     return null;
                 }
-                return await  JsonSerializer.DeserializeAsync<List<PhieuKham>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return await  JsonSerializer.DeserializeAsync<List<STTViewModel>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             
 
         }
