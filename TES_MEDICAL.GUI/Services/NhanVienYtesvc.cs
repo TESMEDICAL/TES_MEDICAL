@@ -65,7 +65,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task <NhanVienYte> Get(Guid id)
         {
             
-            var item = await _context.NhanVienYte
+            var item = await _context.NhanVienYte.Include(x => x.ChuyenKhoaNavigation)
                             
                 .FirstOrDefaultAsync(i => i.MaNV == id);
                
@@ -153,7 +153,7 @@ namespace TES_MEDICAL.GUI.Services
         {
 
                 IEnumerable<NhanVienYte> listUnpaged;
-                listUnpaged = _context.NhanVienYte.OrderBy(x=>x.EmailNV) ;
+                listUnpaged = _context.NhanVienYte.Include(x => x.ChuyenKhoaNavigation).OrderBy(x=>x.EmailNV) ;
                
                 
 
