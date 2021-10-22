@@ -61,6 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
 	  <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.10" />
@@ -79,6 +80,8 @@
     <Folder Include="wwwroot\GuestElement\" />
   </ItemGroup>
 
-  <Import Project="..\TES_MEDICAL.SHARE\TES_MEDICAL.SHARE.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\TES_MEDICAL.ENTITIES\TES_MEDICAL.ENTITIES.csproj" />
+  </ItemGroup>
 
 </Project>
