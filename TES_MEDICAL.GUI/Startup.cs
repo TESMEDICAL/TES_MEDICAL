@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,8 +44,13 @@ namespace TES_MEDICAL.GUI
             services.AddRazorPages()
         .AddRazorRuntimeCompilation();
 
-
-
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,8 +70,8 @@ namespace TES_MEDICAL.GUI
             app.UseStaticFiles();
 
             app.UseRouting();
-          
-           
+            app.UseCors("MyPolicy");
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
