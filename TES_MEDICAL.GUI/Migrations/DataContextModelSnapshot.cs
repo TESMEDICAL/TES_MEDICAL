@@ -448,6 +448,25 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.ToTable("STTPhieuKham");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.STTTOATHUOC", b =>
+                {
+                    b.Property<Guid>("MaPK")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("STT")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UuTien")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)");
+
+                    b.HasKey("MaPK")
+                        .HasName("PK__STTTOATH__2725E7FDFEC58D61");
+
+                    b.ToTable("STTTOATHUOC");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Thuoc", b =>
                 {
                     b.Property<Guid>("MaThuoc")
@@ -700,6 +719,17 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("MaPhieuKhamNavigation");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.STTTOATHUOC", b =>
+                {
+                    b.HasOne("TES_MEDICAL.GUI.Models.ToaThuoc", "MaPKNavigation")
+                        .WithOne("STTTOATHUOC")
+                        .HasForeignKey("TES_MEDICAL.GUI.Models.STTTOATHUOC", "MaPK")
+                        .HasConstraintName("FK__STTTOATHUO__MaPK__35BCFE0A")
+                        .IsRequired();
+
+                    b.Navigation("MaPKNavigation");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.TinTuc", b =>
                 {
                     b.HasOne("TES_MEDICAL.GUI.Models.NguoiDung", "MaNguoiVietNavigation")
@@ -781,6 +811,8 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("ChiTietToaThuoc");
 
                     b.Navigation("HoaDonThuoc");
+
+                    b.Navigation("STTTOATHUOC");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.TrieuChung", b =>
