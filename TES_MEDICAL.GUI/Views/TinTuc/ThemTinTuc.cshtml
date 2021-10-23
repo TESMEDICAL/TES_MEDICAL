@@ -35,7 +35,7 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Nội dung bài viết</label>
-                <textarea asp-for="NoiDung" rows="20" class="form-control" placeholder="Nhập nội dung ..."></textarea>
+                <textarea asp-for="NoiDung" rows="100" class="form-control" placeholder="Nhập nội dung ..."></textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Xác nhận</button>
@@ -47,17 +47,33 @@
 </div>
 
 @section scripts{ 
-<script src="~/ckeditor/ckeditor.js"></script>
-<script src="~/ckeditor/adapters/jquery.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+@*<script src="~/ckeditor/adapters/jquery.js"></script>
+<script type="text/javascript" src="~/ckfinder/ckfinder.js"></script>*@
 <script>
+    
+
+    ClassicEditor
+        .create(document.querySelector('#NoiDung'))
+        .catch(error => {
+            console.error(error);
+        });
+    /*CKFinder.setupCKEditor(null, '/ckfinder');*/
+</script>
+@*<script>
     $("#NoiDung").ckeditor();
     CKEDITOR.editorConfig = function (config) {
         config.width = '1000px';
         config.height = '700px';
     };
-    
 
-</script>
+    CKEDITOR.replace('textarea's name', {
+            customConfig: '/js/CustomConfig.js'
+        });
+</script>*@
+
+
+
 <script>
     $(document).ready(
         function () {
