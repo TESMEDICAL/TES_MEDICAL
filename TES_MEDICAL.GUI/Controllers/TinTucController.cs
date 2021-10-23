@@ -13,35 +13,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-   
+
     public class TinTucController : Controller
     {
         private readonly ITinTuc _service;
-        public TinTucController(ITinTuc service)
+        private readonly ITheLoai _theLoaiRep;
+
+        public TinTucController(ITinTuc service, ITheLoai theLoaiRep)
         {
             _service = service;
+            _theLoaiRep = theLoaiRep;
         }
 
-        public async Task <ActionResult> Index(TinTucSearchModel model)
+        public async Task<ActionResult> Index(TinTucSearchModel model)
         {
-           
+
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
-                             ViewBag.MaNguoiViet =_service.NguoiDungNav();
-                
-                         
+            ViewBag.MaNguoiViet = _service.NguoiDungNav();
+
+            ViewBag.MaTL = await _theLoaiRep.GetAll();
+
+
             ViewBag.Names = listPaged;
             ViewBag.Data = model;
             return View(new TinTucSearchModel());
         }
-       
-      
+
+
         [HttpGet]
-       
-        public async Task <ActionResult> PageList(TinTucSearchModel model)
+
+        public async Task<ActionResult> PageList(TinTucSearchModel model)
         {
-            
-        var listmodel = await _service.SearchByCondition(model);
+
+            var listmodel = await _service.SearchByCondition(model);
             if (listmodel.Count() > 0)
             {
 
@@ -49,7 +54,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-                
+
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
@@ -61,50 +66,34 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
 
-          
+
         }
-                
-        
-        public async Task <ActionResult> Add()
+
+
+        public async Task<ActionResult> Add()
         {
-                           ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
-                        
-            return PartialView("_partialAdd",new TinTuc() );
+            ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
+
+            return PartialView("_partialAdd", new TinTuc());
 
         }
         [HttpPost]
-       
 
-        public async Task <ActionResult> Add( TinTuc model)
+
+        public async Task<ActionResult> Add(TinTuc model)
         {
-         
-                             model.MaBaiViet = Guid.NewGuid();
-                             if (await _service.Add(model) != null)
+
+            model.MaBaiViet = Guid.NewGuid();
+            if (await _service.Add(model) != null)
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-           
-            
-        } 
-        [HttpGet]
-       
-        public async Task <ActionResult> Edit(Guid id)
-        {
-            if (await _service.Get(id) == null)
-            {
-                return NotFound();;
-            }
-            else
-            {
-                            ViewBag.MaNguoiViet =new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email",(await _service.Get(id)).MaNguoiViet);
-                
-                     
-              return PartialView("_partialedit",await _service.Get(id));
-            }
-               
+
+
         }
-          [HttpGet]
-        public async Task <ActionResult> Detail(Guid id)
+        [HttpGet]
+
+        public async Task<ActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
             {
@@ -112,34 +101,57 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-                             ViewBag.MaNguoiViet = new SelectList( _service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
-                     
-             
-                return PartialView("_partialDetail",await _service.Get(id));
+                ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
+
+
+                return PartialView("_partialedit", await _service.Get(id));
+            }
+
+        }
+        [HttpGet]
+        public async Task<ActionResult> Detail(Guid id)
+        {
+            if (await _service.Get(id) == null)
+            {
+                return NotFound(); ;
+            }
+            else
+            {
+                ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
+
+
+                return PartialView("_partialDetail", await _service.Get(id));
             }
         }
 
-       
+
         [HttpPost]
-       
-        public async Task <ActionResult> Edit( TinTuc model)
+
+        public async Task<ActionResult> Edit(TinTuc model)
         {
-          
-                 if (await _service.Edit(model)!=null)
+
+            if (await _service.Edit(model) != null)
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-           
-           
+
+
         }
 
         [HttpPost]
-        public async Task <ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            if (await _service.Delete(id)) 
+            if (await _service.Delete(id))
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+
+
+        public async Task<ActionResult> ThemTinTuc()
+        {
+            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(),"MaTL","TenTL");
+            return View();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task <bool> Delete(Guid Id);
         Task <IPagedList<TinTuc>> SearchByCondition(TinTucSearchModel model);
         IEnumerable<NguoiDung>NguoiDungNav();
+
         
     }
 }

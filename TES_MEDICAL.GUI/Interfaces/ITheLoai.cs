@@ -16,6 +16,8 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task <TheLoai> Edit(TheLoai model);
         Task <bool> Delete(Guid Id);
         Task <IPagedList<TheLoai>> SearchByCondition(TheLoaiSearchModel model);
+
+        Task<IEnumerable<TheLoai>> GetAll();
         
     }
 }
