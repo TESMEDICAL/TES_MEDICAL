@@ -78,6 +78,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
         [HttpPost]
+        
 
 
         public async Task<ActionResult> Add(TinTuc model)
@@ -85,7 +86,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
             model.MaBaiViet = Guid.NewGuid();
             if (await _service.Add(model) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
 

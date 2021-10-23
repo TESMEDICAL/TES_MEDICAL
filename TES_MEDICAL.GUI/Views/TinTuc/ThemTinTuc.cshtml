@@ -11,7 +11,7 @@
     <div class="block">
         <h4 style="text-align:center; font-weight:bold">THÊM BÀI VIẾT MỚI</h4>
         <br />
-        <form class="row g-3">
+        <form class="row g-3" id="frm">
             <div class="col-md-4">
                 <label class="form-label">Tiêu đề</label>
                 <input type="text" class="form-control">
@@ -37,7 +37,7 @@
                 <textarea asp-for="NoiDung" rows="20" class="form-control" placeholder="Nhập nội dung ..."></textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Xác nhận</button>
+                <button class="btn btn-success" id="btSave"><i class="fas fa-save"></i> Xác nhận</button>
                 <button type="submit" class="btn btn-success"><i class="fas fa-close"></i> Đóng</button>
             </div>
         </form>
@@ -53,15 +53,44 @@
     CKEDITOR.editorConfig = function (config) {
         config.width = '1000px';
         config.height = '700px';
-        config.extraPlugins = 'preview';
     };
     
 
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(
+        function () {
 
-        $('.sidebar-mini').addClass("sidebar-collapse");
+            $('.sidebar-mini').addClass("sidebar-collapse");
+
+            $("#btSave").click(function () {
+                var obj = $("#frm").serializeObject();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/TinTuc/Add",
+                    data: obj,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+
+                            toastr.success(result.text);
+                            reloadpage(1);
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
     });
+
+    
 </script>
 }
