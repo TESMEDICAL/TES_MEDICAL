@@ -11,7 +11,7 @@
     <div class="block">
         <h4 style="text-align:center; font-weight:bold">THÊM BÀI VIẾT MỚI</h4>
         <br />
-        <form class="row g-3" id="frm">
+        <form class="row g-3"  asp-action="ThemTinTuc" asp-controller="TinTuc" method="post">
             <div class="col-md-4">
                 <label class="form-label">Tiêu đề</label>
                 <input type="text" class="form-control">
@@ -19,6 +19,7 @@
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.MaTL, "Thể loại", htmlAttributes: new { @class = "control-label col-12" })
                 <div class="col-12">
+                    
                     @Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
                 </div>
@@ -37,7 +38,7 @@
                 <textarea asp-for="NoiDung" rows="20" class="form-control" placeholder="Nhập nội dung ..."></textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-success" id="btSave"><i class="fas fa-save"></i> Xác nhận</button>
+                <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Xác nhận</button>
                 <button type="submit" class="btn btn-success"><i class="fas fa-close"></i> Đóng</button>
             </div>
         </form>
@@ -63,32 +64,32 @@
 
             $('.sidebar-mini').addClass("sidebar-collapse");
 
-            $("#btSave").click(function () {
-                var obj = $("#frm").serializeObject();
+            //$("#btSave").click(function () {
+            //    var obj = $("#frm").serializeObject();
 
 
-                $.ajax({
-                    type: "POST",
-                    url: "/TinTuc/Add",
-                    data: obj,
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/TinTuc/Add",
+            //        data: obj,
+            //        success: function (result) {
+            //            $('#preloader-wrapper').toggleClass('hide');
+            //            if (result.status >= 1) {
 
-                            toastr.success(result.text);
-                            reloadpage(1);
-                        }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                    },
-                    error: function (errormessage) {
-                        alert(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
+            //                toastr.success(result.text);
+            //                reloadpage(1);
+            //            }
+            //            else {
+            //                toastr.warning(result.text);
+            //            }
+            //        },
+            //        error: function (errormessage) {
+            //            alert(errormessage.responseText);
+            //        },
+            //        failure: function (message) {
+            //            $('#preloader-wrapper').toggleClass('hide');
+            //        }
+            //    });
     });
 
     
