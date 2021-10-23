@@ -7,7 +7,7 @@ namespace TES_MEDICAL.GUI.Models
 {
     public partial class HoaDon
     {
-        public Guid MaHoaDon { get; set; }
+        public string MaHoaDon { get; set; }
         public Guid MaPK { get; set; }
         public Guid MaNV { get; set; }
         public DateTime NgayHD { get; set; }
