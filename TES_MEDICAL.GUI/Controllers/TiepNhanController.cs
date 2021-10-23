@@ -115,6 +115,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
+
         public async Task<IActionResult> ChiTietDatLich(string id)
         {
             var chiTietDatLich = await _service.GetPhieuDatLichById(id);
