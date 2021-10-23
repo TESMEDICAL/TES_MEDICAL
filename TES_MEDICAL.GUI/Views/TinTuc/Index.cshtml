@@ -230,35 +230,35 @@
             $.print("#" + id);
         }
 
-        function Edit(id_) {
-            $myModalContent.html("");
+        //function Edit(id_) {
+        //    /*$myModalContent.html("");*/
 
-            $.ajax({
-                url: '/TinTuc/Edit/',
+        //    $.ajax({
+        //        url: '/TinTuc/Edit/',
 
-                type: "Get",
-                timeout: 20000,
+        //        type: "Get",
+        //        timeout: 20000,
 
-                async: true,
-                data: {
-                    id: id_
-                },
+        //        async: true,
+        //        data: {
+        //            id: id_
+        //        },
 
-                success: function (result) {
-                    $myModalContent.html(result);
-                    $('#btSave').hide();
-                    $('#btupdate').show();
-                    $('#btPrint').hide();
-                    $modal.modal('show');
+        //        success: function (result) {
+        //            $myModalContent.html(result);
+        //            //$('#btSave').hide();
+        //            //$('#btupdate').show();
+        //            //$('#btPrint').hide();
+        //            //$modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                }
-            });
-        }
+        //            $('#preloader-wrapper').toggleClass('hide');
+        //        },
+        //        failure: function (message) {
+        //            $('#preloader-wrapper').toggleClass('hide');
+        //        }
+        //    });
+        //}
 
 
         function Create() {

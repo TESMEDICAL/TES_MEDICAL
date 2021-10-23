@@ -83,8 +83,11 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
         {
+            NguoiDung nguoiDung = new NguoiDung();
+            nguoiDung.MaNguoiDung = Guid.Parse("A5FB55E8-25AF-434D-90E3-25E74B222882");
 
             model.MaBaiViet = Guid.NewGuid();
+            model.MaNguoiViet = nguoiDung.MaNguoiDung;
             if (await _service.Add(model) != null)
                 return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
                     RedirectToAction("index", "Tintuc");
@@ -98,7 +101,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<ActionResult> Edit(Guid id)
         {
-            if (await _service.Get(id) == null)
+            var item = await _service.Get(id);
+            if (item == null)
             {
                 return NotFound(); ;
             }
@@ -107,7 +111,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
 
 
-                return PartialView("_partialedit", await _service.Get(id));
+                return View(item);
             }
 
         }
