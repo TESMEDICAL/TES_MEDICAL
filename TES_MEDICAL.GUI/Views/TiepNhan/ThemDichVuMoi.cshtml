@@ -1,36 +1,28 @@
-﻿@model PhieuKhamViewModel
+﻿
 @{
-    ViewData["Title"] = "ThemPhieuKham";
+    ViewData["Title"] = "ThemDichVuMoi";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
-    var bn = new BenhNhan();
-    if (ViewBag.BenhNhan != null)
-    {
-        bn = ViewBag.BenhNhan as BenhNhan;
-    }
-
-
-    var NgaySinh = bn.NgaySinh?.ToString("yyyy-MM-dd");
 
 }
-
 
 <form class="row" id="frm">
     <div class="col-md-6">
         <!-- Basic Form Elements Block -->
         <div class="block">
             <!-- Basic Form Elements Title -->
-            <div class="block-title">               
+            <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <div  class="form-horizontal form-bordered">
+            <div class="form-horizontal form-bordered">
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
                         <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-10">
-                        <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        @*<input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">*@
+                        <input type="text" class="form-control" placeholder="Vui lòng nhập họ tên" disabled>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -38,7 +30,9 @@
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
                     <div class="col-10">
-                        <input type="number" asp-for="SDT"  class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        @*<input type="number" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">*@
+                        <input type="number" class="form-control" placeholder="Vui lòng nhập số điện thoại" disabled>
+
                     </div>
                 </div>
 
@@ -47,7 +41,9 @@
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" value="@(NgaySinh)" asp-for="NgaySinh"  class="form-control">
+                        @*<input type="date" value="@(NgaySinh)" asp-for="NgaySinh" class="form-control">*@
+                        <input type="date" class="form-control" disabled>
+
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -55,11 +51,12 @@
                         <label for="Hoten" class="col-form-label">Giới tính</label>
                     </div>
                     <div class="col-10">
-                        <!-- <select id="example-select" name="example-select" class="form-control" size="1">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select> -->
-                        <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
+                        @*<select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
+                               <option value="0">Nam</option>
+                               <option value="1">Nữ</option>
+
+                            </select>*@
+                        <select style="font-size: 13px;" class="form-select" disabled>
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
 
@@ -71,8 +68,11 @@
                     <div class="col-2">
                         <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
+                    @*<div class="col-10">
+                            <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        </div>*@
                     <div class="col-10">
-                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        <textarea type="textarea" class="form-control" disabled></textarea>
                     </div>
                 </div>
             </div>
@@ -90,18 +90,25 @@
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <div  class="form-horizontal form-bordered p-0">
+            <div class="form-horizontal form-bordered p-0">
                 <div class="form-group row">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Chuyên khoa</label>
-                        <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
+                        @*<select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
+                                <option value="">Chọn chuyên khoa</option>
+                            </select>*@
+                        <select id="MaCK" style="font-size: 13px;" class="form-select" disabled>
                             <option value="">Chọn chuyên khoa</option>
                         </select>
 
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Bác sĩ</label>
-                        <select style="font-size: 13px;" class="form-select" asp-for="MaBS">
+                        @*<select style="font-size: 13px;" class="form-select" asp-for="MaBS">
+                                <option value="">Chọn bác sĩ</option>
+
+                            </select>*@
+                        <select style="font-size: 13px;" class="form-select" disabled>
                             <option value="">Chọn bác sĩ</option>
 
                         </select>
@@ -110,8 +117,11 @@
                         <div class="col-2">
                             <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         </div>
+                        @*<div class="col-12">
+                                <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
+                            </div>*@
                         <div class="col-12">
-                            <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
+                            <textarea type="textarea" class="form-control" style="height: 128px;" disabled></textarea>
                         </div>
 
                     </div>
@@ -126,7 +136,7 @@
     <div class="block">
 
         <div class="form-group" style="float:right">
-            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Cập nhật dịch vụ</button>
 
         </div>
         <div class="form-group">
@@ -154,7 +164,7 @@
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
-                
+
             </div>
         </div>
 
@@ -179,7 +189,7 @@
             <div class="modal-body">
 
                 <div id="myModalContent">
-                    
+
                 </div>
             </div>
 
@@ -196,7 +206,6 @@
 
     </div>
 </div>
-
 
 @section scripts{
     <script>
@@ -217,10 +226,6 @@
                 }
             });
         }
-
-
-
-        //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
             obj = {}
             obj = $("#frm").serializeObject();
@@ -228,7 +233,7 @@
             $("#listDV > tr").each(function () {
                 $tr = $(this)
                 var $td = $tr.find("td");
-                listdv.push({ MaDV: $td.eq(0).text()})
+                listdv.push({ MaDV: $td.eq(0).text() })
 
             });
             obj.dichVus = listdv
@@ -276,7 +281,7 @@
             });
 
         }
-        
+
         $("#btCheckOut").click(function () {
             $(this).prop("disabled", true);
 
@@ -355,10 +360,6 @@
             $(this).parent().parent().remove();
 
         });
-
-
-
-
     </script>
 
 }

@@ -109,7 +109,10 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.Current = "capnhatdichvu";
             return View();
         }
-
+        public IActionResult ThemDichVuMoi()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> ChiTietDatLich(string id)
         {
