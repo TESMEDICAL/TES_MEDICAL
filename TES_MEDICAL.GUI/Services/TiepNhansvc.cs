@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Interfaces;
@@ -53,7 +55,7 @@ namespace TES_MEDICAL.GUI.Services
                     var benhNhan = new BenhNhan { MaBN = Guid.NewGuid(), HoTen = model.HoTen, SDT = model.SDT, NgaySinh = model.NgaySinh, DiaChi = model.DiaChi, GioiTinh = model.GioiTinh };
                     await _context.BenhNhan.AddAsync(benhNhan);
                   // Thêm phiếu khám với thông tin bệnh nhân
-                    var phieuKham = new PhieuKham {MaPK=Guid.NewGuid(), MaBN = benhNhan.MaBN, MaBS = model.MaBS, NgayKham = DateTime.Now, TrieuChung = model.TrieuChung };
+                    var phieuKham = new PhieuKham {MaPK=Guid.NewGuid(), MaBN = benhNhan.MaBN, MaBS = model.MaBS, NgayKham = DateTime.Now, TrieuChungSoBo = model.TrieuChung };
                     await _context.PhieuKham.AddAsync(phieuKham);
                  
                     //Thêm chi tiết dịch vụ phiếu khám
@@ -61,11 +63,12 @@ namespace TES_MEDICAL.GUI.Services
                     {
                         var ctdv = new ChiTietDV { MaDV = item.MaDV, MaPhieuKham = phieuKham.MaPK };
                         await _context.ChiTietDV.AddAsync(ctdv);
-                        tongtien += item.DonGia;
+                        tongtien += (await _context.DichVu.FindAsync(item.MaDV)).DonGia;
+
                     }
                     
                     //Xuất hóa đơn dịch vụ
-                    var HoaDon = new HoaDon { MaHoaDon = Guid.NewGuid(), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = Guid.Parse("6b0d19a9-fe51-458b-a4a6-9841887b60ca"),TongTien = tongtien };
+                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = Guid.Parse("6b0d19a9-fe51-458b-a4a6-9841887b60ca"),TongTien = tongtien };
                     await _context.HoaDon.AddAsync(HoaDon);
 
 
@@ -80,6 +83,40 @@ namespace TES_MEDICAL.GUI.Services
 
                     //Commit transaction
                     await transaction.CommitAsync();
+
+                    //In hóa đơn
+                    var listDichVu = "";
+                    foreach (var item in model.dichVus)
+                    {
+                        var Dv = await  _context.DichVu.FirstOrDefaultAsync(x => x.MaDV == item.MaDV);
+                        listDichVu += $"<tr><td class='col-6'><strong>{Dv.TenDV}</strong></td><td class='col-6 text-end'><strong>{Dv.DonGia.ToString("n0").Replace(',', '.')}</strong></td></tr>";
+                    }
+                    var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+                    using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
+                    {
+                        string readFile = reader.ReadToEnd();
+                        string html = string.Empty;
+                        html = readFile;
+                        html = html.Replace("{MaHoaDon}", HoaDon.MaHoaDon);
+                        html = html.Replace("{MaNhanVien}", (await _context.NhanVienYte.FindAsync(HoaDon.MaNV)).HoTen);
+                        html = html.Replace("{NgayKham}", HoaDon.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
+                        html = html.Replace("{HoTen}", benhNhan.HoTen);
+                        html = html.Replace("{NgaySinh}", benhNhan.NgaySinh?.ToString("dd/MM/yyyy"));
+                        html = html.Replace("{SDT}", benhNhan.SDT);
+                        html = html.Replace("{DiaChi}", benhNhan.DiaChi);
+                        html = html.Replace("{listDichVu}", listDichVu);
+                        html = html.Replace("{tongtien}", HoaDon.TongTien?.ToString("n0").Replace(',', '.'));
+
+                        HtmlToPdf ohtmlToPdf = new HtmlToPdf();
+                        PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
+                        byte[] pdf = opdfDocument.Save();
+                        opdfDocument.Close();
+
+                        string filePath = "";
+                        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon",HoaDon.MaHoaDon+".pdf");
+                        System.IO.File.WriteAllBytes(filePath, pdf);
+
+                    }
                     return phieuKham;
                 }
              } 

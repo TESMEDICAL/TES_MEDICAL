@@ -96,7 +96,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
+        //Nội dung mail
         private string message(PhieuDatLich model)
         {
             var request = HttpContext.Request;

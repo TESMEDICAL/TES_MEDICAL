@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TES_MEDICAL.GUI.Models.ViewModel;
+using System.IO;
+using SelectPdf;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -87,20 +89,13 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
-            
-                    if (await _service.CreatePK(model) != null)
-                    {
-                      
+            if (await _service.CreatePK(model) != null)
+            {
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+            }
+            else
+                return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
 
-
-                        return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
-                    }
-
-                    else
-                        return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
-                
-
-            
         }
 
         public IActionResult QuanLyDatLich()
