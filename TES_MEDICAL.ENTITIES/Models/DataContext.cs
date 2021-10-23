@@ -37,6 +37,7 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<TinTuc> TinTuc { get; set; }
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
+        public virtual DbSet<TheLoai> TheLoai { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,6 +50,50 @@ namespace TES_MEDICAL.GUI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+
+            modelBuilder.Entity<TheLoai>(entity =>
+            {
+                entity.HasKey(e => e.MaTL)
+                    .HasName("PK__TheLoai__272500715188CB73");
+
+                entity.Property(e => e.MaTL).ValueGeneratedNever();
+
+                entity.Property(e => e.TenTL)
+                    .IsRequired()
+                    .HasMaxLength(100);
+            });
+
+
+
+
+            modelBuilder.Entity<TinTuc>(entity =>
+            {
+                entity.HasKey(e => e.MaBaiViet)
+                    .HasName("PK__TinTuc__AEDD56476D752A3D");
+
+                entity.HasIndex(e => e.MaNguoiViet, "IX_TinTuc_MaNguoiViet");
+
+                entity.Property(e => e.MaBaiViet).ValueGeneratedNever();
+
+                entity.Property(e => e.NoiDung).IsRequired();
+
+                entity.Property(e => e.TieuDe)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.MaNguoiVietNavigation)
+                    .WithMany(p => p.TinTuc)
+                    .HasForeignKey(d => d.MaNguoiViet)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TinTuc__MaNguoiV__1273C1CD");
+
+                entity.HasOne(d => d.MaTLNavigation)
+                    .WithMany(p => p.TinTuc)
+                    .HasForeignKey(d => d.MaTL)
+                    .HasConstraintName("FK__TinTuc__MaTL__71D1E811");
+            });
+
 
             modelBuilder.Entity<Benh>(entity =>
             {
@@ -431,11 +476,10 @@ namespace TES_MEDICAL.GUI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__STTTOATHUO__MaPK__35BCFE0A");
             });
-
             modelBuilder.Entity<TinTuc>(entity =>
             {
                 entity.HasKey(e => e.MaBaiViet)
-                    .HasName("PK__TinTuc__AEDD56476D752A3D");
+                    .HasName("PK__TinTuc__AEDD5647A9FE161F");
 
                 entity.Property(e => e.MaBaiViet).ValueGeneratedNever();
 
