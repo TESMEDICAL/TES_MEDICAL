@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -15,10 +16,12 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly INhanVienYte _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
-        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep)
+        private readonly UserManager<NhanVienYte> _userManager;
+        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager)
         {
             _service = service;
             _chuyenkhoaRep = chuyenkhoaRep;
+            _userManager = userManager;
         }
 
         public async Task<ActionResult> Index(NhanVienYteSearchModel model)
@@ -64,140 +67,154 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
-            return PartialView("_partialAdd", new NhanVienYte());
+            return PartialView("_partialAdd", new NhanVienModel());
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([Bind("EmailNV,MatKhau,ConfirmPassword,HoTen,SDTNV,ChucVu,TrangThai,Hinh,ChuyenKhoa")] NhanVienYte model, [FromForm] IFormFile file)
+        public async Task<ActionResult> Add([Bind("Email,MatKhau,ConfirmPassword,HoTen,SDTNV,ChucVu,TrangThai,Hinh,ChuyenKhoa")] NhanVienModel model, [FromForm] IFormFile file)
         {
-            string filePath = "";
-            var filePathDefault = "final.png";
-
-            if (file == null)
+            if (ModelState.IsValid)
             {
-                model.Hinh = filePathDefault;
-            }
-            else
-            {
-                //model.Hinh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+                string filePath = "";
+                var filePathDefault = "final.png";
 
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                model.Hinh = fileName;
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
-
-            model.MaNV = Guid.NewGuid();
-
-            if (await _service.Add(model) != null)
-            {
-                if (file != null)
+                if (file == null)
                 {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    model.Hinh = filePathDefault;
+                }
+                else
+                {
+                    //model.Hinh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    model.Hinh = fileName;
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                }
+
+
+
+                var user = new NhanVienYte { UserName = model.Email, Email = model.Email, HoTen = model.HoTen, ChucVu = model.ChucVu, TrangThai = model.TrangThai, Hinh = model.Hinh, ChuyenKhoa = model.ChuyenKhoa, PhoneNumber = model.SDTNV };
+                var result = await _userManager.CreateAsync(user, "Online1@!");
+
+
+                if (result.Succeeded)
+                {
+                    if (file != null)
                     {
-                        file.CopyTo(fileStream);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
                     }
+                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("Email", error.Description);
+                    }
+                    return PartialView("_partialAdd", model);
 
                 }
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }              
+            return PartialView("_partialAdd", model);
+
 
         }
 
 
-        [HttpGet]
-        public async Task<ActionResult> Edit(Guid id)
-        {
-            var item = await _service.Get(id);
-            if (item == null)
-            {
-                return NotFound(); ;
-            }
-            else
-            {
-                ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
+        //[HttpGet]
+        //public async Task<ActionResult> Edit(string id)
+        //{
+        //    var item = await _service.Get(id);
+        //    if (item == null)
+        //    {
+        //        return NotFound(); ;
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
 
-                return PartialView("_partialedit", item);
-            }
+        //        return PartialView("_partialedit", item);
+        //    }
 
-        }
+        //}
 
-        [HttpGet]
-        public async Task<ActionResult> Detail(Guid id)
-        {
-            var item = await _service.Get(id);
-            if (item == null)
-            {
-                return NotFound(); ;
-            }
-            else
-            {
-                ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK", item.ChuyenKhoa);
+        //[HttpGet]
+        //public async Task<ActionResult> Detail(Guid id)
+        //{
+        //    var item = await _service.Get(id.ToString());
+        //    if (item == null)
+        //    {
+        //        return NotFound(); ;
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK", item.ChuyenKhoa);
 
 
-                return PartialView("_partialDetail", item);
-            }
-        }
+        //        return PartialView("_partialDetail", item);
+        //    }
+        //}
 
-        [HttpPost]
-        public async Task<ActionResult> Edit(NhanVienYte model, [FromForm] IFormFile file)
-        {
-            string filePath = "";
-            if (file != null)
-            {
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                model.Hinh = fileName;
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
+        //[HttpPost]
+        //public async Task<ActionResult> Edit(NhanVienYte model, [FromForm] IFormFile file)
+        //{
+        //    string filePath = "";
+        //    if (file != null)
+        //    {
+        //        var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+        //        model.Hinh = fileName;
+        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+        //    }
 
-            if (await _service.Edit(model) != null)
-            {
-                if (file != null)
-                {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                }
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
+        //    if (await _service.Edit(model) != null)
+        //    {
+        //        if (file != null)
+        //        {
+        //            using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                file.CopyTo(fileStream);
+        //            }
+        //        }
+        //        return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //    }
+        //    else
+        //    {
+        //        return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //    }
                 
 
-        }
+        //}
 
-        [HttpPost]
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            if (await _service.Delete(id))
-                return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        }
+        //[HttpPost]
+        //public async Task<ActionResult> Delete(Guid id)
+        //{
+        //    if (await _service.Delete(id))
+        //        return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //    else
+        //        return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //}
 
 
 
-        public IActionResult ThemNvYTe()
-        {
-            return PartialView("_AddNhanVienYTe");
-        }
+        //public IActionResult ThemNvYTe()
+        //{
+        //    return PartialView("_AddNhanVienYTe");
+        //}
 
-        public IActionResult EditNhanVienYTe()
-        {
-            return PartialView("_EditNhanVienYTe");
-        }
+        //public IActionResult EditNhanVienYTe()
+        //{
+        //    return PartialView("_EditNhanVienYTe");
+        //}
 
-        public IActionResult DetailNhanVienYTe()
-        {
-            return PartialView("_DetailNhanVienYTe");
-        }
+        //public IActionResult DetailNhanVienYTe()
+        //{
+        //    return PartialView("_DetailNhanVienYTe");
+        //}
     }
 }

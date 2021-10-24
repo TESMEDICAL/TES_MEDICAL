@@ -20,7 +20,7 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Pages
 
         public NavigationManager navigationManager { get; set; }
         [Inject]
-        ILocalStorageService localstorage { get; set; }
+        ILocalStorageServiceCookie localstorage { get; set; }
         [Inject]
         IKhamBenh khambenhRep { get; set; }
         public List<STTViewModel> PhieuKhams { get; set; } = new List<STTViewModel>();

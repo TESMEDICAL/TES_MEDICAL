@@ -120,7 +120,7 @@
 
                     formData.append("file", file);
                     formData.append('MaNV', $("#MaNV").val());
-                    formData.append('EmailNV', $("#EmailNV").val());
+                    formData.append('Email', $("#Email").val());
                     formData.append('MatKhau', $("#MatKhau").val());
                     formData.append('ConfirmPassword', $("#ConfirmPassword").val());
                     formData.append('HoTen', $("#HoTen").val());
@@ -138,13 +138,18 @@
                         data: formData,
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
+                            if (result.status != null) {
+                                if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                reloadpage(1);
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
                             }
                             else {
-                                toastr.warning(result.text);
+                                $myModalContent.html(result);
                             }
                         },
                         error: function (errormessage) {
@@ -167,7 +172,7 @@
 
                     formData.append("file", file);
                     formData.append('MaNV', $("#MaNV").val());
-                    formData.append('EmailNV', $("#EmailNV").val());
+                    formData.append('Email', $("#Email").val());
                     formData.append('MatKhau', $("#MatKhau").val());
                     formData.append('ConfirmPassword', $("#ConfirmPassword").val());
                     formData.append('HoTen', $("#HoTen").val());

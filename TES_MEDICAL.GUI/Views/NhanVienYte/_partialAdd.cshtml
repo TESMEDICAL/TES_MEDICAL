@@ -1,6 +1,6 @@
 
 
-@model TES_MEDICAL.GUI.Models.NhanVienYte
+@model TES_MEDICAL.GUI.Models.NhanVienModel
 
 <h4 style="text-align:center; font-weight:bold">THÊM NHÂN VIÊN Y TẾ</h4>
 <hr />
@@ -13,10 +13,10 @@
             <div class="row">
                 <div class="text-danger"></div>
                 <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.EmailNV, "Email nhân viên", htmlAttributes: new { @class = "control-label col-md-6" })
+                    @Html.LabelFor(model => model.Email, "Email nhân viên", htmlAttributes: new { @class = "control-label col-md-6" })
                     <div class="col-12">
-                        @Html.EditorFor(model => model.EmailNV, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.EmailNV, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -53,8 +53,10 @@
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.ChuyenKhoa, "Chuyên khoa", htmlAttributes: new { @class = "control-label col-12" })
                     <div class="col-12">
-                        @Html.DropDownList("ChuyenKhoa", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ChuyenKhoa, "", new { @class = "text-danger" })
+                        <select asp-for="ChuyenKhoa" class="form-select" asp-items="@ViewBag.ChuyenKhoa" disabled>
+                            <option value="">Chọn chuyên khoa</option>
+                        </select>
+                      
                     </div>
                 </div>
 
@@ -98,6 +100,18 @@
 <script>
 
     $(document).ready(function () {
+
+    });
+    $("#ChucVu").change(function () {
+
+        var id = $(this).val();
+
+        if (id == 2) {
+            $('#ChuyenKhoa').prop("disabled", false);
+        } else {
+            $("#ChuyenKhoa").val("").change();
+            $('#ChuyenKhoa').prop("disabled", true);
+        }
 
     });
 
