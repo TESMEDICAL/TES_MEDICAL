@@ -36,7 +36,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpGet("GetListPK")]
-        public async Task<IActionResult> GetPK(Guid MaBS)
+        public async Task<IActionResult> GetPK(string MaBS)
         {
             return Ok (await _sevices.GetList(MaBS));
         }

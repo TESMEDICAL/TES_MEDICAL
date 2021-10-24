@@ -29,13 +29,13 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Services
     {
         private HttpClient _httpClient;
         private NavigationManager _navigationManager;
-        private ILocalStorageService _localStorageService;
+        private ILocalStorageServiceCookie _localStorageService;
         private IConfiguration _configuration;
 
         public HttpService(
             HttpClient httpClient,
             NavigationManager navigationManager,
-            ILocalStorageService localStorageService,
+            ILocalStorageServiceCookie localStorageService,
             IConfiguration configuration
         )
         {

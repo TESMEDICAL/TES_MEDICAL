@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,11 +24,14 @@ namespace TES_MEDICAL.CLIENKHAMBENH
                          .AddScoped<IHttpService, HttpService>()
 
                           .AddScoped<IModal, ModalServices>()
-                          .AddScoped<ILocalStorageService, LocalStorageService>()
+                          .AddScoped<ILocalStorageServiceCookie, LocalStorageServices>()
                           
                           .AddScoped<IKhamBenh, KhamBenhsvc>();
 
-
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44303/") });
             var host = builder.Build();
 

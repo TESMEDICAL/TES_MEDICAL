@@ -35,8 +35,8 @@ namespace TES_MEDICAL.GUI.Controllers
             _nhanvienyteRep = nhanVienYteRep;
             
         }
-        [Route("/TiepNhan")]
-        [Route("/TiepNhan/ThemPhieuKham")]
+       
+     
         
         public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
 
@@ -56,7 +56,7 @@ namespace TES_MEDICAL.GUI.Controllers
             List<SelectListItem> ListBS = new List<SelectListItem>();
             foreach (var item in list)
             {
-                ListBS.Add(new SelectListItem { Text = item.HoTen, Value = item.MaNV.ToString() });
+                ListBS.Add(new SelectListItem { Text = item.HoTen, Value = item.Id.ToString() });
             }
             return Json(ListBS, new JsonSerializerSettings());
         }
@@ -71,7 +71,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> XacNhanDichVu([FromForm] PhieuKhamViewModel model)
         {
-            ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS);
+            ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
             var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
             result.dichVus = new List<DichVu>();
 
