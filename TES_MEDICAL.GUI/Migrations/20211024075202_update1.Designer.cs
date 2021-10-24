@@ -10,7 +10,7 @@ using TES_MEDICAL.GUI.Models;
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211024061236_update1")]
+    [Migration("20211024075202_update1")]
     partial class update1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,6 +13,7 @@ using TES_MEDICAL.GUI.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    [Authorize(Roles = "nhanvien")]
     public class TiepNhanController : Controller
     {
         private readonly ITiepNhan _service;
