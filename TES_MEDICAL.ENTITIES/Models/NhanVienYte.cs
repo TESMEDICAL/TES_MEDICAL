@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TES_MEDICAL.GUI.Models
 {
-    public partial class NhanVienYte
+    public partial class NhanVienYte:IdentityUser
     {
         public NhanVienYte()
         {
@@ -15,32 +16,18 @@ namespace TES_MEDICAL.GUI.Models
             HoaDonThuoc = new HashSet<HoaDonThuoc>();
             PhieuKham = new HashSet<PhieuKham>();
         }
-
-        public Guid MaNV { get; set; }
-
-        [Required(ErrorMessage = "Bạn cần nhập Email")]
-        public string EmailNV { get; set; }
-
-        [Required(ErrorMessage = "Bạn cần nhập mật khẩu")]
-        [DataType(DataType.Password)]
-        public string MatKhau { get; set; }
-
-        [Required(ErrorMessage = "Bạn cần nhập lại mật khẩu")]
-        [DataType(DataType.Password)]
-        [Compare("MatKhau", ErrorMessage = "Mật khẩu không khớp")]
-        [NotMapped]
-        public string ConfirmPassword { get; set; }
-
-        [Required(ErrorMessage = "Bạn cần nhập họ tên")]
+        [PersonalData]
         public string HoTen { get; set; }
 
-        [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
-        public string SDTNV { get; set; }
 
+
+        [PersonalData]
         [Required(ErrorMessage = "Bạn cần chọn chức vụ")]
         public byte ChucVu { get; set; }
+        [PersonalData]
         public bool TrangThai { get; set; }
         public string Hinh { get; set; }
+        [PersonalData]
         public Guid? ChuyenKhoa { get; set; }
 
         public virtual ChuyenKhoa ChuyenKhoaNavigation { get; set; }

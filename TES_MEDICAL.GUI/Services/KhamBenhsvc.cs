@@ -17,7 +17,7 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<STTViewModel>> GetList(Guid MaBS)
+        public async Task<IEnumerable<STTViewModel>> GetList(string MaBS)
         {
             return await (from x in _context.PhieuKham
                           join y in _context.STTPhieuKham

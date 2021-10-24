@@ -65,7 +65,7 @@ namespace TES_MEDICAL.GUI.Services
                     }
                     
                     //Xuất hóa đơn dịch vụ
-                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = Guid.Parse("6b0d19a9-fe51-458b-a4a6-9841887b60ca"),TongTien = tongtien };
+                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = "da63a519-f9fa-48ac-ab40-f1cb3c4601de", TongTien = tongtien };
                     await _context.HoaDon.AddAsync(HoaDon);
 
 

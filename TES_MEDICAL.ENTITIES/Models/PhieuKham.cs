@@ -15,7 +15,7 @@ namespace TES_MEDICAL.GUI.Models
         }
 
         public Guid MaPK { get; set; }
-        public Guid MaBS { get; set; }
+        public string MaBS { get; set; }
         public Guid MaBN { get; set; }
         public string Mach { get; set; }
         public string NhietDo { get; set; }
