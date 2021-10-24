@@ -32,14 +32,6 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.Plugin.DiskQuota\CKFinder.Connector.Plugin.DiskQuota.csproj" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.Plugin.GetFileInfo\CKFinder.Connector.Plugin.GetFileInfo.csproj" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.Plugin.UserActionsLogger\CKFinder.Connector.Plugin.UserActionsLogger.csproj" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.Plugin.Watermark\CKFinder.Connector.Plugin.Watermark.csproj" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.Samples.sln" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.WebApp\CKFinder.Connector.WebApp.csproj" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.WebApp\CKFinder.Connector.WebApp.csproj.user" />
-    <None Include="wwwroot\ckfinder\src\CKFinder.Connector.WebApp\Properties\PublishProfiles\FolderProfile.pubxml.user" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
@@ -85,14 +77,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\ckfinder\App_Data\" />
-    <Folder Include="wwwroot\ckfinder\src\CKFinder.Connector.WebApp\userfiles\" />
-    <Folder Include="wwwroot\ckfinder\userfiles\" />
     <Folder Include="wwwroot\GuestElement\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TES_MEDICAL.ENTITIES\TES_MEDICAL.ENTITIES.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CKFinder">
+      <HintPath>..\..\..\..\Users\Admin\Downloads\drive-download-20211024T045324Z-001\CKFinder.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
