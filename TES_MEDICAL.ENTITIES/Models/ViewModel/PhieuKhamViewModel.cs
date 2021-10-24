@@ -12,7 +12,7 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
         public DateTime? NgaySinh { get; set; }
         public bool GioiTinh { get; set; }
         public string DiaChi { get; set; }
-        public Guid MaBS { get; set; }
+        public string MaBS { get; set; }
         public string TrieuChung { get; set; }
         public bool UuTien { get; set; }
         public List<DichVu> dichVus { get; set; }

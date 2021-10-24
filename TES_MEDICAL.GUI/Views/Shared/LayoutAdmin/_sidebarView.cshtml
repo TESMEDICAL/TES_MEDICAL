@@ -32,11 +32,11 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
-                 with font-awesome or any other icon font library -->
-            
-           
-           
-           
+         with font-awesome or any other icon font library -->
+
+
+
+
             <li class="nav-header">CHỨC NĂNG ADMIN</li>
             <li class="nav-item">
                 <a href="@Url.Action("Index","QuanLyTrangChu")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "QuanLyTrangChu")">
@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="@Url.Action("Index","QuanLyNguoiDung")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "QuanLyNguoiDung")">
+                <a href="@Url.Action("Index","NguoiDung")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "NguoiDung")">
                     <i class="nav-icon fas fa-users-cog"></i>
                     <p>
                         Quản lý người dùng
@@ -68,6 +68,15 @@
                     <i class="nav-icon fas fa-pills"></i>
                     <p>
                         Thuốc
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="@Url.Action("Index","DichVu")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "DichVu")">
+                    <i class="nav-icon fas fa-notes-medical"></i>
+                    <p>
+                        Dịch vụ
                     </p>
                 </a>
             </li>
@@ -113,7 +122,7 @@
                     </li>
                 </ul>
             </li>
-    </nav>
+</nav>
     <!-- /.sidebar-menu -->
 </div>
 

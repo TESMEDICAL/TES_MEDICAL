@@ -9,7 +9,7 @@ namespace TES_MEDICAL.GUI.Models
     {
         public string MaHoaDon { get; set; }
         public Guid MaPK { get; set; }
-        public Guid MaNV { get; set; }
+        public string MaNV { get; set; }
         public DateTime NgayHD { get; set; }
         public decimal? TongTien { get; set; }
 
