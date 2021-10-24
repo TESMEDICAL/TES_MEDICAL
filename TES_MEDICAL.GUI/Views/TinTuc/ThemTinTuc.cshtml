@@ -19,8 +19,10 @@
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.MaTL, "Thể loại", htmlAttributes: new { @class = "control-label col-12" })
                 <div class="col-12">
-
-                    @Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })
+                    <select asp-for="MaTL" asp-items="@ViewBag.MaTL" class="form-control">
+                        <option value="">Chọn thể loại</option>
+                    </select>
+                    @*@Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })*@
                     @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -35,7 +37,7 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Nội dung bài viết</label>
-                <textarea asp-for="NoiDung" rows="100" class="form-control" placeholder="Nhập nội dung ..."></textarea>
+                <textarea asp-for="NoiDung" rows="20" class="form-control" placeholder="Nhập nội dung ..."></textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Xác nhận</button>
@@ -48,16 +50,15 @@
 
 @section scripts{
 
+
     <script src="~/ckeditor/ckeditor.js"></script>
-    <script src="~/ckfinder/ckfinder.js"></script>
-    
+    <script src="~/ckeditor/adapters/jquery.js"></script>
+
     <script>
-        CKEDITOR.replace("NoiDung");
+        $("#NoiDung").ckeditor();
     </script>
 
-
-
-    <script>
+<script>
         $(document).ready(
             function () {
 

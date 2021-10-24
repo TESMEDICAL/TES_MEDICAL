@@ -7,21 +7,28 @@
 <div class="p-5">
     <div class="block">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group col-4" style="display:none">
-            <label class="control-label col-md-6" for="MaBaiViet">MaBaiViet</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MaBaiViet, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MaBaiViet, "", new { @class = "text-danger" })
-            </div>
-        </div>
         <h4 style="text-align:center; font-weight:bold">CHỈNH SỬA BÀI VIẾT</h4>
         <br />
-        <form class="row g-3">
-            <div class="col-md-6">
+        <form class="row g-3" asp-action="Edit" asp-controller="TinTuc" method="post">
+            @Html.HiddenFor(model => model.MaBaiViet)
+            @Html.HiddenFor(model => model.MaNguoiViet)
+            <div class="col-md-4">
                 <label class="form-label">Tiêu đề</label>
                 <input type="text" asp-for="TieuDe" class="form-control">
             </div>
-            <div class="col-md-6">
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.MaTL, "Thể loại", htmlAttributes: new { @class = "control-label col-12" })
+                <div class="col-12">
+                    <select asp-for="MaTL" asp-items="@ViewBag.MaTL" class="form-control">
+                        <option value="">Chọn thể loại</option>
+                    </select>
+                    @*@Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
                 <label class="form-label">Trạng thái</label>
                 <div class="form-check">
                     <input class="form-check-input" asp-for="TrangThai" type="checkbox" id="gridCheck">
@@ -36,25 +43,19 @@
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Cập nhật</button>
-                <button type="submit" class="btn btn-success"><i class="fas fa-close"></i> Đóng</button>
+                <button class="btn btn-success"><i class="fas fa-close"></i> Đóng</button>
             </div>
         </form>
     </div>
 
 </div>
 
-@section scripts{
+@*@section scripts{
     <script src="~/ckeditor/ckeditor.js"></script>
     <script src="~/ckeditor/adapters/jquery.js"></script>
     <script>
-    $("#NoiDung").ckeditor();
-    CKEDITOR.editorConfig = function (config) {
-        config.width = '1000px';
-        config.height = '700px';
-    };
-
-
-    </script>
+        $("#NoiDung").ckeditor();
+    </script>*@
 
 }
 
