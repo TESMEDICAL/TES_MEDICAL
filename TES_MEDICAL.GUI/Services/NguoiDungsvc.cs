@@ -82,28 +82,23 @@ namespace TES_MEDICAL.GUI.Services
         {
            try
             {
-             using (var transaction = _context.Database.BeginTransaction())
-                {
-                     
-              
+                 using (var transaction = _context.Database.BeginTransaction())
+                    {
 
-                var existingNguoiDung = _context.NguoiDung.Find(model.MaNguoiDung);
-                                     existingNguoiDung.Email = model.Email;
-                                       existingNguoiDung.MatKhau = model.MatKhau;
-                                       existingNguoiDung.HoTen = model.HoTen;
-                                       existingNguoiDung.SDT = model.SDT;
-                                       existingNguoiDung.HinhAnh = model.HinhAnh;
-                                       existingNguoiDung.ChucVu = model.ChucVu;
-                                       existingNguoiDung.TrangThai = model.TrangThai;
+                    var existingNguoiDung = _context.NguoiDung.Find(model.MaNguoiDung);
+                                         existingNguoiDung.Email = model.Email;
+                                           //existingNguoiDung.MatKhau = model.MatKhau;
+                                           existingNguoiDung.HoTen = model.HoTen;
+                                           existingNguoiDung.SDT = model.SDT;
+                                           existingNguoiDung.HinhAnh = model.HinhAnh;
+                                           existingNguoiDung.ChucVu = model.ChucVu;
+                                           existingNguoiDung.TrangThai = model.TrangThai;
                                    
-              
 
-
-
-                 await _context.SaveChangesAsync();
-                 await transaction.CommitAsync();
-                return model;
-                }
+                     await _context.SaveChangesAsync();
+                     await transaction.CommitAsync();
+                    return model;
+                    }
                 
                 
             }
