@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using TES_MEDICAL.GUI.Extension;
+using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
@@ -81,7 +82,7 @@ namespace TES_MEDICAL.GUI
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
             //       .AddEntityFrameworkStores<DataContext>();
-            services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
                    .AddEntityFrameworkStores<DataContext>();
             services
               .AddDatabase(Configuration)
