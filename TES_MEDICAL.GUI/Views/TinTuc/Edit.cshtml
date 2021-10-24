@@ -56,15 +56,51 @@
         <script>
             $("#NoiDung").ckeditor();
         </script>*@
-    <link href="~/summernote/summernote.css" rel="stylesheet" />
-    <script src="~/summernote/summernote.js"></script>
-    
-<script>
+    <link href="~/summernote/summernote-lite.css" rel="stylesheet" />
+    <script src="~/summernote/summernote-lite.js"></script>
+
+    <script>
     $(document).ready(
         function () {
-            $('.NoiDung').summernote();
+            $('.NoiDung').summernote({
+                height: 300,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: true,
+                callbacks: {
+                    onImageUpload: function (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            UploadImage(files[i]);
+                        }
+                    }
+                }
+            });
+
+            function UploadImage(file) {
+                var url = '@Url.Action("UploadFile", "TinTuc")';
+
+                formData = new FormData();
+                formData.append("aUploadedFile", file);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (FileUrl) {
+                       // alert(FileUrl);
+                        var imgNode = document.createElement('img');
+                        imgNode.src = FileUrl;
+                        $('.NoiDung').summernote('insertNode', imgNode);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
         });
-</script>
+    </script>
 
 }
 

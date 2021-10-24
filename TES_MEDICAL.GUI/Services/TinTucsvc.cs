@@ -65,8 +65,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task <TinTuc> Get(Guid id)
         {
             
-            var item = await _context.TinTuc
-                            
+            var item = await _context.TinTuc.Include(x =>x.MaTLNavigation)         
                 .FirstOrDefaultAsync(i => i.MaBaiViet == id);
                
 

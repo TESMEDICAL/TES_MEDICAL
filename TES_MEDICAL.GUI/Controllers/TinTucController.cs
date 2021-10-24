@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using System.IO;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -159,6 +158,34 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(),"MaTL","TenTL");
             return View();
+        }
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult UploadFile(IFormFile aUploadedFile)
+        {
+            var vReturnImagePath = string.Empty;
+            if (aUploadedFile.Length > 0)
+            {
+                var vFileName = Path.GetFileNameWithoutExtension(aUploadedFile.FileName);
+                var vExtension = Path.GetExtension(aUploadedFile.FileName);
+
+                string sImageName = vFileName + DateTime.Now.ToString("YYYYMMDDHHMMSS");
+
+                var vImageSavePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\photos\") + sImageName + vExtension;
+                vReturnImagePath = "/images/photos/" + sImageName + vExtension;
+                ViewBag.Msg = vImageSavePath;
+                var path = vImageSavePath;
+
+                // Saving Image in Original Mode  
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    aUploadedFile.CopyTo(fileStream);
+                }
+                var vImageLength = new FileInfo(path).Length;
+                TempData["message"] = string.Format("Image was Added Successfully");
+            }
+            //return Json(Convert.ToString(vReturnImagePath), JsonRequestBehavior.AllowGet);
+            return Json(Convert.ToString(vReturnImagePath), new Newtonsoft.Json.JsonSerializerSettings());
         }
     }
 }

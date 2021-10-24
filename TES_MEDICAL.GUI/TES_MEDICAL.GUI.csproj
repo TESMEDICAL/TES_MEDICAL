@@ -78,16 +78,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\GuestElement\" />
+    <Folder Include="wwwroot\images\photos\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TES_MEDICAL.ENTITIES\TES_MEDICAL.ENTITIES.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CKFinder">
-      <HintPath>..\..\..\..\Users\Admin\Downloads\drive-download-20211024T045324Z-001\CKFinder.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
