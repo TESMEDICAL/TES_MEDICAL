@@ -98,7 +98,7 @@
 </div>-->
 <!-- COUNTDOWN AREA END -->
 <!-- TIN TỨC 1 START-->
-<div class="ltn__blog-area pt-115 pb-45">
+<!--<div class="ltn__blog-area pt-115 pb-45">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -108,13 +108,13 @@
                 </div>
             </div>
         </div>
-        <div class="row  ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">
+        <div class="row  ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">-->
             <!-- Blog Item -->
-            @foreach (var item in Model)
+            <!--@foreach (var item in Model)
             {
                 <div class="col-lg-12">
                     <div class="ltn__blog-item ltn__blog-item-3">
-                        <div class="ltn__blog-img">
+                        <div class="ltn__blog-img"  style="min-height:300px">
                             <a href="blog-details.html"><img src="@item.Hinh" alt="#"></a>
                         </div>
                         <div class="ltn__blog-brief">
@@ -146,6 +146,17 @@
 
         </div>
     </div>
+</div>-->
+<div id="list1">
+
+</div>
+
+<div id="list2">
+
+</div>
+
+<div id="list3">
+
 </div>
 <!-- TIN TỨC 1 END -->
 <!-- TIN TỨC 2 - START -->
@@ -772,3 +783,11 @@
 </div>
 <!-- CALL TO ACTION END -->
 <!-- FOOTER AREA START -->
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $('#list1').load('/home/listtheloai')
+    });
+
+</script>
+}

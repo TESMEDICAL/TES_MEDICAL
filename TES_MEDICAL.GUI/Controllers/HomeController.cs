@@ -117,5 +117,11 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+        public async Task<IActionResult> ListTheLoai(Guid MaTL)
+        {
+
+            return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
+        }
+
     }
 }
