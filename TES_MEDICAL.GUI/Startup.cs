@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.ResponseCompression;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,11 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
@@ -133,6 +139,7 @@ namespace TES_MEDICAL.GUI
                     name: "default",
                     pattern: "{controller=TiepNhan}/{action=ThemPhieuKham}");
                 endpoints.MapHub<SignalServer>("/signalServer");
+                endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
             });
         }

@@ -183,6 +183,11 @@ namespace TES_MEDICAL.GUI.Services
             return data;
             
         }
+
+        public async Task<IEnumerable<TheLoai>> GetAll()
+        {
+            return await _context.TheLoai.ToListAsync();
+        }
     }
 }
 
