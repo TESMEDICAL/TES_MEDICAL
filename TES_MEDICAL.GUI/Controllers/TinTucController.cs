@@ -169,7 +169,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 var vFileName = Path.GetFileNameWithoutExtension(aUploadedFile.FileName);
                 var vExtension = Path.GetExtension(aUploadedFile.FileName);
 
-                string sImageName = vFileName + DateTime.Now.ToString("YYYYMMDDHHMMSS");
+                string sImageName = vFileName + DateTime.Now.ToString("ddMMyyyyss");
 
                 var vImageSavePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\photos\") + sImageName + vExtension;
                 vReturnImagePath = "/images/photos/" + sImageName + vExtension;

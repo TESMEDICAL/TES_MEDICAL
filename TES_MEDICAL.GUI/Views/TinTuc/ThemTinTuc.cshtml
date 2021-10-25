@@ -12,12 +12,11 @@
         <h4 style="text-align:center; font-weight:bold">THÊM BÀI VIẾT MỚI</h4>
         <br />
         <form class="row g-3" asp-action="ThemTinTuc" asp-controller="TinTuc" method="post">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <label class="form-label">Tiêu đề</label>
                 <input type="text" asp-for="TieuDe" class="form-control">
             </div>
-            <div class="form-group col-md-3">
-                
+            <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.MaTL, "Thể loại", htmlAttributes: new { @class = "control-label col-12" })
                 <div class="col-12">
                     <select asp-for="MaTL" asp-items="@ViewBag.MaTL" class="form-control">
@@ -27,7 +26,7 @@
                     @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label class="form-label">Trạng thái</label>
                 <div class="form-check">
                     <input asp-for="TrangThai" class="form-check-input" type="checkbox" id="gridCheck">
@@ -36,20 +35,9 @@
                     </label>
                 </div>
             </div>
-            <div class="col-md-6 row mt-3">
-                <div class="col-sm-4">
-                    <label class="btn btn-success ">
-                        <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
-                    </label>
-                </div>
-                <div id="image-holder2" class="col-sm-8 pt-2">
-                    <img src="https://assets.nflxext.com/ffe/siteui/vlv3/a1a5d7dc-aedf-4570-b58d-693af16e1445/f203629f-76ad-4418-9fc3-166ce5662a90/VN-en-20211020-popsignuptwoweeks-perspective_alpha_website_medium.jpg" style='width: 50%'>
-                </div>
-            </div>
-
             <div class="col-12">
                 <label class="form-label">Nội dung bài viết</label>
-                <textarea asp-for="NoiDung" rows="20" class="form-control" placeholder="Nhập nội dung ..."></textarea>
+                <textarea asp-for="NoiDung" rows="50" class="form-control"></textarea>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-success" type="submit"><i class="fas fa-save"></i> Xác nhận</button>
