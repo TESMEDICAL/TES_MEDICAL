@@ -153,14 +153,14 @@ namespace TES_MEDICAL.GUI.Services
                
                 
 
-                                                                                         if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
+                   if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
                                 
                    {
                      listUnpaged = listUnpaged.Where(x => x.TieuDe.ToUpper().Contains(model.TieuDeSearch.ToUpper()));
                    }
                          
                                   
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
+                    if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.TrangThai==model.TrangThaiSearch);
@@ -169,7 +169,7 @@ namespace TES_MEDICAL.GUI.Services
      
 
                                      
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
+                 if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.MaTL==model.MaTLSearch);
