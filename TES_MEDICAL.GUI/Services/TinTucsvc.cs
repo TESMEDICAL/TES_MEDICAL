@@ -65,8 +65,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task <TinTuc> Get(Guid id)
         {
             
-            var item = await _context.TinTuc
-                            
+            var item = await _context.TinTuc.Include(x =>x.MaTLNavigation)         
                 .FirstOrDefaultAsync(i => i.MaBaiViet == id);
                
 
@@ -154,14 +153,14 @@ namespace TES_MEDICAL.GUI.Services
                
                 
 
-                                                                                         if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
+                   if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
                                 
                    {
                      listUnpaged = listUnpaged.Where(x => x.TieuDe.ToUpper().Contains(model.TieuDeSearch.ToUpper()));
                    }
                          
                                   
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
+                    if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.TrangThai==model.TrangThaiSearch);
@@ -170,7 +169,7 @@ namespace TES_MEDICAL.GUI.Services
      
 
                                      
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
+                 if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.MaTL==model.MaTLSearch);
@@ -208,6 +207,19 @@ namespace TES_MEDICAL.GUI.Services
                 
             
             return data;
+            
+        }
+
+        public async Task<List<TinTuc>> GetTinTuc(Guid MaTL)
+        {
+            if (MaTL != Guid.Empty)
+            {
+                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL).ToListAsync();
+            }
+            else
+            {
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).ToListAsync();
+            }
             
         }
     }

@@ -186,7 +186,7 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<Benh> listUnpaged;
-            listUnpaged = _context.Benh.OrderBy(x => x.TenBenh);
+            listUnpaged = _context.Benh.Include(x=>x.MaCKNavigation).OrderBy(x => x.TenBenh);
 
             if (!string.IsNullOrWhiteSpace(model.TenBenhSearch))
 
