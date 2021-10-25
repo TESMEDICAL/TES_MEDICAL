@@ -209,6 +209,19 @@ namespace TES_MEDICAL.GUI.Services
             return data;
             
         }
+
+        public async Task<List<TinTuc>> GetTinTuc(Guid MaTL)
+        {
+            if (MaTL != Guid.Empty)
+            {
+                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL).ToListAsync();
+            }
+            else
+            {
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).ToListAsync();
+            }
+            
+        }
     }
 }
 

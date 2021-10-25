@@ -11,6 +11,7 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface ITinTuc
     {
+        Task<List<TinTuc>> GetTinTuc(Guid MaTL);  
         Task<TinTuc> Add(TinTuc model);
         Task <TinTuc> Get(Guid id);
         Task <TinTuc> Edit(TinTuc model);
