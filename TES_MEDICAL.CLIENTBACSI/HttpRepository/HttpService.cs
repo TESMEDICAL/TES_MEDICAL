@@ -14,7 +14,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace TES_MEDICAL.CLIENKHAMBENH.Services
+namespace TES_MEDICAL.CLIENTBACSI.Services
 {
     public interface IHttpService
     {
@@ -29,19 +29,19 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Services
     {
         private HttpClient _httpClient;
         private NavigationManager _navigationManager;
-        private ILocalStorageServiceCookie _localStorageService;
+      
         private IConfiguration _configuration;
 
         public HttpService(
             HttpClient httpClient,
             NavigationManager navigationManager,
-            ILocalStorageServiceCookie localStorageService,
+          
             IConfiguration configuration
         )
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
-            _localStorageService = localStorageService;
+         
             _configuration = configuration;
         }
         public async Task<HttpResponseMessage> Get(string uri, string token)

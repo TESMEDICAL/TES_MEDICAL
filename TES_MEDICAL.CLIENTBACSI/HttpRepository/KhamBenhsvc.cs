@@ -7,11 +7,11 @@ using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 
-namespace TES_MEDICAL.CLIENKHAMBENH.Services
+namespace TES_MEDICAL.CLIENTBACSI.Services
 {
     public interface IKhamBenh 
     {
-        Task<List<STTViewModel>> GetPhieuKham(Guid MaBS);
+        Task<List<STTViewModel>> GetPhieuKham(string MaBS);
         
     }
     public class KhamBenhsvc : IKhamBenh
@@ -21,11 +21,11 @@ namespace TES_MEDICAL.CLIENKHAMBENH.Services
         {
             _httpService = httpService;
         }
-        public async Task<List<STTViewModel>> GetPhieuKham(Guid MaBS)
+        public async Task<List<STTViewModel>> GetPhieuKham(string MaBS)
         {
            
                 
-                var response = await _httpService.Get($"api/apikhambenh/GetListPK?MaBS={MaBS}",null);
+                var response = await _httpService.Get($"apikhambenh/GetListPK?MaBS={MaBS}",null);
                 var content = await response.Content.ReadAsStreamAsync();
                 if (!response.IsSuccessStatusCode)
                 {

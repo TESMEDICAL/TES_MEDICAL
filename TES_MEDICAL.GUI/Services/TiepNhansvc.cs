@@ -1,20 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
+using TES_MEDICAL.SHARE.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Services
 {
     public class TiepNhanSvc : ITiepNhan
     {
         private readonly DataContext _context;
-        public TiepNhanSvc(DataContext context)
+        private IHubContext<RealtimeHub> _hubContext;
+
+        public TiepNhanSvc(DataContext context, IHubContext<RealtimeHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
+
         }
 
         public async Task<PhieuDatLich> Edit(PhieuDatLich model)
@@ -42,7 +50,7 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public async Task<PhieuKham> CreatePK(PhieuKhamViewModel model)
+        public async Task<STTViewModel> CreatePK(PhieuKhamViewModel model)
         {
             try
             {
@@ -65,7 +73,7 @@ namespace TES_MEDICAL.GUI.Services
                     }
                     
                     //Xuất hóa đơn dịch vụ
-                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = "6b0d19a9-fe51-458b-a4a6-9841887b60ca",TongTien = tongtien };
+                    var HoaDon = new HoaDon { MaHoaDon = "HD_"+DateTime.Now.ToString("ddMMyyyyhhmmss"), MaPK = phieuKham.MaPK, NgayHD = DateTime.Now, MaNV = "da63a519-f9fa-48ac-ab40-f1cb3c4601de", TongTien = tongtien };
                     await _context.HoaDon.AddAsync(HoaDon);
 
 
@@ -80,7 +88,11 @@ namespace TES_MEDICAL.GUI.Services
 
                     //Commit transaction
                     await transaction.CommitAsync();
-                    return phieuKham;
+                  
+                   
+
+                    
+                    return new STTViewModel {STT = STT.STT,HoTen = benhNhan.HoTen,MaPK = phieuKham.MaPK,UuTien = STT.MaUuTien };
                 }
              } 
             catch(Exception ex)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TES_MEDICAL.CLIENKHAMBENH.Services
+namespace TES_MEDICAL.CLIENTBACSI.Services
 {
     public interface IModal
     {

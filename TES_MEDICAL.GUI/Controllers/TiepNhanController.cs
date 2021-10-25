@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TES_MEDICAL.GUI.Models.ViewModel;
+using TES_MEDICAL.GUI.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.SHARE.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -19,20 +23,25 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IChuyenKhoa _chuyenkhoaRep;
         private readonly IDichVu _dichvuRep;
         private readonly INhanVienYte _nhanvienyteRep;
-       
+        private readonly IHubContext<RealtimeHub> _hubContext;
+      
         public TiepNhanController(
             ITiepNhan service,
             IChuyenKhoa chuyenKhoaRep,
             IDichVu dichvuRep,
-            INhanVienYte nhanVienYteRep
-            
-            
+            INhanVienYte nhanVienYteRep,
+            IHubContext<RealtimeHub> hubContext
+           
+
+
             )
         {
             _service = service;
             _chuyenkhoaRep = chuyenKhoaRep;
             _dichvuRep = dichvuRep;
             _nhanvienyteRep = nhanVienYteRep;
+            _hubContext = hubContext;
+           
             
         }
        
@@ -75,10 +84,12 @@ namespace TES_MEDICAL.GUI.Controllers
             var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
             result.dichVus = new List<DichVu>();
 
-            foreach(var item in model.dichVus)
+            foreach (var item in model.dichVus)
             {
                 result.dichVus.Add(await _dichvuRep.Get(item.MaDV));
             }
+
+
             
             return PartialView("_XacNhanDichVu",result);
         }
@@ -87,13 +98,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
-            
-                    if (await _service.CreatePK(model) != null)
+            var result = await _service.CreatePK(model);
+                    if (result != null)
                     {
-                      
+                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,result );
 
-
-                        return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
                     }
 
                     else
