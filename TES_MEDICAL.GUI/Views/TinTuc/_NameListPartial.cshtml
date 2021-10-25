@@ -8,100 +8,100 @@
 
 @using X.PagedList;
 @using X.PagedList.Web.Common
-<div id="list" >
-   
+<div id="list">
+
     <div style="min-height:400px">
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
             <thead class="bg-success">
                 <tr>
-                                                                                                   
+
                     <th>
-                    
-                        TieuDe
+
+                        Tiêu đề
                     </th>
-                                                                                                                         
+
                     <th>
-                    
-                        TrangThai
+
+                        Trạng thái
                     </th>
-                                                                                                                         
+
                     <th>
-                    
-                        MaTL
+
+                        Thể loại
                     </th>
-                                                              
-                    <th>ACTION</th>
+
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<TinTuc>)
                 {
                     <tr>
-                                                                      
 
-                     
-                                                                                  
-                                                  <td>@item.TieuDe</td>
-                                                    
-                                             
 
-                     
-                                                                          
 
-                     
-                                                                                  
-                                                  <td>@item.TrangThai</td>
-                                                    
-                                             
 
-                     
-                                                                          
+                        <td>@item.TieuDe</td>
 
-                     
-                                                                                  
-                                                  <td>@item.MaTL</td>
-                                                    
-                                             
 
-                     
-                                                                              <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaBaiViet')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaBaiViet')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaBaiViet')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
-                                                   
+
+
+
+
+
+
+                        <td>@item.TrangThai</td>
+
+
+
+
+
+
+
+
+                        <td>@item.MaTLNavigation.TenTL</td>
+
+
+
+
+                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaBaiViet')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaBaiViet')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    
-    
+
+
     <div class="text-right">
-      
-                        @{ 
-                            var pageRender = new PagedListRenderOptions
-                            {
-                               MaximumPageNumbersToDisplay = 5,
-                                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-                                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                                DisplayLinkToNextPage = PagedListDisplayMode.Always,
-                                DisplayPageCountAndCurrentLocation = false,
-                                UlElementClasses = new[] { "pagination" },
-                                LiElementClasses = new string[] { "page-item" },
-                                PageClasses = new string[] { "page-link" },
+
+        @{
+            var pageRender = new PagedListRenderOptions
+            {
+                MaximumPageNumbersToDisplay = 5,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayPageCountAndCurrentLocation = false,
+                UlElementClasses = new[] { "pagination" },
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
 
 
-                                ContainerDivClasses = new[] { "pagination-container" }
+                ContainerDivClasses = new[] { "pagination-container" }
 
 
-                            };
-                         } 
-         @{ 
+            };
+        }
+        @{
             var searchModel = ViewBag.Data as TinTucSearchModel;
         }
-       
-             
-        @Html.PagedListPager((IPagedList<TinTuc>)ViewBag.Names, page => Url.Action("PageList", new { page , TieuDeSearch  = searchModel.TieuDeSearch,   TrangThaiSearch  = searchModel.TrangThaiSearch,  MaTLSearch  = searchModel.MaTLSearch   }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+
+
+        @Html.PagedListPager((IPagedList<TinTuc>)ViewBag.Names, page => Url.Action("PageList", new { page, TieuDeSearch = searchModel.TieuDeSearch, TrangThaiSearch = searchModel.TrangThaiSearch, MaTLSearch = searchModel.MaTLSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-   
+
 
 
 

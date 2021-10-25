@@ -10,10 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TES_MEDICAL.GUI.Models.ViewModel;
+
 using TES_MEDICAL.GUI.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
+using System.IO;
+using SelectPdf;
+
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -98,6 +102,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
+
             var result = await _service.CreatePK(model);
                     if (result != null)
                     {
@@ -110,7 +115,7 @@ namespace TES_MEDICAL.GUI.Controllers
                         return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
                 
 
-            
+
         }
 
         public IActionResult QuanLyDatLich()
@@ -122,6 +127,10 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult CapNhatDichVu()
         {
             ViewBag.Current = "capnhatdichvu";
+            return View();
+        }
+        public IActionResult ThemDichVuMoi()
+        {
             return View();
         }
 
