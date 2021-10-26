@@ -55,12 +55,17 @@ namespace TES_MEDICAL.GUI.Controllers
 
         {
             ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
-            ViewBag.ListDV = _dichvuRep.GetDichVu(Guid.Empty);
+            ViewBag.ListDV = await _dichvuRep.GetDichVu(Guid.Empty);
             var model = await _service.GetPhieuDatLichById(MaPhieu);
-            if(!string.IsNullOrWhiteSpace(MaPhieu))
-
-            ViewBag.BenhNhan = new BenhNhan { HoTen = model.TenBN, NgaySinh = model.NgaySinh, SDT = model.SDT, Email = model.Email };
-            return View();
+           
+            if (!string.IsNullOrWhiteSpace(MaPhieu))
+            {
+                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh };
+                return View(phieuKham);
+            }
+            return View(new PhieuKhamViewModel());
+             
+             
         }
 
 
