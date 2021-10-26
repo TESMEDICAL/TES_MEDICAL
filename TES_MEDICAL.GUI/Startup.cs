@@ -24,6 +24,7 @@ using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Services;
+using Hangfire;
 
 namespace TES_MEDICAL.GUI
 {
@@ -105,11 +106,22 @@ namespace TES_MEDICAL.GUI
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-           
+
+
+
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseDefaultTypeSerializer()
+                //.UseMemoryStorage() 
+                .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
+            );
+            services.AddHangfireServer();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -142,6 +154,12 @@ namespace TES_MEDICAL.GUI
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
             });
+            app.UseHangfireDashboard();
+            recurringJobManager.AddOrUpdate(
+                "Run every minute",
+                () => serviceProvider.GetService<IAutoBackground>().AutoDelete(),
+                "00 19 * * *"
+                );
         }
     }
 }
