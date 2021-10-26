@@ -3,7 +3,7 @@
 @model TES_MEDICAL.GUI.Models.Benh
 
 <div class="container-fluid" id="pannelBenh">
-    <h1>Thông tin</h1>
+    <h1 style="font-weight:bold; text-align:center">THÔNG TIN BỆNH</h1>
     <hr />
 
 
@@ -34,7 +34,7 @@
                 Chuyên khoa
             </div>
             <div class="col-8">
-                @Html.DisplayFor(model => model.MaCK)
+                @Model.MaCKNavigation.TenCK
             </div>
         </div>
 

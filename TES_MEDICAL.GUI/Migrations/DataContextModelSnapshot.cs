@@ -20,6 +20,141 @@ namespace TES_MEDICAL.GUI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
                 {
                     b.Property<Guid>("MaBenh")
@@ -208,11 +343,13 @@ namespace TES_MEDICAL.GUI.Migrations
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.HoaDon", b =>
                 {
-                    b.Property<Guid>("MaHoaDon")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaHoaDon")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
 
-                    b.Property<Guid>("MaNV")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaNV")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<Guid>("MaPK")
                         .HasColumnType("uniqueidentifier");
@@ -224,7 +361,7 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("MaHoaDon")
-                        .HasName("PK__HoaDon__835ED13B05CA61BC");
+                        .HasName("PK__HoaDon__835ED13BE8E6487A");
 
                     b.HasIndex("MaNV");
 
@@ -238,8 +375,14 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaPK")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("MaNV")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaHD")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("MaNV")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("NgayHD")
                         .HasColumnType("datetime");
@@ -248,9 +391,12 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("MaPK")
-                        .HasName("PK__HoaDonTh__2725E7FD25012CDB");
+                        .HasName("PK__HoaDonTh__2725E7FD6887BBCA");
 
                     b.HasIndex("MaNV");
+
+                    b.HasIndex(new[] { "MaHD" }, "UQ__HoaDonTh__2725A6E187D21950")
+                        .IsUnique();
 
                     b.ToTable("HoaDonThuoc");
                 });
@@ -300,8 +446,13 @@ namespace TES_MEDICAL.GUI.Migrations
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.NhanVienYte", b =>
                 {
-                    b.Property<Guid>("MaNV")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<byte>("ChucVu")
                         .HasColumnType("tinyint");
@@ -309,11 +460,16 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid?>("ChuyenKhoa")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("EmailNV")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Hinh")
                         .HasMaxLength(250)
@@ -324,26 +480,56 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("MatKhau")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SDTNV")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
-                    b.HasKey("MaNV")
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id")
                         .HasName("PK__NhanVien__2725D70A99F2EA0C");
 
                     b.HasIndex("ChuyenKhoa");
 
-                    b.ToTable("NhanVienYte");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("NhanVienYTe");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.PhieuDatLich", b =>
@@ -395,11 +581,14 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<string>("KetQuaKham")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaBN")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("MaBS")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaBS")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Mach")
                         .HasMaxLength(50)
@@ -416,11 +605,11 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("TrieuChung")
+                    b.Property<string>("TrieuChungSoBo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaPK")
-                        .HasName("PK__PhieuKha__2725E7FD9C84A3CD");
+                        .HasName("PK__PhieuKha__2725E7FDD3F81957");
 
                     b.HasIndex("MaBN");
 
@@ -446,6 +635,41 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasName("PK__STTPhieu__FACA55DF6DAFE0DA");
 
                     b.ToTable("STTPhieuKham");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.STTTOATHUOC", b =>
+                {
+                    b.Property<Guid>("MaPK")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("STT")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UuTien")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)");
+
+                    b.HasKey("MaPK")
+                        .HasName("PK__STTTOATH__2725E7FDFEC58D61");
+
+                    b.ToTable("STTTOATHUOC");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.TheLoai", b =>
+                {
+                    b.Property<Guid>("MaTL")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TenTL")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MaTL")
+                        .HasName("PK__TheLoai__272500715188CB73");
+
+                    b.ToTable("TheLoai");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Thuoc", b =>
@@ -489,7 +713,13 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaBaiViet")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Hinh")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaNguoiViet")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("MaTL")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NoiDung")
@@ -505,9 +735,11 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("MaBaiViet")
-                        .HasName("PK__TinTuc__AEDD56476D752A3D");
+                        .HasName("PK__TinTuc__AEDD5647A9FE161F");
 
-                    b.HasIndex("MaNguoiViet");
+                    b.HasIndex("MaTL");
+
+                    b.HasIndex(new[] { "MaNguoiViet" }, "IX_TinTuc_MaNguoiViet");
 
                     b.ToTable("TinTuc");
                 });
@@ -541,6 +773,57 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasName("PK__TrieuChu__38C0D567B7BAD8FD");
 
                     b.ToTable("TrieuChung");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
@@ -627,13 +910,12 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", "MaNVNavigation")
                         .WithMany("HoaDon")
                         .HasForeignKey("MaNV")
-                        .HasConstraintName("FK__HoaDon__MaNV__32E0915F")
-                        .IsRequired();
+                        .HasConstraintName("FK__HoaDon__MaNV__35BCFE0A");
 
                     b.HasOne("TES_MEDICAL.GUI.Models.PhieuKham", "MaPKNavigation")
                         .WithMany("HoaDon")
                         .HasForeignKey("MaPK")
-                        .HasConstraintName("FK__HoaDon__MaPK__31EC6D26")
+                        .HasConstraintName("FK__HoaDon__MaPK__34C8D9D1")
                         .IsRequired();
 
                     b.Navigation("MaNVNavigation");
@@ -646,13 +928,12 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", "MaNVNavigation")
                         .WithMany("HoaDonThuoc")
                         .HasForeignKey("MaNV")
-                        .HasConstraintName("FK__HoaDonThuo__MaNV__403A8C7D")
-                        .IsRequired();
+                        .HasConstraintName("FK__HoaDonThuo__MaNV__440B1D61");
 
                     b.HasOne("TES_MEDICAL.GUI.Models.ToaThuoc", "MaPKNavigation")
                         .WithOne("HoaDonThuoc")
                         .HasForeignKey("TES_MEDICAL.GUI.Models.HoaDonThuoc", "MaPK")
-                        .HasConstraintName("FK__HoaDonThuo__MaPK__3F466844")
+                        .HasConstraintName("FK__HoaDonThuo__MaPK__4316F928")
                         .IsRequired();
 
                     b.Navigation("MaNVNavigation");
@@ -675,14 +956,13 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.BenhNhan", "MaBNNavigation")
                         .WithMany("PhieuKham")
                         .HasForeignKey("MaBN")
-                        .HasConstraintName("FK__PhieuKham__MaBN__286302EC")
+                        .HasConstraintName("FK__PhieuKham__MaBN__2B3F6F97")
                         .IsRequired();
 
                     b.HasOne("TES_MEDICAL.GUI.Models.NhanVienYte", "MaBSNavigation")
                         .WithMany("PhieuKham")
                         .HasForeignKey("MaBS")
-                        .HasConstraintName("FK__PhieuKham__MaBS__276EDEB3")
-                        .IsRequired();
+                        .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
 
                     b.Navigation("MaBNNavigation");
 
@@ -700,6 +980,17 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("MaPhieuKhamNavigation");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.STTTOATHUOC", b =>
+                {
+                    b.HasOne("TES_MEDICAL.GUI.Models.ToaThuoc", "MaPKNavigation")
+                        .WithOne("STTTOATHUOC")
+                        .HasForeignKey("TES_MEDICAL.GUI.Models.STTTOATHUOC", "MaPK")
+                        .HasConstraintName("FK__STTTOATHUO__MaPK__35BCFE0A")
+                        .IsRequired();
+
+                    b.Navigation("MaPKNavigation");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.TinTuc", b =>
                 {
                     b.HasOne("TES_MEDICAL.GUI.Models.NguoiDung", "MaNguoiVietNavigation")
@@ -708,7 +999,14 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasConstraintName("FK__TinTuc__MaNguoiV__1273C1CD")
                         .IsRequired();
 
+                    b.HasOne("TES_MEDICAL.GUI.Models.TheLoai", "MaTLNavigation")
+                        .WithMany("TinTuc")
+                        .HasForeignKey("MaTL")
+                        .HasConstraintName("FK__TinTuc__MaTL__71D1E811");
+
                     b.Navigation("MaNguoiVietNavigation");
+
+                    b.Navigation("MaTLNavigation");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.ToaThuoc", b =>
@@ -771,6 +1069,11 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("ToaThuoc");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.TheLoai", b =>
+                {
+                    b.Navigation("TinTuc");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Thuoc", b =>
                 {
                     b.Navigation("ChiTietToaThuoc");
@@ -781,6 +1084,8 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("ChiTietToaThuoc");
 
                     b.Navigation("HoaDonThuoc");
+
+                    b.Navigation("STTTOATHUOC");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.TrieuChung", b =>

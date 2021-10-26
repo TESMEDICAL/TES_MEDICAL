@@ -42,10 +42,21 @@
 
                         <td>@item.SDT</td>
 
-                        <td>@item.HinhAnh</td>
+                        <td>
+                            <img src="~/images/@item.HinhAnh" style="width:100px" />
+                        </td>
 
 
-                        <td>@item.ChucVu</td>
+                        <td>
+                            @if (item.ChucVu == 1)
+                            {
+                                @("Admin")
+                            }
+                            else
+                            {
+                                @("User")
+                            }
+                        </td>
 
 
                         <td>@item.TrangThai</td>

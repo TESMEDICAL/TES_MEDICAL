@@ -13,100 +13,67 @@
     <div style="min-height:400px">
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
             <thead class="bg-success">
-                <tr>
-                                                                                                                                                     
+                <tr>                                               
                     <th>
-                    
-                        MatKhau
+                        Họ tên
                     </th>
                                                                        
                     <th>
-                    
-                        HoTen
+                        Số điện thoại
                     </th>
                                                                        
                     <th>
-                    
-                        SDTNV
+                        Chức vụ
+                    </th>
+                                                                       
+                    <th> 
+                        Trạng thái
                     </th>
                                                                        
                     <th>
-                    
-                        ChucVu
+                        Hình ảnh
                     </th>
                                                                        
                     <th>
-                    
-                        TrangThai
-                    </th>
-                                                                       
-                    <th>
-                    
-                        Hinh
-                    </th>
-                                                                       
-                    <th>
-                    
-                        ChuyenKhoa
+                        Chuyên khoa
                     </th>
                                                               
-                    <th>ACTION</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<NhanVienYte>)
                 {
                     <tr>
-                                                                      
+                        <td>@item.HoTen</td>
 
-                     
-                                                                          
+                        <td>@item.PhoneNumber</td>
 
-                     
-                                                                                  
-                                                  <td>@item.MatKhau</td>
-                                                    
-                                             
+                        <td>
+                            @if (item.ChucVu == 1)
+                            {
+                                @("Nhân viên y tế")
+                            }
+                            else if (item.ChucVu == 2)
+                            {
+                                @("Bác sĩ")
+                            }
+                            else
+                            {
+                                @("Dược sĩ")
+                            }
+                        </td>
 
-                     
-                                                                                  
-                                                  <td>@item.HoTen</td>
-                                                    
-                                             
+                        <td>@item.TrangThai</td>
 
-                     
-                                                                                  
-                                                  <td>@item.SDTNV</td>
-                                                    
-                                             
+                        <td>
+                            <img src="~/images/@item.Hinh" style="width:100px" />
+                        </td>
+                        
+                        <td>@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</td>
 
-                     
-                                                                                  
-                                                  <td>@item.ChucVu</td>
-                                                    
-                                             
+                        <td class="text-nowrap"><a class="btn btn-danger btn-sm active" onclick="_delete('@item.Id')"> <i class="fa fa-trash"></i></a>&nbsp;<a class="btn btn-dark btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
 
-                     
-                                                                                  
-                                                  <td>@item.TrangThai</td>
-                                                    
-                                             
-
-                     
-                                                                                  
-                                                  <td>@item.Hinh</td>
-                                                    
-                                             
-
-                     
-                                                                                  
-                                                <td>@item.ChuyenKhoaNavigation.TenCK</td>
-                                                   
-                                             
-
-                     
-                                                                              <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNV')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNV')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
-                                                   
                     </tr>
                 }
             </tbody>

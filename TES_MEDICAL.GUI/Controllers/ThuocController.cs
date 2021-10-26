@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using System.IO;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -71,15 +70,46 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(Thuoc model)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
+            string filePath = "";
+            var filePathDefault = "drugs.jpg";
 
-            model.MaThuoc = Guid.NewGuid();
-            if (await _service.Add(model) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            if(file == null)
+            {
+                model.HinhAnh = filePathDefault;
+            }
             else
+            {
+                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
+
+            
+            model.MaThuoc = Guid.NewGuid();
+
+
+            if (await _service.Add(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
+
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            else
+            {
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+               
 
 
         }
@@ -115,14 +145,31 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Thuoc model)
+        public async Task<IActionResult> Edit(Thuoc model, [FromForm] IFormFile file)
         {
+            string filePath = "";
+            if (file != null)
+            {
+                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                model.HinhAnh = fileName;
+                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            }
 
             if (await _service.Edit(model) != null)
+            {
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
             else
+            {
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
 
 
         }

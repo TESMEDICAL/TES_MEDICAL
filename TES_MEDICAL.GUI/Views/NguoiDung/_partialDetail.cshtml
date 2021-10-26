@@ -1,79 +1,67 @@
-
-
 @model TES_MEDICAL.GUI.Models.NguoiDung
+
 
 <div class="container-fluid" id="pannelNguoiDung">
     <h4 style="text-align:center; font-weight:bold">THÔNG TIN NGƯỜI DÙNG</h4>
     <hr />
-<div class="row">
-    <div class="col-sm-9">
-        <div class="m-1">
-            <div class="col-12 row">
-                <div class="col-4" style="font-weight:bold!important">
-                    Email
-                </div>
-                <div class="col-8">
-                    @Html.DisplayFor(model => model.Email)
-                </div>
-            </div>
-
-            <div class="col-12 row">
-                <div class="col-4" style="font-weight:bold!important">
-                    Họ tên
-                </div>
-                <div class="col-8">
-                    @Html.DisplayFor(model => model.HoTen)
-                </div>
-            </div>
-
-
-            <div class="col-12 row">
-                <div class="col-4" style="font-weight:bold!important">
-                    Số điện thoại
-                </div>
-                <div class="col-8">
-                    @Html.DisplayFor(model => model.SDT)
-                </div>
-            </div>
-
-
-            <div class="col-12 row">
-                <div class="col-4" style="font-weight:bold!important">
-                    Chức vụ
-                </div>
-                <div class="col-8">
-                    @Html.DisplayFor(model => model.ChucVu)
-                </div>
-            </div>
-
-
-            <div class="col-12 row">
-                <div class="col-4" style="font-weight:bold!important">
-                    Trạng thái
-                </div>
-                <div class="col-8">
-                    @Html.DisplayFor(model => model.TrangThai)
-                </div>
-            </div>
-
+    <div class="row m-4">
+        <!--Phần hình ảnh-->
+        <div class="col-sm-4">
+             <img src="~/images/@Model.HinhAnh"  style="width:200px" />
+                @*@Html.DisplayFor(model => model.HinhAnh)*@ 
+            @*<img src="/img/bs.png" style="width:200px" />*@
 
         </div>
-    </div>
+        <div class="col-sm-8">
+            <div>
+                <div class="col-12 row ">
+                    <h3 class="text-success" style="font-weight: bold;">@Model.HoTen</h3>
+                    <p style="font-weight: bold;">Chức vụ : 
+                        @if (Model.ChucVu == 1)
+                        {
+                            @("Admin")
+                        }
+                        else
+                        {
+                            @("User")
+                        }
+                    </p>
+                </div>
+                
+                <div class="row col-12">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Email
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.Email) -->
+                        @Model.Email
+                    </div>
+                </div>
 
-    <!--Phần hình ảnh-->
-    <div class="col-sm-3">   
-            <div class="col-4" style="font-weight:bold!important">
-                Hình ảnh
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Số điện thoại
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.SDT) -->
+                        @Model.SDT
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Trạng thái
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.TrangThai) -->
+                        @Model.TrangThai
+                    </div>
+                </div>
+
+
             </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.HinhAnh)
-            </div>
+        </div>
+
+
     </div>
 </div>
-</div>
-
-
-
-
-
-

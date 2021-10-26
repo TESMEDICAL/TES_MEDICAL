@@ -22,22 +22,24 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICustomer _service;
         private readonly IValidate _valid;
+        private readonly ITinTuc _tintucService;
         
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext)
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService)
         {
             _logger = logger;
             _service = service;
             _valid = valid;
             _hubContext = hubContext;
+            _tintucService = tintucService;
 
         }
 
-        public IActionResult Index()
-        {
-
-            return View();
+        [HttpGet]
+        public async Task<IActionResult> Index(Guid MaTL)
+        {  
+            return View(await _tintucService.GetTinTuc(MaTL));
         }
 
         public IActionResult GioiThieu()
@@ -96,7 +98,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
+        //Nội dung mail
         private string message(PhieuDatLich model)
         {
             var request = HttpContext.Request;

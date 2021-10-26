@@ -23,7 +23,7 @@ namespace TES_MEDICAL.GUI.Extension
             services.AddDbContext<DataContext>(options =>
                 {
                     options.UseSqlServer(configuration.GetConnectionString("DataContextConnection"));
-                    options.UseLazyLoadingProxies();
+                    
                 }
             );
 
@@ -41,10 +41,13 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<ICustomer, Customersvc>()
                 .AddScoped<IValidate, ValidateSvc>()
                 .AddScoped<IChuyenKhoa, ChuyenKhoasvc>()
-                .AddScoped<INhanVienYte,NhanVienYtesvc>()
-                .AddScoped<INguoiDung,NguoiDungsvc>()
+                .AddScoped<INhanVienYte, NhanVienYtesvc>()
+                .AddScoped<INguoiDung, NguoiDungsvc>()
                 .AddScoped<ITiepNhan, TiepNhanSvc>()
-                .AddScoped<IKhamBenh,KhamBenhsvc>();
+                .AddScoped<IKhamBenh,KhamBenhsvc>()
+                .AddScoped<ITheLoai,TheLoaisvc>()
+                .AddScoped<ITinTuc,TinTucsvc>(); 
+
                 
 
 

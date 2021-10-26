@@ -9,6 +9,8 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IKhamBenh
     {
-        Task<IEnumerable<KhamBenhViewModel>> GetList(Guid MaBS);
+        Task<IEnumerable<STTViewModel>> GetList(string MaBS);
+        Task<ToaThuoc> AddToaThuoc(ToaThuoc model,bool UuTien);
+        Task<PhieuKham> GetPK(Guid MaPK);
     }
 }

@@ -22,15 +22,15 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo HoTen" } })
+                @Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.SDTNVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo SDTNV" } })
+                @Html.EditorFor(model => model.SDTNVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo số điện thoại" } })
             </div>
 
             <div class="col-2 mr-2">
-                @Html.DropDownListFor(model => model.ChuyenKhoaSearch, new SelectList(@ViewBag.ChuyenKhoa, "MaCK", "TenCK"), "Lọc theo ChuyenKhoa", new { @class = "mr-2 mb-2 form-control-sm" })
+                @Html.DropDownListFor(model => model.ChuyenKhoaSearch, new SelectList(@ViewBag.ChuyenKhoa, "MaCK", "TenCK"), "Lọc theo chuyên khoa", new { @class = "mr-2 mb-2 form-control-sm" })
 
             </div>
 
@@ -68,7 +68,7 @@
 
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -113,22 +113,43 @@
             function () {
 
                 $("#btSave").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    /*var obj = $("#frm").serializeObject();*/
+                    var formData = new FormData();
+                    var fileUpload = $("#upload-back").get(0);
+                    var file = fileUpload.files[0];
+
+                    formData.append("file", file);
+                    formData.append('MaNV', $("#MaNV").val());
+                    formData.append('Email', $("#Email").val());
+                    formData.append('MatKhau', $("#MatKhau").val());
+                    formData.append('ConfirmPassword', $("#ConfirmPassword").val());
+                    formData.append('HoTen', $("#HoTen").val());
+                    formData.append('SDTNV', $("#SDTNV").val());
+                    formData.append('ChucVu', $("#ChucVu").val());
+                    formData.append('TrangThai', $("#TrangThai").val());
+                    formData.append('ChuyenKhoa', $("#ChuyenKhoa").val());
 
 
                     $.ajax({
                         type: "POST",
                         url: "/NhanVienYte/Add",
-                        data: obj,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
+                            if (result.status != null) {
+                                if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                reloadpage(1);
+                                    toastr.success(result.text);
+                                    reloadpage(1);
+                                }
+                                else {
+                                    toastr.warning(result.text);
+                                }
                             }
                             else {
-                                toastr.warning(result.text);
+                                $myModalContent.html(result);
                             }
                         },
                         error: function (errormessage) {
@@ -143,12 +164,31 @@
 
                 });
                 $("#btupdate").click(function () {
-                    var obj = $("#frm").serializeObject();
+                    /*var obj = $("#frm").serializeObject();*/
+                    var formData = new FormData();
+                    var fileUpload = $("#upload-back").get(0);
+                    var file = fileUpload.files[0];
+                    if ($('#TrangThai').is(':checked')) { formData.append('TrangThai', true) } else { formData.append('TrangThai', false) }
+
+                    formData.append("file", file);
+                    formData.append('MaNV', $("#MaNV").val());
+                    formData.append('Email', $("#Email").val());
+                    formData.append('MatKhau', $("#MatKhau").val());
+                    formData.append('ConfirmPassword', $("#ConfirmPassword").val());
+                    formData.append('HoTen', $("#HoTen").val());
+                    formData.append('SDTNV', $("#SDTNV").val());
+                    formData.append('ChucVu', $("#ChucVu").val());
+                    /*formData.append('TrangThai', $("#TrangThai").val());*/
+                    formData.append('ChuyenKhoa', $("#ChuyenKhoa").val());
+                    formData.append('Hinh', $("#Hinh").val());
+
                     $.ajax({
                         type: "POST",
                         url: "/NhanVienYte/Edit",
                         dataType: "json",
-                        data: obj,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {

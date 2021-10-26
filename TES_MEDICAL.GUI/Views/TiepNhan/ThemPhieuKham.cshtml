@@ -13,18 +13,13 @@
 
 }
 
-<style>
-</style>
 
 <form class="row" id="frm">
     <div class="col-md-6">
         <!-- Basic Form Elements Block -->
         <div class="block">
             <!-- Basic Form Elements Title -->
-            <div class="block-title">
-                <div class="block-options pull-right">
-                    <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">No Borders</a>
-                </div>
+            <div class="block-title">               
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
             <!-- END Form Elements Title -->
@@ -91,9 +86,6 @@
         <div class="block">
             <!-- Basic Form Elements Title -->
             <div class="block-title">
-                <div class="block-options pull-right">
-                    <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default toggle-bordered enable-tooltip" data-toggle="button" title="Toggles .form-bordered class">No Borders</a>
-                </div>
                 <h2><strong>Thông tin bệnh</strong></h2>
             </div>
             <!-- END Form Elements Title -->
@@ -162,6 +154,7 @@
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
+                
             </div>
         </div>
 
@@ -194,8 +187,8 @@
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" id="btSave" onclick="SaveDichVu()" class="btn btn-sm btn-success"><i class="far fa-credit-card"></i>&nbsp;Lưu</button>
-                    <button type="button" id="btCheckOut" onclick="ThanhToan()" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
-
+                    <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
+                    <button id="btnPdf" class="btn btn-primary">Gen PDF</button>
                     <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -226,17 +219,15 @@
         }
 
 
+
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
             obj = {}
             obj = $("#frm").serializeObject();
-
+            listdv = [];
             $("#listDV > tr").each(function () {
                 $tr = $(this)
-
-
-                    var $td = $tr.find("td");
-
+                var $td = $tr.find("td");
                 listdv.push({ MaDV: $td.eq(0).text()})
 
             });
@@ -263,6 +254,7 @@
         }
 
         function SaveDichVu() {
+            obj = {}
             var s = '';
 
 
@@ -284,9 +276,13 @@
             });
 
         }
+        
+        $("#btCheckOut").click(function () {
+            $(this).prop("disabled", true);
 
-        function ThanhToan() {
-          
+            $(this).html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
+            );
             $.ajax({
                 type: "POST",
                 url: "/TiepNhan/FinalCheckOut/",
@@ -304,13 +300,42 @@
                     }
                 },
                 error: function (errormessage) {
-                    alert(errormessage.responseText);
+                    //alert(errormessage.responseText);
+                    $(this).prop("disabled", false);
+
+                    $(this).html(
+                        'Retry');
                 },
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
+        });
+        //function ThanhToan() {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/TiepNhan/FinalCheckOut/",
+        //        data: obj,
+        //        success: function (result) {
+        //            $('#preloader-wrapper').toggleClass('hide');
+        //            if (result.status >= 1) {
+
+        //                toastr.success(result.text);
+        //                window.location.href = result.redirectUrL;
+        //            }
+        //            else {
+        //                toastr.warning(result.text);
+
+        //            }
+        //        },
+        //        error: function (errormessage) {
+        //            alert(errormessage.responseText);
+        //        },
+        //        failure: function (message) {
+        //            $('#preloader-wrapper').toggleClass('hide');
+        //        }
+        //    });
+        //}
         $("#MaCK").change(function () {
 
             var id = $(this).val();
@@ -331,7 +356,7 @@
 
         });
 
-       
+
 
 
     </script>
