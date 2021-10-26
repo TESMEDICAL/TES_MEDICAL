@@ -9,6 +9,7 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
     {
         public string HoTen { get; set; }
         public string SDT { get; set; }
+        public string Email { get; set; }
         public DateTime? NgaySinh { get; set; }
         public bool GioiTinh { get; set; }
         public string DiaChi { get; set; }
@@ -16,6 +17,7 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
         public string TrieuChung { get; set; }
         public bool UuTien { get; set; }
         public List<DichVu> dichVus { get; set; }
+        public string MaNVHD { get; set; }
     }
   
 }

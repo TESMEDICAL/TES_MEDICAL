@@ -15,8 +15,10 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuDatLich> GetPhieuDatLichById(string id);
 
         Task<PhieuDatLich> Edit(PhieuDatLich model);
-        Task<STTViewModel> CreatePK(PhieuKhamViewModel model);
+        Task<HoaDon> CreatePK(PhieuKhamViewModel model);
+     
 
-       
+
+
     }
 }

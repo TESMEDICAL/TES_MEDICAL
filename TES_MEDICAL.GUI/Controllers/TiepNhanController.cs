@@ -17,7 +17,7 @@ using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 using System.IO;
 using SelectPdf;
-
+using System.Threading;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -55,6 +55,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         {
             ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
+            ViewBag.ListDV = _dichvuRep.GetDichVu(Guid.Empty);
             var model = await _service.GetPhieuDatLichById(MaPhieu);
             if(!string.IsNullOrWhiteSpace(MaPhieu))
 
@@ -104,9 +105,12 @@ namespace TES_MEDICAL.GUI.Controllers
         {
 
             var result = await _service.CreatePK(model);
+
                     if (result != null)
                     {
-                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,result );
+                var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
+                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,stt );
+               
 
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
                     }
@@ -117,6 +121,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
+        
+      
 
         public IActionResult QuanLyDatLich()
         {
