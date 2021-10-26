@@ -2,14 +2,11 @@
 @{
     ViewData["Title"] = "ThemPhieuKham";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
-    var bn = new BenhNhan();
-    if (ViewBag.BenhNhan != null)
-    {
-        bn = ViewBag.BenhNhan as BenhNhan;
-    }
+   
+    
 
 
-    var NgaySinh = bn.NgaySinh?.ToString("yyyy-MM-dd");
+   
 
 }
 
@@ -47,7 +44,7 @@
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" value="@(NgaySinh)" asp-for="NgaySinh"  class="form-control">
+                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh"  class="form-control">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -126,14 +123,15 @@
     <div class="block">
 
         <div class="form-group" style="float:right">
-            <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+            <button class="btn me-1" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+            <button class="btn" style="background-color:red; color:white;" onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
 
         </div>
         <div class="form-group">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">STT</th>
+                        
                         <th scope="col">Dịch vụ</th>
                         <th scope="col">Đơn giá</th>
                         <th scope="col">Thao tác</th>
@@ -141,19 +139,14 @@
                 </thead>
                 <tbody id="listDV">
 
-                    <tr>
-
-                        <td>
-                            Chưa có dịch vụ nào
-                        </td>
-                    </tr>
+                    
 
                 </tbody>
             </table>
             <div class="form-group" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
-                <button type="submit" class="btn btn-primary" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
-                <button type="reset" class="btn btn-warning"><i class="fa fa-repeat"></i> Huỷ</button>
+                <button type="submit" class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
+                <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
                 
             </div>
         </div>
@@ -199,7 +192,7 @@
 <div id="modalDV" class="modal fade">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">
+
 
             <div class="modal-header">
 
@@ -225,27 +218,50 @@
     </div>
 </div>
 
+                    <button type="button" class="btn btn-success btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;OK</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 @section scripts{
     <script>
-        var listdv = [];
-        var obj = {};
+       
+      
         //Hàm mở modal của thêm dịch vụ
         function OpenThemDichVu() {
 
-            $.ajax({
-                url: "/TiepNhan/GetListDV/",
-                type: 'GET',
-                success: function (response) {
-                    $("#myModalContent").html(response);
-                    $('#myModal').modal('show');
-                    $('#btSave').show();
-                    $('#btCheckOut').hide();
+           
+            $('#modalDV').modal('show');
+            $('#btSave').show();
+                   
 
-                }
-            });
+           
         }
 
+        function Refresh() {
 
+
+
+       
+            $("#listDV > tr").each(function (i) {
+                $tr = $(this)
+
+
+                var $td = $tr.find("td");
+
+
+
+                $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+
+
+
+                $tr.remove();
+            });
+
+        }
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
@@ -280,29 +296,7 @@
             });
         }
 
-        function SaveDichVu() {
-            obj = {}
-            var s = '';
-
-
-
-            $("#table_dichvu > tbody > tr").each(function (i) {
-                $tr = $(this)
-                if ($tr.find(".form-check-input").is(":checked")) {
-
-                    var $td = $tr.find("td");
-
-
-
-                    s += `<tr><th scope="row">${i}</th><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`;
-
-
-                }
-
-                $("#listDV").html(s);
-            });
-
-        }
+       
         
         $("#btCheckOut").click(function () {
             $(this).prop("disabled", true);
@@ -378,10 +372,21 @@
 
         });
         $(document).on('click', '.remove', function () {
-
-            $(this).parent().parent().remove();
+            $tr = $(this).parent().parent();
+            var $td = $tr.find("td");
+            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+            $tr.remove();
 
         });
+        $(document).on('click', '.addDV', function () {
+
+            $tr = $(this).parent().parent();
+            var $td = $tr.find("td");
+ 
+            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
+            $tr.remove();
+        });
+
 
 
 
