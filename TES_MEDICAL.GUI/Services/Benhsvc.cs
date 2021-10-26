@@ -117,7 +117,7 @@ namespace TES_MEDICAL.GUI.Services
 
                         else
                         {
-                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh,item.TenTrieuChung);
+                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh);
 
 
                             exist.TenTrieuChung = item.TenTrieuChung;
@@ -186,7 +186,7 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<Benh> listUnpaged;
-            listUnpaged = _context.Benh.OrderBy(x => x.TenBenh);
+            listUnpaged = _context.Benh.Include(x=>x.MaCKNavigation).OrderBy(x => x.TenBenh);
 
             if (!string.IsNullOrWhiteSpace(model.TenBenhSearch))
 

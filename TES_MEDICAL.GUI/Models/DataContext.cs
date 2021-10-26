@@ -1,13 +1,16 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+
 
 #nullable disable
 
 namespace TES_MEDICAL.GUI.Models
 {
-    public partial class DataContext : DbContext
+    public partial class DataContext : IdentityDbContext<NhanVienYte>
     {
+       
         //public DataContext()
         //{
         //}
@@ -32,10 +35,12 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<PhieuDatLich> PhieuDatLich { get; set; }
         public virtual DbSet<PhieuKham> PhieuKham { get; set; }
         public virtual DbSet<STTPhieuKham> STTPhieuKham { get; set; }
+        public virtual DbSet<STTTOATHUOC> STTTOATHUOC { get; set; }
         public virtual DbSet<Thuoc> Thuoc { get; set; }
         public virtual DbSet<TinTuc> TinTuc { get; set; }
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
+        public virtual DbSet<TheLoai> TheLoai { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,7 +52,52 @@ namespace TES_MEDICAL.GUI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+
+            modelBuilder.Entity<TheLoai>(entity =>
+            {
+                entity.HasKey(e => e.MaTL)
+                    .HasName("PK__TheLoai__272500715188CB73");
+
+                entity.Property(e => e.MaTL).ValueGeneratedNever();
+
+                entity.Property(e => e.TenTL)
+                    .IsRequired()
+                    .HasMaxLength(100);
+            });
+
+
+
+
+            modelBuilder.Entity<TinTuc>(entity =>
+            {
+                entity.HasKey(e => e.MaBaiViet)
+                    .HasName("PK__TinTuc__AEDD56476D752A3D");
+
+                entity.HasIndex(e => e.MaNguoiViet, "IX_TinTuc_MaNguoiViet");
+
+                entity.Property(e => e.MaBaiViet).ValueGeneratedNever();
+
+                entity.Property(e => e.NoiDung).IsRequired();
+
+                entity.Property(e => e.TieuDe)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.MaNguoiVietNavigation)
+                    .WithMany(p => p.TinTuc)
+                    .HasForeignKey(d => d.MaNguoiViet)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TinTuc__MaNguoiV__1273C1CD");
+
+                entity.HasOne(d => d.MaTLNavigation)
+                    .WithMany(p => p.TinTuc)
+                    .HasForeignKey(d => d.MaTL)
+                    .HasConstraintName("FK__TinTuc__MaTL__71D1E811");
+            });
+
 
             modelBuilder.Entity<Benh>(entity =>
             {
@@ -203,9 +253,11 @@ namespace TES_MEDICAL.GUI.Models
             modelBuilder.Entity<HoaDon>(entity =>
             {
                 entity.HasKey(e => e.MaHoaDon)
-                    .HasName("PK__HoaDon__835ED13B05CA61BC");
+                    .HasName("PK__HoaDon__835ED13BE8E6487A");
 
-                entity.Property(e => e.MaHoaDon).ValueGeneratedNever();
+                entity.Property(e => e.MaHoaDon)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayHD).HasColumnType("datetime");
 
@@ -215,21 +267,29 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.HoaDon)
                     .HasForeignKey(d => d.MaNV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDon__MaNV__32E0915F");
+                    .HasConstraintName("FK__HoaDon__MaNV__35BCFE0A");
 
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.HoaDon)
                     .HasForeignKey(d => d.MaPK)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDon__MaPK__31EC6D26");
+                    .HasConstraintName("FK__HoaDon__MaPK__34C8D9D1");
             });
 
             modelBuilder.Entity<HoaDonThuoc>(entity =>
             {
                 entity.HasKey(e => e.MaPK)
-                    .HasName("PK__HoaDonTh__2725E7FD25012CDB");
+                    .HasName("PK__HoaDonTh__2725E7FD6887BBCA");
+
+                entity.HasIndex(e => e.MaHD, "UQ__HoaDonTh__2725A6E187D21950")
+                    .IsUnique();
 
                 entity.Property(e => e.MaPK).ValueGeneratedNever();
+
+                entity.Property(e => e.MaHD)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NgayHD).HasColumnType("datetime");
 
@@ -239,14 +299,15 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.HoaDonThuoc)
                     .HasForeignKey(d => d.MaNV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDonThuo__MaNV__403A8C7D");
+                    .HasConstraintName("FK__HoaDonThuo__MaNV__440B1D61");
 
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithOne(p => p.HoaDonThuoc)
                     .HasForeignKey<HoaDonThuoc>(d => d.MaPK)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDonThuo__MaPK__3F466844");
+                    .HasConstraintName("FK__HoaDonThuo__MaPK__4316F928");
             });
+
 
             modelBuilder.Entity<NguoiDung>(entity =>
             {
@@ -278,12 +339,13 @@ namespace TES_MEDICAL.GUI.Models
 
             modelBuilder.Entity<NhanVienYte>(entity =>
             {
-                entity.HasKey(e => e.MaNV)
+                modelBuilder.Entity<NhanVienYte>().ToTable("NhanVienYTe");
+                entity.HasKey(e => e.Id)
                     .HasName("PK__NhanVien__2725D70A99F2EA0C");
 
-                entity.Property(e => e.MaNV).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.EmailNV)
+                entity.Property(e => e.Id)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -294,14 +356,9 @@ namespace TES_MEDICAL.GUI.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.MatKhau)
-                    .IsRequired()
-                    .IsUnicode(false);
+             
 
-                entity.Property(e => e.SDTNV)
-                    .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+               
 
                 entity.HasOne(d => d.ChuyenKhoaNavigation)
                     .WithMany(p => p.NhanVienYte)
@@ -335,14 +392,15 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(50);
             });
 
+
             modelBuilder.Entity<PhieuKham>(entity =>
             {
                 entity.HasKey(e => e.MaPK)
-                    .HasName("PK__PhieuKha__2725E7FD9C84A3CD");
+                    .HasName("PK__PhieuKha__2725E7FDD3F81957");
 
                 entity.Property(e => e.MaPK).ValueGeneratedNever();
 
-                entity.Property(e => e.ChanDoan).IsRequired();
+                entity.Property(e => e.ChanDoan);
 
                 entity.Property(e => e.HuyetAp)
                     .HasMaxLength(20)
@@ -358,20 +416,19 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TrieuChung).IsRequired();
-
                 entity.HasOne(d => d.MaBNNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBN)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PhieuKham__MaBN__286302EC");
+                    .HasConstraintName("FK__PhieuKham__MaBN__2B3F6F97");
 
                 entity.HasOne(d => d.MaBSNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PhieuKham__MaBS__276EDEB3");
+                    .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
             });
+
 
             modelBuilder.Entity<STTPhieuKham>(entity =>
             {
@@ -413,11 +470,27 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<STTTOATHUOC>(entity =>
+            {
+                entity.HasKey(e => e.MaPK)
+                    .HasName("PK__STTTOATH__2725E7FDFEC58D61");
 
+                entity.Property(e => e.MaPK).ValueGeneratedNever();
+
+                entity.Property(e => e.UuTien)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.MaPKNavigation)
+                    .WithOne(p => p.STTTOATHUOC)
+                    .HasForeignKey<STTTOATHUOC>(d => d.MaPK)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__STTTOATHUO__MaPK__35BCFE0A");
+            });
             modelBuilder.Entity<TinTuc>(entity =>
             {
                 entity.HasKey(e => e.MaBaiViet)
-                    .HasName("PK__TinTuc__AEDD56476D752A3D");
+                    .HasName("PK__TinTuc__AEDD5647A9FE161F");
 
                 entity.Property(e => e.MaBaiViet).ValueGeneratedNever();
 
@@ -459,6 +532,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
+           
 
             OnModelCreatingPartial(modelBuilder);
         }

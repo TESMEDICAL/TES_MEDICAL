@@ -1,0 +1,58 @@
+﻿@model TES_MEDICAL.GUI.Models.PhieuDatLich
+
+
+<h4 style="text-align:center; font-weight:bold">Thông tin đặt lịch</h4>
+<hr />
+<br />
+<div>
+    @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.MaPhieu)
+        <div class="col-8 m-auto">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Tên bệnh nhân</td>
+                        <th>@Model.TenBN</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Số điện thoại</td>
+                        <th>@Model.SDT</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Ngày sinh</td>
+                        <th>@Model.NgaySinh?.ToString("dd/MM/yyyy")</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Ngày khám</td>
+                        <th>
+                            <input  class="textbox-n"  type="text" onfocus="(this.type='datetime-local')" value="@Model.NgayKham?.ToString("MM/dd/yyyy HH:mm")" asp-for="@Model.NgayKham">
+                        </th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+
+        </div>
+    }
+</div>
+
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

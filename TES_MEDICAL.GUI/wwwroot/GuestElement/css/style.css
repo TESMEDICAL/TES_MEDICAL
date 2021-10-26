@@ -6346,15 +6346,25 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     max-width: 650px; }
   .ltn__slide-item-2 .slide-sub-title {
     margin-bottom: 20px;
-    font-family: var(--ltn__body-font); }
+    font-family: var(--ltn__body-font);}
     .ltn__slide-item-2 .slide-sub-title span {
       color: var(--ltn__secondary-color); }
   .ltn__slide-item-2 .slide-title {
     font-size: 65px;
     line-height: 1;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    color: white
+  }
+/*    .ltn__slide-item-2 .slide-title {
+        font-size: 65px;
+        line-height: 1;
+        margin-bottom: 20px;
+    }*/
     .ltn__slide-item-2 .slide-title span {
       color: var(--ltn__secondary-color); }
+/*    .ltn__slide-item-2 .slide-title2 span {
+        color: var(--ltn__secondary-color);
+    }*/
   .ltn__slide-item-2 .btn-wrapper {
     margin-top: 40px; }
   .ltn__slide-item-2 .slide-brief {

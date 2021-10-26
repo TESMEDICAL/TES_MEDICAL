@@ -173,14 +173,14 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        protected IEnumerable<ChuyenKhoa> GetAllFromDatabase()
+        public async Task<IEnumerable<ChuyenKhoa>> GetAll()
         {
-            List<ChuyenKhoa> data = new List<ChuyenKhoa>();
-
-            data = _context.ChuyenKhoa.ToList();
 
 
-            return data;
+            return await _context.ChuyenKhoa.ToListAsync ();
+
+
+           
 
         }
     }

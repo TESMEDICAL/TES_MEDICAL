@@ -183,16 +183,17 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        protected IEnumerable<DichVu> GetAllFromDatabase()
+        public async Task<IEnumerable<DichVu>> GetDichVu(Guid MaPK)
         {
-            List<DichVu> data = new List<DichVu>();
-
-            data = _context.DichVu.ToList();
-
-
-            return data;
+            if(MaPK!= Guid.Empty)
+            {
+                return await _context.DichVu.Where(x => !_context.ChiTietDV.Any(y => y.MaDV == x.MaDV && y.MaPhieuKham == MaPK)).ToListAsync();
+            }
+            return await _context.DichVu.ToListAsync();
+           
 
         }
+
     }
 }
 

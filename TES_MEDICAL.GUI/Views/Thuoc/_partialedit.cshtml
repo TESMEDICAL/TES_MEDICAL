@@ -1,78 +1,99 @@
-KD
-
 @model TES_MEDICAL.GUI.Models.Thuoc
 
-<h4>Cập nhật thông tin</h4>
+<h4 style="text-align:center; font-weight:bold">CẬP NHẬT THUỐC</h4>
 <hr />
 <div>
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
+        
+        <div class="col-sm-8">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-4" style="display:none">
+                    <label class="control-label col-md-6" for="MaThuoc">MaThuoc</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MaThuoc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaThuoc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group col-4" style="display:none">
-            <label class="control-label col-md-6" for="MaThuoc">MaThuoc</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MaThuoc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MaThuoc, "", new { @class = "text-danger" })
+                <div class="form-group col-4" style="display:none">
+                    <label class="control-label col-md-6" for="HinhAnh">HinhAnh</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.TenThuoc, "Tên thuốc", htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.TenThuoc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenThuoc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.DonGia, "Đơn giá", htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.Vitri, "Vị trí", htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-12">
+                        @Html.EditorFor(model => model.Vitri, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Vitri, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-check col-md-6">
+                    <label class="form-label">Trạng thái</label>
+                    <div>
+                        <label class="form-check-label">
+                            @Html.CheckBoxFor(model => model.TrangThai) Đang hoạt động
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group col-12">
+                    @Html.LabelFor(model => model.ThongTin, "Thông tin", htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-12">
+                        @*@Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })*@
+                        <textarea asp-for="ThongTin" class="form-control" rows="4"></textarea>
+                        @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!--Phần hình-->
+        <div class="col-sm-4">
+            <div class="form-group col-12">
+                @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                <div class="col-12">
+                    @*@Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control", @id = "image-holder2" } })*@
 
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.TenThuoc, "Tên thuốc", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TenThuoc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenThuoc, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+                    @*<input class="form-control" type="file" id="upload-back" accept="image/*" />*@
+
+                    <label class="btn btn-success">
+                        <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
+                    </label>
+                    <div id="image-holder2" class="pt-2">
+                        <img src="~/images/drugs.jpg" style='width: 100%'>
+                    </div>
+
+                </div>
             </div>
+
         </div>
-
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.Vitri, "Vị trí", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Vitri, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Vitri, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.DonGia, "Đơn giá", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.ThongTin, "Thông tin", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-check col-6">
-
-            <label class="form-check-label">
-                @Html.CheckBoxFor(model => model.TrangThai) TrangThai
-            </label>
-        </div>
-
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-
-
-
-
-
     }
 
 
@@ -83,6 +104,19 @@ KD
 <script>
 
     $(document).ready(function () {
+
+    });
+    $('#upload-back').change(function (e) {
+        var self = this;
+
+        var file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+
+            var img = "<img src='" + reader.result + "' style='width: 100%'/>"
+            $('#image-holder2').html(img);
+        };
+        reader.readAsDataURL(file);
 
     });
 </script>

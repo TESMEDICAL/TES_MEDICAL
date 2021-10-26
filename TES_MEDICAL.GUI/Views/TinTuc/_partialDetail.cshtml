@@ -1,0 +1,32 @@
+
+
+@model TES_MEDICAL.GUI.Models.TinTuc
+
+
+<div>
+    <!--Tiêu đề-->
+    <div>
+        <figure class="text-end">
+            <blockquote class="blockquote">
+                <h1>@Model.TieuDe</h1>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Thể loại <cite title="Source Title">@Model.MaTLNavigation.TenTL</cite>
+            </figcaption>
+        </figure>
+    </div>
+    <div>
+            @Html.Raw(Model.NoiDung)
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

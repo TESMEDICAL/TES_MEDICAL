@@ -1,0 +1,90 @@
+
+
+@model TES_MEDICAL.GUI.Models.NhanVienYte
+
+<div class="container-fluid" id="pannelNguoiDung">
+    <h4 style="text-align:center; font-weight:bold">THÔNG TIN NHÂN VIÊN Y TẾ</h4>
+    <hr />
+    <div class="row m-4">
+        <!--Phần hình ảnh-->
+        <div class="col-sm-4">
+             <img src="~/images/@Model.Hinh"  style="width:200px" />
+                @*@Html.DisplayFor(model => model.HinhAnh)*@ 
+            
+
+        </div>
+        <div class="col-sm-8">
+            <div>
+                <div class="col-12 row ">
+                    <h3 class="text-success" style="font-weight: bold;">@Model.HoTen</h3>
+                    <p style="font-weight: bold;">
+                        Chức vụ :
+                        @if (Model.ChucVu == 1)
+                        {
+                            @("Nhân viên y tế")
+                        }
+                        else if (Model.ChucVu == 2)
+                        {
+                            @("Bác sĩ")
+                        }
+                        else
+                        {
+                            @("Dược sĩ")
+                        }
+
+                    </p>
+                </div>
+                
+                <div class="row col-12">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Email
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.Email) -->
+                        @Model.Email
+                    </div>
+                </div>
+
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Số điện thoại
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.PhoneNumber) -->
+                        @Model.PhoneNumber
+                    </div>
+                </div>
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Chuyên khoa
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.ChuyenKhoa) -->
+                        @Model.ChuyenKhoaNavigation.TenCK
+                    </div>
+                </div>
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Trạng thái
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.TrangThai) -->
+                        @Model.TrangThai
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
