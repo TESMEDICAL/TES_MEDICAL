@@ -55,7 +55,9 @@ namespace TES_MEDICAL.GUI.Controllers
 
         {
             ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
+
             ViewBag.ListDV = await _dichvuRep.GetDichVu(Guid.Empty);
+
             var model = await _service.GetPhieuDatLichById(MaPhieu);
            
             if (!string.IsNullOrWhiteSpace(MaPhieu))
