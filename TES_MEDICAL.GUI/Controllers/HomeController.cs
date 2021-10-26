@@ -121,11 +121,27 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+        //Partial View TinTuc Theo TheLoai
         public async Task<IActionResult> ListTheLoai(Guid MaTL)
         {
 
             return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
         }
+
+        public async Task<IActionResult> TinChiTiet(Guid id)
+        {
+            var baiViet = await _tintucService.Get(id);
+            ViewBag.TL1 = await _tintucService.GetTinTuc(Guid.Empty);
+
+            ViewBag.Hinh = baiViet.Hinh;
+            
+            if (baiViet == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(baiViet);
+        }
+
 
     }
 }

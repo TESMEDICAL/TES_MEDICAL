@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewData["Title"] = "TinChiTiet";
+    Layout = "~/Views/Shared/GuestLayout.cshtml";
+}
+<style>
+    .thumb {
+        height: 100px;
+        background-color: #3e3e3e;
+        background-image: none;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .text-wrap h6 {
+        white-space: wrap;
+        width: 200px;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
+@model TinTuc
+
+@if (Model != null)
+{
+    <div class="ltn__shop-details-area pb-85" style="margin-top:100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <!-- Shop Tab Start -->
+                    <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="liton_tab_details_1_1">
+                                <div class="ltn__shop-details-tab-content-inner">
+                                    <h1>
+                                        @Model.TieuDe
+                                    </h1>
+                                    <div class="text-end" style="font-size: 13px; line-height: 5px;">
+                                        <p><i class="fas fa-user"></i> @Model.MaNguoiVietNavigation.HoTen</p>
+                                        <p><i class="fas fa-calendar-week"></i> 26/10/2021</p>
+                                        <p><i class="fas fa-tags"></i> @Model.MaTLNavigation.TenTL</p>
+                                    </div>
+                                    
+                                        @Html.Raw(Model.NoiDung)
+                                    
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shop Tab End -->
+                </div>
+                <div class="col-lg-4">
+                    <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                        <!-- Top Rated Product Widget -->
+                        
+                            <div class="widget ltn__top-rated-product-widget">
+                                <h4 class="ltn__widget-title ltn__widget-title-border">Tin liên quan</h4>
+                                <ul>
+                                    @foreach (var item in ViewBag.TL1)
+                                    {
+                                    <li>
+                                        @*<div class="top-rated-product-item clearfix">
+            <div class="top-rated-product-img">
+                <a href="product-details.html"><div class="thumb" style="background-image: url('@ViewBag.Hinh');"></div></a>
+            </div>
+            <div class="top-rated-product-info">
+                <h6><a href="product-details.html">@item.TieuDe</a></h6>
+                <div class="product-price">
+                    <p style="font-size: 10px"><i class="far fa-calendar-alt"></i> 26/10/2021</p>
+                </div>
+            </div>
+        </div>*@
+
+                                            <div class="row">
+                                                <div class="thumb col-sm-3" style="background-image: url(@item.Hinh);"></div>
+                                                <div class="text-wrap col-sm-9">
+                                                    <h6 class="card-title">@item.TieuDe</h6>
+                                                    <p style="font-size: 10px"><i class="far fa-calendar-alt"></i> 26/10/2021</p>
+                                                </div>
+                                            </div>
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                     
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+}
