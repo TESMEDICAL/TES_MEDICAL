@@ -137,7 +137,7 @@
 
         <div class="form-group" style="float:right">
             <button class="btn" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Cập nhật dịch vụ</button>
-
+            <button class="btn" style="background-color:red; color:white;" onclick="ResetDV()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
         </div>
         <div class="form-group">
             <table class="table table-striped">
@@ -189,6 +189,7 @@
             <div class="modal-body">
 
                 <div id="myModalContent">
+                   
 
                 </div>
             </div>
@@ -196,9 +197,9 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btSave" onclick="SaveDichVu()" class="btn btn-sm btn-success"><i class="far fa-credit-card"></i>&nbsp;Lưu</button>
+                    
                     <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
-                    <button id="btnPdf" class="btn btn-primary">Gen PDF</button>
+
                     <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -207,12 +208,13 @@
     </div>
 </div>
 
+
 @section scripts{
     <script>
         var listdv = [];
         var obj = {};
         //Hàm mở modal của thêm dịch vụ
-        function OpenThemDichVu() {
+        function ResetDV() {
 
             $.ajax({
                 url: "/TiepNhan/GetListDV/",
