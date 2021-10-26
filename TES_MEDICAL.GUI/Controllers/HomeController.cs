@@ -131,7 +131,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> TinChiTiet(Guid id)
         {
             var baiViet = await _tintucService.Get(id);
-            ViewBag.TL1 = await _tintucService.GetTinTuc(Guid.Empty);
+            ViewBag.TL1 = await _tintucService.GetTinMin(Guid.Empty);
 
             ViewBag.Hinh = baiViet.Hinh;
             
