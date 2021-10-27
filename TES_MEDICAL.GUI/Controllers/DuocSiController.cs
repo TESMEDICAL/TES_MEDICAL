@@ -17,7 +17,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReloadPage(int TrangThai)
+        public async Task<IActionResult> ReloadPage(byte TrangThai)
         {
             var listToaThuocCTT = await _service.GetAllToaThuocCTT(TrangThai);
             return Json(listToaThuocCTT);
@@ -38,6 +38,20 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = 1, title = "", text = "Thay đổi thành công."}, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thay đổi thất bại."}, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ThanhToan(Guid maPK)
+        {
+            var result = await _service.ThanhToanThuoc(maPK);
+            if (result != null)
+            {
+                return Json(new { status = 1, title = "", text = "Thanh toán thành công.", redirectUrL = Url.Action("ToaThuocDangPhat", "DuocSi"), obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Thanh toán không thành công", obj = "" }, new JsonSerializerSettings());
+            }
         }
 
 
