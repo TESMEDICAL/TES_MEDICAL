@@ -16,6 +16,31 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
         }
 
+        //Hàm change STT Toa Thuốc
+        public async Task<STTTOATHUOC> ChangeSoUuTien(Guid maPK)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    var existingSTT = await _context.STTTOATHUOC.FindAsync(maPK);
+                    existingSTT.UuTien = "C";
+                    
+
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return existingSTT;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+
         public async Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(int TrangThai)
         {
             return await _context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation)

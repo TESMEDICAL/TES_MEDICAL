@@ -32,6 +32,14 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_ChiTietToaThuoc", toaThuoc);
         }
 
+        public async Task<IActionResult> ChangeSoUuTien(Guid maPK)
+        {
+            if (await _service.ChangeSoUuTien(maPK) != null)
+                return Json(new { status = 1, title = "", text = "Thay đổi thành công."}, new Newtonsoft.Json.JsonSerializerSettings());
+            else
+                return Json(new { status = -2, title = "", text = "Thay đổi thất bại."}, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+
 
         public IActionResult Index()
         {

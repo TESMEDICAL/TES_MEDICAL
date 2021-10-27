@@ -13,5 +13,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<ToaThuoc> GetToaThuocByMaPhieu(Guid MaPhieu);
 
         Task <IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu);
+
+        Task<STTTOATHUOC> ChangeSoUuTien(Guid maPK);
     }
 }
