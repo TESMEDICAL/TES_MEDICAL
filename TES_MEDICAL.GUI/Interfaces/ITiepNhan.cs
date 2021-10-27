@@ -11,14 +11,9 @@ namespace TES_MEDICAL.GUI.Interfaces
     public interface ITiepNhan
     {
         Task<IEnumerable<PhieuDatLich>> GetAllPhieuDatLich();
-
         Task<PhieuDatLich> GetPhieuDatLichById(string id);
-
         Task<PhieuDatLich> Edit(PhieuDatLich model);
         Task<HoaDon> CreatePK(PhieuKhamViewModel model);
-     
-
-
 
     }
 }
