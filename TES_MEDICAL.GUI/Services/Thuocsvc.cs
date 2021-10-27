@@ -80,7 +80,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-        public async Task<Thuoc> Edit(Thuoc model)
+        public async Task<Response<Thuoc>> Edit(Thuoc model)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                    var existingThuoc = _context.Thuoc.Find(model.MaThuoc);
+                    var existingThuoc = await _context.Thuoc.FindAsync(model.MaThuoc);
                     existingThuoc.TenThuoc = model.TenThuoc;
                     existingThuoc.Vitri = model.Vitri;
                     existingThuoc.DonGia = model.DonGia;
@@ -103,15 +103,19 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<Thuoc> { errorCode = 0, Obj = model };
                 }
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<Thuoc> { errorCode = -1 };
+                }
+
+                return new Response<Thuoc> { errorCode = -2 };
             }
 
 

@@ -73,7 +73,7 @@ namespace TES_MEDICAL.GUI.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
-            model.MaThuoc = Guid.NewGuid();
+            //model.MaThuoc = Guid.NewGuid();
             if (ModelState.IsValid)
             {
                 string filePath = "";
@@ -155,31 +155,40 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Thuoc model, [FromForm] IFormFile file)
         {
-            string filePath = "";
-            if (file != null)
+            if (ModelState.IsValid)
             {
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                model.HinhAnh = fileName;
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
-
-            if (await _service.Edit(model) != null)
-            {
+                string filePath = "";
                 if (file != null)
                 {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    model.HinhAnh = fileName;
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
 
+                var result = await _service.Edit(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenThuoc", "Tên thuốc đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
 
+                if (result.errorCode == 0)
+                {
+                    if (file != null)
+                    {
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                    }
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+            }
+            return PartialView("_partialedit", model);
         }
 
         [HttpPost]

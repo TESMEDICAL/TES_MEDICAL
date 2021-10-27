@@ -118,7 +118,7 @@
                         var file = fileUpload.files[0];
 
                         formData.append("file", file);
-                        formData.append('MaThuoc', $("#MaThuoc").val());
+                        formData.append('MaThuoc', $("#add_thuoc").val());
                         formData.append('TenThuoc', $("#TenThuoc").val());
                         formData.append('Vitri', $("#Vitri").val());
                         formData.append('DonGia', $("#DonGia").val());
@@ -179,18 +179,23 @@
                         $.ajax({
                             type: "POST",
                             url: "/Thuoc/Edit",
-                            dataType: "json",
                             processData: false,
                             contentType: false,
                             data: formData,
                             success: function (result) {
                                 $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                if (result.status != null) {
+                                    if (result.status >= 1) {
+
+                                        toastr.success(result.text);
+                                        reloadpage(1);
+                                    }
+                                    else {
+                                        toastr.warning(result.text);
+                                    }
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    $myModalContent.html(result);
                                 }
                             },
                             error: function (errormessage) {
