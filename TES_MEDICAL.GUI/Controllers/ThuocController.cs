@@ -62,7 +62,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<IActionResult> Add()
+        public  IActionResult Add()
         {
 
              return PartialView("_partialAdd", new Thuoc());
@@ -73,44 +73,52 @@ namespace TES_MEDICAL.GUI.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
-            string filePath = "";
-            var filePathDefault = "drugs.jpg";
-
-            if(file == null)
-            {
-                model.HinhAnh = filePathDefault;
-            }
-            else
-            {
-                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
-
-            
             model.MaThuoc = Guid.NewGuid();
-
-
-            if (await _service.Add(model) != null)
+            if (ModelState.IsValid)
             {
-                if (file != null)
-                {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
+                string filePath = "";
+                var filePathDefault = "drugs.jpg";
 
+                if (file == null)
+                {
+                    model.HinhAnh = filePathDefault;
+                }
+                else
+                {
+                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
 
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
-               
 
+                
+
+                var result = await _service.Add(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenThuoc", "Tên thuốc đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+                if (result.errorCode == 0)
+                {
+                    if (file != null)
+                    {
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
+                    }
+
+                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+            }
+            return PartialView("_partialAdd", model);
 
         }
         [HttpGet]
