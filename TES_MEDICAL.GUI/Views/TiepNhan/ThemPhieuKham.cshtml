@@ -5,7 +5,11 @@
 
 
 
-
+ @*<style>
+     .input-validation{
+         margin-top: 10px;
+     }
+ </style>*@
 
 
 }
@@ -23,30 +27,37 @@
             <!-- Basic Form Elements Content -->
             <div class="form-horizontal form-bordered">
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
+                    <div class="col-sm-2">
                         <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
-                    <div class="col-10">
+                    <div class="col-sm-10">
                         <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
+
+                    </div>                   
+                    <div style="margin-left: 100px;">
                         <span asp-validation-for="HoTen" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
+                    <div class="col-sm-2">
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
-                    <div class="col-10">
+                    <div class="col-sm-10">
                         <input type="number" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                    </div>
+                    <div style="margin-left: 100px;">
                         <span asp-validation-for="SDT" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
+                    <div class="col-sm-2">
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
-                    <div class="col-10">
+                    <div class="col-sm-10">
                         <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
+                    </div>
+                    <div style="margin-left: 100px;"">
                         <span asp-validation-for="NgaySinh" class="text-danger"></span>
                     </div>
                 </div>
@@ -65,14 +76,20 @@
 
                         </select>
                     </div>
+                    @*Đây là validate của giới tính, có xài thì xài nghe Thắng*@ 
+                <div style="margin-left: 100px;"">
+                    <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                </div>
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
                         <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
-                    <div class="col-10">
+                    <div class="input-validation col-10">
                         <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                    </div>
+                    <div style="margin-left: 100px;">
                         <span asp-validation-for="DiaChi" class="text-danger"></span>
                     </div>
                 </div>
@@ -98,7 +115,10 @@
                         <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
                             <option value="">Chọn chuyên khoa</option>
                         </select>
-
+                        @*span validate chuyên khoa*@
+                        <div style="margin-left: 5px; margin-top: 5px;">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Bác sĩ</label>
@@ -106,7 +126,9 @@
                             <option value="">Chọn bác sĩ</option>
 
                         </select>
-                        <span asp-validation-for="MaBS" class="text-danger"></span>
+                        <div style="margin-left: 5px; margin-top: 5px;">
+                            <span asp-validation-for="MaBS" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="col-12">
                         <div class="col-2">
@@ -115,7 +137,10 @@
                         <div class="col-12">
                             <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
                         </div>
-
+                        @*span validate Triệu chứng*@
+                        <div style="margin-left: 5px; margin-top: 5px;">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
 
