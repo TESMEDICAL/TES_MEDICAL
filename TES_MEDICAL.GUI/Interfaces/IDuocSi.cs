@@ -17,5 +17,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<STTTOATHUOC> ChangeSoUuTien(Guid maPK);
 
         Task<ToaThuoc> ThanhToanThuoc(Guid maPK);
+
+        Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK);
     }
 }

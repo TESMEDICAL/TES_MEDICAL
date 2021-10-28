@@ -157,5 +157,29 @@ namespace TES_MEDICAL.GUI.Services
             }
 
         }
+
+        public async Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    var existingThuocDangPhat = await _context.ToaThuoc.FindAsync(maPK);
+                    existingThuocDangPhat.TrangThai = 2;
+
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return existingThuocDangPhat;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
     }
 }

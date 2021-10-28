@@ -33,6 +33,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Thay đổi thất bại."}, new Newtonsoft.Json.JsonSerializerSettings());
         }
 
+        //Hàm thanh toán thuốc dùng trong Model ToaThuoc
         [HttpPost]
         public async Task<IActionResult> ThanhToan(Guid maPK)
         {
@@ -44,6 +45,22 @@ namespace TES_MEDICAL.GUI.Controllers
             else
             {
                 return Json(new { status = -2, title = "", text = "Thanh toán không thành công", obj = "" }, new JsonSerializerSettings());
+            }
+        }
+
+
+        //Hàm xác nhận thuốc dùng trong Model ToaThuocDangPhat
+        [HttpPost]
+        public async Task<IActionResult> XacNhanThuocDangCho(Guid maPK)
+        {
+            var result = await _service.XacNhanThuocDangCho(maPK);
+            if (result != null)
+            {
+                return Json(new { status = 1, title = "", text = "Xác nhận thành công", redirectUrL = Url.Action("LichSuThuoc", "DuocSi"), obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Xác nhận không thành công", obj = "" }, new JsonSerializerSettings());
             }
         }
 
@@ -74,9 +91,11 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        public IActionResult ChiTietDangPhat()
+        public async Task<IActionResult> ChiTietDangPhat(Guid MaPhieu)
         {
-            return PartialView("_ChiTietDangPhat");
+            var toaThuoc = await _service.GetToaThuocByMaPhieu(MaPhieu);
+            ViewBag.CTToaThuocDangPhat = await _service.GetChiTiet(MaPhieu);
+            return PartialView("_ChiTietDangPhat", toaThuoc);
         }
 
 

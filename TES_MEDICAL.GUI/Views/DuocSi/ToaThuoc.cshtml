@@ -265,8 +265,13 @@
                     }
                     else {
                         toastr.warning(result.text);
+                        
 
                     }
+                    $("#btThanhToan").prop("disabled", false);
+
+                    $("#btThanhToan").html(
+                        'Retry');
                 },
                 error: function (errormessage) {
                     //alert(errormessage.responseText);
@@ -279,6 +284,7 @@
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
+           
         });
 
     </script>
