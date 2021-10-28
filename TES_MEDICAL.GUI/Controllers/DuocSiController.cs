@@ -157,9 +157,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-        public IActionResult ChiTietThuoc()
+        public async Task<IActionResult> ChiTietThuoc(Guid id)
         {
-            return PartialView("_ChiTietThuoc");
+            if (await _thuocService.Get(id) == null)
+            {
+                return NotFound(); ;
+            }
+            else
+            {
+
+
+                return PartialView("_ChiTietThuoc", await _thuocService.Get(id));
+            }
         }
 
     }

@@ -168,6 +168,36 @@
 
             reloadpage(1);
         }
+
+        function _Detail(id_) {
+            $myModalContent.html("");
+
+            $.ajax({
+                url: '/DuocSi/ChiTietThuoc/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: true,
+                data: {
+                    id: id_
+                },
+
+                success: function (result) {
+                    $myModalContent.html(result);
+                    $('#btSave').hide();
+                    $('#btupdate').hide();
+                    $('#btPrint').show();
+                    $modal.modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
     </script>
 
  }

@@ -120,7 +120,4 @@
         @Html.PagedListPager((IPagedList<Thuoc>)ViewBag.Names, page => Url.Action("PageList", new { page, TenThuocSearch = searchModel.TenThuocSearch, DonGiaSearch = searchModel.DonGiaSearch, ThongTinSearch = searchModel.ThongTinSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
-
-
-
 </div>

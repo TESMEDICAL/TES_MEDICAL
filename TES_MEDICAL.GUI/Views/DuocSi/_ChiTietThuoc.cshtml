@@ -1,46 +1,59 @@
-﻿<h4 style="text-align:center; font-weight:bold">THÔNG TIN THUỐC</h4>
-<hr />
-<br />
-<style>
-    .table2 {
-        width: 500px;
-    }
+﻿@model TES_MEDICAL.GUI.Models.Thuoc
 
-        .table2 td {
-            width: 300px;
-        }
+<div class="container-fluid" id="pannelThuoc">
+    <h4 style="text-align:center; font-weight:bold">THÔNG TIN THUỐC</h4>
+    <hr />
+    <div class="row m-4">
+        <!--Phần hình ảnh-->
+        <div class="col-sm-4">
+            <img src="~/images/@Model.HinhAnh" style="width:200px" />
+            @*@Html.DisplayFor(model => model.HinhAnh)*@
 
-        .table2 th {
-            width: 100px;
-        }
-</style>
-<div class="row">
-    <div class="col-sm-8">
-        <table class="table table2 table-borderless">
-            <tbody>
-                <tr>
-                    <th scope="row">Tên thuốc</th>
-                    <td>Thuốc A</td>
-                </tr>
-                <tr>
-                    <th scope="row">Thành phần</th>
-                    <td>
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
-                        Chất a, chất b, chất c, chất d, chất e
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm-2" style="margin-left: 5px">
-        <div>
-            <img src="https://i-cf65ch.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/vi_vn/vietnamproduct/panadol_extra/product_detail/Panadol%20Extra_Packshot_221118_L_(445x429px).png?auto=format" alt="" style="width: 100%; ">
         </div>
+        <div class="col-sm-8">
+            <div>
+                <div class="col-12 row ">
+                    <h3 class="text-success" style="font-weight: bold;">@Model.TenThuoc</h3>
+                    <p style="font-weight: bold;">
+                        Vị trí: @Model.Vitri
+                    </p>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Đơn giá
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.DonGia) -->
+
+                        @Model.DonGia.ToString("#,###")
+                    </div>
+                </div>
+
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Thông tin
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.ThongTin) -->
+                        @Model.ThongTin
+                    </div>
+                </div>
+
+                <div class="col-12 row">
+                    <div class="col-sm-4" style="font-weight:bold!important">
+                        Trạng thái
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- @Html.DisplayFor(model => model.TrangThai) -->
+                        @Model.TrangThai
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
