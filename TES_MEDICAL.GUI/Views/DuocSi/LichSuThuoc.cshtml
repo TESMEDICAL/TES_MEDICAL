@@ -16,44 +16,51 @@
     }
 </style>
 
-<div class="col-12" id="listToaThuocCTT">
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Lịch sử thuốc</strong></h2>
+    </div>
 
-    <div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>
+    <div class="col-12" id="listToaThuocCTT">
 
-</div>
-
-
-
-<!--Model chính-->
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-
-            </div>
-            <div class="modal-body">
-
-                <div id="myModalContent">
-
-                </div>
-            </div>
-
-
-            <div class="modal-footer">
-                <div class="text-right">
-
-                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                    <button type="button" id="btThanhToan" class="btn btn-success btn-sm"><i class="far fa-credit-card" aria-hidden="true"></i>&nbsp;Thanh toán</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                </div>
-            </div>
-        </div>
+        <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
 
     </div>
+
+
+
+    <!--Model chính-->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+
+                </div>
+                <div class="modal-body">
+
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+
+
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+
+
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -75,17 +82,19 @@
             });
 
 
-        //Hàm mở modal của Chi tiết Toa Thuốc
-        function OpenChiTietLichSu() {
+        //Hàm mở modal của chi tiết lịch sử thuốc
+        function Detail(_maPhieu) {
             $.ajax({
                 url: "/DuocSi/ChiTietLichSu/",
                 type: 'GET',
+                data: {
+                    MaPhieu: _maPhieu
+                },
                 success: function (response) {
+
                     $("#myModalContent").html(response);
                     $('#myModal').modal('show');
-                    $('#btSave').show();
-                    $('#btupdate').hide();
-
+                    $('#btXacNhan').show();
                 }
             });
         }
@@ -132,7 +141,7 @@
                                 title: 'Thao tác',
                                 data: null,
                                 render: function (data) {
-                                    return `<a class='btn btn-info btn-sm active' onclick = ChangeDoUuTien('${data.maPhieuKham}')> <i class='fas fa-arrow-down'></i></a> <a onclick = Detail('${data.maPhieuKham}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`;
+                                    return `<a onclick = Detail('${data.maPhieuKham}') class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i>  Xem chi tiết</a>`;
                                 }
                             },
                             {

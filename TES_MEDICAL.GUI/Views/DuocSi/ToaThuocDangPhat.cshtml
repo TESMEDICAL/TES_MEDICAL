@@ -16,40 +16,49 @@
     }
 </style>
 
-<div class="col-12" id="listToaThuocCTT">
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Toa thuốc đang phát</strong></h2>
+    </div>
 
-    <div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>
+    <div class="col-12" id="listToaThuocCTT">
 
-</div>
-
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-
-            </div>
-            <div class="modal-body">
-
-                <div id="myModalContent">
-
-                </div>
-            </div>
-
-
-            <div class="modal-footer">
-                <div class="text-right">
-
-                    <button type="button" id="btXacNhan" class="btn btn-sm btn-success"><i class="fas fa-check"></i>&nbsp;Xác nhận</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                </div>
-            </div>
-        </div>
+        <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
 
     </div>
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+
+                </div>
+                <div class="modal-body">
+
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+
+                        <button type="button" id="btXacNhan" class="btn btn-sm btn-success"><i class="fas fa-check"></i>&nbsp;Xác nhận</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
+
+
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

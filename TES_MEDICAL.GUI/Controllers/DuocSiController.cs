@@ -5,15 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
     public class DuocSiController : Controller
     {
         private readonly IDuocSi _service;
-        public DuocSiController(IDuocSi service)
+        private readonly IThuoc _thuocService;
+
+
+        public DuocSiController(IDuocSi service, IThuoc thuocService)
         {
             _service = service;
+            _thuocService = thuocService;
         }
 
         [HttpGet]
@@ -104,15 +109,53 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
-        public IActionResult ChiTietLichSu()
+        public async Task<IActionResult> ChiTietLichSu(Guid MaPhieu)
         {
-            return PartialView("_ChiTietLichSu");
+            var toaThuoc = await _service.GetToaThuocByMaPhieu(MaPhieu);
+            ViewBag.CTLichSuThuoc = await _service.GetChiTiet(MaPhieu);
+            return PartialView("_ChiTietLichSu", toaThuoc);
         }
 
-        public IActionResult DanhSachThuoc()
+        public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
         {
-            return View();
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _thuocService.SearchByCondition(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Data = model;
+            return View(new ThuocSearchModel());
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> PageList(ThuocSearchModel model)
+        {
+
+            var listmodel = await _thuocService.SearchByCondition(model);
+            if (listmodel.Count() > 0)
+            {
+
+                if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+                ViewBag.Names = listmodel;
+                ViewBag.Data = model;
+
+                return PartialView("_NameListThuoc", listmodel);
+                //return View("DanhSachThuoc", listmodel);
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+
+
+        }
+
+
 
         public IActionResult ChiTietThuoc()
         {
