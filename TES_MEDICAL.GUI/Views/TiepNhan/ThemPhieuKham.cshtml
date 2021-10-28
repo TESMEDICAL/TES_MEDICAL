@@ -10,8 +10,8 @@
 
 }
 
-
-<form class="row" id="frm">
+@using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data", @class = "row form needs-validation" }))
+{
     <div class="col-md-6">
         <!-- Basic Form Elements Block -->
         <div class="block">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten" class="col-form-label">Giới tính</label>
+                        <label for="GioiTinh" class="col-form-label">Giới tính</label>
                     </div>
                     <div class="col-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
@@ -60,11 +60,10 @@
                             <option value="1">Nữ</option>
                         </select> -->
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
+                            <option value="false">Nam</option>
+                            <option value="true">Nữ</option>
 
                         </select>
-                        <span asp-validation-for="GioiTinh" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -123,7 +122,9 @@
             </div>
         </div>
     </div>
-</form>
+}
+
+
 
 <div class="col-12">
     <div class="block">
@@ -148,7 +149,7 @@
             </table>
             <div class="form-group" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
-                <button type="submit" class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
 
             </div>
@@ -223,10 +224,67 @@
 
 </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //$("#frm").validate({
+        //    // Specify validation rules
+        //    rules: {
+        //        HoTen: "required",
+
+        //        SDT: {
+        //            required: true,
+        //            digits: true,
+        //            minlength: 10,
+        //            maxlength: 10,
+        //        },
+
+        //        NgaySinh: "required",
+
+        //        DiaChi: {
+        //            required: true,
+        //        },
+
+        //        MaBS: "required"
+        //    },
+        //    messages: {
+        //        HoTen: {
+        //            required: "Bạn cần nhập họ tên bệnh nhân",
+        //        },
+
+        //        SDT: {
+        //            required: "Bạn cần nhập số điện thoại",
+        //            digits: "Số điện thoại không hợp lệ",
+        //            minlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+        //            maxlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+        //        },
+
+        //        NgaySinh: {
+        //            required: "Bạn cần chọn ngày sinh",
+        //        },
+
+        //        DiaChi: {
+        //            required: "Bạn cần nhập địa chỉ",
+        //        },
+
+        //        MaBS: {
+        //            required: "Bạn cần chọn bác sĩ",
+        //        }
+        //    },
+
+        //});
+    });
+ 
+</script>
 @section Scripts{
+    
+
     <script>
+
+
 
 
         //Hàm mở modal của thêm dịch vụ
@@ -264,10 +322,57 @@
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
+            //$("#frm").validate({
+            //    // Specify validation rules
+            //    rules: {
+            //        HoTen: "required",
+
+            //        SDT: {
+            //            required: true,
+            //            digits: true,
+            //            minlength: 10,
+            //            maxlength: 10,
+            //        },
+
+            //        NgaySinh: "required",
+
+            //        DiaChi: {
+            //            required: true,
+            //        },
+
+            //        MaBS: "required"
+            //    },
+            //    messages: {
+            //        HoTen: {
+            //            required: "Bạn cần nhập họ tên bệnh nhân",
+            //        },
+
+            //        SDT: {
+            //            required: "Bạn cần nhập số điện thoại",
+            //            digits: "Số điện thoại không hợp lệ",
+            //            minlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+            //            maxlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+            //        },
+
+            //        NgaySinh: {
+            //            required: "Bạn cần chọn ngày sinh",
+            //        },
+
+            //        DiaChi: {
+            //            required: "Bạn cần nhập địa chỉ",
+            //        },
+
+            //        MaBS: {
+            //            required: "Bạn cần chọn bác sĩ",
+            //        }
+            //    },
+
+            //});
+
             if ($("#frm").valid()) {
                 obj = {}
                 obj = $("#frm").serializeObject();
-                listdv = [];
+                var listdv = [];
                 $("#listDV > tr").each(function () {
                     $tr = $(this)
                     var $td = $tr.find("td");
@@ -275,7 +380,7 @@
 
                 });
                 obj.dichVus = listdv
-
+                console.log(obj)
 
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
@@ -287,20 +392,30 @@
 
 
                     success: function (response) {
-                        $("#myModalContent").html(response);
-                        $('#myModal').modal('show');
-                        $('#btSave').hide();
-                        $('#btCheckOut').show();
-
+                        if (response.status == -2) {
+                            toastr.warning(response.text)
+                        }
+                        else {
+                            $("#myModalContent").html(response);
+                            $('#myModal').modal('show');
+                            $('#btSave').hide();
+                            $('#btCheckOut').show();
+                        }
+                      
                     }
                 });
             }
+
+
 
         }
 
 
 
         $("#btCheckOut").click(function () {
+
+
+
             $(this).prop("disabled", true);
 
             $(this).html(
@@ -312,6 +427,7 @@
                 data: obj,
                 success: function (result) {
                     $('#preloader-wrapper').toggleClass('hide');
+
                     if (result.status >= 1) {
 
                         toastr.success(result.text);
@@ -321,6 +437,7 @@
                         toastr.warning(result.text);
 
                     }
+
                 },
                 error: function (errormessage) {
                     //alert(errormessage.responseText);
@@ -333,6 +450,8 @@
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
+
+
         });
         //function ThanhToan() {
         //    $.ajax({
