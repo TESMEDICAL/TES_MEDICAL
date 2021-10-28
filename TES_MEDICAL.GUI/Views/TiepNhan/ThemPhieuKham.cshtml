@@ -52,7 +52,7 @@
                 </div>
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
-                        <label for="Hoten" class="col-form-label">Giới tính</label>
+                        <label for="GioiTinh" class="col-form-label">Giới tính</label>
                     </div>
                     <div class="col-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
@@ -60,11 +60,10 @@
                             <option value="1">Nữ</option>
                         </select> -->
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
+                            <option value="false">Nam</option>
+                            <option value="true">Nữ</option>
 
                         </select>
-                        <span asp-validation-for="GioiTinh" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -223,10 +222,60 @@
 
 </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 
 @section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
+        $(document).ready(function () {
+
+            $("#frm").validate({
+                // Specify validation rules
+                rules: {
+                    HoTen: "required",
+
+                    SDT: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
+
+                    NgaySinh: "required",
+
+                    DiaChi: {
+                        required: true,
+                    },
+
+                    MaBS: "required"
+                },
+                messages: {
+                    HoTen: {
+                        required: "Bạn cần nhập họ tên bệnh nhân",
+                    },
+
+                    SDT: {
+                        required: "Bạn cần nhập số điện thoại",
+                        digits: "Số điện thoại không hợp lệ",
+                        minlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+                        maxlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
+                    },
+
+                    NgaySinh: {
+                        required: "Bạn cần chọn ngày sinh",
+                    },
+
+                    DiaChi: {
+                        required: "Bạn cần nhập địa chỉ",
+                    },
+
+                    MaBS: {
+                        required: "Bạn cần chọn bác sĩ",
+                    }
+                },
+
+            });
+        });
 
 
         //Hàm mở modal của thêm dịch vụ
@@ -267,7 +316,7 @@
             if ($("#frm").valid()) {
                 obj = {}
                 obj = $("#frm").serializeObject();
-                listdv = [];
+                var listdv = [];
                 $("#listDV > tr").each(function () {
                     $tr = $(this)
                     var $td = $tr.find("td");
@@ -275,7 +324,7 @@
 
                 });
                 obj.dichVus = listdv
-
+                console.log(obj)
 
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
@@ -287,52 +336,59 @@
 
 
                     success: function (response) {
-                        $("#myModalContent").html(response);
-                        $('#myModal').modal('show');
-                        $('#btSave').hide();
-                        $('#btCheckOut').show();
-
+                            $("#myModalContent").html(response);
+                            $('#myModal').modal('show');
+                            $('#btSave').hide();
+                            $('#btCheckOut').show();
                     }
                 });
             }
+            
+
 
         }
 
 
 
         $("#btCheckOut").click(function () {
-            $(this).prop("disabled", true);
+             
+                var obj = $("#frm").serialize();
+                $(this).prop("disabled", true);
 
-            $(this).html(
-                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
-            );
-            $.ajax({
-                type: "POST",
-                url: "/TiepNhan/FinalCheckOut/",
-                data: obj,
-                success: function (result) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                    if (result.status >= 1) {
+                $(this).html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
+                );
+                $.ajax({
+                    type: "POST",
+                    url: "/TiepNhan/FinalCheckOut/",
+                    data: obj,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        
+                            if (result.status >= 1) {
 
-                        toastr.success(result.text);
-                        window.location.href = result.redirectUrL;
+                                toastr.success(result.text);
+                                window.location.href = result.redirectUrL;
+                            }
+                            else {
+                                toastr.warning(result.text);
+
+                            }
+                        
+                    },
+                    error: function (errormessage) {
+                        //alert(errormessage.responseText);
+                        $(this).prop("disabled", false);
+
+                        $(this).html(
+                            'Retry');
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
                     }
-                    else {
-                        toastr.warning(result.text);
+                });
+            
 
-                    }
-                },
-                error: function (errormessage) {
-                    //alert(errormessage.responseText);
-                    $(this).prop("disabled", false);
-
-                    $(this).html(
-                        'Retry');
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                }
-            });
         });
         //function ThanhToan() {
         //    $.ajax({
