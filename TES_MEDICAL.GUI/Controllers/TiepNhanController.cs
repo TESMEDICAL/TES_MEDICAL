@@ -92,18 +92,22 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> XacNhanDichVu([FromForm] PhieuKhamViewModel model)
         {
-            ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
-            var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
-            result.dichVus = new List<DichVu>();
-
-            foreach (var item in model.dichVus)
+            if (ModelState.IsValid)
             {
-                result.dichVus.Add(await _dichvuRep.Get(item.MaDV));
+                ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
+                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
+                result.dichVus = new List<DichVu>();
+
+                foreach (var item in model.dichVus)
+                {
+                    result.dichVus.Add(await _dichvuRep.Get(item.MaDV));
+                }
+
+
+
+                return PartialView("_XacNhanDichVu", result);
             }
-
-
-            
-            return PartialView("_XacNhanDichVu",result);
+            return RedirectToAction("ThemPhieuKham", "TiepNhan", model);
         }
 
 

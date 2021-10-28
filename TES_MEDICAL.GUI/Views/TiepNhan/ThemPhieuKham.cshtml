@@ -2,11 +2,11 @@
 @{
     ViewData["Title"] = "ThemPhieuKham";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
-   
-    
 
 
-   
+
+
+
 
 }
 
@@ -16,18 +16,19 @@
         <!-- Basic Form Elements Block -->
         <div class="block">
             <!-- Basic Form Elements Title -->
-            <div class="block-title">               
+            <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <div  class="form-horizontal form-bordered">
+            <div class="form-horizontal form-bordered">
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
                         <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-10">
                         <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -35,7 +36,8 @@
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
                     <div class="col-10">
-                        <input type="number" asp-for="SDT"  class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <input type="number" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <span asp-validation-for="SDT" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -44,7 +46,8 @@
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh"  class="form-control">
+                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
+                        <span asp-validation-for="NgaySinh" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -61,6 +64,7 @@
                             <option value="1">Nữ</option>
 
                         </select>
+                        <span asp-validation-for="GioiTinh" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -70,6 +74,7 @@
                     </div>
                     <div class="col-10">
                         <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        <span asp-validation-for="DiaChi" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -87,7 +92,7 @@
             </div>
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <div  class="form-horizontal form-bordered p-0">
+            <div class="form-horizontal form-bordered p-0">
                 <div class="form-group row">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Chuyên khoa</label>
@@ -102,6 +107,7 @@
                             <option value="">Chọn bác sĩ</option>
 
                         </select>
+                        <span asp-validation-for="MaBS" class="text-danger"></span>
                     </div>
                     <div class="col-12">
                         <div class="col-2">
@@ -131,23 +137,20 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        
+
                         <th scope="col">Dịch vụ</th>
                         <th scope="col">Đơn giá</th>
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="listDV">
-
-                    
-
                 </tbody>
             </table>
             <div class="form-group" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button type="submit" class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
-                
+
             </div>
         </div>
 
@@ -172,16 +175,16 @@
             <div class="modal-body">
 
                 <div id="myModalContent">
-                    
+
                 </div>
             </div>
 
 
             <div class="modal-footer">
                 <div class="text-right">
-                   
+
                     <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
-                    
+
                     <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -214,34 +217,34 @@
             </div>
         </div>
 
-           
-        </div>
-
 
     </div>
 
-               
 
-@section scripts{
+</div>
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+@section Scripts{
     <script>
-       
-      
+
+
         //Hàm mở modal của thêm dịch vụ
         function OpenThemDichVu() {
 
-           
+
             $('#modalDV').modal('show');
             $('#btSave').show();
-                   
 
-           
+
+
         }
 
         function Refresh() {
 
 
 
-       
+
             $("#listDV > tr").each(function (i) {
                 $tr = $(this)
 
@@ -261,39 +264,42 @@
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
-            obj = {}
-            obj = $("#frm").serializeObject();
-            listdv = [];
-            $("#listDV > tr").each(function () {
-                $tr = $(this)
-                var $td = $tr.find("td");
-                listdv.push({ MaDV: $td.eq(0).text()})
+            if ($("#frm").valid()) {
+                obj = {}
+                obj = $("#frm").serializeObject();
+                listdv = [];
+                $("#listDV > tr").each(function () {
+                    $tr = $(this)
+                    var $td = $tr.find("td");
+                    listdv.push({ MaDV: $td.eq(0).text() })
 
-            });
-            obj.dichVus = listdv
-
-
-            $.ajax({
-                url: "/TiepNhan/XacNhanDichVu/",
-                type: 'POST',
+                });
+                obj.dichVus = listdv
 
 
-                async: true,
-                data: obj,
+                $.ajax({
+                    url: "/TiepNhan/XacNhanDichVu/",
+                    type: 'POST',
 
 
-                success: function (response) {
-                    $("#myModalContent").html(response);
-                    $('#myModal').modal('show');
-                    $('#btSave').hide();
-                    $('#btCheckOut').show();
+                    async: true,
+                    data: obj,
 
-                }
-            });
+
+                    success: function (response) {
+                        $("#myModalContent").html(response);
+                        $('#myModal').modal('show');
+                        $('#btSave').hide();
+                        $('#btCheckOut').show();
+
+                    }
+                });
+            }
+
         }
 
-       
-        
+
+
         $("#btCheckOut").click(function () {
             $(this).prop("disabled", true);
 
@@ -378,7 +384,7 @@
 
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
- 
+
             $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
