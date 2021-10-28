@@ -23,14 +23,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return Json(listToaThuocCTT);
             //return Ok(listToaThuocCTT);
         }
-
-        public async Task<IActionResult> ChiTietToaThuoc(Guid MaPhieu)
-        {
-            var toaThuoc = await _service.GetToaThuocByMaPhieu(MaPhieu);
-            ViewBag.CTToaThuoc = await _service.GetChiTiet(MaPhieu);
-
-            return PartialView("_ChiTietToaThuoc", toaThuoc);
-        }
+        
 
         public async Task<IActionResult> ChangeSoUuTien(Guid maPK)
         {
@@ -60,13 +53,22 @@ namespace TES_MEDICAL.GUI.Controllers
             return View("ToaThuoc");
         }
 
+        // ToaThuoc/Index
         public IActionResult ToaThuoc()
         {
             return View();
         }
 
-        
+        public async Task<IActionResult> ChiTietToaThuoc(Guid MaPhieu)
+        {
+            var toaThuoc = await _service.GetToaThuocByMaPhieu(MaPhieu);
+            ViewBag.CTToaThuoc = await _service.GetChiTiet(MaPhieu);
 
+            return PartialView("_ChiTietToaThuoc", toaThuoc);
+        }
+
+
+        // Toathuoc/ToaThuocDangPhat
         public IActionResult ToaThuocDangPhat()
         {
             return View();
@@ -76,6 +78,8 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_ChiTietDangPhat");
         }
+
+
 
         public IActionResult LichSuThuoc()
         {
