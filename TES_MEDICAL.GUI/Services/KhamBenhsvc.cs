@@ -40,6 +40,11 @@ namespace TES_MEDICAL.GUI.Services
             return await _context.PhieuKham.Include(x=>x.MaBNNavigation).ThenInclude(x=>x.PhieuKham).FirstOrDefaultAsync(x=>x.MaPK==MaPK);
         }
 
+        public async Task<IEnumerable<PhieuKham>>GetLichSu(Guid MaBN)
+        {
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x => _context.ToaThuoc.Any(y => y.TrangThai == 2&&y.MaPhieuKhamNavigation.MaPK == x.MaPK&&x.MaBN == MaBN)).ToListAsync();
+        }
+
         
 
         public async Task<PhieuKham> AddToaThuoc(PhieuKham model,bool uutien)
@@ -66,7 +71,7 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.ChanDoan = model.ChanDoan;
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
-                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT = _context.STTTOATHUOC.Max(x=>x.STT)+1, UuTien = uutien ? "A" : "B" };
+                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uutien ? "A" : "B" };
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
                     var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
 

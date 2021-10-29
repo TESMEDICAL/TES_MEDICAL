@@ -50,6 +50,9 @@ namespace TES_MEDICAL.CLIENTBACSI.Services
 
         }
 
+       
+
+
         public async Task<IEnumerable<Thuoc>> GetAllThuoc()
         {
             var response = await _httpService.Get($"apikhambenh/GetAllThuoc", null);
