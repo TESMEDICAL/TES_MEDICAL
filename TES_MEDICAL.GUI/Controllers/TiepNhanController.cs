@@ -18,9 +18,11 @@ using TES_MEDICAL.SHARE.Models.ViewModel;
 using System.IO;
 using SelectPdf;
 using System.Threading;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    
     public class TiepNhanController : Controller
     {
         private readonly ITiepNhan _service;

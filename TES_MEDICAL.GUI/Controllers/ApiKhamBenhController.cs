@@ -30,19 +30,24 @@ namespace TES_MEDICAL.GUI.Controllers
 
         // GET api/<ApiKhamBenhController>/5
         [HttpGet("GetPK")]
-        public async Task<IActionResult> Get(Guid MaPK)
+        public async Task<IActionResult> GetPK(string MaPK)
         {
-            return Ok(await _sevices.GetPK(MaPK));
+            return Ok(await _sevices.GetPK(Guid.Parse(MaPK)));
+        }
+        [HttpGet("GetAllThuoc")]
+        public async Task<IActionResult> GetAllThuoc()
+        {
+            return Ok(await _sevices.GetAllThuoc());
         }
 
         [HttpGet("GetListPK")]
-        public async Task<IActionResult> GetPK(string MaBS)
+        public async Task<IActionResult> GetListPK(string MaBS)
         {
             return Ok (await _sevices.GetList(MaBS));
         }
 
         [HttpPost("ThemToa")]
-        public async Task<IActionResult> ThemToa(ToaThuoc model)
+        public async Task<IActionResult> ThemToa(PhieuKham model)
         {
             return Ok(await _sevices.AddToaThuoc(model,false));
         }

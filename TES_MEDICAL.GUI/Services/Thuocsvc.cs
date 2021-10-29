@@ -35,9 +35,10 @@ namespace TES_MEDICAL.GUI.Services
             {
                 using (var transaction = _context.Database.BeginTransaction())
                 {
+                   
                     _context.Entry(model).State = EntityState.Added;
                     await _context.SaveChangesAsync();
-
+                    
 
 
                     await _context.SaveChangesAsync();

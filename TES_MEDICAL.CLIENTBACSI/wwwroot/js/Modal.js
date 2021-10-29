@@ -45,6 +45,7 @@ function Success(DotNet) {
         
         if (result.dismiss === Swal.DismissReason.timer) {
             DotNet.invokeMethodAsync("RedirectTo", "index");
+            
         }
     })
     
