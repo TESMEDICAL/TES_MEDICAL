@@ -1,14 +1,14 @@
 ﻿@using TES_MEDICAL.GUI.Models
 @model List<FileModel>
 @{
-    ViewData["Title"] = "ViewHoaDon";
+    ViewData["Title"] = "Xem Hoá Đơn Thuốc";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
 
 
 <div class="col-12 p-5">
-    <h2 style="text-align:center; font-weight:bold">LỊCH SỬ HOÁ ĐƠN DỊCH VỤ</h2>
+    <h2 style="text-align:center; font-weight:bold">LỊCH SỬ HOÁ ĐƠN THUỐC</h2>
     <br />
     <div class="block">
         <table class="table table-striped">
@@ -24,7 +24,7 @@
                 {
                     <tr>
                         <td>@file.FileName</td>
-                        <td><i class="fas fa-download"> @Html.ActionLink("Download", "DownloadFile", new { fileName = file.FileName })</i></td>
+                        <td><i class="fas fa-download"> @Html.ActionLink("Download", "DownloadFile1", new { fileName = file.FileName })</i></td>
                     </tr>
 
                 }
