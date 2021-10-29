@@ -91,10 +91,9 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\GuestElement\" />
+    <Folder Include="wwwroot\HoaDon\HoaDonThuoc\" />
 
     <Folder Include="wwwroot\images\photos\" />
-
-    <Folder Include="wwwroot\HoaDon\" />
 
   </ItemGroup>
 
