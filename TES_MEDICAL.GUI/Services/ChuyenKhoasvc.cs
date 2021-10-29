@@ -10,6 +10,7 @@ using X.PagedList;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -29,7 +30,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        public async Task<ChuyenKhoa> Add(ChuyenKhoa model)
+        public async Task<Response<ChuyenKhoa>> Add(ChuyenKhoa model)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<ChuyenKhoa> {errorCode=0,Obj = model };
 
                 }
 
@@ -54,10 +55,14 @@ namespace TES_MEDICAL.GUI.Services
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<ChuyenKhoa> { errorCode = -1};
+                }
+
+                return new Response<ChuyenKhoa> { errorCode = -2};
 
             }
         }
@@ -78,7 +83,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-        public async Task<ChuyenKhoa> Edit(ChuyenKhoa model)
+        public async Task<Response<ChuyenKhoa>> Edit(ChuyenKhoa model)
         {
             try
             {
@@ -96,16 +101,23 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<ChuyenKhoa> { errorCode = 0, Obj = model }; ;
                 }
 
 
             }
-            catch (Exception ex)
+           
+             catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<ChuyenKhoa> { errorCode = -1 };
+                }
+
+                return new Response<ChuyenKhoa> { errorCode = -2 };
+
             }
+        
 
 
 

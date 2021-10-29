@@ -59,25 +59,25 @@ namespace TES_MEDICAL.GUI.Services
         {
             try
             {
-                
+
                 model.MaNVHD = "da63a519-f9fa-48ac-ab40-f1cb3c4601de";
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var MaPK = Guid.NewGuid();
                 var list = new List<string>();
-                foreach(var item in model.dichVus)
+                foreach (var item in model.dichVus)
                 {
                     list.Add(item.MaDV.ToString());
                 }
                 var listContent = string.Join(",", list);
 
-               AddPK(model,maHD,MaPK,listContent);
-
-                
+                AddPK(model, maHD, MaPK, listContent);
 
 
-                var hd = await _context.HoaDon.Include(x=>x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x=>x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
+
+
+                var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
                 Thread th_one = new Thread(() => CreateHD(hd));
-                
+
                 th_one.Start();
                 return hd;
 
@@ -88,9 +88,9 @@ namespace TES_MEDICAL.GUI.Services
             }
         }
 
-        public void AddPK(PhieuKhamViewModel model, string maHD,Guid MaPK,string listContent)
+        public void AddPK(PhieuKhamViewModel model, string maHD, Guid MaPK, string listContent)
         {
-            
+
             List<SqlParameter> parms = new List<SqlParameter>
                             {
 
@@ -112,7 +112,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
                             };
-            var result = ( _context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKham @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
+            var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKham @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
         }
 
         public async Task<BenhNhan> GetBN(string SDT)
@@ -123,7 +123,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public void CreateHD(HoaDon HD)
         {
-           
+
             var tongTien = HD.MaPKNavigation.ChiTietDV.Sum(x => x.MaDVNavigation.DonGia);
             var listDichVu = "";
             foreach (var item in HD.MaPKNavigation.ChiTietDV)
@@ -169,7 +169,7 @@ namespace TES_MEDICAL.GUI.Services
             return await _context.PhieuDatLich.ToListAsync();
         }
 
-       
+
 
 
 

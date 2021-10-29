@@ -1,108 +1,260 @@
-﻿
+﻿@model IEnumerable<TES_MEDICAL.GUI.Models.ToaThuoc>
 @{
     ViewData["Title"] = "ToaThuocDangPhat";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-<div class="col-12">
-    <div class="block">
-        <div class="block-title">
-            <h2><strong>Toa thuốc đang phát</strong></h2>
-        </div>
-        <div style="float:left;">
-            <input placeholder="Tìm kiếm theo tên">
-            <input style="margin-left:5px" placeholder="Tìm theo mã toa thuốc">
-            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-        </div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-        <div class="form-group" style="float:right">
-            <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-sync text-white"></i>  Làm mới</button><br />
-            <input type="checkbox" style="margin-top:25px" /> Hiển thị tất cả
-
-        </div>
-
-        <div class="form-group">
-            <table class=" table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Họ và tên</th>
-                        <th scope="col">Mã toa thuốc</th>
-                        <th scope="col">Trạng Thái</th>
-                        <th scope="col" class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Cao Tân Lộc</th>
-                        <td>PK001</td>
-                        <td>Đang chờ</td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-check" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" onclick="OpenToaThuocDangPhat()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Bùi Ngọc Huyền</th>
-                        <td>PK002</td>
-                        <td>Đang chờ</td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-check" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" onclick="OpenToaThuocDangPhat()" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Bỏ qua"> <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-</div>
-
-<!--Model chính-->
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-            </div>
-            <div class="modal-body">
-
-                <div id="myModalContent" class="modal-fullscreen">
-
-                </div>
-            </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
 
 
-            <div class="modal-footer">
-                <div class="text-right">
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<script>
-    //Hàm mở modal của Chi tiết Toa Thuốc Đang phát
-    function OpenToaThuocDangPhat() {
-        $.ajax({
-            url: "/DuocSi/ChiTietDangPhat/",
-            type: 'GET',
-            success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').modal('show');
-                $('#btSave').show();
-                $('#btupdate').hide();
-
-            }
-        });
+<style>
+    .a {
+        text-decoration: none !important
     }
-</script>
+</style>
+
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Toa thuốc đang phát</strong></h2>
+    </div>
+
+    <div class="col-12" id="listToaThuocCTT">
+
+        <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
+
+    </div>
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+
+                </div>
+                <div class="modal-body">
+
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+
+                        <button type="button" id="btXacNhan" class="btn btn-sm btn-success"><i class="fas fa-check"></i>&nbsp;Xác nhận</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+    <script type="text/javascript" src="~/js/datetime.js"></script>
+
+
+    <script>
+        var table;
+        var obj = {};
+        $(document).ready(
+
+            function () {
+
+                ReloadPage(1);
+
+            });
+
+
+
+        //Hàm mở modal của Chi tiết Toa Thuốc Đang phát
+        function Detail(_maPhieu) {
+            $.ajax({
+                url: "/DuocSi/ChiTietDangPhat/",
+                type: 'GET',
+                data: {
+                    MaPhieu: _maPhieu
+                },
+                success: function (response) {
+
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btXacNhan').show();
+                }
+            });
+        }
+
+        var $id = "";
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
+        var $modalins = $('#myModalins');
+        var $myModalContentins = $("#myModalContentins");
+        var $myModalTitle = $("#myModalTitle");
+        var $myModalTitleins = $("#myModalTitleins");
+
+        function ReloadPage(_trangthai) {
+            $('#listToaThuocCTT').html('<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>')
+
+            $.ajax({
+                url: '/DuocSi/ReloadPage/',
+                type: "GET",
+                timeout: 20000,
+                async: false,
+                dataType: "json",
+                data: {
+                    TrangThai: _trangthai
+                },
+                success: function (result) {
+                    console.log(result);
+                    $('#listToaThuocCTT').html('<table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%"></table >')
+                    table = $('#ListTable').DataTable({
+                        destroy: true,
+                        data: result,
+                        columns: [
+                            {
+                                visible: false,
+                                title: 'STT',
+                                data: null,
+                                render: function (data) {
+                                    return data.stttoathuoc.stt;
+                                }
+                            },
+                            { data: 'maPhieuKhamNavigation.maBNNavigation.hoTen', title: 'Tên bệnh nhân' },
+                            /*{ data: 'TrangThai', title: 'Trạng thái' },*/
+                            {
+                                title: 'Thao tác',
+                                data: null,
+                                render: function (data) {
+                                    return `<a class='btn btn-info btn-sm active' onclick = ChangeDoUuTien('${data.maPhieuKham}')> <i class='fas fa-arrow-down'></i></a> <a onclick = Detail('${data.maPhieuKham}') class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`;
+                                }
+                            },
+                            {
+                                visible: false,
+                                title: 'Khong dau',
+                                data: null,
+                                render: function (data) {
+                                    return accents_supr(data.maPhieuKhamNavigation.maBNNavigation.hoTen);
+                                }
+                            },
+                            {
+                                visible: false,
+                                title: 'Do Uu Tien',
+                                data: null,
+                                render: function (data) {
+                                    return data.stttoathuoc.uuTien;
+                                }
+                            }
+
+                        ],
+                        "order": [[4, "asc"], [0, "asc"]],
+                        "language": {
+                            "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                            "zeroRecords": "Không có kết quả",
+                            "info": "Trang: _PAGE_ / _PAGES_",
+                            "infoEmpty": "Không có yêu cầu nào",
+                            "infoFiltered": "(filtered from _MAX_ total records)",
+                            "search": "Tìm: ",
+                            "paginate": {
+                                "first": "Trang đầu",
+                                "last": "Trang cuối",
+                                "next": ">",
+                                "previous": "<"
+                            },
+                        }
+
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+
+            });
+        }
+
+        function ChangeDoUuTien(_maPK) {
+            $.ajax({
+                url: "/DuocSi/ChangeSoUuTien/",
+                type: 'POST',
+                data: {
+                    maPK: _maPK
+                },
+                success: function (response) {
+                    if (response.status >= 1) {
+
+                        toastr.success(response.text);
+                        ReloadPage(0);
+                    }
+                    else {
+                        toastr.warning(response.text);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
+        //Sự kiện b
+        $("#btXacNhan").click(function () {
+            $(this).prop("disabled", true);
+
+            $(this).html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
+            );
+            $.ajax({
+                type: "POST",
+                url: "/DuocSi/XacNhanThuocDangCho/",
+                data: {
+                    maPK: $("#maPK").val()
+                },
+                success: function (result) {
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                    if (result.status >= 1) {
+
+                        toastr.success(result.text);
+                        window.location.href = result.redirectUrL;
+                    }
+                    else {
+                        toastr.warning(result.text);
+                    }
+                    $("#btXacNhan").prop("disabled", false);
+
+                    $("#btXacNhan").html(
+                        'Retry');
+                },
+                error: function (errormessage) {
+                    //alert(errormessage.responseText);
+                    $(this).prop("disabled", false);
+
+                    $(this).html(
+                        'Retry');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        });
+
+
+    </script>
+}
+
 

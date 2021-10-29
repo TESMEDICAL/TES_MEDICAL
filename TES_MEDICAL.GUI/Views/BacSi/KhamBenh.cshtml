@@ -3,6 +3,14 @@
     ViewData["Title"] = "KhamBenh";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+
+<style>
+    #danhSach_filter input{
+        width:100%!important;
+    }
+   
+</style>
 
 <div class="col-12">
     <div class="block">
@@ -216,7 +224,11 @@
             </div>
             <div class="form-group">
                 <div class="form-group" style="padding-inline: 38px; text-align: right;">
-                    <button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>
+                    <button style="background-color:seagreen;  color:white;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-plus text-white"></i>
+                        Thêm thuốc
+                    </button>
+                    @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
                 </div>
             </div>
             <div class="form-group" style="margin-inline: 20px;">
@@ -283,6 +295,101 @@
 
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 5px">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="pt-3">
+                <h4 style="text-align:center; font-weight:bold">THÊM THUỐC</h4>
+                <hr />
+            </div>
+            <!--<div class="modal-header">-->
+            @*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+
+            <!--</div>-->
+            <div class="modal-body">
+                <div class="col-8 m-auto">
+                    <table class="table" id="danhSach">
+                        <thead>
+                            <tr>
+                                <th class="col-8">Tên thuốc</th>
+                                <th class="col-4 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td class="col-8">Panadol</td>
+                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-5">
+                    <table class="table table-striped">
+                        <thead class="bg-success text-light">
+                            <tr>
+                                <th class="col-4">Tên thuốc</th>
+                                <th class="col-2">Số lượng</th>
+                                <th class="col-4">Ghi chú</th>
+                                <th class="col-2 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="col-4">Panadol</th>
+                                <th class="col-2">
+                                    <div class="input-group mb-3">
+                                        <input type="text" placeholder="Số lượng..." class="form-control">
+                                    </div>
+                                </th>
+                                <th class="col-4">
+                                    <div class="input-group mb-3">
+                                        <input type="text" placeholder="Ghi chú..." class="form-control">
+                                    </div>
+                                </th>
+                                <th class="col-2 text-center"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success">Xác nhận</button>
+                <button type="button" class="btn btn-danger text-light" style="margin-left: 5px;" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--Model chính-->
 <div id="myModal" class="modal fade">
     <div class="modal-dialog">
@@ -313,35 +420,57 @@
     </div>
 </div>
 
-<script>
-    //Hàm mở modal của Lịch sử khám
-    function OpenLichSuKham() {
-        $.ajax({
-            url: "/BacSi/LichSuKham/",
-            type: 'GET',
-            success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').modal('show');
-                $('#btSend').hide();
-                $('#btUse').show();
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
-            }
-        });
-    }
+    <script type="text/javascript" src="~/js/datetime.js"></script>
 
-    //Hàm mở modal của Xác nhận kết quả
-    function OpenXacNhanKetQua() {
-        $.ajax({
-            url: "/BacSi/XacNhanKetQua/",
-            type: 'GET',
-            success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').modal('show');
-                $('#btSend').show();
-                $('#btUse').hide();
+    <script>
+        $(document).ready(
 
-            }
-        });
-    }
-</script>
+            function () {
+
+                $('#danhSach').DataTable()
+                $('#danhSach_filter').parent().removeClass("col-md-6");
+
+               
+               
+            });
+        //Hàm mở modal của Lịch sử khám
+        function OpenLichSuKham() {
+            $.ajax({
+                url: "/BacSi/LichSuKham/",
+                type: 'GET',
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSend').hide();
+                    $('#btUse').show();
+
+                }
+            });
+        }
+
+        //Hàm mở modal của Xác nhận kết quả
+        function OpenXacNhanKetQua() {
+            $.ajax({
+                url: "/BacSi/XacNhanKetQua/",
+                type: 'GET',
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSend').show();
+                    $('#btUse').hide();
+                    $('#danhSach_filter').addClass("col-sm-12");
+                    console.log($('#danhSach_filter > lablel').html())
+
+                }
+            });
+        }
+
+    </script>
+}
+
 
