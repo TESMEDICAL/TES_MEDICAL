@@ -11,7 +11,10 @@ namespace TES_MEDICAL.CLIENTBACSI.Services
 {
     public interface IKhamBenh 
     {
-        Task<List<STTViewModel>> GetPhieuKham(string MaBS);
+        Task<List<STTViewModel>> GetListPhieuKham(string MaBS);
+        Task<PhieuKham> GetPhieuKham(string MaPK);
+        Task<IEnumerable<Thuoc>> GetAllThuoc();
+        Task<PhieuKham> SendToaThuoc(PhieuKham phieuKham);
         
     }
     public class KhamBenhsvc : IKhamBenh
@@ -21,7 +24,7 @@ namespace TES_MEDICAL.CLIENTBACSI.Services
         {
             _httpService = httpService;
         }
-        public async Task<List<STTViewModel>> GetPhieuKham(string MaBS)
+        public async Task<List<STTViewModel>> GetListPhieuKham(string MaBS)
         {
            
                 
@@ -35,5 +38,45 @@ namespace TES_MEDICAL.CLIENTBACSI.Services
             
 
         }
+        public async Task<PhieuKham>GetPhieuKham(string MaPK)
+        {
+            var response = await _httpService.Get($"apikhambenh/GetPK?MaPK={MaPK}", null);
+            var content = await response.Content.ReadAsStreamAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            return await JsonSerializer.DeserializeAsync<PhieuKham>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        }
+
+       
+
+
+        public async Task<IEnumerable<Thuoc>> GetAllThuoc()
+        {
+            var response = await _httpService.Get($"apikhambenh/GetAllThuoc", null);
+            var content = await response.Content.ReadAsStreamAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Thuoc>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        }
+
+        public async Task<PhieuKham> SendToaThuoc(PhieuKham phieuKham)
+        {
+            var response = await _httpService.Post($"apikhambenh/ThemToa",null, phieuKham);
+            var content = await response.Content.ReadAsStreamAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            return await JsonSerializer.DeserializeAsync<PhieuKham>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        }
+
+
     }
 }
