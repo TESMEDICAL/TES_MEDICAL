@@ -50,6 +50,7 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
 
             objRef = DotNetObjectReference.Create(this);
             phieuKham = await khambenhRep.GetPhieuKham(MaPK);
+           
             lisTThuoc = (await khambenhRep.GetAllThuoc()).ToList();
             
         }

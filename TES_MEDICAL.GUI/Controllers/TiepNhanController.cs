@@ -64,7 +64,7 @@ namespace TES_MEDICAL.GUI.Controllers
            
             if (!string.IsNullOrWhiteSpace(MaPhieu))
             {
-                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh };
+                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
                 return View(phieuKham);
             }
             return View(new PhieuKhamViewModel());
@@ -84,6 +84,12 @@ namespace TES_MEDICAL.GUI.Controllers
             return Json(ListBS, new JsonSerializerSettings());
         }
 
+        public async Task<JsonResult> BenhNhan_bind(string SDT)
+        {
+            return Json(await _service.GetBN(SDT), new JsonSerializerSettings());
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetListDV(Guid MaPhieu)
         {
@@ -98,7 +104,7 @@ namespace TES_MEDICAL.GUI.Controllers
             {
 
                 ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
-                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi };
+                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi,UuTien = model.UuTien };
                 result.dichVus = new List<DichVu>();
 
                 foreach (var item in model.dichVus)

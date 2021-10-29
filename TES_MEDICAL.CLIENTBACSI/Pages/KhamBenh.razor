@@ -168,27 +168,23 @@
                         <thead>
                             <tr>
                                 <th scope="col">Ngày khám</th>
-                                <td></td>
-                                <td></td>
+                                
                                 <th scope="col">Chẩn đoán</th>
-                                <td></td>
-                                <td></td>
+                               
                                 <th scope="col" class="text-center">Thao tác</th>
                             </tr>
                         </thead>
-                        @if (phieuKham.MaBNNavigation.PhieuKham.Count() > 0)
+                        @if (phieuKham.MaBNNavigation.PhieuKham.Where(x => x.MaPK != phieuKham.MaPK).Count() > 0)
                         {
-                            foreach (var item in phieuKham.MaBNNavigation.PhieuKham)
+                            foreach (var item in phieuKham.MaBNNavigation.PhieuKham.Where(x => x.MaPK != phieuKham.MaPK)) 
                             {
                                 <tbody>
                                     <tr>
                                         <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-                                        <td></td>
-                                        <td></td>
+                                      
                                         <td>@item.ChanDoan</td>
 
-                                        <td>
-                                        </td>
+                                     
                                         <td class="text-nowrap text-center">
                                             <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                         </td>
@@ -203,7 +199,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="4" class="text-center">Không có</td>
+                                <td colspan="3" class="text-center">Không có</td>
                             </tr>
                         }
                     </table>

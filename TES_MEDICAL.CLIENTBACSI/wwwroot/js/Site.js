@@ -3,7 +3,7 @@ var table;
 var dotnetObject;
 function TestDataTablesAdd(divTable, obj) {
 
-    $(divTable).html('<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>')
+   
 
  
     $(divTable).html('<table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%"></table >')
