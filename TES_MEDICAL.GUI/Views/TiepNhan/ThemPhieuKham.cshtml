@@ -283,11 +283,9 @@
     
 
     <script>
+       
 
-
-
-
-        //Hàm mở modal của thêm dịch vụ
+      
         function OpenThemDichVu() {
 
 
@@ -322,53 +320,7 @@
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
-            //$("#frm").validate({
-            //    // Specify validation rules
-            //    rules: {
-            //        HoTen: "required",
-
-            //        SDT: {
-            //            required: true,
-            //            digits: true,
-            //            minlength: 10,
-            //            maxlength: 10,
-            //        },
-
-            //        NgaySinh: "required",
-
-            //        DiaChi: {
-            //            required: true,
-            //        },
-
-            //        MaBS: "required"
-            //    },
-            //    messages: {
-            //        HoTen: {
-            //            required: "Bạn cần nhập họ tên bệnh nhân",
-            //        },
-
-            //        SDT: {
-            //            required: "Bạn cần nhập số điện thoại",
-            //            digits: "Số điện thoại không hợp lệ",
-            //            minlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
-            //            maxlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
-            //        },
-
-            //        NgaySinh: {
-            //            required: "Bạn cần chọn ngày sinh",
-            //        },
-
-            //        DiaChi: {
-            //            required: "Bạn cần nhập địa chỉ",
-            //        },
-
-            //        MaBS: {
-            //            required: "Bạn cần chọn bác sĩ",
-            //        }
-            //    },
-
-            //});
-
+           
             if ($("#frm").valid()) {
                 obj = {}
                 obj = $("#frm").serializeObject();
@@ -381,7 +333,6 @@
                 });
                 obj.dichVus = listdv
                 console.log(obj)
-
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
                     type: 'POST',
@@ -430,11 +381,11 @@
 
                     if (result.status >= 1) {
 
-                        toastr.success(result.text);
-                        window.location.href = result.redirectUrL;
-                    }
-                    else {
-                        toastr.warning(result.text);
+                                toastr.success(result.text);
+                                window.location.href = result.redirectUrL;
+                            }
+                            else {
+                                toastr.warning(result.text);
 
                     }
 
