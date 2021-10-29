@@ -27,7 +27,6 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        //View hoá đơn dịch vụ
         public IActionResult ViewHoaDon()
         {
 
@@ -43,38 +42,10 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
 
-
         public FileResult DownloadFile(string fileName)
         {
             //Build the File Path.
             string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
-
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
-
-
-        //View hoá đơn thuốc
-        public IActionResult ViewHoaDonThuoc()
-        {
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
-            List<FileModel> files = new List<FileModel>();
-
-            foreach (string filePath in filePaths)
-            {
-                files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
-            }
-
-            return View(files);
-        }
-
-        public FileResult DownloadFile1(string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
 
             //Read the File data into Byte Array.
             byte[] bytes = System.IO.File.ReadAllBytes(path);
