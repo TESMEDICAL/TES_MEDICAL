@@ -115,6 +115,11 @@ namespace TES_MEDICAL.GUI.Services
             var result = ( _context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKham @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
         }
 
+        public async Task<BenhNhan> GetBN(string SDT)
+        {
+           return await _context.BenhNhan.FirstOrDefaultAsync(x => x.SDT == SDT);
+        }
+
 
         public void CreateHD(HoaDon HD)
         {

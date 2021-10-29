@@ -82,6 +82,12 @@ namespace TES_MEDICAL.GUI.Controllers
             return Json(ListBS, new JsonSerializerSettings());
         }
 
+        public async Task<JsonResult> BenhNhan_bind(string SDT)
+        {
+            return Json(await _service.GetBN(SDT), new JsonSerializerSettings());
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetListDV(Guid MaPhieu)
         {

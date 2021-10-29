@@ -19,9 +19,19 @@
             <div class="block-title">               
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
+          
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-            <div  class="form-horizontal form-bordered">
+            <div class="form-horizontal form-bordered">
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-2">
+                        <label for="Hoten" class="col-form-label">SĐT</label>
+                    </div>
+                    <div class="col-10">
+                        <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                    </div>
+                </div>
+
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
                         <label for="Hoten" class="col-form-label">Họ tên</label>
@@ -30,21 +40,13 @@
                         <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
                     </div>
                 </div>
-                <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
-                        <label for="Hoten" class="col-form-label">SĐT</label>
-                    </div>
-                    <div class="col-10">
-                        <input type="number" asp-for="SDT"  class="form-control" placeholder="Vui lòng nhập số điện thoại">
-                    </div>
-                </div>
 
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-2">
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-10">
-                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh"  class="form-control">
+                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -53,9 +55,9 @@
                     </div>
                     <div class="col-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select> -->
+                <option value="0">Nam</option>
+                <option value="1">Nữ</option>
+            </select> -->
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
@@ -364,6 +366,34 @@
                     v += "<option value=" + v1.Value + ">" + v1.Text + "</option>";
                 });
                 $("#MaBS").html(v);
+            });
+
+        });
+
+
+        $("#SDT").keyup(function () {
+
+          
+
+          
+            $.get("/tiepnhan/BenhNhan_bind", { SDT: $(this).val() }, function (data) {
+                console.log(data);
+                if (data != null) {
+                    $("#HoTen").val(data.HoTen);
+                    $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
+                    $("#DiaChi").val(data.DiaChi);
+                    if (data.GioiTinh) {
+                        $('#GioiTinh').val(1)
+                    }
+                    else {
+                        $('#GioiTinh').val(0)
+                    }
+
+                  
+
+
+
+                }
             });
 
         });
