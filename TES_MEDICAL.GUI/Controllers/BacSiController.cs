@@ -1,26 +1,43 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Interfaces;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
     public class BacSiController : Controller
     {
-        public IActionResult Index()
+        private readonly IKhamBenh _khambenhRep;
+        public BacSiController (IKhamBenh khambenhRep)
         {
-            return View("PhieuKham");
+            _khambenhRep = khambenhRep;
+        }
+       
+
+        
+        [HttpGet]
+        public async Task<IActionResult> ReloadPage(string MaBS)
+        {
+            var listPK = await _khambenhRep.GetList(MaBS);
+            return Json(listPK, new JsonSerializerSettings());
         }
 
-        public IActionResult PhieuKham()
+        [Route("/bacsi")]
+        [Route("/bacsi/Phieukham")]
+        public async Task<IActionResult>PhieuKham()
         {
             return View();
         }
 
-        public IActionResult KhamBenh()
+        public async Task<IActionResult> KhamBenh(string MaPK)
         {
-            return View();
+            var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
+            item.NgayTaiKham = item.NgayKham.AddDays(7);
+            return View(item);
+            
         }
 
         public IActionResult LichSuKham()

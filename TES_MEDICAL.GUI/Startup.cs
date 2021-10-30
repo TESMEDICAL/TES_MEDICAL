@@ -49,6 +49,7 @@ namespace TES_MEDICAL.GUI
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
             services.ConfigureApplicationCookie(options =>
             {
+                
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 options.SlidingExpiration = true;
