@@ -82,6 +82,14 @@ namespace TES_MEDICAL.GUI.Helpers
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
 
         }
+
+        //Hàm cắt chuỗi name
+        public static string GetName(string FullName)
+        {
+            string[] words = FullName.Split(' ');
+            return (words[words.Length - 2]) + " " + words[words.Length - 1];
+
+        }
     }
 }
 
