@@ -17,10 +17,12 @@ using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 using System.IO;
 using SelectPdf;
-
+using System.Threading;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    
     public class TiepNhanController : Controller
     {
         private readonly ITiepNhan _service;
@@ -55,11 +57,19 @@ namespace TES_MEDICAL.GUI.Controllers
 
         {
             ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
-            var model = await _service.GetPhieuDatLichById(MaPhieu);
-            if(!string.IsNullOrWhiteSpace(MaPhieu))
 
-            ViewBag.BenhNhan = new BenhNhan { HoTen = model.TenBN, NgaySinh = model.NgaySinh, SDT = model.SDT, Email = model.Email };
-            return View();
+            ViewBag.ListDV = await _dichvuRep.GetDichVu(Guid.Empty);
+
+            var model = await _service.GetPhieuDatLichById(MaPhieu);
+           
+            if (!string.IsNullOrWhiteSpace(MaPhieu))
+            {
+                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh };
+                return View(phieuKham);
+            }
+            return View(new PhieuKhamViewModel());
+             
+             
         }
 
 
@@ -104,9 +114,12 @@ namespace TES_MEDICAL.GUI.Controllers
         {
 
             var result = await _service.CreatePK(model);
+
                     if (result != null)
                     {
-                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,result );
+                var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
+                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,stt );
+               
 
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
                     }
@@ -117,6 +130,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
+        
+      
 
         public IActionResult QuanLyDatLich()
         {

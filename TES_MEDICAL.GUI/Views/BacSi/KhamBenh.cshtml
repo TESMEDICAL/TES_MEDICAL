@@ -4,11 +4,12 @@
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+
 <style>
     #danhSach_filter input{
-        width: 100%;
-        playho
+        width:100%!important;
     }
+   
 </style>
 
 <div class="col-12">
@@ -457,7 +458,10 @@
             function () {
 
                 $('#danhSach').DataTable()
+                $('#danhSach_filter').parent().removeClass("col-md-6");
 
+               
+               
             });
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham() {
@@ -484,6 +488,8 @@
                     $('#myModal').modal('show');
                     $('#btSend').show();
                     $('#btUse').hide();
+                    $('#danhSach_filter').addClass("col-sm-12");
+                    console.log($('#danhSach_filter > lablel').html())
 
                 }
             });
