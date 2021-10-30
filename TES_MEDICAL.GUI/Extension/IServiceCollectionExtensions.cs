@@ -44,9 +44,10 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<INhanVienYte, NhanVienYtesvc>()
                 .AddScoped<INguoiDung, NguoiDungsvc>()
                 .AddScoped<ITiepNhan, TiepNhanSvc>()
-                .AddScoped<IKhamBenh,KhamBenhsvc>()
-                .AddScoped<ITheLoai,TheLoaisvc>()
-                .AddScoped<ITinTuc,TinTucsvc>(); 
+                .AddScoped<IKhamBenh, KhamBenhsvc>()
+                .AddScoped<ITheLoai, TheLoaisvc>()
+                .AddScoped<ITinTuc, TinTucsvc>()
+                .AddScoped<IDuocSi, DuocSisvc>();
 
                 
 

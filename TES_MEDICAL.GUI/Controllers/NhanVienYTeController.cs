@@ -144,22 +144,22 @@ namespace TES_MEDICAL.GUI.Controllers
 
         //}
 
-        //[HttpGet]
-        //public async Task<ActionResult> Detail(Guid id)
-        //{
-        //    var item = await _service.Get(id.ToString());
-        //    if (item == null)
-        //    {
-        //        return NotFound(); ;
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK", item.ChuyenKhoa);
+        [HttpGet]
+        public async Task<ActionResult> Detail(Guid id)
+        {
+            var item = await _service.Get(id.ToString());
+            if (item == null)
+            {
+                return NotFound(); ;
+            }
+            else
+            {
+                ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK", item.ChuyenKhoa);
 
 
-        //        return PartialView("_partialDetail", item);
-        //    }
-        //}
+                return PartialView("_partialDetail", item);
+            }
+        }
 
         //[HttpPost]
         //public async Task<ActionResult> Edit(NhanVienYte model, [FromForm] IFormFile file)
@@ -187,7 +187,7 @@ namespace TES_MEDICAL.GUI.Controllers
         //    {
         //        return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         //    }
-                
+
 
         //}
 
@@ -198,23 +198,6 @@ namespace TES_MEDICAL.GUI.Controllers
         //        return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         //    else
         //        return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        //}
-
-
-
-        //public IActionResult ThemNvYTe()
-        //{
-        //    return PartialView("_AddNhanVienYTe");
-        //}
-
-        //public IActionResult EditNhanVienYTe()
-        //{
-        //    return PartialView("_EditNhanVienYTe");
-        //}
-
-        //public IActionResult DetailNhanVienYTe()
-        //{
-        //    return PartialView("_DetailNhanVienYTe");
         //}
     }
 }

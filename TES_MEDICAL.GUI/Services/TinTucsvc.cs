@@ -65,8 +65,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task <TinTuc> Get(Guid id)
         {
             
-            var item = await _context.TinTuc
-                            
+            var item = await _context.TinTuc.Include(x =>x.MaTLNavigation).Include(x =>x.MaNguoiVietNavigation)        
                 .FirstOrDefaultAsync(i => i.MaBaiViet == id);
                
 
@@ -140,9 +139,9 @@ namespace TES_MEDICAL.GUI.Services
          
         }
                  public  IEnumerable<NguoiDung> NguoiDungNav()
-        {
-            return _context.NguoiDung.ToList();
-        }
+                    {
+                        return _context.NguoiDung.ToList();
+                    }
 
                  
        
@@ -150,18 +149,18 @@ namespace TES_MEDICAL.GUI.Services
         {
 
                 IEnumerable<TinTuc> listUnpaged;
-                listUnpaged = _context.TinTuc.OrderBy(x=>x.TieuDe) ;
+                listUnpaged = _context.TinTuc.Include(x =>x.MaTLNavigation).OrderBy(x=>x.TieuDe) ;
                
                 
 
-                                                                                         if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
+                   if(!string.IsNullOrWhiteSpace(model.TieuDeSearch)) 
                                 
                    {
                      listUnpaged = listUnpaged.Where(x => x.TieuDe.ToUpper().Contains(model.TieuDeSearch.ToUpper()));
                    }
                          
                                   
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
+                    if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.TrangThai==model.TrangThaiSearch);
@@ -170,7 +169,7 @@ namespace TES_MEDICAL.GUI.Services
      
 
                                      
-                                                                                                          if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
+                 if(!string.IsNullOrWhiteSpace(model.MaTLSearch.ToString())) 
                                 
                     {
                      listUnpaged = listUnpaged.Where(x => x.MaTL==model.MaTLSearch);
@@ -209,6 +208,33 @@ namespace TES_MEDICAL.GUI.Services
             
             return data;
             
+        }
+
+        public async Task<List<TinTuc>> GetTinTuc(Guid MaTL)
+        {
+            if (MaTL != Guid.Empty)
+            {
+                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL).ToListAsync();
+            }
+            else
+            {
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).ToListAsync();
+            }
+            
+        }
+
+        public async Task<List<TinTuc>> GetTinMin(Guid MaTL)
+        {
+            int numberOfrecords = 4;
+            if (MaTL != Guid.Empty)
+            {
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x => x.MaTL == MaTL).Take(numberOfrecords).ToListAsync();
+            }
+            else
+            {
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).Take(numberOfrecords).ToListAsync();
+            }
+
         }
     }
 }

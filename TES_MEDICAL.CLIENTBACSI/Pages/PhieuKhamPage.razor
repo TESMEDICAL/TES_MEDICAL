@@ -1,0 +1,39 @@
+﻿@page "/a"
+@page "/PhieuKham"
+
+
+
+@*<p>@_authMessage</p>
+
+@if (_claims.Count() > 0)
+{
+    <table class="table">
+        @foreach (var claim in _claims)
+        {
+            <tr>
+                <td>@claim.Type</td>
+                <td>@claim.Value</td>
+            </tr>
+        }
+    </table>
+}
+
+<p>@_userId</p>*@
+
+
+<div class="col-12">
+    <div class="block">
+        <div class="block-title">
+            <h2><strong>Phiếu khám</strong></h2>
+        </div>
+
+
+        <div class="form-group" id="ListPK">
+            <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
+
+        </div>
+
+    </div>
+</div>
+
+

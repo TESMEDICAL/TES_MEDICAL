@@ -713,6 +713,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaBaiViet")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Hinh")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaNguoiViet")
                         .HasColumnType("uniqueidentifier");
 
