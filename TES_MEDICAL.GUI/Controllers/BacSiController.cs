@@ -42,5 +42,10 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_ChiTietThuoc");
         }
+
+        public IActionResult ThemThuoc()
+        {
+            return PartialView("_ThemThuoc");
+        }
     }
 }

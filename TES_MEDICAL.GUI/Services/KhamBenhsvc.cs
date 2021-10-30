@@ -37,20 +37,46 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<PhieuKham> GetPK(Guid MaPK)
         {
-            return await _context.PhieuKham.Include(x=>x.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPK==MaPK);
+            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).FirstOrDefaultAsync(x => x.MaPK == MaPK);
+            return item;
+        }
+
+        public async Task<IEnumerable<PhieuKham>>GetLichSu(Guid MaBN)
+        {
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x => _context.ToaThuoc.Any(y => y.TrangThai == 2&&y.MaPhieuKhamNavigation.MaPK == x.MaPK&&x.MaBN == MaBN)).ToListAsync();
         }
 
         
 
-        public async Task<ToaThuoc> AddToaThuoc(ToaThuoc model,bool uutien)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model,bool uutien)
         {
             try
             {
                 using (var transaction = _context.Database.BeginTransaction())
                 {
-                    await _context.ToaThuoc.AddAsync(model);
-                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPhieuKham, STT = _context.STTTOATHUOC.Count() + 1, UuTien = uutien ? "A" : "B" };
+                    if(model.ChiTietSinhHieu.Count>0)
+                    {
+                        foreach (var item in model.ChiTietSinhHieu)
+                        {
+                            _context.ChiTietSinhHieu.Add(item);
+                        }
+                    }    
+                
+                    var phieuKham = _context.PhieuKham.Find(model.MaPK);
+                    phieuKham.Mach = model.Mach;
+                    phieuKham.NhietDo = model.NhietDo;
+                    phieuKham.HuyetAp = model.HuyetAp;
+                    phieuKham.NgayTaiKham = model.NgayTaiKham;
+                    phieuKham.KetQuaKham = model.KetQuaKham;
+                    phieuKham.NgayTaiKham = model.NgayTaiKham;
+                    phieuKham.ChanDoan = model.ChanDoan;
+                    _context.Update(phieuKham);
+                    await _context.ToaThuoc.AddAsync(model.ToaThuoc);
+                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uutien ? "A" : "B" };
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
+                    var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
+
+                    _context.Remove(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
 
@@ -68,6 +94,12 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
         }
+
+        public async Task<IEnumerable<Thuoc>> GetAllThuoc()
+        {
+            return await _context.Thuoc.Where(x => x.TrangThai).ToListAsync();
+        }
+
 
         public async Task<ToaThuoc> AddToaThuoc(ToaThuoc model)
         {

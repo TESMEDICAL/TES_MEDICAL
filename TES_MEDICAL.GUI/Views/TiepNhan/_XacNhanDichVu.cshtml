@@ -53,7 +53,7 @@
         <tr style="width: 50px;">
             <td>@(i+1)</td>
             <td>@Model.dichVus.ElementAt(i).TenDV</td>
-            <td>@Model.dichVus.ElementAt(i).DonGia VNĐ</td>
+            <td>@Model.dichVus.ElementAt(i).DonGia.ToString("n0").Replace(",", ".") VNĐ</td>
         </tr>
         }
     </tbody>
@@ -68,5 +68,5 @@
     </table>
 </div>
 <div id="TongTien" style="text-align:right">
-    <h4 style="color:seagreen; font-weight:bold">Tổng tiền : 1.050.000 VNĐ</h4>
+    <h4 style="color:seagreen; font-weight:bold">Tổng tiền : @Model.dichVus.Sum(x => x.DonGia).ToString("n0").Replace(",", ".") VNĐ</h4>
 </div>

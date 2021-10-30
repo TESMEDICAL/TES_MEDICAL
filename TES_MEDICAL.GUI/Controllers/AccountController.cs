@@ -17,82 +17,117 @@ using TES_MEDICAL.GUI.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-      [Route("api/accounts")]
-        [ApiController]
-        public class AccountController : ControllerBase
+    [Route("api/accounts")]
+    [ApiController]
+    public class AccountController : ControllerBase
+    {
+        private readonly UserManager<NhanVienYte> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly IConfigurationSection _jwtSettings;
+
+        public AccountController(UserManager<NhanVienYte> userManager, IConfiguration configuration)
         {
-            private readonly UserManager<NhanVienYte> _userManager;
-            private readonly IConfiguration _configuration;
-            private readonly IConfigurationSection _jwtSettings;
+            _userManager = userManager;
+            _configuration = configuration;
+            _jwtSettings = _configuration.GetSection("JwtSettings");
+        }
 
-            public AccountController(UserManager<NhanVienYte> userManager, IConfiguration configuration)
-            {
-                _userManager = userManager;
-                _configuration = configuration;
-                _jwtSettings = _configuration.GetSection("JwtSettings");
-            }
+        //[HttpPost("Registration")]
+        //public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
+        //{
+        //    if (userForRegistration == null || !ModelState.IsValid)
+        //        return BadRequest();
 
-            //[HttpPost("Registration")]
-            //public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
-            //{
-            //    if (userForRegistration == null || !ModelState.IsValid)
-            //        return BadRequest();
+        //    var user = new IdentityUser { UserName = userForRegistration.Email, Email = userForRegistration.Email };
 
-            //    var user = new IdentityUser { UserName = userForRegistration.Email, Email = userForRegistration.Email };
+        //    var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+        //    if (!result.Succeeded)
+        //    {
+        //        var errors = result.Errors.Select(e => e.Description);
 
-            //    var result = await _userManager.CreateAsync(user, userForRegistration.Password);
-            //    if (!result.Succeeded)
-            //    {
-            //        var errors = result.Errors.Select(e => e.Description);
+        //        return BadRequest(new RegistrationResponseDto { Errors = errors });
+        //    }
 
-            //        return BadRequest(new RegistrationResponseDto { Errors = errors });
-            //    }
+        //    return StatusCode(201);
+        //}
 
-            //    return StatusCode(201);
-            //}
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
+        {
+            string token = string.Empty;
+            var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+                return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
+            token = GenerateJwtToken(user);
+           
+            
+            return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
+        }
 
-            [HttpPost("Login")]
-            public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
-            {
-                var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
-                if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
-                    return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
-                var signingCredentials = GetSigningCredentials();
-                var claims = GetClaims(user);
-                var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
-                var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
-            }
+        private SigningCredentials GetSigningCredentials()
+        {
+            var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
+            var secret = new SymmetricSecurityKey(key);
 
-            private SigningCredentials GetSigningCredentials()
-            {
-                var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
-                var secret = new SymmetricSecurityKey(key);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
 
-                return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-            }
-
-            private List<Claim> GetClaims(IdentityUser user)
-            {
-                var claims = new List<Claim>
+        private List<Claim> GetClaims(IdentityUser user)
+        {
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email)
             };
 
-                return claims;
-            }
-
-            private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
-            {
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: _jwtSettings.GetSection("validIssuer").Value,
-                    audience: _jwtSettings.GetSection("validAudience").Value,
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.GetSection("expiryInMinutes").Value)),
-                    signingCredentials: signingCredentials);
-
-                return tokenOptions;
-            }
+            return claims;
         }
-    
+
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtSettings.GetSection("validIssuer").Value,
+                audience: _jwtSettings.GetSection("validAudience").Value,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings.GetSection("expiryInMinutes").Value)),
+                signingCredentials: signingCredentials);
+
+            return tokenOptions;
+        }
+        protected string GenerateJwtToken(NhanVienYte user)
+        {
+            //getting the secret key
+            string secretKey  =_jwtSettings.GetSection("securityKey").Value ;
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            //create claims
+            var claimEmail = new Claim(ClaimTypes.Email, user.Email);
+            var claimName = new Claim(ClaimTypes.Name, user.HoTen);
+            var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, user.Id);
+            var claimRole = new Claim(ClaimTypes.Role, user.ChucVu != 2 ? "" : user.ChucVu.ToString());
+
+            //create claimsIdentity
+            var claimsIdentity = new ClaimsIdentity(new[] { claimEmail, claimNameIdentifier, claimRole,claimName }, "serverAuth");
+
+            // generate token that is valid for 7 days
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+
+                Subject = claimsIdentity,
+                Issuer= _jwtSettings.GetSection("validIssuer").Value,
+                Audience =  _jwtSettings.GetSection("validAudience").Value,
+                
+                Expires = DateTime.UtcNow.AddHours(12),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            //creating a token handler
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //returning the token back
+            return tokenHandler.WriteToken(token);
+        }
+
+    }
+
 }

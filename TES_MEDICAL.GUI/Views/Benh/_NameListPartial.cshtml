@@ -15,22 +15,22 @@
             <thead class="bg-success">
                 <tr>
 
-                    <th>
+                    <th class="col-3">
 
                         Tên bệnh
                     </th>
 
-                    <th>
+                    <th class="col-5">
 
                         Thông tin
                     </th>
 
-                    <th>
+                    <th class="col-2">
 
                         Chuyên khoa
                     </th>
 
-                    <th>Thao tác</th>
+                    <th class="col-2">Thao tác</th>
                 </tr>
             </thead>
             <tbody class="tbody">
@@ -41,24 +41,24 @@
 
 
 
-                        <td>@item.TenBenh</td>
+                        <td class="col-3">@item.TenBenh</td>
 
 
 
 
 
-                        <td>@item.ThongTin</td>
+                        <td class="col-5">@item.ThongTin</td>
 
 
 
 
 
-                        <td>@item.MaCKNavigation.TenCK</td>
+                        <td class="col-2">@item.MaCKNavigation.TenCK</td>
 
 
 
 
-                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaBenh')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> @*| <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaBenh')"> <i class="fa fa-trash"></i></a> |*@ <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaBenh')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                        <td class="text-nowrap col-2"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaBenh')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> @*| <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaBenh')"> <i class="fa fa-trash"></i></a> |*@ <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaBenh')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
 
                     </tr>
                 }

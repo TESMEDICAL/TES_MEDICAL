@@ -72,16 +72,24 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Add(DichVu model)
         {
-
-            model.MaDV = Guid.NewGuid();
-            if (await _service.Add(model) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
+            if (ModelState.IsValid)
+            {
+                model.MaDV = Guid.NewGuid();
+                var result = await _service.Add(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenDV", "Tên dịch vụ đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+                if (result.errorCode == 0)
+                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                else
+                    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            return PartialView("_partialAdd", model);
         }
         [HttpGet]
 
@@ -115,16 +123,23 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Edit(DichVu model)
         {
-
-            if (await _service.Edit(model) != null)
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
+            if (ModelState.IsValid)
+            {
+                var result = await _service.Edit(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenDV", "Tên dịch vụ đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+                if (result.errorCode == 0)
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                else
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            return PartialView("_partialedit", model);
         }
 
         [HttpPost]
