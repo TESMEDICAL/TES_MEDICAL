@@ -32,7 +32,8 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpGet("GetPK")]
         public async Task<IActionResult> GetPK(string MaPK)
         {
-            return Ok(await _sevices.GetPK(Guid.Parse(MaPK)));
+            var item = await _sevices.GetPK(Guid.Parse(MaPK));
+            return Ok(item);
         }
         [HttpGet("GetAllThuoc")]
         public async Task<IActionResult> GetAllThuoc()
@@ -52,6 +53,13 @@ namespace TES_MEDICAL.GUI.Controllers
             return Ok(await _sevices.AddToaThuoc(model,false));
         }
 
+        [HttpGet("GetLichSu")]
+
+        public async Task<IActionResult> GetLichSu(string MaBN)
+        {
+            return Ok((await _sevices.GetLichSu(Guid.Parse(MaBN)))??new List<PhieuKham>());
+
+        }
 
         // POST api/<ApiKhamBenhController>
         [HttpPost]
