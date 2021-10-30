@@ -234,46 +234,42 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Tên thuốc</th>
-                            <td></td>
-                            <th scope="col">Số lượng</th>
-                            <td></td>
-                            <th scope="col">Ghi chú</th>
-                            <td></td>
-                            <th scope="col" class="text-center">Thao tác</th>
+                            <th class="col-8">Tên thuốc</th>
+                            <th class="col-2 text-center">Số lượng</th>                          
+                            <th class="col-2 text-center">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Thuốc A</td>
-                            <td></td>
-                            <td>20</td>
-                            <td></td>
-                            <td>Uống sau khi ăn
-                            <td></td>
-                            <td class="text-nowrap text-center">
+                            <td class="col-8">
+                                <h6 style="font-weight: bold">Panadol</h6>
+                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
+                            </td>
+                            <td class="col-2 text-center">20</td>
+                            <td class="col-2 text-nowrap text-center">
                                 <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Thuốc B</td>
-                            <td></td>
-                            <td>30</td>
-                            <td></td>
-                            <td>Uống sau khi ăn
-                            <td></td>
-                            <td class="text-nowrap text-center">
+                            <td class="col-8">
+                                <h6 style="font-weight: bold">Panadol</h6>
+                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
+                            </td>
+                            <td class="col-2 text-center">20</td>
+                            <td class="col-2 text-nowrap text-center">
                                 <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Thuốc C</td>
-                            <td></td>
-                            <td>60</td>
-                            <td></td>
-                            <td>Uống sau khi ăn
-                            <td></td>
-                            <td class="text-nowrap text-center">
+                            <td class="col-8">
+                                <h6 style="font-weight: bold">Panadol</h6>
+                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
+                            </td>
+                            <td class="col-2 text-center">20</td>
+                            <td class="col-2 text-nowrap text-center">
                                 <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         </tr>
@@ -294,6 +290,7 @@
 
 </div>
 
+   @*Modal Thêm thuốc*@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 5px">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -356,23 +353,51 @@
                     <table class="table table-striped">
                         <thead class="bg-success text-light">
                             <tr>
-                                <th class="col-4">Tên thuốc</th>
+                                <th class="col-8">Tên thuốc</th>
                                 <th class="col-2">Số lượng</th>
-                                <th class="col-4">Ghi chú</th>
                                 <th class="col-2 text-center">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th class="col-4">Panadol</th>
-                                <th class="col-2">
-                                    <div class="input-group mb-3">
-                                        <input type="text" placeholder="Số lượng..." class="form-control">
+                                <th class="col-8">
+                                    <h6 style="margin-inline: 20px; font-weight:bold; ">Panadon</h6>
+                                    <div class="row" style="margin-inline: 20px;">
+                                        <div class="mb-2 col-sm-4">
+                                            <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;"> lần.</label>
+                                        </div>
+                                        <div class="mb-2 col-sm-4">
+                                            <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;"> viên.</label>
+                                        </div>
+                                        <div class="form-check col-sm-4 mb-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Uống trước khi ăn
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-sm-4 mb-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Uống sáng
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-sm-4 mb-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Uống trưa
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-sm-4 mb-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Uống tối
+                                            </label>
+                                        </div>
                                     </div>
                                 </th>
-                                <th class="col-4">
+                                <th class="col-2">
                                     <div class="input-group mb-3">
-                                        <input type="text" placeholder="Ghi chú..." class="form-control">
+                                        <input type="number" placeholder="Số lượng..." class="form-control">
                                     </div>
                                 </th>
                                 <th class="col-2 text-center"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></th>
@@ -389,7 +414,7 @@
     </div>
 </div>
 
-<!--Model chính-->
+</div>-->
 <div id="myModal" class="modal fade">
     <div class="modal-dialog">
         <!-- Modal content-->
