@@ -1,0 +1,36 @@
+﻿@using TES_MEDICAL.GUI.Models
+@model List<FileModel>
+@{
+    ViewData["Title"] = "ViewHoaDon";
+    Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
+}
+
+<h4 style="text-align:center; font-weight:bold">XEM HOÁ ĐƠN</h4>
+<br />
+
+<div class="col-12 p-5">
+    <div class="block">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Tên hoá đơn</th>
+                    <th scope="col">Thao tác</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (FileModel file in Model)
+                {
+                    <tr>
+                        <td>@file.FileName</td>
+                        <td><i class="fas fa-download"> @Html.ActionLink("Download", "DownloadFile1", new { fileName = file.FileName })</i></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

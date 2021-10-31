@@ -42,6 +42,7 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
         [Inject]
         IKhamBenh khambenhRep { get; set; }
         public List<STTViewModel> PhieuKhams { get; set; } = new List<STTViewModel>();
+        public List<ChiTietToaThuoc> CTToaThuoc { get; set; } = new List<ChiTietToaThuoc>();
         protected async override Task OnInitializedAsync()
         {
             string baseAddress = _configuration["BaseAddress"];
@@ -49,7 +50,7 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
             await GetClaimsPrincipalData();
 
 
-            PhieuKhams = await khambenhRep.GetPhieuKham(_userId);
+            PhieuKhams = await khambenhRep.GetListPhieuKham(_userId);
             await JSRuntime.InvokeVoidAsync("TestDataTablesAdd", "#ListPK", PhieuKhams);
 
 
@@ -76,8 +77,8 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
         }
 
 
-      
-       
+
+
 
         public async ValueTask DisposeAsync()
         {
@@ -85,9 +86,12 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
             {
                 await hubConnection.DisposeAsync();
             }
+
         }
+    
         private async Task GetClaimsPrincipalData()
         {
+               
             var authState = (await authProvider.GetAuthenticationStateAsync()).User;
             var user = authState.FindFirst(c => c.Type.Contains("nameidentifier"))?.Value;
 

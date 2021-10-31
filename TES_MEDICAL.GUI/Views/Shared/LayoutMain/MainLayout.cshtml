@@ -465,14 +465,14 @@
                     <ul class="nav navbar-nav-custom">
                         <!-- Main Sidebar Toggle Button -->
                         <li>
-                            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
-                                <i class="fa fa-bars fa-fw"></i>
+                            <a  href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
+                                <i class="fas fa-expand"></i>
                             </a>
                         </li>
                         <!-- END Main Sidebar Toggle Button -->
                         <!-- Template Options -->
                         <!-- Change Options functionality can be found in js/app.js - templateOptions() -->
-                        <li class="dropdown">
+                        @*<li class="dropdown">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="gi gi-settings"></i>
                             </a>
@@ -492,16 +492,16 @@
                                     </div>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                         <!-- END Template Options -->
                     </ul>
                     <!-- END Left Header Navigation -->
                     <!-- Search Form -->
-                    <form action="page_ready_search_results.html" method="post" class="navbar-form-custom">
+                    @*<form action="page_ready_search_results.html" method="post" class="navbar-form-custom">
                         <div class="form-group">
                             <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
                         </div>
-                    </form>
+                    </form>*@
                     <!-- END Search Form -->
 
 
@@ -536,7 +536,7 @@
                     </div>
                     <!-- END Dashboard Header -->
                     <!-- Body Start -->
-                    <div style="border: solid 0px; padding:5px;min-height:600px">
+                    <div style="border: solid 0px; padding-top:10px;min-height:600px">
                         @RenderBody()
                     </div>
                     <!-- Body End -->
@@ -721,6 +721,10 @@
     <script src="~/js/formToObject.js"></script>
     <script src="~/MainElement/js/site.js"></script>
     <script src="~/js/datatableExt.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
 
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

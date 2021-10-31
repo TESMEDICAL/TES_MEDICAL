@@ -103,60 +103,76 @@
             function () {
 
                 $("#btSave").click(function () {
-                     var obj = $("#frm").serializeObject();
 
+                    if ($("#frm").valid()) {
 
-                         $.ajax({
-                        type: "POST",
-                        url: "/TheLoai/Add",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
+                        var obj = $("#frm").serializeObject();
 
-                                toastr.success(result.text);
-                                reloadpage(1);
+                        $.ajax({
+                            type: "POST",
+                            url: "/TheLoai/Add",
+                            data: obj,
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status != null) {
+                                    if (result.status >= 1) {
+
+                                        toastr.success(result.text);
+                                        reloadpage(1);
+                                    }
+                                    else {
+                                        toastr.warning(result.text);
+                                    }
+                                }
+                                else {
+                                    $myModalContent.html(result);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
                             }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
+                        });
 
-
+                    }
 
                 });
                 $("#btupdate").click(function () {
-                     var obj = $("#frm").serializeObject();
-                                              $.ajax({
-                        type: "POST",
-                        url: "/TheLoai/Edit",
-                        dataType: "json",
-                        data: obj,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status >= 1) {
-                                toastr.success(result.text);
-                                reloadpage(1);
-                            }
-                            else {
-                                toastr.warning(result.text);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                        }
-                    });
 
+                    if ($("#frm").valid()) {
+
+                        var obj = $("#frm").serializeObject();
+                        $.ajax({
+                            type: "POST",
+                            url: "/TheLoai/Edit",
+                            dataType: "json",
+                            data: obj,
+                            success: function (result) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status != null) {
+                                    if (result.status >= 1) {
+                                        toastr.success(result.text);
+                                        reloadpage(1);
+                                    }
+                                    else {
+                                        toastr.warning(result.text);
+                                    }
+                                }
+                                else {
+                                    $myModalContent.html(result);
+                                }
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            },
+                            failure: function (message) {
+                                $('#preloader-wrapper').toggleClass('hide');
+                            }
+                        });
+
+                    }
 
                 });
                 $("#btclose").click(function () {
