@@ -56,7 +56,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             string token = string.Empty;
             var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+            if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password)||user.ChucVu!=2)
                 return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
             token = GenerateJwtToken(user);
            
@@ -64,23 +64,23 @@ namespace TES_MEDICAL.GUI.Controllers
             return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
         }
 
-        private SigningCredentials GetSigningCredentials()
-        {
-            var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
-            var secret = new SymmetricSecurityKey(key);
+        //private SigningCredentials GetSigningCredentials()
+        //{
+        //    var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
+        //    var secret = new SymmetricSecurityKey(key);
 
-            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-        }
+        //    return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        //}
 
-        private List<Claim> GetClaims(IdentityUser user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Email)
-            };
+        //private List<Claim> GetClaims(IdentityUser user)
+        //{
+        //    var claims = new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.Name, user.Email)
+        //    };
 
-            return claims;
-        }
+        //    return claims;
+        //}
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
@@ -97,28 +97,28 @@ namespace TES_MEDICAL.GUI.Controllers
         protected string GenerateJwtToken(NhanVienYte user)
         {
             //getting the secret key
-            string secretKey  =_jwtSettings.GetSection("securityKey").Value ;
-            var key = Encoding.ASCII.GetBytes(secretKey);
+            var secretKey  = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+           
 
             //create claims
             var claimEmail = new Claim(ClaimTypes.Email, user.Email);
             var claimName = new Claim(ClaimTypes.Name, user.HoTen);
             var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, user.Id);
-            var claimRole = new Claim(ClaimTypes.Role, user.ChucVu != 2 ? "" : user.ChucVu.ToString());
+           
 
             //create claimsIdentity
-            var claimsIdentity = new ClaimsIdentity(new[] { claimEmail, claimNameIdentifier, claimRole,claimName }, "serverAuth");
+            var claimsIdentity = new ClaimsIdentity(new[] { claimEmail, claimNameIdentifier,claimName }, "serverAuth");
 
             // generate token that is valid for 7 days
             var tokenDescriptor = new SecurityTokenDescriptor
             {
 
                 Subject = claimsIdentity,
-                Issuer= _jwtSettings.GetSection("validIssuer").Value,
-                Audience =  _jwtSettings.GetSection("validAudience").Value,
+                Issuer= _configuration["JWT:ValidIssuer"],
+                Audience = _configuration["JWT:ValidAudience"],
                 
-                Expires = DateTime.UtcNow.AddHours(12),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Expires =  DateTime.UtcNow.AddHours(6),
+                SigningCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature)
             };
             //creating a token handler
             var tokenHandler = new JwtSecurityTokenHandler();
