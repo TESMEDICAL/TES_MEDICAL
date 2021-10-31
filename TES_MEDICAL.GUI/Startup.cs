@@ -73,8 +73,7 @@ namespace TES_MEDICAL.GUI
     .AddCookie(options =>
     {
 
-        options.Cookie.Name = ".AspNetCore.Identity.Application";
-        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+       
         options.SlidingExpiration = true;
       
     }
@@ -93,6 +92,10 @@ namespace TES_MEDICAL.GUI
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
+            }).AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
 
@@ -127,6 +130,9 @@ namespace TES_MEDICAL.GUI
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.SlidingExpiration = true;
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
