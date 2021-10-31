@@ -3,7 +3,14 @@
 
 @inject SignInManager<NhanVienYte> SignInManager
 @inject UserManager<NhanVienYte> UserManager
-
+<style>
+    .imgavt {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        object-position: center center;
+    }
+</style>
 @*<ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
@@ -33,7 +40,7 @@
 {
     <div class="sidebar-user-avatar">
         @*<a href="page_ready_user_profile.html">*@
-        <img src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" alt="avatar">
+        <img src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" alt="avatar" class="imgavt">
     @*</a>*@
     </div>
 <div class="sidebar-user-name text-nowrap w-100"> @Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</div>

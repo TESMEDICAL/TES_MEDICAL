@@ -60,8 +60,6 @@
     </div>
 </div>
 
-
-
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -109,7 +107,7 @@
                     MaPhieu: _maPhieu
                 },
                 success: function (response) {
-                    
+
                     $("#myModalContent").html(response);
                     $('#myModal').modal('show');
                     $('#btSave').show();
@@ -182,7 +180,7 @@
                             }
 
                         ],
-                        "order": [[4, "asc"],[0, "asc"]],
+                        "order": [[4, "asc"], [0, "asc"]],
                         "language": {
                             "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
                             "zeroRecords": "Không có kết quả",
@@ -197,7 +195,7 @@
                                 "previous": "<"
                             },
                         }
-           
+
                     });
                 },
                 error: function (errormessage) {
@@ -255,7 +253,7 @@
                     }
                     else {
                         toastr.warning(result.text);
-                        
+
 
                     }
                     $("#btThanhToan").prop("disabled", false);
@@ -274,7 +272,7 @@
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-           
+
         });
 
     </script>

@@ -433,21 +433,20 @@
                             }
 
                             <!-- Phần Bác Sĩ -->
-                            
                             @*<li class="sidebar-header">
-                                <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="fas fa-notes-medical"></i></a></span>
-                                <span class="sidebar-header-title">Bác sĩ</span>
-                            </li>
+                                    <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="fas fa-notes-medical"></i></a></span>
+                                    <span class="sidebar-header-title">Bác sĩ</span>
+                                </li>
 
-                            <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
-                                <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
-                            </li>
-                            <li class="@Html.IsSelected(actions: "KhamBenh", controllers: "BacSi")">
-                                <a href="@Url.Action("KhamBenh","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
-                            </li>
-                            <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
-                                <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
-                            </li>*@
+                                <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
+                                    <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
+                                </li>
+                                <li class="@Html.IsSelected(actions: "KhamBenh", controllers: "BacSi")">
+                                    <a href="@Url.Action("KhamBenh","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
+                                </li>
+                                <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
+                                    <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                                </li>*@
 
 
                         </ul>
@@ -619,17 +618,17 @@
                             </div>
                         </div>
                         @*<div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Mật khẩu</label>
-                            <div class="col-md-6">
-                                <input type="password" id="user-settings-email" name="user-settings-email" class="form-control">
+                                <label class="col-md-4 control-label" for="user-settings-email">Mật khẩu</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="user-settings-email" name="user-settings-email" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Xác nhận mật khẩu</label>
-                            <div class="col-md-6">
-                                <input type="password" id="user-settings-email" name="user-settings-email" class="form-control">
-                            </div>
-                        </div>*@
+                            <div class="form-group row mb-2">
+                                <label class="col-md-4 control-label" for="user-settings-email">Xác nhận mật khẩu</label>
+                                <div class="col-md-6">
+                                    <input type="password" id="user-settings-email" name="user-settings-email" class="form-control">
+                                </div>
+                            </div>*@
                         <br />
                         <div class="form-group text-end mb-2">
                             <div class="col-12 text-right">
@@ -652,6 +651,11 @@
 
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
     <!--Script chạy Active trên Menu-->
     <script>
@@ -722,9 +726,9 @@
                 });
             }
 
-            
-            
-            
+
+
+
         }
     </script>
     <!--Kết thúc Script chạy Active trên Menu-->
