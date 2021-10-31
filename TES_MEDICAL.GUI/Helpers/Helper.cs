@@ -84,10 +84,18 @@ namespace TES_MEDICAL.GUI.Helpers
         }
 
         //Hàm cắt chuỗi name
+        //public static string GetName(string FullName)
+        //{
+        //    string[] words = FullName.Split(' ');
+        //    return (words[words.Length - 2]) + " " + words[words.Length - 1];
+
+        //}
         public static string GetName(string FullName)
         {
             string[] words = FullName.Split(' ');
-            return (words[words.Length - 2]) + " " + words[words.Length - 1];
+            if (words.Length >= 2)
+                return (words[words.Length - 2]) + " " + words[words.Length - 1];
+            return words[0];
 
         }
     }

@@ -38,18 +38,19 @@ namespace TES_MEDICAL.GUI.Controllers
             try
             {
                 string filePath = "";
-                if (file != null)
-                {
-                    model.Hinh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
-                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-                }
+                
 
                 var user = await _userManager.GetUserAsync(User);
                 user.HoTen = model.HoTen;
                 user.PhoneNumber = model.SDTNV;
-                user.Hinh = model.Hinh;
+                
+                if (file != null)
+                {
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    user.Hinh = fileName;
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                }
+
                 if (file != null)
                 {
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
