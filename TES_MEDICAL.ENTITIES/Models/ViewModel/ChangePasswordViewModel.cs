@@ -9,13 +9,13 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
 {
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Bạn cần nhập mật khẩu cũ")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu cũ")]
         public string CurrentPassword { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage ="Vui lòng nhập mật khẩu mới")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]
         public string NewPassword { get; set; }

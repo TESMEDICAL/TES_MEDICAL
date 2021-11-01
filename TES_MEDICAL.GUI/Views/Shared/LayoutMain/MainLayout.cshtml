@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    
+    
 
 
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
@@ -69,7 +71,7 @@
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-   
+
     <style>
         .active:hover {
             background-color: #666;
@@ -598,7 +600,7 @@
                                 </label>
                             </div>
                         </div>
-                        
+
                         <div class="form-group row mb-2">
                             <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Email</label>
                             <div class="col-md-6">
@@ -643,7 +645,6 @@
         </div>
     </div>
     <!-- END User Settings -->
-
     <!--Start ChangePassword-->
     <div id="modal-user-changepass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -667,8 +668,10 @@
     <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
@@ -676,10 +679,6 @@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
     <!--Script chạy Active trên Menu-->
     <script>
@@ -714,7 +713,7 @@
                 url: '/Identity/ChangePassword/',
                 type: "Get",
                 timeout: 20000,
-                async: true,             
+                async: true,
                 success: function (result) {
                     $('#myModalContent_ChangePass').html(result);
                     $('#modal-user-changepass').modal('show');
@@ -802,7 +801,7 @@
                             }
                         }
                         else {
-                            $myModalContent.html(result);
+                            $('#myModalContent_ChangePass').html(result);
                         }
                     },
                     error: function (errormessage) {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,16 +85,17 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model) 
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
                     var user = await _userManager.GetUserAsync(User);
-                    if (user == null)
-                    {
-                        return View();
+                    //if (user == null)
+                    //{
+                    //    ModelState.AddModelError(string.Empty, "")
+                    //    return PartialView("_ChangePassword", model);
 
-                    }
+                    //}
 
                     var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                     if (!result.Succeeded)
@@ -102,20 +104,24 @@ namespace TES_MEDICAL.GUI.Controllers
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
+
                         return PartialView("_ChangePassword", model);
                     }
 
-                    await _userManager.UpdateAsync(user);
-                    await _signInManager.RefreshSignInAsync(user);
+                    await _signInManager.SignOutAsync();
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+
+                    //return Json(new { status = 1, title = "", text = "Cập nhật thành công." }, new Newtonsoft.Json.JsonSerializerSettings());
+
+
                 }
-                //return Json(new { status = 1, title = "", text = "Cập nhật thành công." }, new Newtonsoft.Json.JsonSerializerSettings());
-                return PartialView("_ChangePassword", model);
+                catch (Exception)
+                {
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
 
             }
-            catch (Exception)
-            {
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
+            return PartialView("_ChangePassword", model);
         }
 
 
