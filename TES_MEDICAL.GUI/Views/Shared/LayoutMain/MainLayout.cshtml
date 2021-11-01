@@ -592,26 +592,27 @@
                                 <img src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" width="150" id="Edit_Hinh">
                             </div>
                             <br>
-                            <div class="pt-1 text-center">
+                            <div class="pt-1 text-center mb-4">
                                 <label class="btn btn-primary">
                                     <i class="fa fa-image"></i> Chọn ảnh<input type="file" style="display: none;" name="image" id="upload-back">
                                 </label>
                             </div>
                         </div>
+                        
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Email</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Email</label>
                             <div class="col-md-6">
                                 <input type="email" id="Edit_Email" class="form-control" value="@((await UserManager.GetUserAsync(User)).Email)" readonly>
                             </div>
                         </div>
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Họ và tên</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Họ và tên</label>
                             <div class="col-md-6">
                                 <input type="text" id="Edit_HoTen" class="form-control" value="@((await UserManager.GetUserAsync(User)).HoTen)">
                             </div>
                         </div>
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Số điện thoại</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Số điện thoại</label>
                             <div class="col-md-6">
                                 <input type="text" id="Edit_SDT" class="form-control" value="@((await UserManager.GetUserAsync(User)).PhoneNumber)">
                             </div>
@@ -655,28 +656,28 @@
                 <div class="modal-body">
                     <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Email</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Email</label>
                             <div class="col-md-6">
                                 <input type="email" id="Edit_Email" class="form-control" value="@((await UserManager.GetUserAsync(User)).Email)" readonly>
                             </div>
                         </div>
 
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Mật khẩu cũ</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Mật khẩu cũ</label>
                             <div class="col-md-6">
                                 <input type="email" id="Edit_Email" class="form-control" placeholder="Mật khẩu cũ">
                             </div>
                         </div>
 
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Mật khẩu mới</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Mật khẩu mới</label>
                             <div class="col-md-6">
                                 <input type="password" id="Edit_Email" class="form-control" placeholder="Mật khẩu mới">
                             </div>
                         </div>
 
                         <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" for="user-settings-email">Xác nhận mật khẩu</label>
+                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Xác nhận mật khẩu</label>
                             <div class="col-md-6">
                                 <input type="password" id="Edit_Email" class="form-control" placeholder="Xác nhân mật khẩu mới">
                             </div>
