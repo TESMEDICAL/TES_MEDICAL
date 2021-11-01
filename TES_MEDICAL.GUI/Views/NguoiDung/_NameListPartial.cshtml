@@ -4,50 +4,58 @@
 @using X.PagedList;
 @using X.PagedList.Web.Common
 
+<style>
+    .listname-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        object-position: center center;
+    }
+</style>
 
-<div id="list" >
-   
+<div id="list">
+
     <div style="min-height:400px">
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
             <thead class="bg-success">
-                <tr>                                                                                                                                                                                                      
-                    <th>
+                <tr>
+                    <th class="col-2">
                         Họ tên
                     </th>
-                                                                      
-                    <th>                   
+
+                    <th class="col-2">
                         Số điện thoại
                     </th>
-                                                                       
-                    <th>                   
+
+                    <th class="col-2 text-center">
                         Hình ảnh
                     </th>
-                                                                       
-                    <th>                    
+
+                    <th class="col-2 text-center">
                         Chức vụ
                     </th>
-                                                                       
-                    <th>                    
+
+                    <th class="col-2 text-center">
                         Trạng thái
                     </th>
-                                                              
-                    <th>Hành động</th>
+
+                    <th class="text-center">Hành động</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<NguoiDung>)
                 {
                     <tr>
-                        <td>@item.HoTen</td>
+                        <td class="col-2">@item.HoTen</td>
 
-                        <td>@item.SDT</td>
+                        <td class="col-2">@item.SDT</td>
 
-                        <td>
-                            <img src="~/images/@item.HinhAnh" style="width:100px" />
+                        <td class="col-2 text-center">
+                            <img class="listname-img" src="~/images/@item.HinhAnh" />
                         </td>
 
 
-                        <td>
+                        <td class="col-2 text-center">
                             @if (item.ChucVu == 1)
                             {
                                 @("Admin")
@@ -59,16 +67,16 @@
                         </td>
 
 
-                        <td>@item.TrangThai</td>
+                        <td class="col-2 text-center">@item.TrangThai</td>
 
-                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                        <td class="text-nowrap col-2 text-center"><a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    
-    
+
+
     <div class="text-right">
         @{
             var pageRender = new PagedListRenderOptions
@@ -97,7 +105,7 @@
 
         @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page, HoTenSearch = searchModel.HoTenSearch, SDTSearch = searchModel.SDTSearch, TrangThaiSearch = searchModel.TrangThaiSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-   
+
 
 
 

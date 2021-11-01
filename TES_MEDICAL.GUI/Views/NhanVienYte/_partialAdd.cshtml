@@ -2,11 +2,15 @@
 
 @model TES_MEDICAL.GUI.Models.NhanVienModel
 
+
+
 <h4 style="text-align:center; font-weight:bold">THÊM NHÂN VIÊN Y TẾ</h4>
 <hr />
 <div>
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
+        //Phần thông tin
+
         @Html.AntiForgeryToken()
 
         <div class="col-sm-9">
@@ -100,7 +104,7 @@
                         <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
                     </label>
                     <div id="image-holder2" class="pt-2">
-                        <img src="~/images/final.png" style='width: 100%'>
+                        <img class="add-img" src="~/images/final.png" style="width:150px;">
                     </div>
                 </div>
             </div>
