@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
@@ -71,6 +72,50 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             } 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return PartialView("_ChangePassword");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model) 
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    if (user == null)
+                    {
+                        return View();
+
+                    }
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return PartialView("_ChangePassword", model);
+                    }
+
+                    await _userManager.UpdateAsync(user);
+                    await _signInManager.RefreshSignInAsync(user);
+                }
+                //return Json(new { status = 1, title = "", text = "Cập nhật thành công." }, new Newtonsoft.Json.JsonSerializerSettings());
+                return PartialView("_ChangePassword", model);
+
+            }
+            catch (Exception)
+            {
+                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
         }
 
 

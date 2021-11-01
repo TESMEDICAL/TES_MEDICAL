@@ -643,6 +643,7 @@
         </div>
     </div>
     <!-- END User Settings -->
+
     <!--Start ChangePassword-->
     <div id="modal-user-changepass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -654,42 +655,9 @@
                 <!-- END Modal Header -->
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Email</label>
-                            <div class="col-md-6">
-                                <input type="email" id="Edit_Email" class="form-control" value="@((await UserManager.GetUserAsync(User)).Email)" readonly>
-                            </div>
-                        </div>
+                    <div id="myModalContent_ChangePass">
 
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Mật khẩu cũ</label>
-                            <div class="col-md-6">
-                                <input type="email" id="Edit_Email" class="form-control" placeholder="Mật khẩu cũ">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Mật khẩu mới</label>
-                            <div class="col-md-6">
-                                <input type="password" id="Edit_Email" class="form-control" placeholder="Mật khẩu mới">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px" for="user-settings-email">Xác nhận mật khẩu</label>
-                            <div class="col-md-6">
-                                <input type="password" id="Edit_Email" class="form-control" placeholder="Xác nhân mật khẩu mới">
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="form-group text-end mb-2 pr-2">
-                            <div class="col-12 text-right">
-                                <button type="submit" onclick="Edit()" class="btn btn-primary" style="width:20%;">Lưu</button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- END Modal Body -->
             </div>
@@ -738,6 +706,28 @@
 
         });
 
+        //Hàm open modal ChangePass
+        function OpenChangePass() {
+            $('#myModalContent_ChangePass').html("");
+
+            $.ajax({
+                url: '/Identity/ChangePassword/',
+                type: "Get",
+                timeout: 20000,
+                async: true,             
+                success: function (result) {
+                    $('#myModalContent_ChangePass').html(result);
+                    $('#modal-user-changepass').modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
         //Hàm edit info NhanVienYTe
         function Edit() {
             if ($("#frm1").valid()) {
@@ -781,11 +771,50 @@
                     }
                 });
             }
-
-
-
-
         }
+
+        //Hàm ChangePass
+        function ChangePass() {
+            if ($("#frm2").valid()) {
+                var formData = new FormData();
+
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('CurrentPassword', $("#Edit_PassOld").val());
+                formData.append('NewPassword', $("#Edit_Passnew").val());
+                formData.append('ConfirmPassword', $("#Edit_Passnew2").val());
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Identity/ChangePassword",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                location.reload();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        }
+                        else {
+                            $myModalContent.html(result);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+        }
+
     </script>
     <!--Kết thúc Script chạy Active trên Menu-->
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
