@@ -46,72 +46,74 @@
 
 <div class="row">
     <img src="~/MainElement/img/background.jpg" alt="Login Full Background" class="full-bg animation-pulseSlow">
-        
-            <!-- Login Container -->
-            <div id="login-container" class="animation-fadeIn" style="margin-top: -100px;">
-                <!-- Login Title -->
-                <div class="login-title text-center">
-                    <h1><strong>TES MEDICAL</strong><br></h1>
-                    <!-- <h1><strong>TES MEDICAL</strong><br><small>Please <strong>Login</strong> or <strong>Register</strong></small></h1> -->
+
+    <!-- Login Container -->
+    <div id="login-container" class="animation-fadeIn" style="margin-top: -100px;">
+        <!-- Login Title -->
+        <div class="login-title text-center">
+            <h1><strong>TES MEDICAL</strong><br></h1>
+            <!-- <h1><strong>TES MEDICAL</strong><br><small>Please <strong>Login</strong> or <strong>Register</strong></small></h1> -->
+        </div>
+        <!-- END Login Title -->
+        <!-- Login Block -->
+        <div class="block push-bit">
+            <!-- Login Form -->
+            <form id="account" method="post" class="form-horizontal form-bordered form-control-borderless m-auto">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-envelope-open-text"></i></span>
+                            <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email">
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <!-- END Login Title -->
-                <!-- Login Block -->
-                <div class="block push-bit">
-                    <!-- Login Form -->
-                    <form id="account" method="post" class="form-horizontal form-bordered form-control-borderless m-auto">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-envelope-open-text"></i></span>
-                                    <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email">
-                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                </div>
-                            </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-lock-alt"></i></span>
+                            <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-lock-alt"></i></span>
-                                    <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <label class="col-sm-4" data-toggle="tooltip" title="Remember Me?">
+                                <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
+                                <span></span>
+                            </label>
+                            <p class="col-sm-8" style="margin-left: -50px; color: rgb(54, 172, 105);">Ghi nhớ đăng nhập</p>
                         </div>
-                        @*<div class="form-group form-actions">
-                                <div class="col-xs-6">
-                                    <div class="row">
-                                        <label class="col-sm-4" data-toggle="tooltip" title="Remember Me?">
-                                            <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
-                                            <span></span>
-                                        </label>
-                                        <p class="col-sm-8" style="margin-left: -50px; color: rgb(54, 172, 105);">Ghi nhớ đăng nhập</p>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 text-right">
-                                    <a href="javascript:void(0)" id="link-reminder-login" style="color: rgb(54, 172, 105);">Quên mật khẩu ?</a>
-                                </div>
-
-                            </div>*@
-                        <div class="form-group">
-                            <div class="col-xs-12 text-center" style="margin-bottom: 10px;">
-                                <button type="submit" class="btn" style="width: 250px; background-color: rgb(54, 172, 105); color: white;">Đăng nhập</button>
-                            </div>
-
-                            <div class="form-google col-xs-12 text-center">
-                                <a href="" class="btn" style="border: 1px solid gray; border-radius: 5px; width: 250px; color: black">
-                                    <img style="margin-right: 20px;" src="~/MainElement/img/google.jpg" width="20px;" alt="">  Đăng nhập với Google
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- END Login Form -->
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a href="javascript:void(0)" id="link-reminder-login" style="color: rgb(54, 172, 105);">Quên mật khẩu ?</a>
+                    </div>
 
                 </div>
-                <!-- END Login Block -->
-            </div>
-        
+                <div class="form-group">
+                    <div class="col-xs-12 text-center" style="margin-bottom: 10px;">
+                        <button type="submit" class="btn" style="width: 250px; background-color: rgb(54, 172, 105); color: white;">Đăng nhập</button>
+                    </div>
+
+                    <div class="form-google col-xs-12 text-center">
+                        <a href="" class="btn" style="border: 1px solid gray; border-radius: 5px; width: 250px; color: black">
+                            <img style="margin-right: 20px;" src="~/MainElement/img/google.jpg" width="20px;" alt="">  Đăng nhập với Google
+                        </a>
+                    </div>
+                </div>
+            </form>
+            <!-- END Login Form -->
+            
+        </div>
+        <!-- END Login Block -->
+    </div>
+
+
 </div>
+
 
 
 <script src="~/MainElement/js/vendor/jquery.min.js"></script>
