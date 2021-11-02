@@ -13,7 +13,7 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DataType(DataType.Password)]
-        [Compare("Mật khẩu", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không khớp.")]
+        [Compare("Password", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không khớp.")]
         public string ConfirmPassword { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
