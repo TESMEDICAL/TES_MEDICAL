@@ -29,7 +29,7 @@ namespace TES_MEDICAL.GUI.Services
 
         
         
-        public async Task<NguoiDung> Add(NguoiDung model)
+        public async Task<Response<NguoiDung>> Add(NguoiDung model)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace TES_MEDICAL.GUI.Services
 
                  await _context.SaveChangesAsync();
                  await transaction.CommitAsync();
-                    return model;
+                    return new Response<NguoiDung> { errorCode = 0, Obj = model };
 
                 }
            
@@ -54,11 +54,14 @@ namespace TES_MEDICAL.GUI.Services
               
 
             }
-            catch(Exception ex)
+            catch(DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
-                
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<NguoiDung> { errorCode = -1 };
+                }
+
+                return new Response<NguoiDung> { errorCode = -2 };
             }     
         }
 
@@ -78,17 +81,17 @@ namespace TES_MEDICAL.GUI.Services
             
               
         }
-        public async Task <NguoiDung>  Edit(NguoiDung model )
+        public async Task <Response<NguoiDung>>  Edit(NguoiDung model )
         {
            try
             {
                  using (var transaction = _context.Database.BeginTransaction())
                     {
 
-                    var existingNguoiDung = _context.NguoiDung.Find(model.MaNguoiDung);
+                    var existingNguoiDung = await _context.NguoiDung.FindAsync(model.MaNguoiDung);
                                          existingNguoiDung.Email = model.Email;
-                                           //existingNguoiDung.MatKhau = model.MatKhau;
-                                           existingNguoiDung.HoTen = model.HoTen;
+                    //existingNguoiDung.MatKhau = model.MatKhau;
+                    existingNguoiDung.HoTen = model.HoTen;
                                            existingNguoiDung.SDT = model.SDT;
                                            existingNguoiDung.HinhAnh = model.HinhAnh;
                                            existingNguoiDung.ChucVu = model.ChucVu;
@@ -97,15 +100,19 @@ namespace TES_MEDICAL.GUI.Services
 
                      await _context.SaveChangesAsync();
                      await transaction.CommitAsync();
-                    return model;
-                    }
+                    return new Response<NguoiDung> { errorCode = 0, Obj = model };
+                }
                 
                 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<NguoiDung> { errorCode = -1 };
+                }
+
+                return new Response<NguoiDung> { errorCode = -2 };
             }
 
                

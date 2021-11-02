@@ -29,7 +29,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        public async Task<DichVu> Add(DichVu model)
+        public async Task<Response<DichVu>> Add(DichVu model)
         {
             try
             {
@@ -40,9 +40,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                    await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<DichVu> { errorCode = 0, Obj = model};
 
                 }
 
@@ -54,11 +53,14 @@ namespace TES_MEDICAL.GUI.Services
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<DichVu> { errorCode = -1 };
+                }
 
+                return new Response<DichVu> { errorCode = -2 };
             }
         }
 
@@ -78,7 +80,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-        public async Task<DichVu> Edit(DichVu model)
+        public async Task<Response<DichVu>> Edit(DichVu model)
         {
             try
             {
@@ -87,7 +89,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                    var existingDichVu = _context.DichVu.Find(model.MaDV);
+                    var existingDichVu = await _context.DichVu.FindAsync(model.MaDV);
                     existingDichVu.TenDV = model.TenDV;
                     existingDichVu.DonGia = model.DonGia;
 
@@ -97,15 +99,19 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<DichVu> { errorCode = 0, Obj = model };
                 }
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<DichVu> { errorCode = -1 };
+                }
+
+                return new Response<DichVu> { errorCode = -2 };
             }
 
 

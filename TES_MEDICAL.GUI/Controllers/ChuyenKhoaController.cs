@@ -78,19 +78,21 @@ namespace TES_MEDICAL.GUI.Controllers
             if(ModelState.IsValid)
             {
                 model.MaCK = Guid.NewGuid();
-                if (await _service.Add(model) != null)
+                var result = await _service.Add(model);
+                if(result.errorCode ==-1)
+                {
+                    ModelState.AddModelError("TenCK", "Tên chuyên khoa đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }    
+                if (result.errorCode ==0)
                     return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
                     return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
             return PartialView("_partialAdd", model);
            
-
-
-
-
-
         }
+
        
 
 
@@ -127,10 +129,17 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ChuyenKhoa model)
         {
+
             if (ModelState.IsValid)
             {
-                model.MaCK = Guid.NewGuid();
-                if (await _service.Edit(model) != null)
+              
+                var result = await _service.Edit(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenCK", "Tên chuyên khoa đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+                if (result.errorCode==0)
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
                     return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
@@ -138,14 +147,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_partialedit", model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            if (await _service.Delete(id))
-                return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        }
+      
     }
 }
 

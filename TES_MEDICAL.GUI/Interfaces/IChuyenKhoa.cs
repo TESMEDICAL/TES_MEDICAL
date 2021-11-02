@@ -11,9 +11,9 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IChuyenKhoa
     {
-        Task<ChuyenKhoa> Add(ChuyenKhoa model);
+        Task<Response<ChuyenKhoa>> Add(ChuyenKhoa model);
         Task<ChuyenKhoa> Get(Guid id);
-        Task<ChuyenKhoa> Edit(ChuyenKhoa model);
+        Task<Response<ChuyenKhoa>> Edit(ChuyenKhoa model);
         Task<bool> Delete(Guid Id);
         Task<IPagedList<ChuyenKhoa>> SearchByCondition(ChuyenKhoaSearchModel model);
         Task<IEnumerable<ChuyenKhoa>> GetAll();
