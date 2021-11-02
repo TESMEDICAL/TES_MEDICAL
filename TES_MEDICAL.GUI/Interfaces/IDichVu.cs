@@ -11,9 +11,9 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IDichVu
     {
-        Task<DichVu> Add(DichVu model);
+        Task<Response<DichVu>> Add(DichVu model);
         Task<DichVu> Get(Guid id);
-        Task<DichVu> Edit(DichVu model);
+        Task<Response<DichVu>> Edit(DichVu model);
         Task<bool> Delete(Guid Id);
         Task<IPagedList<DichVu>> SearchByCondition(DichVuSearchModel model);
         Task<IEnumerable<DichVu>> GetDichVu(Guid MaPK);

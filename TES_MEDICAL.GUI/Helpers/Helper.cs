@@ -82,6 +82,39 @@ namespace TES_MEDICAL.GUI.Helpers
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
 
         }
+
+        //Hàm cắt chuỗi name
+        //public static string GetName(string FullName)
+        //{
+        //    string[] words = FullName.Split(' ');
+        //    return (words[words.Length - 2]) + " " + words[words.Length - 1];
+
+        //}
+        public static string GetName(string FullName)
+        {
+            string[] words = FullName.Split(' ');
+            if (words.Length >= 2)
+                return (words[words.Length - 2]) + " " + words[words.Length - 1];
+            return words[0];
+
+        }
+
+        //Hàm Gen mật khẩu 
+        public static string GetRandomPassword(int length)
+        {
+            const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            StringBuilder sb = new StringBuilder();
+            Random rnd = new Random();
+
+            for (int i = 0; i < length; i++)
+            {
+                int index = rnd.Next(chars.Length);
+                sb.Append(chars[index]);
+            }
+
+            return sb.ToString();
+        }
     }
 }
 

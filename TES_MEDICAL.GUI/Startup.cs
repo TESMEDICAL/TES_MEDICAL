@@ -24,6 +24,8 @@ using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Services;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace TES_MEDICAL.GUI
 {
@@ -39,6 +41,10 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Token tồn tại trong 2 tiếng
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.     TokenLifespan = TimeSpan.FromHours(2));
+
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
@@ -67,29 +73,39 @@ namespace TES_MEDICAL.GUI
             //});
 
             var jwtSettings = Configuration.GetSection("JWTSettings");
-            services.AddAuthentication(opt =>
+            services.AddAuthentication()
+    .AddCookie(options =>
+    {
+
+        options.Cookie.Name = ".AspNetCore.Identity.Application";
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+        options.SlidingExpiration = true;
+      
+    }
+    )
+
+            // Adding Jwt Bearer
+            .AddJwtBearer(options =>
             {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-
-                    ValidIssuer = jwtSettings["validIssuer"],
-                    ValidAudience = jwtSettings["validAudience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]))
+                    ValidAudience = Configuration["JWT:ValidAudience"],
+                    ValidIssuer = Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+
 
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
             //       .AddEntityFrameworkStores<DataContext>();
-            services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
+            services.AddDefaultIdentity<NhanVienYte>(options => { options.SignIn.RequireConfirmedAccount = false;
+                
+            }).AddRoles<IdentityRole>().AddErrorDescriber<CustomErrorDescriber>()
                    .AddEntityFrameworkStores<DataContext>();
             services
               .AddDatabase(Configuration)
@@ -97,8 +113,8 @@ namespace TES_MEDICAL.GUI
               .AddRepositories();
 
             services.AddSignalR();
-            services.AddRazorPages()
-        .AddRazorRuntimeCompilation();
+        
+      
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -106,8 +122,22 @@ namespace TES_MEDICAL.GUI
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-           
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+   .AddRazorPagesOptions(options =>
+   {
+       options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+       options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+   }).AddRazorRuntimeCompilation();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -129,6 +159,7 @@ namespace TES_MEDICAL.GUI
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
+         
             app.UseAuthorization();
             //app.UseEndpoints(endpoints =>
             //{
