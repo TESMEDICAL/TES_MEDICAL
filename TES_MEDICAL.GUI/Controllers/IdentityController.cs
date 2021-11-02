@@ -153,7 +153,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 var callback = Url.Action(nameof(ResetPassword), "Identity", new { token, email = user.Email }, Request.Scheme);
                 //var callback = $"{request.Scheme}://{request.Host}/", new { token, email = user.Email }
                 //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
-                Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", callback);
+                Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", $"Nhấn vào đây để đặt lại mật khẩu: <br> <a href="">Khôi phục mật khẩu</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
             return View();
@@ -181,7 +181,10 @@ namespace TES_MEDICAL.GUI.Controllers
             var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
             if (user == null)
                 RedirectToAction(nameof(ResetPasswordConfirmation));
+
+
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+
             if (!resetPassResult.Succeeded)
             {
                 foreach (var error in resetPassResult.Errors)
@@ -190,6 +193,19 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 return View();
             }
+                if (user.ChucVu == 1)
+                {
+                    await _userManager.AddToRoleAsync(user, "nhanvien");
+                }
+                else if (user.ChucVu == 2)
+                {
+                    await _userManager.AddToRoleAsync(user, "bacsi");
+                }
+                else
+                {
+                await _userManager.AddToRoleAsync(user, "duocsi");
+            }
+            await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(ResetPasswordConfirmation));
         }
 
