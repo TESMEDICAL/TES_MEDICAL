@@ -62,7 +62,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
                 
         
-        public async Task <ActionResult> Add()
+        public async Task<ActionResult> Add()
         {
                        
             return PartialView("_partialAdd",new NguoiDung() );
@@ -72,43 +72,53 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task <ActionResult> Add([Bind("Email,MatKhau,ConfirmPassword,HoTen,SDT,HinhAnh,ChucVu,TrangThai")] NguoiDung model, [FromForm] IFormFile file)
         {
-            string filePath = "";
-            //IFormFile file = HttpContext.Request.Form.Files[0];
-            var filePathDefault = "final.png";
-
-            if (file == null)
+            if (ModelState.IsValid)
             {
-                model.HinhAnh = filePathDefault;
-            }
-            else
-            {
-                //file = HttpContext.Request.Form.Files[0];
-                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+                string filePath = "";
+                //IFormFile file = HttpContext.Request.Form.Files[0];
+                var filePathDefault = "final.png";
 
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
-            
-            model.MaNguoiDung = Guid.NewGuid();
-            
-
-            if (await _service.Add(model) != null)
-            {
-                if (file != null)
+                if (file == null)
                 {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    model.HinhAnh = filePathDefault;
+                }
+                else
+                {
+                    //file = HttpContext.Request.Form.Files[0];
+                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                }
+
+                model.MaNguoiDung = Guid.NewGuid();
+
+                var result = await _service.Add(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("Email", "Email đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+
+                if (result.errorCode == 0)
+                {
+                    if (file != null)
                     {
-                        file.CopyTo(fileStream);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
                     }
 
+                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }
-                
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
+            return PartialView("_partialAdd", model);
 
             //model.MaNguoiDung = Guid.NewGuid();
             //if (await _service.Add(model) != null)
@@ -153,34 +163,42 @@ namespace TES_MEDICAL.GUI.Controllers
        
         public async Task <ActionResult> Edit( NguoiDung model, [FromForm] IFormFile file)
         {
-            string filePath = "";
-            if (file != null)
+            if (ModelState.IsValid)
             {
-                model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
-                var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            }
-          
-            if (await _service.Edit(model) != null)
-            {
+                string filePath = "";
                 if (file != null)
                 {
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
+                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
+                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
+                var result = await _service.Edit(model);
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("Email", "Email đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+
+                if (result.errorCode == 0)
+                {
+                    if (file != null)
+                    {
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
+                    }
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
-            else
-            {
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
-                
-           
-           
+            return PartialView("_partialedit", model);
         }
 
         [HttpPost]

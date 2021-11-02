@@ -74,106 +74,83 @@
             </div>
         </div>
         <br /><br />
-        <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-            <div class="block-title">
-                <h2><strong>Thông tin sinh hiệu</strong></h2>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <label class="col-md-5 control-label" for="example-textarea-input">Mạch</label>
-                    <div class="col-md-10">
-                        <input type="text" asp-for="Mach" class="form-control" placeholder="Vui lòng nhập mạch">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <label class="col-md-5 control-label" for="example-textarea-input">Huyết áp</label>
-                    <div class="col-md-10">
-                        <input type="text" asp-for="HuyetAp" class="form-control" placeholder="Vui lòng nhập huyết áp">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <label class="col-md-5 control-label" for="example-textarea-input">Nhiệt độ</label>
-                    <div class="col-md-10">
-                        <input type="text" asp-for="NhietDo" class="form-control" placeholder="Vui lòng nhập nhiệt độ">
-                    </div>
-                </div>
+              <form id="frmKhamBenh">
+                  @Html.HiddenFor(model => model.MaPK);
+                  <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+                      <div class="block-title">
+                          <h2><strong>Thông tin sinh hiệu</strong></h2>
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-sm-4">
+                              <label class="col-md-5 control-label" for="example-textarea-input">Mạch</label>
+                              <div class="col-md-10">
+                                  <input type="text" asp-for="Mach" class="form-control" placeholder="Vui lòng nhập mạch">
+                              </div>
+                          </div>
+                          <div class="col-sm-4">
+                              <label class="col-md-5 control-label" for="example-textarea-input">Huyết áp</label>
+                              <div class="col-md-10">
+                                  <input type="text" asp-for="HuyetAp" class="form-control" placeholder="Vui lòng nhập huyết áp">
+                              </div>
+                          </div>
+                          <div class="col-sm-4">
+                              <label class="col-md-5 control-label" for="example-textarea-input">Nhiệt độ</label>
+                              <div class="col-md-10">
+                                  <input type="text" asp-for="NhietDo" class="form-control" placeholder="Vui lòng nhập nhiệt độ">
+                              </div>
+                          </div>
 
-            </div>
-            <br /><br />
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <button class="btn" onclick="AddCtSinhHieu" style="background-color:seagreen; color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</button>
-                </div>
-                <div class="col-sm-8 row" id="TableSinhHieu">
-                    <div class="SinhHieu row">
-                        <div class="col-sm-5 mb-2" style="width: 300px">
-                            <input type="text" class="form-control" placeholder="Tên sinh hiệu" name="TenSH">
-                        </div>
-                        <div class="col-sm-5 ms-5 mb-2" style="width: 250px">
-                            <input type="text" class="form-control ms-3" placeholder="Chỉ số" name="ChiSo">
-                        </div>
-                        <button class="btn btn-danger ms-4 btn-sm" style="width:30px;height:30px"><i class="fa fa-trash"></i></button>
-                    </div>
-                    <div class="SinhHieu row">
-                        <div class="col-sm-5 mb-2" style="width: 300px">
-                            <input type="text" class="form-control" placeholder="Tên sinh hiệu">
-                        </div>
-                        <div class="col-sm-5 ms-5 mb-2" style="width: 250px">
-                            <input type="text" class="form-control ms-3" placeholder="Chỉ số">
-                        </div>
-                        <button class="btn btn-danger ms-4 btn-sm" style="width:30px;height:30px"><i class="fa fa-trash"></i></button>
-                    </div>
-                    <div class="SinhHieu row">
-                        <div class="col-sm-5 mb-2" style="width: 300px">
-                            <input type="text" class="form-control" placeholder="Tên sinh hiệu">
-                        </div>
-                        <div class="col-sm-5 ms-5 mb-2" style="width: 250px">
-                            <input type="text" class="form-control ms-3" placeholder="Chỉ số">
-                        </div>
-                        <button class="btn btn-danger ms-4 btn-sm" style="width:30px;height:30px"><i class="fa fa-trash"></i></button>
-                    </div>
+                      </div>
+                      <br /><br />
+                      <div class="form-group row">
+                          <div class="col-sm-4">
+                              <a class="btn" onclick="AddCtSinhHieu()" style="background-color:seagreen; color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</a>
+                          </div>
+                          <div class="col-sm-8 row" id="TableSinhHieu">
 
 
-                </div>
-            </div>
-        </div>
-        <br /><br />
-        <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-            <div class="block-title">
-                <h2><strong>Thông tin khám bệnh</strong></h2>
-            </div>
-            <div class="row">
-                <div class="col-sm-5" style="padding-inline: 38px;">
-                    <label class="col-sm-3 control-label" for="example-textarea-input">Kết quả khám</label>
-                    <div class="col-sm-12">
-                        <textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-7 row">
-                    <div class="col-sm-12" style="padding-inline: 38px;">
-                        <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
-                        <div class="col-md-11">
-                            <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
-                        </div>
-                    </div>
+                          </div>
+                      </div>
+                  </div>
+                  <br /><br />
+                  <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+                      <div class="block-title">
+                          <h2><strong>Thông tin khám bệnh</strong></h2>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-5" style="padding-inline: 38px;">
+                              <label class="col-sm-3 control-label" for="example-textarea-input">Kết quả khám</label>
+                              <div class="col-sm-12">
+                                  <textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
+                              </div>
+                          </div>
+                          <div class="col-sm-7 row">
+                              <div class="col-sm-12" style="padding-inline: 38px;">
+                                  <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
+                                  <div class="col-md-11">
+                                      <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                  </div>
+                              </div>
 
-                    <div class="col-sm-6" style="padding-inline: 38px;">
-                        <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
-                        <div class="col-md-10">
-                            <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-6" style="padding-inline: 38px;">
-                        <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
-                        <div class="col-md-10">
-                            <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br /><br />
+                              <div class="col-sm-6" style="padding-inline: 38px;">
+                                  <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                                  <div class="col-md-10">
+                                      <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                                  </div>
+                              </div>
+                              <br>
+                              <div class="col-sm-6" style="padding-inline: 38px;">
+                                  <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                                  <div class="col-md-10">
+                                      <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <br /><br />
+              </form>
+     
       
     </div>
         <br><br />
@@ -266,41 +243,9 @@
                             <th class="col-2 text-center">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-8">
-                                <h6 style="font-weight: bold">Panadol</h6>
-                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
-                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
-                            </td>
-                            <td class="col-2 text-center">20</td>
-                            <td class="col-2 text-nowrap text-center">
-                                <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-8">
-                                <h6 style="font-weight: bold">Panadol</h6>
-                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
-                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
-                            </td>
-                            <td class="col-2 text-center">20</td>
-                            <td class="col-2 text-nowrap text-center">
-                                <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-8">
-                                <h6 style="font-weight: bold">Panadol</h6>
-                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
-                                <p style="font-style: italic"> Ngày uống 2 lần, mỗi lần 2 viên, uống sau khi ăn, uống trưa, uống tối.</p>
-                            </td>
-                            <td class="col-2 text-center">20</td>
-                            <td class="col-2 text-nowrap text-center">
-                                <a class="btn btn-info btn-sm active" title="Xóa"> <i class="fa fa-trash" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-
+                    <tbody id="toathuocFinal">
+                       
+                    
                     </tbody>
                 </table>
 
@@ -320,123 +265,8 @@
    @*Modal Thêm thuốc*@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 5px">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="pt-3">
-                <h4 style="text-align:center; font-weight:bold">THÊM THUỐC</h4>
-                <hr />
-            </div>
-            <!--<div class="modal-header">-->
-            @*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
-
-            <!--</div>-->
-            <div class="modal-body">
-                <div class="col-8 m-auto">
-                    <table class="table" id="danhSach">
-                        <thead>
-                            <tr>
-                                <th class="col-8">Tên thuốc</th>
-                                <th class="col-4 text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td class="col-8">Panadol</td>
-                                <td class="col-4 text-center"><button class="btn btn-success btn-sm" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-5">
-                    <table class="table table-striped">
-                        <thead class="bg-success text-light">
-                            <tr>
-                                <th class="col-8">Tên thuốc</th>
-                                <th class="col-2">Số lượng</th>
-                                <th class="col-2 text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="col-8">
-                                    <h6 style="margin-inline: 20px; font-weight:bold; ">Panadon</h6>
-                                    <div class="row" style="margin-inline: 20px;">
-                                        <div class="mb-2 col-sm-4">
-                                            <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;"> lần.</label>
-                                        </div>
-                                        <div class="mb-2 col-sm-4">
-                                            <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;"> viên.</label>
-                                        </div>
-                                        <div class="form-check col-sm-4 mb-2">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Uống trước khi ăn
-                                            </label>
-                                        </div>
-                                        <div class="form-check col-sm-4 mb-2">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Uống sáng
-                                            </label>
-                                        </div>
-                                        <div class="form-check col-sm-4 mb-2">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Uống trưa
-                                            </label>
-                                        </div>
-                                        <div class="form-check col-sm-4 mb-2">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Uống tối
-                                            </label>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="col-2">
-                                    <div class="input-group mb-3">
-                                        <input type="number" placeholder="Số lượng..." class="form-control">
-                                    </div>
-                                </th>
-                                <th class="col-2 text-center"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">Xác nhận</button>
-                <button type="button" class="btn btn-danger text-light" style="margin-left: 5px;" data-bs-dismiss="modal">Đóng</button>
-            </div>
+        <div class="modal-content" id="ThuocContent">
+          
         </div>
     </div>
 </div>
@@ -479,12 +309,46 @@
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
     <script>
+        var table;
+        var listCTThuoc = [];
+        var ctSH = [];
         $(document).ready(
-
+           
             function () {
 
-                $('#danhSach').DataTable()
-                $('#danhSach_filter').parent().removeClass("col-md-6");
+                $.get("GetListThuoc", function (data) {
+                    $('#ThuocContent').html(data)
+                    table =  $('#danhSach').DataTable(
+                        {
+                           
+                           
+
+                            "order": [0, "asc"],
+                            "language": {
+                                "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                                "zeroRecords": "Không có kết quả",
+                                "info": "Trang: _PAGE_ / _PAGES_",
+                                "infoEmpty": "Không có yêu cầu nào",
+                                "infoFiltered": "(filtered from _MAX_ total records)",
+                                "search": "Tìm: ",
+                                "paginate": {
+                                    "first": "Trang đầu",
+                                    "last": "Trang cuối",
+                                    "next": ">",
+                                    "previous": "<"
+                                },
+                            }
+
+
+
+
+
+
+                        }
+                    )
+                });
+              
+              
 
                
                
@@ -503,9 +367,38 @@
                 }
             });
         }
+        function AddCtSinhHieu() {
+            $('#TableSinhHieu').append(`<div class="SinhHieu row">
+                        <div class="col-sm-5 mb-2" style="width: 300px">
+                            <input type="text" class="form-control" placeholder="Tên sinh hiệu" name="TenSH" id="TeSH">
+                        </div>
+                        <div class="col-sm-5 ms-5 mb-2" style="width: 250px">
+                            <input type="text" class="form-control ms-3" placeholder="Chỉ số" name="ChiSo" id="ChiSo">
+                        </div>
+                        <button class="btn btn-danger ms-4 btn-sm remove" style="width:30px;height:30px"><i class="fa fa-trash"></i></button>
+                    </div>
+                  `)
+
+        }
+
+
+        $(document).on('click', '.remove', function () {
+            $(this).parent().remove();
+           
+
+        });
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
+            $(".SinhHieu").each(function () {
+                var obj = {};
+                obj.MaPK = $('#MaPK').val();
+                obj.TenSH = $(this).find("[name='TenSH']").val();
+                obj.ThongTinChiTiet = $(this).find("[name='ChiSo']").val();
+                console.log(obj);
+                ctSH.push(obj);
+
+            });
             $.ajax({
                 url: "/BacSi/XacNhanKetQua/",
                 type: 'GET',
@@ -519,6 +412,120 @@
 
                 }
             });
+        }
+        $(document).on('click', '.addThuoc', function () {
+
+            $tr = $(this).parent().parent();
+            var $td = $tr.find("td");
+
+            $("#listToaThuoc").append(`<tr>
+                        <th class="col-8">
+                              <input style="display:none" name="MaThuoc" value="${$td.eq(2).text()}"  />
+                            <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${$td.eq(0).text()}</h6>
+                            <div class="row" style="margin-inline: 20px;">
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;" name="LanTrongNgay" > lần.</label>
+                                </div>
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;" name="VienMoiLan"> viên.</label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trước khi ăn
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Sang" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống sáng
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Trua" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trưa
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Chieu" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống tối
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="col-2">
+                            <div class="input-group mb-3">
+                                <input type="number"  placeholder="Số lượng..." class="form-control" name ="SoLuong">
+                            </div>
+                        </th>
+                        <th class="col-2 text-center"><button class="btn btn-danger deleteThuoc"><i class="fa fa-trash"></i></button></th>
+                    </tr>
+              `);
+            table
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+        });
+
+        $(document).on('click', '.deleteThuoc', function () {
+            $tr = $(this).parent().parent();
+            //var $td = $tr.find("td");
+          
+            $tr.remove();
+
+        });
+
+
+        function ConfirmToaThuoc() {
+
+            $("#listToaThuoc > tr").each(function () {
+                var thuoc = {};
+                thuoc.MaPK = $('#MaPK').val();
+                thuoc.MaThuoc = $(this).find("[name='MaThuoc']").val();
+                thuoc.TenThuoc = $(this).find("[name='TenThuoc']").html();
+                thuoc.SoLuong = $(this).find("[name='SoLuong']").val();
+                thuoc.LanTrongNgay = $(this).find("[name='LanTrongNgay']").val();
+                thuoc.VienMoiLan = $(this).find("[name='VienMoiLan']").val();
+                if ($(this).find("[name='TruocKhian']").is(":checked")) {
+                    thuoc.TruocKhian = true
+                } else { thuoc.TruocKhian = false; }
+                if ($(this).find("[name='Sang']").is(":checked")) {
+                    thuoc.Sang = true
+                } else { thuoc.Sang = false; }
+                if ($(this).find("[name='Trua']").is(":checked")) {
+                    thuoc.Trua = true
+                } else { thuoc.Trua = false; }
+                if ($(this).find("[name='Chieu']").is(":checked")) {
+                    thuoc.Chieu = true
+                } else { thuoc.Chieu = false; }
+
+              
+
+                listCTThuoc.push(thuoc)
+              
+                  
+
+                
+
+               
+               
+
+                $("#toathuocFinal").append(` <tr>
+                            <td class="col-8">
+                                <h6 style="font-weight: bold">${thuoc.TenThuoc}</h6>
+                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                                <p style="font-style: italic"> Ngày uống ${thuoc.LanTrongNgay} lần, mỗi lần ${thuoc.VienMoiLan} viên, uống ${thuoc.TruocKhian?"trước khi ăn":"sau khi ăn"}, uống ${thuoc.Sang ? "sáng" : ""} ${thuoc.Trua ? ", trưa" : ""} ${thuoc.Chieu ? ", chiều" : ""}.</p>
+                            </td>
+                            <td class="col-2 text-center">${thuoc.SoLuong}</td>
+                            
+                        </tr>`);
+
+
+
+            });
+            
         }
 
     </script>

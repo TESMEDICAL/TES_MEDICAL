@@ -10,9 +10,17 @@ namespace TES_MEDICAL.GUI.Helpers
     {
         public override IdentityError DuplicateUserName(string userName)
         {
+            
             var error = base.DuplicateUserName(userName);
             error.Description = "Email đã tồn tại!";
             return error;
         }
+
+        //public override IdentityError PasswordMismatch()
+        //{
+        //    var error = base.PasswordMismatch();
+        //    error.Description = "Vui lòng nhập password có kèm chữ viết Hoa";
+        //    return error;
+        //}
     }
 }

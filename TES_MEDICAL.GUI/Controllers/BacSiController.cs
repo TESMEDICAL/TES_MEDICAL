@@ -40,6 +40,13 @@ namespace TES_MEDICAL.GUI.Controllers
             
         }
 
+        public async Task<IActionResult> GetListThuoc()
+        {
+
+            return PartialView("_partialToaThuoc", await _khambenhRep.GetAllThuoc());
+        
+        }
+
         public IActionResult LichSuKham()
         {
             return PartialView("_LichSuKham");

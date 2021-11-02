@@ -38,7 +38,11 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index(Guid MaTL)
-        {  
+        {
+            ViewBag.TL1 = await _tintucService.GetTinTuc(Guid.Empty);
+            ViewBag.TL2 = await _tintucService.GetTinTuc(Guid.Parse("7644AC01-B920-49C1-93C5-251319BBC90E"));
+            ViewBag.TL3 = await _tintucService.GetTinTuc(Guid.Parse("AB6FE512-9C64-4EEA-BC14-25A517423C58"));
+            ViewBag.TL4 = await _tintucService.GetTinTuc(Guid.Parse("AB215DC0-5855-42C3-85A5-EF00A2FABE65"));
             return View(await _tintucService.GetTinTuc(MaTL));
         }
 
@@ -117,5 +121,27 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+        //Partial View TinTuc Theo TheLoai
+        public async Task<IActionResult> ListTheLoai(Guid MaTL)
+        {
+
+            return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
+        }
+
+        public async Task<IActionResult> TinChiTiet(Guid id)
+        {
+            var baiViet = await _tintucService.Get(id);
+            ViewBag.TL1 = await _tintucService.GetTinMin(Guid.Empty);
+
+            ViewBag.Hinh = baiViet.Hinh;
+            
+            if (baiViet == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(baiViet);
+        }
+
+
     }
 }
