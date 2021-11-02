@@ -1,109 +1,59 @@
-﻿<h4 style="text-align:center; font-weight:bold">XÁC NHẬN THÔNG TIN</h4>
+﻿@model PhieuKham;
+
+<h4 style="text-align:center; font-weight:bold">XÁC NHẬN THÔNG TIN</h4>
 <hr />
 <br />
 
-<div class="col-8 m-auto">
-    <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
-        <label>Ngày khám: 1/1/2021</label>
-    </div>
-    <table class="table table1 table-borderless">
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Tên bệnh nhân</td>
-                <th>Nguyễn Thanh Hoàng</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Số điện thoại</td>
-                <th>0939503204</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Ngày sinh</td>
-                <th>1/1/2001</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Địa chỉ</td>
-                <th>Quận 12</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Triệu chứng</td>
-                <th>Ho, khó thở, nhứt đầu, Ho, khó thở,</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Bác sĩ</td>
-                <th>Dr. Đinh Ngọc Huyền</th>
-                <td></td>
-            </tr>
-        </tbody>
+<div class="col-10">
+    <table class="table table-borderless">
+        <tr>
+            <td><h6><strong>Tên bệnh nhân:</strong> @Model.MaBNNavigation.HoTen</h6></td>
+            <td><h6><strong>Ngày khám:</strong> @Model.NgayKham.ToString("dd/MM/yyyy")</h6></td>
+            <td><h6><strong>Ngày tái khám:</strong> 1/1/2021</h6></td>
+        </tr>
+        <tr>
+            <td><h6><strong>Mạch:</strong> @Model.Mach</h6></td>
+            <td><h6><strong>Huyết Áp:</strong> @Model.HuyetAp</h6></td>
+            <td><h6><strong>Nhiệt độ:</strong> @Model.NhietDo</h6></td>
+        </tr>
+        <tr>
+            <td><h6><strong>Chẩn đoán:</strong>@Model.ChanDoan</h6></td>
+            <td>
+                <h6>
+                    <strong>Kết quả khám bệnh:</strong><br />
+                    @Model.KetQuaKham
+                </h6>
+            </td>
+        </tr>
     </table>
 </div>
 <hr>
-<div class="col-8 m-auto">
-    <table class="table table-borderless">
-        <tbody>
-            <tr>
-                <th>Tên thuốc</th>
-                <th>Số lượng</th>
-                <th>Ghi chú</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-            <tr>
-                <td>Thuốc A</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc B</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc C</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc D</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="col-12" style="font-size: 17px">
+    
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-8">Tên thuốc</th>
+                    <th class="col-2 text-center">Số lượng</th>
+                    <th class="col-2 text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="toathuocFinal">
+                @foreach (var item in Model.ToaThuoc.ChiTietToaThuoc)
+                {
+                    <tr>
+                        <td class="col-8">
+                            <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                            @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                            <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
+                        </td>
+                        <td class="col-2 text-center">@item.SoLuong</td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    
 </div>

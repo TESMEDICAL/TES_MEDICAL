@@ -15,7 +15,7 @@ namespace TES_MEDICAL.GUI.Models
         public bool TruocKhian { get; set; }
         public bool Sang { get; set; }
         public bool Trua { get; set; }
-        public bool Chiều { get; set; }
+        public bool Chieu { get; set; }
         public string GhiChu { get; set; }
 
         public virtual ToaThuoc MaPKNavigation { get; set; }

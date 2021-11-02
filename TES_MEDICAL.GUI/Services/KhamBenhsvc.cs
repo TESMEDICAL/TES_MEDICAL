@@ -48,6 +48,8 @@ namespace TES_MEDICAL.GUI.Services
 
         
 
+        
+
         public async Task<PhieuKham> AddToaThuoc(PhieuKham model,bool uutien)
         {
             try

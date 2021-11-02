@@ -12,9 +12,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class BacSiController : Controller
     {
         private readonly IKhamBenh _khambenhRep;
-        public BacSiController (IKhamBenh khambenhRep)
+        private readonly IThuoc _thuocRep;
+        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep)
         {
             _khambenhRep = khambenhRep;
+            _thuocRep = thuocRep;
         }
        
 
@@ -58,9 +60,14 @@ new JsonSerializerSettings
             return PartialView("_LichSuKham");
         }
         [HttpPost]
-        public IActionResult XacNhanKetQua(PhieuKham model)
+        public async Task<IActionResult> XacNhanKetQua(PhieuKham model)
         {
-            return PartialView("_XacNhanKetQua");
+              foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
+            {
+                item.MaThuocNavigation = new Thuoc();
+                item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
+            }    
+            return PartialView("_XacNhanKetQua",model);
         }
 
         public IActionResult DanhSachThuoc()

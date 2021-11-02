@@ -343,6 +343,13 @@
                                     "previous": "<"
                                 },
                             }
+                            //"columnDefs": [
+                            //    {
+                            //        "targets": [2],
+                            //        "visible": false
+                            //    }
+                              
+                            //]
 
 
 
@@ -414,6 +421,7 @@
             Phieukham.HuyetAp = $('#HuyetAp').val();
             Phieukham.KetQuaKham = $('#KetQuaKham').val();
             Phieukham.ToaThuoc = ToaThuoc;
+           
             
             
             $.ajax({
@@ -426,7 +434,7 @@
                     $('#btSend').show();
                     $('#btUse').hide();
                     $('#danhSach_filter').addClass("col-sm-12");
-                    console.log($('#danhSach_filter > lablel').html())
+                
 
                 }
             });
@@ -435,7 +443,7 @@
 
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-
+            console.log($td.eq(2).text());
             $("#listToaThuoc").append(`<tr>
                         <th class="col-8">
                               <input style="display:none" name="MaThuoc" value="${$td.eq(2).text()}"  />
@@ -489,7 +497,12 @@
 
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
-            //var $td = $tr.find("td");
+          
+            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+
+
+            $(rowNode).find('td').eq(1).addClass('text-center');
+            $(rowNode).find('td').eq(2).addClass('d-none');
 
             $tr.remove();
 
@@ -523,7 +536,7 @@
 
                 listCTThuoc.push(thuoc)
 
-
+              
 
 
 
