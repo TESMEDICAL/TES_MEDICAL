@@ -152,8 +152,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callback = Url.Action(nameof(ResetPassword), "Identity", new { token, email = user.Email }, Request.Scheme);
                 //var callback = $"{request.Scheme}://{request.Host}/", new { token, email = user.Email }
-                //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
-                Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", $"Nhấn vào đây để đặt lại mật khẩu: <br> <a href="">Khôi phục mật khẩu</a>");
+                Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", $"Nhấn vào đây để đặt lại mật khẩu: <br><a href='{callback}'>Khôi phục mật khẩu</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
             return View();
