@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
@@ -12,10 +13,14 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ReportController : Controller
     {
         private IHostingEnvironment Environment;
-        public ReportController(IHostingEnvironment _environment)
+        private readonly IReport _service;
+        
+        public ReportController(IHostingEnvironment _environment, IReport service)
         {
             Environment = _environment;
+            _service = service;
         }
+
 
         public IActionResult Index()
         {
@@ -28,19 +33,35 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         //Xem và tải hoá đơn dịch vụ
-        public IActionResult ViewHoaDon()
+        public async Task<IActionResult> ViewHoaDon()
         {
 
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/"));
-            List<FileModel> files = new List<FileModel>();
+            //string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/"));
+            //List<FileModel> files = new List<FileModel>();
 
-            foreach (string filePath in filePaths)
+            //foreach (string filePath in filePaths)
+            //{
+            //    files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+
+            //}
+
+            return View(await _service.GetAllHoaDon());
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(string MaHD)
+        {
+            if (await _service.Get(MaHD) == null)
             {
-                files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+                return NotFound(); ;
             }
+            else
+            {
 
-            return View(files);
 
+                return PartialView("_partialDetail", await _service.Get(MaHD));
+            }
         }
 
         public FileResult DownloadFile(string fileName)
@@ -82,6 +103,8 @@ namespace TES_MEDICAL.GUI.Controllers
             //Send the File to Download.
             return File(bytes, "application/octet-stream", fileName);
         }
+
+
 
 
     }
