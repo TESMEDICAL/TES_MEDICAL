@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-    
+    [Authorize(Roles = "nhanvien")]
     public class TiepNhanController : Controller
     {
         private readonly ITiepNhan _service;
