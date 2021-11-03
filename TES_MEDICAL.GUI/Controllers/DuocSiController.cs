@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    [Authorize(Roles = "duocsi")]
     public class DuocSiController : Controller
     {
         private readonly IDuocSi _service;
