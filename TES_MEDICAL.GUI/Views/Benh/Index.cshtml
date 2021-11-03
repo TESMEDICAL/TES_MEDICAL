@@ -7,14 +7,7 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 
 }
-
-
-
-
-
-
 <div class="m-3">
-
 
     <div>
 
@@ -29,13 +22,6 @@
             <div class="col-2 mr-2">
                 @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo Thông tin" } })
             </div>
-
-
-
-
-            
-
-
             <div class="col-4">
 
                 <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
@@ -43,29 +29,18 @@
                 <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
                 <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
             </div>
-
-
-
         }
 
     </div>
-
-
-
-
-
 </div>
 <div id="nameListContainer">
     <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Benh>" />
 
 </div>
 
-
-
-
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-fullscreen">
-        <!-- Modal content-->
+         Modal content
         <div class="modal-content">
 
             <div class="modal-header">
@@ -93,7 +68,6 @@
     </div>
 </div>
 
-
 @section scripts{
     <script>
 
@@ -119,7 +93,7 @@
                         var obj = $("#frm").serializeObject();
                         obj.CTTrieuChung = $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung');
 
-                        
+
 
                         $.ajax({
                             type: "POST",
