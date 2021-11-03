@@ -121,12 +121,12 @@ namespace TES_MEDICAL.GUI
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
-   .AddRazorPagesOptions(options =>
-   {
-       options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-       options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-   }).AddRazorRuntimeCompilation();
+   //         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+   //.AddRazorPagesOptions(options =>
+   //{
+   //    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+   //    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+   //}).AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
             {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Interfaces;
+using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -36,6 +37,11 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
+            ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
+new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+});
             return View(item);
             
         }
@@ -51,8 +57,8 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return PartialView("_LichSuKham");
         }
-
-        public IActionResult XacNhanKetQua()
+        [HttpPost]
+        public IActionResult XacNhanKetQua(PhieuKham model)
         {
             return PartialView("_XacNhanKetQua");
         }

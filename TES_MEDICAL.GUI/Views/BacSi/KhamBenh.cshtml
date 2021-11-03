@@ -312,16 +312,21 @@
         var table;
         var listCTThuoc = [];
         var ctSH = [];
+        var Phieukham =@(Html.Raw(ViewBag.PhieuKham));
+        var ToaThuoc = {};
+       
         $(document).ready(
+
            
             function () {
+               
 
                 $.get("GetListThuoc", function (data) {
                     $('#ThuocContent').html(data)
                     table =  $('#danhSach').DataTable(
                         {
-                           
-                           
+
+
 
                             "order": [0, "asc"],
                             "language": {
@@ -347,11 +352,11 @@
                         }
                     )
                 });
-              
-              
 
-               
-               
+
+
+
+
             });
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham() {
@@ -384,7 +389,7 @@
 
         $(document).on('click', '.remove', function () {
             $(this).parent().remove();
-           
+
 
         });
 
@@ -395,13 +400,26 @@
                 obj.MaPK = $('#MaPK').val();
                 obj.TenSH = $(this).find("[name='TenSH']").val();
                 obj.ThongTinChiTiet = $(this).find("[name='ChiSo']").val();
-                console.log(obj);
+
                 ctSH.push(obj);
 
             });
+            ToaThuoc.MaPhieuKham = Phieukham.MaPK;
+            ToaThuoc.TrangThai = 0;
+            ToaThuoc.ChiTietToaThuoc = listCTThuoc;
+            Phieukham.ChiTietSinhHieu = ctSH;
+            Phieukham.Mach = $("#Mach").val();
+            Phieukham.NhietDo = $('#NhietDo').val();
+            Phieukham.ChanDoan = $('#ChanDoan').val();
+            Phieukham.HuyetAp = $('#HuyetAp').val();
+            Phieukham.KetQuaKham = $('#KetQuaKham').val();
+            Phieukham.ToaThuoc = ToaThuoc;
+            
+            
             $.ajax({
                 url: "/BacSi/XacNhanKetQua/",
-                type: 'GET',
+                type: 'Post',
+                data: Phieukham,
                 success: function (response) {
                     $("#myModalContent").html(response);
                     $('#myModal').modal('show');
@@ -472,7 +490,7 @@
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
             //var $td = $tr.find("td");
-          
+
             $tr.remove();
 
         });
@@ -501,16 +519,16 @@
                     thuoc.Chieu = true
                 } else { thuoc.Chieu = false; }
 
-              
+
 
                 listCTThuoc.push(thuoc)
-              
-                  
 
-                
 
-               
-               
+
+
+
+
+
 
                 $("#toathuocFinal").append(` <tr>
                             <td class="col-8">
@@ -519,13 +537,13 @@
                                 <p style="font-style: italic"> Ngày uống ${thuoc.LanTrongNgay} lần, mỗi lần ${thuoc.VienMoiLan} viên, uống ${thuoc.TruocKhian?"trước khi ăn":"sau khi ăn"}, uống ${thuoc.Sang ? "sáng" : ""} ${thuoc.Trua ? ", trưa" : ""} ${thuoc.Chieu ? ", chiều" : ""}.</p>
                             </td>
                             <td class="col-2 text-center">${thuoc.SoLuong}</td>
-                            
+
                         </tr>`);
 
 
 
             });
-            
+
         }
 
     </script>
