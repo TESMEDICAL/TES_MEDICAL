@@ -4,10 +4,10 @@
 <hr />
 <br />
 
-<div class="col-10">
+@*<div class="col-12">
     <table class="table table-borderless">
         <tr>
-            <td><h6><strong>Tên bệnh nhân:</strong> @Model.MaBNNavigation.HoTen</h6></td>
+            <td colspan="3"><h6><strong>Tên bệnh nhân:</strong> @Model.MaBNNavigation.HoTen</h6></td>
             <td><h6><strong>Ngày khám:</strong> @Model.NgayKham.ToString("dd/MM/yyyy")</h6></td>
             <td><h6><strong>Ngày tái khám:</strong> 1/1/2021</h6></td>
         </tr>
@@ -17,15 +17,87 @@
             <td><h6><strong>Nhiệt độ:</strong> @Model.NhietDo</h6></td>
         </tr>
         <tr>
-            <td><h6><strong>Chẩn đoán:</strong>@Model.ChanDoan</h6></td>
-            <td>
-                <h6>
+
+        </tr>
+        <tr>
+            <td colspan="2">
+                <h6><strong>Chẩn đoán:</strong><br />
+                    @Model.ChanDoan
+                </h6>
+            </td>
+            <td colspan="3">
+                <h6 class="text-wrap">
                     <strong>Kết quả khám bệnh:</strong><br />
                     @Model.KetQuaKham
                 </h6>
             </td>
         </tr>
     </table>
+</div>*@
+<div class="col-12" style="padding-inline: 40px">
+    <div class="row mb-3">
+        <div class="col-sm-6">
+            <h6>
+                Tên bệnh nhân: 
+                <strong>
+                    @Model.MaBNNavigation.HoTen
+                </strong> 
+
+            </h6>
+        </div>
+        <div class="col-sm-3">
+            <h6>Ngày khám: 
+                <strong>@Model.NgayKham.ToString("dd/MM/yyyy")</strong> 
+            </h6>
+        </div>
+        <div class="col-sm-3">
+            <h6>Ngày tái khám
+                <strong>1/1/2021</strong>
+            </h6>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <h6>Mạch: 
+                <strong>@Model.Mach</strong>
+            </h6>
+        </div>
+        <div class="col-sm-3">
+            <h6>Huyết Áp:
+                <strong>@Model.HuyetAp</strong> 
+            </h6>
+        </div>
+        <div class="col-sm-3">
+            <h6>Nhiệt độ:
+                <strong> @Model.NhietDo</strong> 
+            </h6>
+        </div>
+    </div>
+    @*chi tiết sinh hiệu thêm*@
+    <div class="row mb-3">
+        @*vòng lập*@ 
+        <div class="col-sm-3">
+            <h6>SPO2: 
+                <strong>12</strong>
+            </h6>
+        </div>
+
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <h6><strong>Chẩn đoán: </strong><br> @Model.ChanDoan</h6>
+        </div>
+        <div class="col-sm-9">
+            <h6>
+                <strong>Kết quả khám:</strong><br>
+                @Model.KetQuaKham
+                @*cảm sốt, cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
+                cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
+                cảm sốt, cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
+                cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt*@
+            </h6>
+        </div>
+    </div>
 </div>
 <hr>
 <div class="col-12" style="font-size: 17px">
@@ -34,8 +106,7 @@
             <thead>
                 <tr>
                     <th class="col-8">Tên thuốc</th>
-                    <th class="col-2 text-center">Số lượng</th>
-                    <th class="col-2 text-center">Thao tác</th>
+                    <th class="col-4 text-center">Số lượng</th>                
                 </tr>
             </thead>
             <tbody id="toathuocFinal">
