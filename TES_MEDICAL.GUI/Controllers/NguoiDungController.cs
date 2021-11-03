@@ -178,7 +178,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("Email", "Email đã tồn tại");
-                    return PartialView("_partialAdd", model);
+                    return PartialView("_partialedit", model);
                 }
 
                 if (result.errorCode == 0)

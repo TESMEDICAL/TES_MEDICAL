@@ -6,8 +6,8 @@
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-
-        <input style="display:none" value="@Guid.NewGuid()" id="add_thuoc" />
+        @Html.HiddenFor(model => model.MaThuoc)
+        @*<input style="display:none" value="@Guid.NewGuid()" id="add_thuoc" />*@
 
         <div class="col-sm-8">
             <div class="row">
