@@ -305,6 +305,7 @@
         var ctSH = [];
         var Phieukham =@(Html.Raw(ViewBag.PhieuKham));
         var ToaThuoc = {};
+        var oldPK = {};
 
         $(document).ready(
 
@@ -366,10 +367,12 @@
 
                 },
                 success: function (response) {
+
                     $("#myModalContent").html(response);
                     $('#myModal').modal('show');
                     $('#btSend').hide();
                     $('#btUse').show();
+                    console.log(@(Html.Raw(@ViewBag.PKOld)))
 
                 }
             });

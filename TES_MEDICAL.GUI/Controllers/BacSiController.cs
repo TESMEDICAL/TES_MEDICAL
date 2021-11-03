@@ -58,6 +58,11 @@ new JsonSerializerSettings
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
+            ViewBag.PKOld = JsonConvert.SerializeObject(item, Formatting.Indented,
+new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+});
             return PartialView("_XacNhanKetQua", item);
         }
         [HttpPost]
@@ -93,6 +98,8 @@ new JsonSerializerSettings
             }    
             return PartialView("_XacNhanKetQua",model);
         }
+
+     
 
         public IActionResult DanhSachThuoc()
         {

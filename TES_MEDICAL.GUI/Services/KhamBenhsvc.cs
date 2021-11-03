@@ -25,7 +25,7 @@ namespace TES_MEDICAL.GUI.Services
                           on x.MaPK equals y.MaPhieuKham
                           join bn in _context.BenhNhan
                           on x.MaBN equals bn.MaBN
-                          where x.MaBS == MaBS
+                          where x.MaBS == MaBS && y.TrangThai == false
                           select new STTViewModel
                           {
                               STT = y.STT,
@@ -79,7 +79,8 @@ namespace TES_MEDICAL.GUI.Services
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
                     var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
 
-                    _context.Remove(sttpk);
+                    sttpk.TrangThai = true;
+                    _context.Update(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
 
