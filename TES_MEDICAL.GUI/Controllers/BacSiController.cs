@@ -39,6 +39,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
+            ViewBag.LichSuKham = item.MaBNNavigation.PhieuKham.Where(x => x.MaPK.ToString() != MaPK).ToList()??new List<PhieuKham>();
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
 new JsonSerializerSettings
 {
@@ -54,11 +55,34 @@ new JsonSerializerSettings
             return PartialView("_partialToaThuoc", await _khambenhRep.GetAllThuoc());
         
         }
-
-        public IActionResult LichSuKham()
+        public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
-            return PartialView("_LichSuKham");
+            var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
+            return PartialView("_XacNhanKetQua", item);
         }
+        [HttpPost]
+        public async Task<IActionResult> ThemToa(PhieuKham model)
+        {
+            foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
+            {
+                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng," : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}";
+            }    
+            var result = await _khambenhRep.AddToaThuoc(model,false);
+
+            if (result != null)
+            {
+                //var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
+                //await _hubContext.Clients.All.SendAsync("SentDocTor", model.MaBS, stt);
+
+
+                return Json(new { status = 1, title = "", text = "Gửi thành công.", redirectUrL = Url.Action("PhieuKham", "BacSi"), obj = "" }, new JsonSerializerSettings());
+            }
+
+            else
+                return Json(new { status = -2, title = "", text = "Gửi không thành công", obj = "" }, new JsonSerializerSettings());
+        }
+
+      
         [HttpPost]
         public async Task<IActionResult> XacNhanKetQua(PhieuKham model)
         {

@@ -37,7 +37,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<PhieuKham> GetPK(Guid MaPK)
         {
-            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).FirstOrDefaultAsync(x => x.MaPK == MaPK);
+            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
             return item;
         }
 
@@ -60,6 +60,7 @@ namespace TES_MEDICAL.GUI.Services
                     {
                         foreach (var item in model.ChiTietSinhHieu)
                         {
+                            item.MaSinhHieu = Guid.NewGuid();
                             _context.ChiTietSinhHieu.Add(item);
                         }
                     }    
@@ -94,7 +95,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<ToaThuoc> GetToaThuoc(Guid MaPK)
         {
-            return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
+            return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).ThenInclude(x=>x.PhieuKham).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
         }
 
         public async Task<IEnumerable<Thuoc>> GetAllThuoc()

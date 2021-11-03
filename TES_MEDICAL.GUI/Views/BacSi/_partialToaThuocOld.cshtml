@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Thuoc>
+﻿
+@model ToaThuoc
+
 
 <div class="pt-3">
     <h4 style="text-align:center; font-weight:bold">Toa Thuốc</h4>
@@ -24,15 +26,15 @@
 
                 @foreach (var item in Model)
                 {
-                <tr>
+                    <tr>
 
-                    <td >@item.TenThuoc</td>
-                    <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
-                    <td class="d-none" >@item.MaThuoc</td>
-                </tr>
+                        <td>@item.TenThuoc</td>
+                        <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                        <td class="d-none">@item.MaThuoc</td>
+                    </tr>
                 }
 
-               
+
 
             </tbody>
         </table>
@@ -48,15 +50,12 @@
                 </tr>
             </thead>
             <tbody id="listToaThuoc">
-                
-                  
-
             </tbody>
         </table>
     </div>
 </div>
 <div class="modal-footer">
-  
+
     <button type="button" class="btn btn-success" style="margin-left: 5px;" data-bs-dismiss="modal" onclick="ConfirmToaThuoc()">OK</button>
 </div>
 

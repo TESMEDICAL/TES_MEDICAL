@@ -73,10 +73,10 @@
 
     </div>
 </div>
-
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 @section Scripts{
     <script>
-        
+
         function OpenChiTietThuoc() {
             $.ajax({
                 url: "/DuocSi/ChiTietThuoc/",
@@ -200,7 +200,7 @@
         }
     </script>
 
- }
+}
 
 
 

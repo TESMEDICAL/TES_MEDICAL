@@ -675,151 +675,153 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
-
-    <script src="~/MainElement/js/plugins.js"></script>
+    @*<script src="~/MainElement/js/plugins.js"></script>*@
     <script src="~/MainElement/js/app.js"></script>
 
 
     <!--Script chạy Active trên Menu-->
     <script>
-            function myActive(e) {
-                var elems = document.querySelectorAll(".active");
-                [].forEach.call(elems, function (el) {
-                    el.classList.remove("active");
-                });
-                e.target.className = "active";
-            }
-
-            //Hàm load hình
-            $('#upload-back').change(function (e) {
-                var self = this;
-
-                var file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onloadend = () => {
-
-                    var img = "<img src='" + reader.result + "' style='width: 100%'/>"
-                    $('#image-holder2').html(img);
-                };
-                reader.readAsDataURL(file);
-
+        function myActive(e) {
+            var elems = document.querySelectorAll(".active");
+            [].forEach.call(elems, function (el) {
+                el.classList.remove("active");
             });
+            e.target.className = "active";
+        }
 
-            //Hàm open modal ChangePass
-            function OpenChangePass() {
-                $('#myModalContent_ChangePass').html("");
+        //Hàm load hình
+        $('#upload-back').change(function (e) {
+            var self = this;
+
+            var file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+
+                var img = "<img src='" + reader.result + "' style='width: 100%'/>"
+                $('#image-holder2').html(img);
+            };
+            reader.readAsDataURL(file);
+
+        });
+
+        //Hàm open modal ChangePass
+        function OpenChangePass() {
+            $('#myModalContent_ChangePass').html("");
+
+            $.ajax({
+                url: '/Identity/ChangePassword/',
+                type: "Get",
+                timeout: 20000,
+                async: true,
+                success: function (result) {
+                    $('#myModalContent_ChangePass').html(result);
+                    $('#modal-user-changepass').modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
+        //Hàm edit info NhanVienYTe
+        function Edit() {
+            if ($("#frm1").valid()) {
+                var formData = new FormData();
+                var fileUpload = $("#upload-back").get(0);
+                var file = fileUpload.files[0];
+
+                formData.append("file", file);
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('HoTen', $("#Edit_HoTen").val());
+                formData.append('SDTNV', $("#Edit_SDT").val());
+                formData.append('Hinh', $("#Edit_Hinh").val());
 
                 $.ajax({
-                    url: '/Identity/ChangePassword/',
-                    type: "Get",
-                    timeout: 20000,
-                    async: true,
+                    type: "POST",
+                    url: "/Identity/ChangeInfo",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
                     success: function (result) {
-                        $('#myModalContent_ChangePass').html(result);
-                        $('#modal-user-changepass').modal('show');
-
-
                         $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                location.reload();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        }
+                        else {
+                            $myModalContent.html(result);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
                     },
                     failure: function (message) {
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
             }
+        }
 
-            //Hàm edit info NhanVienYTe
-            function Edit() {
-                if ($("#frm1").valid()) {
-                    var formData = new FormData();
-                    var fileUpload = $("#upload-back").get(0);
-                    var file = fileUpload.files[0];
+        //Hàm ChangePass
+        function ChangePass() {
+            if ($("#frm2").valid()) {
+                var formData = new FormData();
 
-                    formData.append("file", file);
-                    formData.append('Email', $("#Edit_Email").val());
-                    formData.append('HoTen', $("#Edit_HoTen").val());
-                    formData.append('SDTNV', $("#Edit_SDT").val());
-                    formData.append('Hinh', $("#Edit_Hinh").val());
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('CurrentPassword', $("#Edit_PassOld").val());
+                formData.append('NewPassword', $("#Edit_Passnew").val());
+                formData.append('ConfirmPassword', $("#Edit_Passnew2").val());
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/Identity/ChangeInfo",
-                        processData: false,
-                        contentType: false,
-                        data: formData,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status != null) {
-                                if (result.status >= 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Identity/ChangePassword",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
 
-                                    toastr.success(result.text);
-                                    location.reload();
-                                }
-                                else {
-                                    toastr.warning(result.text);
-                                }
+                                toastr.success(result.text);
+                                location.reload();
                             }
                             else {
-                                $myModalContent.html(result);
+                                toastr.warning(result.text);
                             }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
                         }
-                    });
-                }
-            }
-
-            //Hàm ChangePass
-            function ChangePass() {
-                if ($("#frm2").valid()) {
-                    var formData = new FormData();
-
-                    formData.append('Email', $("#Edit_Email").val());
-                    formData.append('CurrentPassword', $("#Edit_PassOld").val());
-                    formData.append('NewPassword', $("#Edit_Passnew").val());
-                    formData.append('ConfirmPassword', $("#Edit_Passnew2").val());
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/Identity/ChangePassword",
-                        processData: false,
-                        contentType: false,
-                        data: formData,
-                        success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
-                            if (result.status != null) {
-                                if (result.status >= 1) {
-
-                                    toastr.success(result.text);
-                                    location.reload();
-                                }
-                                else {
-                                    toastr.warning(result.text);
-                                }
-                            }
-                            else {
-                                $('#myModalContent_ChangePass').html(result);
-                            }
-                        },
-                        error: function (errormessage) {
-                            alert(errormessage.responseText);
-                        },
-                        failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
+                        else {
+                            $('#myModalContent_ChangePass').html(result);
                         }
-                    });
-                }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
             }
+        }
 
-        </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+
     <!--Kết thúc Script chạy Active trên Menu-->
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
@@ -831,7 +833,7 @@
     <script src="~/MainElement/js/site.js"></script>
     <script src="~/js/datatableExt.js"></script>
 
-    <link rel="stylesheet" href="~/css/PagedList.css" />
+
 
 
 
