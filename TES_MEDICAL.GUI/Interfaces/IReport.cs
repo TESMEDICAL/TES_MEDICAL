@@ -10,5 +10,7 @@ namespace TES_MEDICAL.GUI.Interfaces
     {
         Task<IEnumerable<HoaDon>> GetAllHoaDon();
         Task<HoaDon> Get(string MaHD);
+
+        
     }
 }
