@@ -14,5 +14,6 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuKham> GetPK(Guid MaPK);
         Task<IEnumerable<Thuoc>> GetAllThuoc();
         Task<IEnumerable<PhieuKham>> GetLichSu(Guid MaBN);
+
     }
 }

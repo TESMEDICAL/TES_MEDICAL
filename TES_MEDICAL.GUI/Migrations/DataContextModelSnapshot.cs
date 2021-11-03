@@ -288,11 +288,28 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaThuoc")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Chieu")
+                        .HasColumnType("bit");
+
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LanTrongNgay")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Sang")
+                        .HasColumnType("bit");
+
                     b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Trua")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TruocKhian")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("VienMoiLan")
                         .HasColumnType("int");
 
                     b.HasKey("MaPK", "MaThuoc")
@@ -720,6 +737,7 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("MaTL")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NoiDung")
@@ -1002,7 +1020,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.TheLoai", "MaTLNavigation")
                         .WithMany("TinTuc")
                         .HasForeignKey("MaTL")
-                        .HasConstraintName("FK__TinTuc__MaTL__71D1E811");
+                        .HasConstraintName("FK__TinTuc__MaTL__71D1E811")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("MaNguoiVietNavigation");
 

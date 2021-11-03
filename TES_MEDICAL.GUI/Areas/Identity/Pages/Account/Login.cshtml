@@ -3,82 +3,129 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = null;
 }
 
-<h1>@ViewData["Title"]</h1>
+<meta charset="utf-8">
+<title>NHÂN VIÊN - ĐĂNG NHẬP</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+
+<!-- Icons -->
+<!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<!-- END Icons -->
+<!-- Stylesheets -->
+<!-- Bootstrap is included in its original form, unaltered -->
+<link rel="stylesheet" href="~/MainElement/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/toastr.css">
+
+
+
+<!-- Related styles of various icon packs and plugins -->
+<link rel="stylesheet" href="~/MainElement/css/plugins.css">
+
+<!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+<link rel="stylesheet" href="~/MainElement/css/main.css">
+
+<!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+<!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+<link rel="stylesheet" href="~/MainElement/css/themes.css">
+<!-- END Stylesheets -->
+<!-- Modernizr (browser feature detection library) -->
+<script src="~/MainElement/js/vendor/modernizr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    #login-container .login-title {
+        padding: 20px 10px;
+        background: #444444;
+        /* background: rgba(0, 0, 0, 0.836); */
+        background: rgb(54, 172, 105);
+    }
+</style>
+
+
 <div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
+    <img src="~/MainElement/img/background.jpg" alt="Login Full Background" class="full-bg animation-pulseSlow">
+
+    <!-- Login Container -->
+    <div id="login-container" class="animation-fadeIn" style="margin-top: -100px;">
+        <!-- Login Title -->
+        <div class="login-title text-center">
+            <h1><strong>TES MEDICAL</strong><br></h1>
+            <!-- <h1><strong>TES MEDICAL</strong><br><small>Please <strong>Login</strong> or <strong>Register</strong></small></h1> -->
+        </div>
+        <!-- END Login Title -->
+        <!-- Login Block -->
+        <div class="block push-bit">
+            <!-- Login Form -->
+            <form id="account" method="post" class="form-horizontal form-bordered form-control-borderless m-auto">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-envelope-open-text"></i></span>
+                            <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email">
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-lock-alt"></i></span>
+                            <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <label class="col-sm-4" data-toggle="tooltip" title="Remember Me?">
+                                <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
+                                <span></span>
+                            </label>
+                            <p class="col-sm-8" style="margin-left: -50px; color: rgb(54, 172, 105);">Ghi nhớ đăng nhập</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a id="link-reminder-login" style="color: rgb(54, 172, 105);" href="@Url.Action("ForgotPassword","Identity")">Quên mật khẩu ?</a>
+                    </div>
+
                 </div>
                 <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
+                    <div class="col-xs-12 text-center" style="margin-bottom: 10px;">
+                        <button type="submit" class="btn" style="width: 250px; background-color: rgb(54, 172, 105); color: white;">Đăng nhập</button>
+                    </div>
+
+                    <div class="form-google col-xs-12 text-center">
+                        <a href="" class="btn" style="border: 1px solid gray; border-radius: 5px; width: 250px; color: black">
+                            <img style="margin-right: 20px;" src="~/MainElement/img/google.jpg" width="20px;" alt="">  Đăng nhập với Google
+                        </a>
+                    </div>
                 </div>
             </form>
-        </section>
+            <!-- END Login Form -->
+
+            
+            
+        </div>
+        <!-- END Login Block -->
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+
+
 </div>
+
+
+
+<script src="~/MainElement/js/vendor/jquery.min.js"></script>
+<script src="~/MainElement/js/vendor/bootstrap.min.js"></script>
+<script src="~/MainElement/js/plugins.js"></script>
+<script src="~/MainElement/js/app.js"></script>
+
+<!-- Load and execute javascript code used only in this page -->
+<script src="~/MainElement/js/pages/login.js"></script>
+<script>$(function () { Login.init(); });</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

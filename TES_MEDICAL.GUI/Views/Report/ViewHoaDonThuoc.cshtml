@@ -1,11 +1,11 @@
 ﻿@using TES_MEDICAL.GUI.Models
-@model List<FileModel>
+@model IEnumerable<TES_MEDICAL.GUI.Models.HoaDonThuoc>
 @{
     ViewData["Title"] = "ViewHoaDon";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
-<h4 style="text-align:center; font-weight:bold">XEM HOÁ ĐƠN</h4>
+<h4 style="text-align:center; font-weight:bold">THỐNG KÊ HOÁ ĐƠN THUỐC</h4>
 <br />
 
 <div class="col-12 p-5">
@@ -13,24 +13,75 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Tên hoá đơn</th>
+                    <th scope="col">Ngày lập hóa đơn</th>
+                    <th scope="col">Người lập hóa đơn</th>
+                    <th scope="col">Bác sĩ khám</th>
                     <th scope="col">Thao tác</th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (FileModel file in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@file.FileName</td>
-                        <td><i class="fas fa-download"> @Html.ActionLink("Download", "DownloadFile1", new { fileName = file.FileName })</i></td>
-                    </tr>
+                        <td>@item.NgayHD</td>
+                        <td>@item.MaNVNavigation.HoTen</td>
 
+                        <td>@item.MaPKNavigation.MaPhieuKhamNavigation.MaBSNavigation.HoTen</td>
+                        <td><a class="btn btn-dark btn-sm active" onclick="OpenDetail('@item.MaHD')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
 
 </div>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-fullscreen">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            @*<div class="modal-footer">
+                    <div class="text-right">
+                        <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                        <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                        <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //Hàm mở modal detail hoá đơn dịch vụ
+    function OpenDetail(_maHD) {
+        $.ajax({
+            url: "/Report/DetailThuoc/",
+            type: 'GET',
+            data: {
+                MaHD: _maHD
+            },
+            success: function (response) {
+                $("#myModalContent").html(response);
+                $('#myModal').modal('show');
+            }
+        });
+    }
+</script>
 
 

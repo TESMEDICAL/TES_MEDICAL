@@ -2,13 +2,22 @@
 
 @model TES_MEDICAL.GUI.Models.NhanVienYte
 
+<style>
+    .details-img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        object-position: center center;
+    }
+</style>
+
 <div class="container-fluid" id="pannelNguoiDung">
     <h4 style="text-align:center; font-weight:bold">THÔNG TIN NHÂN VIÊN Y TẾ</h4>
     <hr />
     <div class="row m-4">
         <!--Phần hình ảnh-->
         <div class="col-sm-4">
-             <img src="~/images/@Model.Hinh"  style="width:200px" />
+             <img class="detail-img" src="~/images/@Model.Hinh" />
                 @*@Html.DisplayFor(model => model.HinhAnh)*@ 
             
 
