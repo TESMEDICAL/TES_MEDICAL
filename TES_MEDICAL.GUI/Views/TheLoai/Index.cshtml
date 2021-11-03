@@ -14,7 +14,7 @@
 <div class="m-3">
 
 
-    <div>
+    <div class="row">
 
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
@@ -24,20 +24,19 @@
                 @Html.EditorFor(model => model.TenTLSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thể loại" } })
             </div>
 
-
-
-
-
-
-
-            <div class="col-4">
+            <div class="col-3">
 
                 <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
 
                 <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
                 <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
             </div>
-
+            <div class="form-check col-6 ms-auto text-right">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Hiện tất cả
+                </label>
+            </div>
 
 
         }
