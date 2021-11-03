@@ -8,48 +8,58 @@
 
 @using X.PagedList;
 @using X.PagedList.Web.Common
+
+<style>
+    .listname-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        object-position: center center;
+    }
+</style>
+
 <div id="list" >
    
     <div style="min-height:400px">
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
             <thead class="bg-success">
                 <tr>                                               
-                    <th>
+                    <th class="col-2">
                         Họ tên
                     </th>
                                                                        
-                    <th>
+                    <th class="col-2">
                         Số điện thoại
                     </th>
                                                                        
-                    <th>
+                    <th class="col-1 text-center">
                         Chức vụ
                     </th>
                                                                        
-                    <th> 
+                    <th class="col-1 text-center"> 
                         Trạng thái
                     </th>
                                                                        
-                    <th>
+                    <th class="col-2 text-center">
                         Hình ảnh
                     </th>
                                                                        
-                    <th>
+                    <th class="col-2 text-center">
                         Chuyên khoa
                     </th>
                                                               
-                    <th>Thao tác</th>
+                    <th class="col-2 text-center">Thao tác</th>
                 </tr>
             </thead>
             <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<NhanVienYte>)
                 {
                     <tr>
-                        <td>@item.HoTen</td>
+                        <td class="col-2">@item.HoTen</td>
 
-                        <td>@item.PhoneNumber</td>
+                        <td class="col-2">@item.PhoneNumber</td>
 
-                        <td>
+                        <td class="col-1 text-center">
                             @if (item.ChucVu == 1)
                             {
                                 @("Nhân viên y tế")
@@ -64,15 +74,15 @@
                             }
                         </td>
 
-                        <td>@item.TrangThai</td>
+                        <td class="col-1 text-center">@item.TrangThai</td>
 
-                        <td>
-                            <img src="~/images/@item.Hinh" style="width:100px" />
+                        <td class="col-2 text-center">
+                            <img class="listname-img" src="~/images/@item.Hinh" />
                         </td>
                         
-                        <td>@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</td>
+                        <td class="col-2 text-center">@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</td>
 
-                        <td class="text-nowrap"><a class="btn btn-danger btn-sm active" onclick="_delete('@item.Id')"> <i class="fa fa-trash"></i></a>&nbsp;<a class="btn btn-dark btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+                        <td class="text-nowrap col-2 text-center"><a class="btn btn-danger btn-sm active" onclick="_delete('@item.Id')"> <i class="fa fa-trash"></i></a>&nbsp;<a class="btn btn-dark btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
 
                     </tr>
                 }

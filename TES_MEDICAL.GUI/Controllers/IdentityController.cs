@@ -137,17 +137,28 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordModel)
         {
-            if (!ModelState.IsValid)
-                return View(forgotPasswordModel);
-            var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
-            if (user == null)
+            var request = HttpContext.Request;
+
+            if (ModelState.IsValid)
+            {
+               
+                var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
+                if (user == null)
+                {
+                    ViewBag.Error = "Email chưa được đăng ký !";
+                    return View();
+                }
+                    
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callback = Url.Action(nameof(ResetPassword), "Identity", new { token, email = user.Email }, Request.Scheme);
+                //var callback = $"{request.Scheme}://{request.Host}/", new { token, email = user.Email }
+                Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", $"Nhấn vào đây để đặt lại mật khẩu: <br><a href='{callback}'>Khôi phục mật khẩu</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callback = Url.Action(nameof(ResetPassword), "Account", new { token, email = user.Email }, Request.Scheme);
-            //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
-            Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", token);
-            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            }
+            return View();
         }
+
+
 
         public IActionResult ForgotPasswordConfirmation()
         {
@@ -164,8 +175,39 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordModel)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(resetPasswordModel);
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPasswordConfirmation));
+
+
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return View();
+            }
+                if (user.ChucVu == 1)
+                {
+                    await _userManager.AddToRoleAsync(user, "nhanvien");
+                }
+                else if (user.ChucVu == 2)
+                {
+                    await _userManager.AddToRoleAsync(user, "bacsi");
+                }
+                else
+                {
+                await _userManager.AddToRoleAsync(user, "duocsi");
+            }
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
         }
+
         [HttpGet]
         public IActionResult ResetPasswordConfirmation()
         {

@@ -68,7 +68,7 @@ namespace TES_MEDICAL.GUI.Helpers
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

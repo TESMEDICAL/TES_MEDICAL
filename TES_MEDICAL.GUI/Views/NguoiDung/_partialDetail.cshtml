@@ -1,5 +1,13 @@
 @model TES_MEDICAL.GUI.Models.NguoiDung
 
+<style>
+    .detail-img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        object-position: center center;
+    }
+</style>
 
 <div class="container-fluid" id="pannelNguoiDung">
     <h4 style="text-align:center; font-weight:bold">THÔNG TIN NGƯỜI DÙNG</h4>
@@ -7,7 +15,7 @@
     <div class="row m-4">
         <!--Phần hình ảnh-->
         <div class="col-sm-4">
-             <img src="~/images/@Model.HinhAnh"  style="width:200px" />
+             <img class="detail-img" src="~/images/@Model.HinhAnh" />
                 @*@Html.DisplayFor(model => model.HinhAnh)*@ 
             @*<img src="/img/bs.png" style="width:200px" />*@
 

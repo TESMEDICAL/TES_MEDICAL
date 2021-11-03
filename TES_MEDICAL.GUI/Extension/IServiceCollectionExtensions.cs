@@ -47,6 +47,9 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<IKhamBenh, KhamBenhsvc>()
                 .AddScoped<ITheLoai, TheLoaisvc>()
                 .AddScoped<ITinTuc, TinTucsvc>()
+
+                .AddScoped<IAutoBackground, AutoBackgroundSvc>()
+
                 .AddScoped<IDuocSi, DuocSisvc>();
 
                 
