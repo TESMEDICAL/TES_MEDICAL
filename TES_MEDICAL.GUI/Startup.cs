@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -56,8 +56,16 @@ namespace TES_MEDICAL.GUI
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
-            services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
-           
+
+            services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(120); });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+                
+            //    options.Cookie.Name = ".AspNetCore.Identity.Application";
+            //    //options.ExpireTimeSpan = TimeSpan.FromHours(1);
+            //    options.SlidingExpiration = true;
+            //});
+
             //        services.AddAuthentication()
             //.AddGoogle(googleOptions =>
             //{
@@ -75,8 +83,7 @@ namespace TES_MEDICAL.GUI
     .AddCookie(options =>
     {
 
-        options.Cookie.Name = ".AspNetCore.Identity.Application";
-        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+      
         options.SlidingExpiration = true;
       
     }
@@ -142,9 +149,12 @@ namespace TES_MEDICAL.GUI
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
             });
 
 

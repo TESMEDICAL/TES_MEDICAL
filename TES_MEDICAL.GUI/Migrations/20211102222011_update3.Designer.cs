@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211102222011_update3")]
+    partial class update3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,10 +290,11 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaThuoc")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Chieu")
+                    b.Property<bool>("Chiều")
                         .HasColumnType("bit");
 
                     b.Property<string>("GhiChu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LanTrongNgay")

@@ -99,7 +99,7 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        return LocalRedirect("~/DuocSi/");
+                        return LocalRedirect("~/Bacsi/");
                     }
                 }
                 if (result.RequiresTwoFactor)

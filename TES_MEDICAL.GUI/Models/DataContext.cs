@@ -209,7 +209,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.HasKey(e => new { e.MaPK, e.MaThuoc })
                     .HasName("PK__ChiTietT__339EF89FCA764F6C");
 
-                entity.Property(e => e.GhiChu).IsRequired();
+                entity.Property(e => e.GhiChu);
 
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.ChiTietToaThuoc)
