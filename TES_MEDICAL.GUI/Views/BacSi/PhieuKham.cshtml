@@ -1,81 +1,251 @@
-﻿
+﻿@model PhieuKhamViewModel
+@{
+    ViewData["Title"] = "ThemPhieuKham";
+    Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+
+
+
+
+
+
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
 
 <div class="col-12">
     <div class="block">
         <div class="block-title">
             <h2><strong>Phiếu khám</strong></h2>
         </div>
-        <div style="float:left;">
-            <input placeholder="Tìm kiếm theo tên">
-            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-        </div>
 
         <br />
 
-        <div class="form-group">
-            <table class=" table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">STT</th>
-                        <th></th>
-                        <th scope="col">Họ tên</th>
-                        <th scope="col">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th></th>
-                        <th>1</th>
-                        <th></th>
-                        <td>Đặng Quỳnh Di</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <th>2</th>
-                        <th></th>
-                        <td>Trần Ngọc Lụa</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <th>3</th>
-                        <th></th>
-                        <td>Bùi Ngọc Huyền</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <th>4</th>
-                        <th></th>
-                        <td>Nguyễn Diệu Linh</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="form-group" id="listLich">
+            <div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>
 
         </div>
 
     </div>
 </div>
+
+@section scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+    <script type="text/javascript" src="~/js/datetime.js"></script>
+
+
+    <script>
+        var table;
+        var obj = {};
+        $(document).ready(
+
+            function () {
+
+                ReloadPage();
+
+            });
+
+        ////Hàm mở modal của Chi tiết đặt lịch
+        function Detail(_id) {
+            $.ajax({
+                url: "/TiepNhan/ChiTietDatLich/",
+                type: 'GET',
+                data: {
+                    id: _id
+                },
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').show();
+                    $('#btupdate').hide();
+
+                }
+            });
+        }
+        //Mở modal edit đặt lịch
+        function Edit(_id) {
+            $.ajax({
+                url: "/TiepNhan/Edit/",
+                type: 'GET',
+                data: {
+                    id: _id
+                },
+                success: function (response) {
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').show();
+                    $('#btupdate').hide();
+
+                }
+            });
+        }
+        var $id = "";
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
+        var $modalins = $('#myModalins');
+        var $myModalContentins = $("#myModalContentins");
+        var $myModalTitle = $("#myModalTitle");
+        var $myModalTitleins = $("#myModalTitleins");
+        $("#btSave").click(function () {
+
+            if ($("#frm").valid()) {
+
+                var obj = $("#frm").serialize();
+                console.log(new Date(obj.NgayKham))
+                $.ajax({
+                    type: "POST",
+                    url: "/TiepNhan/Edit",
+                    dataType: "json",
+                    data: obj,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+                            toastr.success(result.text);
+                            ReloadPage()
+
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                        ReloadPage();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+
+            }
+        });
+
+
+        function ReloadPage() {
+            $('#listLich').html('<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>')
+
+            $.ajax({
+                url: '/BacSi/ReloadPage/',
+                type: "GET",
+                timeout: 20000,
+                async: false,
+                dataType: "json",
+                data: {
+                    MaBS: "c3c33798-e2d5-4a62-a0ae-2b061ec1828f"
+                },
+                success: function (obj) {
+                    console.log(obj);
+
+                    $('#listLich').html('<table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%"></table >')
+                    table = $('#ListTable').DataTable({
+                        destroy: true,
+                        data: obj,
+                        columns: [
+                            { data: 'STT', title: 'Số thứ tự' },
+                            { data: 'HoTen', title: 'Họ tên' },
+                            {
+                                title: 'Thao tác',
+                                data: null,
+                                render: function (data) {
+                                    return `<a class="btn btn-info btn-sm active" title="Khám bệnh" href="/Bacsi/KhamBenh?MaPK=${data.MaPK}"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
+                                <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>`;
+                                }
+                            },
+                            {
+                                visible: false,
+                                title: 'UuTien',
+                                data: null,
+                                render: function (data) {
+                                    return data.UuTien;
+                                }
+                            },
+                            {
+                                visible: false,
+                                title: 'Khongdau',
+                                data: null,
+                                render: function (data) {
+                                    return accents_supr(data.hoTen);
+                                }
+                            }
+
+
+                        ],
+
+                        "order": [[3, "asc"], [0, "asc"]],
+                        "language": {
+                            "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                            "zeroRecords": "Không có kết quả",
+                            "info": "Trang: _PAGE_ / _PAGES_",
+                            "infoEmpty": "Không có yêu cầu nào",
+                            "infoFiltered": "(filtered from _MAX_ total records)",
+                            "search": "Tìm: ",
+                            "paginate": {
+                                "first": "Trang đầu",
+                                "last": "Trang cuối",
+                                "next": ">",
+                                "previous": "<"
+                            },
+                        }
+
+
+
+
+
+
+                    });
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+
+            });
+        }
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalServer")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        // Start the connection.
+        start();
+
+
+        connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
+
+            toastr.success("Có một lịch đặt mới");
+            table.row.add({
+                'TenBN': Ten,
+                'NgaySinh': NgaySinh,
+                'SDT': SDT,
+                'NgayKham': NgayKham,
+                'Khong dau': accents_supr(Ten),
+                'Thao tác': `<a onclick =Edit('${MaPhieu}') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick = Detail('${MaPhieu}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`
+            }).draw(false);
+
+
+        });
+
+
+
+    </script>
+}
 

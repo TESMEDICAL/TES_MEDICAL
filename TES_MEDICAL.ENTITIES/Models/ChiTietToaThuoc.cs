@@ -10,6 +10,12 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaPK { get; set; }
         public Guid MaThuoc { get; set; }
         public int SoLuong { get; set; }
+        public int LanTrongNgay { get; set; }
+        public int VienMoiLan { get; set; }
+        public bool TruocKhian { get; set; }
+        public bool Sang { get; set; }
+        public bool Trua { get; set; }
+        public bool Chieu { get; set; }
         public string GhiChu { get; set; }
 
         public virtual ToaThuoc MaPKNavigation { get; set; }
