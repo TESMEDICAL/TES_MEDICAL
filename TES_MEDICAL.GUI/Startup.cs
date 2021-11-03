@@ -24,8 +24,12 @@ using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Services;
+
+using Hangfire;
+
 using Microsoft.AspNetCore.Identity;
 using System.Net;
+
 
 namespace TES_MEDICAL.GUI
 {
@@ -53,13 +57,7 @@ namespace TES_MEDICAL.GUI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
-            services.ConfigureApplicationCookie(options =>
-            {
-                
-                options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                options.SlidingExpiration = true;
-            });
+           
             //        services.AddAuthentication()
             //.AddGoogle(googleOptions =>
             //{
@@ -122,6 +120,19 @@ namespace TES_MEDICAL.GUI
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+
+
+
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseDefaultTypeSerializer()
+                //.UseMemoryStorage() 
+                .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
+            );
+            services.AddHangfireServer();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
    .AddRazorPagesOptions(options =>
    {
@@ -136,11 +147,12 @@ namespace TES_MEDICAL.GUI
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
+
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -174,6 +186,12 @@ namespace TES_MEDICAL.GUI
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
             });
+            app.UseHangfireDashboard();
+            recurringJobManager.AddOrUpdate(
+                "Run every minute",
+                () => serviceProvider.GetService<IAutoBackground>().AutoDelete(),
+                "00 19 * * *"
+                );
         }
     }
 }
