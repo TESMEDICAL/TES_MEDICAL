@@ -166,7 +166,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("TenThuoc", "Tên thuốc đã tồn tại");
-                    return PartialView("_partialAdd", model);
+                    return PartialView("_partialedit", model);
                 }
 
                 if (result.errorCode == 0)
