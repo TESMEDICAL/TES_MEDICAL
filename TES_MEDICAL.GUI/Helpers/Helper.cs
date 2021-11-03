@@ -40,9 +40,9 @@ namespace TES_MEDICAL.GUI.Helpers
             try
             {
 
-                var senderEmail = new MailAddress("cskh.tesmedical@gmail.com");
+                var senderEmail = new MailAddress("jamesky9401@gmail.com");
                 var receiverEmail = new MailAddress(receiver, "Khách Hàng");
-                var password = "Online1@!";
+                var password = "Anhthu1521@@";
                 var sub = Subject;
                 var body = message;
                 var smtp = new SmtpClient
@@ -68,7 +68,7 @@ namespace TES_MEDICAL.GUI.Helpers
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
