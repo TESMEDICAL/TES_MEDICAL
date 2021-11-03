@@ -48,7 +48,8 @@ namespace TES_MEDICAL.GUI.Extension
                 .AddScoped<ITheLoai, TheLoaisvc>()
                 .AddScoped<ITinTuc, TinTucsvc>()
 
-                .AddScoped<IAutoBackground, AutoBackgroundSvc>();
+                .AddScoped<IAutoBackground, AutoBackgroundSvc>()
+                .AddScoped<IReport, ReportSvc>()
 
                 .AddScoped<IDuocSi, DuocSisvc>();
 
