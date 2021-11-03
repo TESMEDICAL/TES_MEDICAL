@@ -74,6 +74,7 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
             returnUrl ??= Url.Content("~/TiepNhan/quanlydatlich");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -82,11 +83,24 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(Input.Email);
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect("~/TiepNhan/quanlydatlich");
+                    if (user.ChucVu == 1)
+                    {
+                        return LocalRedirect("~/TiepNhan/ThemPhieuKham");
+                    }
+                    else if (user.ChucVu == 3)
+                    {
+                        return LocalRedirect("~/DuocSi/ToaThuoc");
+                    }
+                    else
+                    {
+                        return LocalRedirect("~/DuocSi/");
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {

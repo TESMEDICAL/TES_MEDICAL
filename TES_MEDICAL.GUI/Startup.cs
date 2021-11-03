@@ -45,6 +45,10 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Token tồn tại trong 2 tiếng
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.     TokenLifespan = TimeSpan.FromHours(2));
+
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
