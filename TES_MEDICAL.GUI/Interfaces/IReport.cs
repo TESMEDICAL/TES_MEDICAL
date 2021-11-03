@@ -11,6 +11,9 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<IEnumerable<HoaDon>> GetAllHoaDon();
         Task<HoaDon> Get(string MaHD);
 
-        
+        Task<IEnumerable<HoaDonThuoc>> GetAllHoaDonThuoc();
+        Task<HoaDonThuoc> GetTTHDThuoc(string MaHD);  
+
+
     }
 }

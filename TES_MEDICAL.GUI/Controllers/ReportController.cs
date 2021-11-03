@@ -36,15 +36,6 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ViewHoaDon()
         {
 
-            //string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/"));
-            //List<FileModel> files = new List<FileModel>();
-
-            //foreach (string filePath in filePaths)
-            //{
-            //    files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
-
-            //}
-
             return View(await _service.GetAllHoaDon());
 
         }
@@ -64,45 +55,68 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-        public FileResult DownloadFile(string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
 
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
+        
 
 
         //Xem và tải hoá đơn thuốc
-        public IActionResult ViewHoaDonThuoc()
+        [HttpGet]
+        public async Task<IActionResult> ViewHoaDonThuoc()
         {
 
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
-            List<FileModel> files = new List<FileModel>();
+            //string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
+            //List<FileModel> files = new List<FileModel>();
 
-            foreach (string filePath in filePaths)
+            //foreach (string filePath in filePaths)
+            //{
+            //    files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+            //}
+
+            return View(await _service.GetAllHoaDonThuoc());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailThuoc(string MaHD)
+        {
+            if (await _service.GetTTHDThuoc(MaHD) == null)
             {
-                files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+                return NotFound(); ;
             }
+            else
+            {
 
-            return View(files);
+
+                return PartialView("_partialDetailThuoc", await _service.GetTTHDThuoc(MaHD));
+            }
         }
 
-        public FileResult DownloadFile1(string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
 
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
+
+        //public FileResult DownloadFile(string fileName)
+        //{
+        //    //Build the File Path.
+        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
+
+        //    //Read the File data into Byte Array.
+        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+        //    //Send the File to Download.
+        //    return File(bytes, "application/octet-stream", fileName);
+        //}
+
+        //public FileResult DownloadFile1(string fileName)
+        //{
+        //    //Build the File Path.
+        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
+
+        //    //Read the File data into Byte Array.
+        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+        //    //Send the File to Download.
+        //    return File(bytes, "application/octet-stream", fileName);
+        //}
 
 
 
