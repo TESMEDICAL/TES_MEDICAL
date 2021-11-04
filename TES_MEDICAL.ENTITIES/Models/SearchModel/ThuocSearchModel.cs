@@ -16,6 +16,7 @@ namespace TES_MEDICAL.GUI.Models
         DonGiaSearch
         { get; set; }
         public String ThongTinSearch { get; set; }
+        //public string KeywordSearch { get; set;t }
     }
 }
 

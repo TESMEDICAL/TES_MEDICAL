@@ -19,6 +19,8 @@ using System.IO;
 using SelectPdf;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -30,14 +32,16 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDichVu _dichvuRep;
         private readonly INhanVienYte _nhanvienyteRep;
         private readonly IHubContext<RealtimeHub> _hubContext;
+        private UserManager<NhanVienYte> _userManager;
       
         public TiepNhanController(
             ITiepNhan service,
             IChuyenKhoa chuyenKhoaRep,
             IDichVu dichvuRep,
             INhanVienYte nhanVienYteRep,
-            IHubContext<RealtimeHub> hubContext
-           
+            IHubContext<RealtimeHub> hubContext,
+            UserManager<NhanVienYte> userManager
+
 
 
             )
@@ -47,6 +51,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _dichvuRep = dichvuRep;
             _nhanvienyteRep = nhanVienYteRep;
             _hubContext = hubContext;
+            _userManager = userManager;
            
             
         }
@@ -128,7 +133,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
-
+            model.MaNVHD = (await _userManager.GetUserAsync(User)).Id;
             var result = await _service.CreatePK(model);
 
                     if (result != null)
