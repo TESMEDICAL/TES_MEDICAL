@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211103231804_update6")]
+    partial class update6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -621,9 +623,6 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasMaxLength(20)
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
-
-                    b.Property<byte>("TrangThai")
-                        .HasColumnType("tinyint");
 
                     b.Property<string>("TrieuChungSoBo")
                         .HasColumnType("nvarchar(max)");
