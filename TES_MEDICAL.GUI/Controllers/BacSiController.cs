@@ -18,11 +18,13 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IKhamBenh _khambenhRep;
         private readonly IThuoc _thuocRep;
         private readonly UserManager<NhanVienYte> _userManager;
-        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager)
+        private readonly IThuoc _thuocService;
+        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager, IThuoc thuocSerice)
         {
             _khambenhRep = khambenhRep;
             _thuocRep = thuocRep;
             _userManager = userManager;
+            _thuocService = thuocSerice;
         }
        
 
@@ -159,19 +161,60 @@ new JsonSerializerSettings
 
 
 
-        public IActionResult DanhSachThuoc()
+        public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
         {
-            return View();
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _thuocService.SearchByCondition(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Data = model;
+            return View(new ThuocSearchModel());
         }
 
-        public IActionResult ChiTietThuoc()
+        [HttpGet]
+        public async Task<IActionResult> PageList(ThuocSearchModel model)
         {
-            return PartialView("_ChiTietThuoc");
+
+            var listmodel = await _thuocService.SearchByCondition(model);
+            if (listmodel.Count() > 0)
+            {
+
+                if (!model.Page.HasValue) model.Page = 1;
+
+                ViewBag.Names = listmodel;
+                ViewBag.Data = model;
+
+                return PartialView("_NameListThuoc", listmodel);
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+
+
+        }
+
+        public async Task<IActionResult> ChiTietThuoc(Guid id)
+        {
+            if (await _thuocService.Get(id) == null)
+            {
+                return NotFound(); ;
+            }
+            else
+            {
+
+
+                return PartialView("_ChiTietThuoc", await _thuocService.Get(id));
+            }
         }
 
         public IActionResult ThemThuoc()
         {
             return PartialView("_ThemThuoc");
         }
+
+
+
     }
 }
