@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -17,11 +18,15 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaPK { get; set; }
         public string MaBS { get; set; }
         public Guid MaBN { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập tần số mạch")]
         public string Mach { get; set; }
         public string NhietDo { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập huyết áp")]
         public string HuyetAp { get; set; }
         public string TrieuChungSoBo { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập kết quả khám")]
         public string KetQuaKham { get; set; }
+        [Required(ErrorMessage = "Bạn cần nhập chẩn đoán")]
         public string ChanDoan { get; set; }
         public DateTime NgayKham { get; set; }
         public DateTime? NgayTaiKham { get; set; }
