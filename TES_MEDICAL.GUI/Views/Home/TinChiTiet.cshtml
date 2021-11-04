@@ -1,6 +1,7 @@
-﻿
+﻿@model TinTuc
+
 @{
-    ViewData["Title"] = "TinChiTiet";
+    ViewData["Title"] = Model.TieuDe;
     Layout = "~/Views/Shared/GuestLayout.cshtml";
 }
 <style>
@@ -22,7 +23,7 @@
     }
 </style>
 
-@model TinTuc
+
 
 @if (Model != null)
 {
@@ -47,16 +48,16 @@
                                     <div class="text-end col-sm-6" style="font-size: 13px; line-height: 5px;">
                                         <p><i class="fas fa-user"></i> @Model.MaNguoiVietNavigation.HoTen</p>
                                         <p><i class="fas fa-calendar-week"></i> 26/10/2021</p>
-                                        
+
                                     </div>
-                                     
+
                                     <div class="mt-3">
                                         @Html.Raw(Model.NoiDung)
                                     </div>
-                                    
-                                        
-                                    
-                                     
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -66,27 +67,27 @@
                 <div class="col-lg-4">
                     <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
                         <!-- Top Rated Product Widget -->
-                        
-                            <div class="widget ltn__top-rated-product-widget">
-                                <h4 class="ltn__widget-title ltn__widget-title-border">Tin liên quan</h4>
-                                <ul>
-                                    @foreach (var item in ViewBag.TL1)
-                                    {
-                                        <li>
-                                            <div class="row">
-                                                <div class="thumb col-sm-3" style="background-image: url(@item.Hinh);"></div>
-                                                <div class="text-wrap col-sm-9">
-                                                    <a asp-controller="Home" asp-action="TinChiTiet" asp-route-id="@item.MaBaiViet">
-                                                        <h6 class="card-title">@item.TieuDe</h6>
-                                                    </a>
-                                                    <p style="font-size: 10px"><i class="far fa-calendar-alt"></i> 26/10/2021</p>
-                                                </div>
-                                            </div>      
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                     
+
+                        <div class="widget ltn__top-rated-product-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Tin liên quan</h4>
+                            <ul>
+                                @foreach (var item in ViewBag.TL1)
+                                {
+                                    <li>
+                                        <div class="row">
+                                            <div class="thumb col-sm-3" style="background-image: url(@item.Hinh);"></div>
+                                            <div class="text-wrap col-sm-9">
+                                                <a asp-controller="Home" asp-action="TinChiTiet" asp-route-id="@item.MaBaiViet">
+                                                    <h6 class="card-title">@item.TieuDe</h6>
+                                                </a>
+                                                <p style="font-size: 10px"><i class="far fa-calendar-alt"></i> 26/10/2021</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
                     </aside>
                 </div>
             </div>
