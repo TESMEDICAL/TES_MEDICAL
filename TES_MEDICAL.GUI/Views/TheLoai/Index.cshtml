@@ -6,53 +6,102 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
+<style>
+    .main {
+        background-color: white;
+        font-family: Arial
+    }
+
+    .main-title {
+        background-color: lightgray;
+        height: 40px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px
+    }
+
+        .main-title h6 {
+            padding: 10px;
+        }
+
+    .header-left {
+        left: 0 auto;
+    }
+
+    .header-right {
+        padding-right: 25px;
+        margin-inline-start: auto;
+        text-align: right;
+    }
+
+    .form-select {
+        color: gray;
+    }
+
+    .header-btn button {
+        background-color: rgb(82, 183, 136);
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+        .header-btn button:hover {
+            background-color: rgb(118, 200, 147);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            transform: scale(1.1)
+        }
+
+    .form-check {
+        margin-right: 25px;
+    }
+
+    .name-list {
+        padding-inline: 15px;
+    }
+</style>
 
 
 
 
+<div class="main m-3">
+    <div class="main-title mb-4">
+        <h6>Quản lý thể loại</h6>
+    </div>
 
-<div class="m-3">
-
-
-    <div>
+    <div class="header row">
 
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
             @Html.AntiForgeryToken()
-
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenTLSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thể loại" } })
+            <div class="header-left col-sm-8 row">
+                <div class="header-input-1 col-4">
+                    <input type="text" class="form-control" asp-for="TenTLSearch" placeholder="Nhập tên thể loại ..." aria-label="Username" aria-describedby="basic-addon1">
+                    @*@Html.EditorFor(model => model.TenTLSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thể loại" } })*@
+                </div>
+                <div class="header-btn col-3">
+                    <button type="button" class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
+                </div>
             </div>
-
-
-
-
-
-
-
-            <div class="col-4">
-
-                <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-
-                <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
-                <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+            <div class="header-right col-sm-4 row">
+                <div class="header-btn col-7">
+                    <button type="button" class="btn" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                </div>
+                <div class="header-btn col-5">
+                    <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                </div>
             </div>
-
-
-
+            <div class="form-check ms-auto mb-2 text-right mt-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Hiện tất cả
+                </label>
+            </div>
         }
+    </div>
+    <div id="nameListContainer" class="mt-2" style="margin-inline: 15px">
+        <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TheLoai>" />
 
     </div>
-
-
-
-
-
 </div>
-<div id="nameListContainer">
-    <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TheLoai>" />
 
-</div>
 
 
 
@@ -76,10 +125,10 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
-                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelTheLoai')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btSave" class="btn" style="background-color: rgb(82, 183, 136); color: white;"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" id="btupdate" class="btn" style="background-color: rgb(82, 183, 136); color: white;"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" id="btPrint" class="btn" onclick="PrintPreview('pannelTheLoai')" style="background-color: rgb(22, 138, 173); color: white;"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" class="btn" id="btclose" data-bs-dismiss="modal" style="background-color: rgb(239, 71, 111); color: white;"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -87,8 +136,9 @@
     </div>
 </div>
 
-
-@section scripts{
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@section Scripts{
+    <script src="~/js/formToObject.js"></script>
     <script>
 
         var $id = "";
@@ -106,7 +156,7 @@
 
                     if ($("#frm").valid()) {
 
-                        var obj = $("#frm").serializeObject();
+                        var obj = $("#frm").serialize();
 
                         $.ajax({
                             type: "POST",
@@ -143,7 +193,7 @@
 
                     if ($("#frm").valid()) {
 
-                        var obj = $("#frm").serializeObject();
+                        var obj = $("#frm").serialize();
                         $.ajax({
                             type: "POST",
                             url: "/TheLoai/Edit",
@@ -188,13 +238,13 @@
 
             });
 
-         $(document).on('click', '.remove', function () {
+        $(document).on('click', '.remove', function () {
 
             $(this).parent().parent().remove();
 
         });
 
-         function AddView(child) {
+        function AddView(child) {
 
             $.ajax({
                 url: '/TheLoai/add' + child,
@@ -233,7 +283,7 @@
 
 
         function PrintPreview(id) {
-            $.print("#"+id);
+            $.print("#" + id);
         }
 
         function Edit(id_) {
@@ -254,7 +304,7 @@
                     $myModalContent.html(result);
                     $('#btSave').hide();
                     $('#btupdate').show();
-                      $('#btPrint').hide();
+                    $('#btPrint').hide();
                     $modal.modal('show');
 
 
@@ -284,7 +334,7 @@
                     $myModalContent.html(result);
                     $('#btSave').show();
                     $('#btupdate').hide();
-                      $('#btPrint').hide();
+                    $('#btPrint').hide();
                     $modal.modal('show');
 
 
@@ -297,7 +347,7 @@
 
         }
 
-          function _Detail(id_) {
+        function _Detail(id_) {
             $myModalContent.html("");
 
             $.ajax({
@@ -315,7 +365,7 @@
                     $myModalContent.html(result);
                     $('#btSave').hide();
                     $('#btupdate').hide();
-                      $('#btPrint').show();
+                    $('#btPrint').show();
                     $modal.modal('show');
 
 

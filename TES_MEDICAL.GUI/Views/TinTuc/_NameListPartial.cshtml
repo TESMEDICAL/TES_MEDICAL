@@ -8,67 +8,69 @@
 
 @using X.PagedList;
 @using X.PagedList.Web.Common
+
+<style>
+    .list-table {
+        min-height: 400px
+    }
+    list-table table {
+        border: 1px solid gray;
+    }
+    #thead {
+        background-color: rgb(82, 183, 136);
+        color: white;
+    }
+    .table-btn a:hover{
+        transform: scale(1.075)
+    }
+    .btn-edit {
+        background-color: rgb(17, 138, 178);
+    }
+    .btn-delete {
+        background-color: rgb(17, 138, 178);
+    }
+    .btn-infomation {
+        background-color: rgb(17, 138, 178);
+    }
+    .table-btn a i{
+        color: white;
+    }
+</style>
+
 <div id="list">
 
-    <div style="min-height:400px">
+    <div class="list-table" >
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
-            <thead class="bg-success">
-                <tr>
+                <tr id="thead">
 
                     <th>
-
                         Tiêu đề
                     </th>
 
-                    <th>
-
+                    <th class="text-center">
                         Trạng thái
                     </th>
 
-                    <th>
-
+                    <th class="text-center">
                         Thể loại
                     </th>
 
-                    <th>Thao tác</th>
+                    <th class="text-center">Thao tác</th>
                 </tr>
-            </thead>
-            <tbody class="tbody">
                 @foreach (var item in ViewBag.Names as IEnumerable<TinTuc>)
                 {
                     <tr>
-
-
-
-
                         <td>@item.TieuDe</td>
-
-
-
-
-
-
-
-
-                        <td>@item.TrangThai</td>
-
-
-
-
-
-
-
-
-                        <td>@item.MaTLNavigation.TenTL</td>
-
-
-
-
-                        <td class="text-nowrap"><a class="btn btn-info btn-sm btn-sm active" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaBaiViet')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaBaiViet')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
-
+                        <td class="text-center">@item.TrangThai</td>
+                        <td class="text-center">@item.MaTLNavigation.TenTL</td>
+                        <td class="table-btn text-nowrap text-center">
+                            <a class="btn-edit btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn-delete btn btn-sm active" title="Xóa" onclick="_delete('@item.MaBaiViet')"> <i class="fa fa-trash"></i></a>
+                            <a class="btn-infomation btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
                     </tr>
                 }
-            </tbody>
+
         </table>
     </div>
 
