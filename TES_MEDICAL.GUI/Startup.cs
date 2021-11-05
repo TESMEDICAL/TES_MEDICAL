@@ -41,13 +41,13 @@ namespace TES_MEDICAL.GUI
         }
 
         public IConfiguration Configuration { get; }
-     
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Token tồn tại trong 2 tiếng
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-   opt.     TokenLifespan = TimeSpan.FromHours(2));
+   opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddResponseCompression(opts =>
             {
@@ -60,7 +60,7 @@ namespace TES_MEDICAL.GUI
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(120); });
             //services.ConfigureApplicationCookie(options =>
             //{
-                
+
             //    options.Cookie.Name = ".AspNetCore.Identity.Application";
             //    //options.ExpireTimeSpan = TimeSpan.FromHours(1);
             //    options.SlidingExpiration = true;
@@ -83,9 +83,9 @@ namespace TES_MEDICAL.GUI
     .AddCookie(options =>
     {
 
-      
+
         options.SlidingExpiration = true;
-      
+
     }
     )
 
@@ -108,8 +108,9 @@ namespace TES_MEDICAL.GUI
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
             //       .AddEntityFrameworkStores<DataContext>();
-            services.AddDefaultIdentity<NhanVienYte>(options => { options.SignIn.RequireConfirmedAccount = false;
-                
+            services.AddDefaultIdentity<NhanVienYte>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
+
             }).AddRoles<IdentityRole>().AddErrorDescriber<CustomErrorDescriber>()
                    .AddEntityFrameworkStores<DataContext>();
             services
@@ -118,8 +119,8 @@ namespace TES_MEDICAL.GUI
               .AddRepositories();
 
             services.AddSignalR();
-        
-      
+
+
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -181,7 +182,7 @@ namespace TES_MEDICAL.GUI
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
-         
+
             app.UseAuthorization();
             //app.UseEndpoints(endpoints =>
             //{

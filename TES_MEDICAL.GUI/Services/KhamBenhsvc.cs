@@ -113,23 +113,23 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-     
+
 
         public async Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model)
         {
             IEnumerable<PhieuKham> listUnpaged = null;
-                if (model.TrangThai ==0)
+            if (model.TrangThai == 0)
             {
                 listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where((delegate (PhieuKham x)
                 {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai == 0&&x.STTPhieuKham!=null)
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai == 0 && x.STTPhieuKham != null)
                         return true;
                     else
                         return false;
                 })).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
 
             }
-                else
+            else
             {
 
                 listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Where((delegate (PhieuKham x)
@@ -139,12 +139,12 @@ namespace TES_MEDICAL.GUI.Services
                     else
                         return false;
                 })).OrderByDescending(x => x.NgayKham));
-            }    
+            }
 
 
-           
 
-           
+
+
 
 
 

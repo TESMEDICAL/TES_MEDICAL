@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -18,19 +17,13 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaPK { get; set; }
         public string MaBS { get; set; }
         public Guid MaBN { get; set; }
-        [Required(ErrorMessage = "Bạn cần nhập tần số mạch")]
         public string Mach { get; set; }
         public string NhietDo { get; set; }
-        [Required(ErrorMessage = "Bạn cần nhập huyết áp")]
         public string HuyetAp { get; set; }
         public string TrieuChungSoBo { get; set; }
-        [Required(ErrorMessage = "Bạn cần nhập kết quả khám")]
         public string KetQuaKham { get; set; }
-        [Required(ErrorMessage = "Bạn cần nhập chẩn đoán")]
         public string ChanDoan { get; set; }
         public DateTime NgayKham { get; set; }
-        [DataType(DataType.DateTime, ErrorMessage = "Ngày không hợp lệ")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? NgayTaiKham { get; set; }
         public byte TrangThai { get; set; }
 
@@ -41,15 +34,5 @@ namespace TES_MEDICAL.GUI.Models
         public virtual ICollection<ChiTietDV> ChiTietDV { get; set; }
         public virtual ICollection<ChiTietSinhHieu> ChiTietSinhHieu { get; set; }
         public virtual ICollection<HoaDon> HoaDon { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (NgayTaiKham < DateTime.Now)
-            {
-                yield return new ValidationResult(
-                    $"Ngày tái khám phải sau ngày hiện tại",
-                    new[] { nameof(NgayTaiKham) });
-            }
-        }
     }
 }
