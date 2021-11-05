@@ -11,14 +11,8 @@ namespace TES_MEDICAL.ENTITIES.Models.SearchModel
             public int? Page { get; set; }
             public string MaBS { get; set; }
             public String KeywordSearch { get; set; }   
-           
+            public byte TrangThai { get; set; }
     }
 
-    public class ResultPhieuKham
-    {
-        public Guid MaPK { get; set; }
-        public string TenBN { get; set; }
-        public string SDT { get; set; }
-        public DateTime NgayKham { get; set; }
-    }    
+   
 }

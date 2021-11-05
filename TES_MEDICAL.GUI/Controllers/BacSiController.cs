@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
@@ -18,35 +20,59 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IKhamBenh _khambenhRep;
         private readonly IThuoc _thuocRep;
         private readonly UserManager<NhanVienYte> _userManager;
-        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager)
+        private readonly IHubContext<SignalServer> _hubContext;
+        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager, IHubContext<SignalServer> hubContext)
         {
             _khambenhRep = khambenhRep;
             _thuocRep = thuocRep;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
        
 
         
         [HttpGet]
-        public async Task<IActionResult> ReloadPage()
+        public async Task<IActionResult> ReloadPageSTT(PhieuKhamSearchModel model)
         {
-            var MaBS = (await _userManager.GetUserAsync(User)).Id;
-            var listPK = await _khambenhRep.GetList(MaBS);
-            return Json(listPK, new JsonSerializerSettings());
+            
+            model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            model.TrangThai = 0;
+            var listmodel = await _khambenhRep.SearchByCondition(model);
+
+            if (!model.Page.HasValue) model.Page = 1;
+
+
+
+            ViewBag.Page = model.Page;
+            ViewBag.Names = listmodel;
+            ViewBag.Data = model;
+
+          
+          
+            return PartialView("_listSTTPhieuKham", listmodel);
         }
 
         [Route("/bacsi")]
         [Route("/bacsi/Phieukham")]
-        public async Task<IActionResult>PhieuKham()
+        public async Task<IActionResult>PhieuKham(PhieuKhamSearchModel model)
         {
+            model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            model.TrangThai = 0;
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _khambenhRep.SearchByCondition(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
+           
         }
 
         public async Task<IActionResult> KhamBenh(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
-            ViewBag.LichSuKham = item.MaBNNavigation.PhieuKham.Where(x => x.MaPK.ToString() != MaPK).ToList()??new List<PhieuKham>();
+            ViewBag.LichSuKham = item.MaBNNavigation.PhieuKham.Where(x => x.TrangThai >=1&&x.ToaThuoc!=null).ToList()??new List<PhieuKham>();
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
 new JsonSerializerSettings
 {
@@ -65,8 +91,7 @@ new JsonSerializerSettings
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-           
-         
+
             return PartialView("_XacNhanKetQua", item);
         }
 
@@ -93,10 +118,9 @@ new JsonSerializerSettings
 
             if (result != null)
             {
-                //var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
-                //await _hubContext.Clients.All.SendAsync("SentDocTor", model.MaBS, stt);
 
 
+                await _hubContext.Clients.All.SendAsync("SendToaThuoc");
                 return Json(new { status = 1, title = "", text = "Gửi thành công.", redirectUrL = Url.Action("PhieuKham", "BacSi"), obj = "" }, new JsonSerializerSettings());
             }
 
@@ -112,7 +136,9 @@ new JsonSerializerSettings
             {
                 item.MaThuocNavigation = new Thuoc();
                 item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
-            }    
+            }
+
+         
             return PartialView("_XacNhanKetQua",model);
         }
 
@@ -131,6 +157,7 @@ new JsonSerializerSettings
         public async Task<IActionResult> LichSuKham(PhieuKhamSearchModel model)
         {
             model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            model.TrangThai = 1;
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _khambenhRep.SearchByCondition(model);
 
@@ -142,6 +169,7 @@ new JsonSerializerSettings
         public async Task<IActionResult> PagePhieuKham(PhieuKhamSearchModel model)
         {
             model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            model.TrangThai = 1;
             var listmodel = await _khambenhRep.SearchByCondition(model);
            
                 if (!model.Page.HasValue) model.Page = 1;

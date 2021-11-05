@@ -9,12 +9,15 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
+using X.PagedList;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -171,12 +174,37 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        public async Task<IEnumerable<PhieuDatLich>> GetAllPhieuDatLich()
+        public async Task<IPagedList<PhieuDatLich>> SearchByCondition(PhieuDatLichSearchModel model)
         {
-            return await _context.PhieuDatLich.ToListAsync();
+
+
+            var listUnpaged = (_context.PhieuDatLich.Where((delegate (PhieuDatLich x)
+            {
+                if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.TenBN).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0))) 
+                    return true;
+                else
+                    return false;
+            })).OrderByDescending(x => x.NgayKham));
+
+
+
+
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+
+
+            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+
+
+
+
+
         }
-
-
 
 
 
