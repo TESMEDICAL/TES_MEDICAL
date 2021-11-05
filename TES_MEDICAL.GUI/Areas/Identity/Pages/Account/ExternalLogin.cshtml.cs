@@ -52,6 +52,10 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            
+            public string PassWord { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -83,11 +87,25 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: true, bypassTwoFactor : true);
             if (result.Succeeded)
             {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var user = await _userManager.FindByNameAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
+
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-                return LocalRedirect(returnUrl);
+                if (user.ChucVu == 1)
+                {
+                    return LocalRedirect("~/TiepNhan/ThemPhieuKham");
+                }
+                else if (user.ChucVu == 3)
+                {
+                    return LocalRedirect("~/DuocSi/ToaThuoc");
+                }
+                else
+                {
+                    return LocalRedirect("~/Bacsi/");
+                }
             }
             if (result.IsLockedOut)
             {
@@ -122,43 +140,33 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new NhanVienYte { UserName = Input.Email, Email = Input.Email };
 
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if (user != null && await _userManager.CheckPasswordAsync(user, Input.PassWord))
+
+                   
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
+                  var  result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                     
+                        await _signInManager.SignInAsync(user, isPersistent: true, info.LoginProvider);
 
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
-
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        if (user.ChucVu == 1)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            return LocalRedirect("~/TiepNhan/ThemPhieuKham");
                         }
-
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-
-                        return LocalRedirect(returnUrl);
+                        else if (user.ChucVu == 3)
+                        {
+                            return LocalRedirect("~/DuocSi/ToaThuoc");
+                        }
+                        else
+                        {
+                            return LocalRedirect("~/Bacsi/");
+                        }
                     }
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+               
             }
 
             ProviderDisplayName = info.ProviderDisplayName;
