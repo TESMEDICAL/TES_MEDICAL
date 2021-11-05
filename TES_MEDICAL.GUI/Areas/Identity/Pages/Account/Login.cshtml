@@ -45,10 +45,10 @@
 
 
 <div class="row">
-    <img src="~/MainElement/img/background.jpg" alt="Login Full Background" class="full-bg animation-pulseSlow">
+    <img src="~/MainElement/img/Background.png" alt="Login Full Background" class="full-bg animation-pulseSlow">
 
     <!-- Login Container -->
-    <div id="login-container" class="animation-fadeIn" style="margin-top: -100px;">
+    <div id="login-container" class="animation-fadeIn" style="margin-top: -5%;">
         <!-- Login Title -->
         <div class="login-title text-center">
             <h1><strong>TES MEDICAL</strong><br></h1>
@@ -78,17 +78,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group form-actions">
-                    <div class="col-xs-6">
-                        <div class="row">
-                            <label class="col-sm-4" data-toggle="tooltip" title="Remember Me?">
-                                <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
-                                <span></span>
-                            </label>
-                            <p class="col-sm-8" style="margin-left: -50px; color: rgb(54, 172, 105);">Ghi nhớ đăng nhập</p>
-                        </div>
+                <div class="form-group form-actions" style="display: flex; margin-inline: 10px;">
+                    <div 
+                         @*class="col-xs-7"*@
+                         style="width: 50%;">
+                        <label data-toggle="tooltip" title="Remember Me?">
+                            <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
+                            <span style="font-weight: 400; color: rgb(54, 172, 105); "> Ghi nhớ đăng nhập</span>
+                        </label>
                     </div>
-                    <div class="col-xs-6 text-right">
+                    <div 
+                         @*class="col-xs-5 text-right"*@
+                         style="width: 50%; text-align: right;">
                         <a id="link-reminder-login" style="color: rgb(54, 172, 105);" href="@Url.Action("ForgotPassword","Identity")">Quên mật khẩu ?</a>
                     </div>
 
