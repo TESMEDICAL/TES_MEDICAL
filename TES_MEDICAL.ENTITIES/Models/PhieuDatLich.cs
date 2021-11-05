@@ -9,7 +9,7 @@ namespace TES_MEDICAL.GUI.Models
     public partial class PhieuDatLich
     {
        public string MaPhieu { get; set; }
-
+        [RegularExpression(@"^\(?([0-9]{3})[-. ]?([0-9]{4})[-. ]?([0-9]{3})$", ErrorMessage = "Số điện thoại không đúng")]
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
         public string SDT { get; set; }
 
