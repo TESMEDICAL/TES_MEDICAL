@@ -64,6 +64,11 @@ namespace TES_MEDICAL.GUI.Controllers
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
+                if(model.NgayKham<DateTime.Now)
+                {
+                    ModelState.AddModelError("NgayKham", "Ngày khám phải sau ngày hiện tại");
+                    return View(model);
+                }    
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {

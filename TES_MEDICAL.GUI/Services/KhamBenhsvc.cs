@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
+using X.PagedList;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -25,7 +28,7 @@ namespace TES_MEDICAL.GUI.Services
                           on x.MaPK equals y.MaPhieuKham
                           join bn in _context.BenhNhan
                           on x.MaBN equals bn.MaBN
-                          where x.MaBS == MaBS
+                          where x.MaBS == MaBS && y.TrangThai == false&&x.TrangThai ==0
                           select new STTViewModel
                           {
                               STT = y.STT,
@@ -43,19 +46,21 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<IEnumerable<PhieuKham>>GetLichSu(Guid MaBN)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x => _context.ToaThuoc.Any(y => y.TrangThai == 2&&y.MaPhieuKhamNavigation.MaPK == x.MaPK&&x.MaBN == MaBN)).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBN==MaBN&&x.TrangThai>=1).ToListAsync();
         }
 
         
 
         
 
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model,bool uutien)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model)
         {
             try
             {
+                var uuTien = (await _context.PhieuKham.Include(x => x.STTPhieuKham).FirstOrDefaultAsync(x => x.MaPK == model.MaPK)).STTPhieuKham.MaUuTien;
                 using (var transaction = _context.Database.BeginTransaction())
                 {
+                    
                     if(model.ChiTietSinhHieu.Count>0)
                     {
                         foreach (var item in model.ChiTietSinhHieu)
@@ -73,13 +78,15 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.KetQuaKham = model.KetQuaKham;
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
+                    phieuKham.TrangThai = 1;
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
-                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uutien ? "A" : "B" };
+                    var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
                     var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
 
-                    _context.Remove(sttpk);
+                    sttpk.TrangThai = true;
+                    _context.Update(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
 
@@ -92,6 +99,8 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
             }
         }
+
+        
 
         public async Task<ToaThuoc> GetToaThuoc(Guid MaPK)
         {
@@ -104,24 +113,54 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public async Task<ToaThuoc> AddToaThuoc(ToaThuoc model)
-        {
-            try
-            {
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    await _context.ToaThuoc.AddAsync(model);
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
+     
 
-                    return model;
-                }
-                
-            }
-            catch(Exception ex)
+        public async Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model)
+        {
+            IEnumerable<PhieuKham> listUnpaged = null;
+                if (model.TrangThai ==0)
             {
-                return null;
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where((delegate (PhieuKham x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai == 0&&x.STTPhieuKham!=null)
+                        return true;
+                    else
+                        return false;
+                })).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
+
             }
+                else
+            {
+
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Where((delegate (PhieuKham x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai >= 1)
+                        return true;
+                    else
+                        return false;
+                })).OrderByDescending(x => x.NgayKham));
+            }    
+
+
+           
+
+           
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+
+
+            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+
+
+
+
+
         }
+
     }
 }

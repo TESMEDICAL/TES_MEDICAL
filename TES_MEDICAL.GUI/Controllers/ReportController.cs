@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
@@ -12,10 +13,14 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ReportController : Controller
     {
         private IHostingEnvironment Environment;
-        public ReportController(IHostingEnvironment _environment)
+        private readonly IReport _service;
+        
+        public ReportController(IHostingEnvironment _environment, IReport service)
         {
             Environment = _environment;
+            _service = service;
         }
+
 
         public IActionResult Index()
         {
@@ -28,60 +33,92 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         //Xem và tải hoá đơn dịch vụ
-        public IActionResult ViewHoaDon()
+        public async Task<IActionResult> ViewHoaDon()
         {
 
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/"));
-            List<FileModel> files = new List<FileModel>();
+            return View(await _service.GetAllHoaDon());
 
-            foreach (string filePath in filePaths)
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(string MaHD)
+        {
+            if (await _service.Get(MaHD) == null)
             {
-                files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+                return NotFound(); ;
             }
+            else
+            {
 
-            return View(files);
 
+                return PartialView("_partialDetail", await _service.Get(MaHD));
+            }
         }
 
-        public FileResult DownloadFile(string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
 
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
+        
 
 
         //Xem và tải hoá đơn thuốc
-        public IActionResult ViewHoaDonThuoc()
+        [HttpGet]
+        public async Task<IActionResult> ViewHoaDonThuoc()
         {
 
-            string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
-            List<FileModel> files = new List<FileModel>();
+            //string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
+            //List<FileModel> files = new List<FileModel>();
 
-            foreach (string filePath in filePaths)
+            //foreach (string filePath in filePaths)
+            //{
+            //    files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+            //}
+
+            return View(await _service.GetAllHoaDonThuoc());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailThuoc(string MaHD)
+        {
+            if (await _service.GetTTHDThuoc(MaHD) == null)
             {
-                files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
+                return NotFound(); ;
             }
+            else
+            {
 
-            return View(files);
+
+                return PartialView("_partialDetailThuoc", await _service.GetTTHDThuoc(MaHD));
+            }
         }
 
-        public FileResult DownloadFile1(string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
 
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
+
+        //public FileResult DownloadFile(string fileName)
+        //{
+        //    //Build the File Path.
+        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
+
+        //    //Read the File data into Byte Array.
+        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+        //    //Send the File to Download.
+        //    return File(bytes, "application/octet-stream", fileName);
+        //}
+
+        //public FileResult DownloadFile1(string fileName)
+        //{
+        //    //Build the File Path.
+        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
+
+        //    //Read the File data into Byte Array.
+        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+        //    //Send the File to Download.
+        //    return File(bytes, "application/octet-stream", fileName);
+        //}
+
+
 
 
     }

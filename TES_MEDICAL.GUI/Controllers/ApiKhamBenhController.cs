@@ -51,7 +51,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost("ThemToa")]
         public async Task<IActionResult> ThemToa(PhieuKham model)
         {
-            return Ok(await _sevices.AddToaThuoc(model,false));
+            return Ok(await _sevices.AddToaThuoc(model));
         }
 
         [HttpGet("GetLichSu")]

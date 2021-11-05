@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<TES_MEDICAL.GUI.Models.ToaThuoc>
-
 @{
+
     ViewData["Title"] = "LỊCH SỬ THUỐC";
+
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+
 
 <style>
     .a {
@@ -18,66 +17,81 @@
 
 <div class="block">
     <div class="block-title">
-        <h2><strong>Lịch sử thuốc</strong></h2>
+        <h2><strong>Toa thuốc đang phát</strong></h2>
     </div>
+    <div class="m-3">
 
-    <div class="col-12" id="listToaThuocCTT">
-
-        <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
-
-    </div>
+        <div class="row">
 
 
 
-    <!--Model chính-->
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content">
+            <div class="col-8 mr-2">
+                <input class="mr-2 mb-2 form-control" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
 
-                <div class="modal-header">
-
-
-                </div>
-                <div class="modal-body">
-
-                    <div id="myModalContent">
-
-                    </div>
-                </div>
-
-
-                <div class="modal-footer">
-                    <div class="text-right">
-
-
-                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                    </div>
-                </div>
             </div>
 
+
+            <div class="col-2 ms-auto">
+
+
+                <button type="button" class="btn mr-2 btn-sm" style="background-color:seagreen; color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div id="nameListContainer">
+        <partial name="_ListLichSu" model="@ViewBag.Names as IPagedList<ToaThuoc>" />
+
+    </div>
+
+
+
+</div>
+
+<div class="modal fade" id="ModalChiTietThuoc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="myModalContent">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-right">
+
+
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
 
+
+
+
+
 @section Scripts{
+
    
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
     <script>
 
-        var table;
+      
         var obj = {};
         $(document).ready(
 
             function () {
 
-                ReloadPage(2);
+                ReloadPage(1);
 
             });
 
@@ -93,101 +107,79 @@
                 success: function (response) {
 
                     $("#myModalContent").html(response);
-                    $('#myModal').modal('show');
+                    $('#ModalChiTietThuoc').modal('show');
                     $('#btXacNhan').show();
                 }
             });
         }
 
-        var $id = "";
-        var $modal = $('#myModal');
-        var $myModalContent = $("#myModalContent");
-        var $modalins = $('#myModalins');
-        var $myModalContentins = $("#myModalContentins");
-        var $myModalTitle = $("#myModalTitle");
-        var $myModalTitleins = $("#myModalTitleins");
+        function ReloadPage(page) {
+            obj = {};
 
-        function ReloadPage(_trangthai) {
-            $('#listToaThuocCTT').html('<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>')
-
+            obj.Page = page;
+            obj.TrangThai = 2;
+            $("#TimKiem").val("");
             $.ajax({
-                url: '/DuocSi/ReloadPage/',
-                type: "GET",
+                url: '/DuocSi/ReloadPageLichSu/',
+
+                type: "Get",
                 timeout: 20000,
+
                 async: false,
-                dataType: "json",
-                data: {
-                    TrangThai: _trangthai
-                },
+
+                data: obj,
+
                 success: function (result) {
-                    console.log(result);
-                    $('#listToaThuocCTT').html('<table id="ListTable" class="table table-striped table-bordered text-center" style="width:100%"></table >')
-                    table = $('#ListTable').DataTable({
-                        destroy: true,
-                        data: result,
-                        columns: [
-                            /*{ data: 'stttoathuoc.stt', title: 'STT' },*/
-                            {
-                                visible: false,
-                                title: 'STT',
-                                data: null,
-                                render: function (data) {
-                                    return data.stttoathuoc.stt;
-                                }
-                            },
-                            { data: 'maPhieuKhamNavigation.maBNNavigation.hoTen', title: 'Tên bệnh nhân' },
-                            /*{ data: 'TrangThai', title: 'Trạng thái' },*/
-                            {
-                                title: 'Thao tác',
-                                data: null,
-                                render: function (data) {
-                                    return `<a onclick = Detail('${data.maPhieuKham}') class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i>  Xem chi tiết</a>`;
-                                }
-                            },
-                            {
-                                visible: false,
-                                title: 'Khong dau',
-                                data: null,
-                                render: function (data) {
-                                    return accents_supr(data.maPhieuKhamNavigation.maBNNavigation.hoTen);
-                                }
-                            },
-                            {
-                                visible: false,
-                                title: 'Do Uu Tien',
-                                data: null,
-                                render: function (data) {
-                                    return data.stttoathuoc.uuTien;
-                                }
-                            }
 
-                        ],
-                        "order": [[4, "asc"], [0, "asc"]],
-                        "language": {
-                            "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
-                            "zeroRecords": "Không có kết quả",
-                            "info": "Trang: _PAGE_ / _PAGES_",
-                            "infoEmpty": "Không có yêu cầu nào",
-                            "infoFiltered": "(filtered from _MAX_ total records)",
-                            "search": "Tìm: ",
-                            "paginate": {
-                                "first": "Trang đầu",
-                                "last": "Trang cuối",
-                                "next": ">",
-                                "previous": "<"
-                            },
-                        }
 
-                    });
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
+                    $('#nameListContainer').html(result);
                 },
 
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
             });
         }
+        $("#TimKiem").keyup(function () {
 
-        
+            obj = {};
+
+            obj.KeyWordSearch = $(this).val()
+            obj.TrangThai = 2;
+
+            obj.page = 1;
+            $.ajax({
+                url: '/DuocSi/ReloadPageLichSu/',
+
+                type: "Get",
+
+
+                data: obj,
+
+                success: function (result) {
+
+
+                    $('#nameListContainer').html(result);
+                },
+
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+
+
+
+
+        });
+
+
+        function Clear() {
+
+
+            ReloadPage(1);
+        }
+
+
     </script>
 }
 

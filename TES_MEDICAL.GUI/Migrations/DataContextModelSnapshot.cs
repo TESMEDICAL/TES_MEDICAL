@@ -622,6 +622,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<byte>("TrangThai")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("TrieuChungSoBo")
                         .HasColumnType("nvarchar(max)");
 
@@ -647,6 +650,9 @@ namespace TES_MEDICAL.GUI.Migrations
 
                     b.Property<int>("STT")
                         .HasColumnType("int");
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
 
                     b.HasKey("MaPhieuKham")
                         .HasName("PK__STTPhieu__FACA55DF6DAFE0DA");
