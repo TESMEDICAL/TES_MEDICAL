@@ -14,7 +14,7 @@
 
                     <th>
 
-                        Ngay Khám
+                        STT
                     </th>
 
                     <th>
@@ -22,14 +22,10 @@
                         Tên Bệnh nhân
                     </th>
 
-                    <th>
+                   <th>Ngày sinh</th>
 
-                        Số điện thoại
-                    </th>
 
-                   
 
-                   
 
                     <th>Thao tác</th>
                 </tr>
@@ -44,7 +40,7 @@
 
 
 
-                            <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                            <td>@item.STTPhieuKham.STT</td>
 
 
 
@@ -56,7 +52,7 @@
 
 
 
-                            <td>@item.MaBNNavigation.SDT</td>
+                            <td>@item.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</td>
 
 
 
@@ -68,17 +64,20 @@
 
 
 
-                            <td class="text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Chi tiết</a></td>
+                            <td class="text-nowrap">
+                                <a class="btn btn-info btn-sm active" title="Khám bệnh" href="@Url.Action("KhamBenh","BacSi",new {MaPK = item.MaPK })"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
+                                <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
+                            </td>
 
                         </tr>
                     }
                 }
                 else
-            {
-                <tr>
-                    <td colspan="4" class="text-center">Không có dữ liệu</td>
-                </tr>
-            }
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">Không có dữ liệu</td>
+                    </tr>
+                }
 
             </tbody>
         </table>
@@ -110,8 +109,8 @@
             var searchModel = ViewBag.Data as PhieuKhamSearchModel;
         }
 
-
-        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PageList", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        <input class="d-none" id="CurrentPage" value="@ViewBag.Page" />
+        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("ReloadPageSTT", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
 </div>

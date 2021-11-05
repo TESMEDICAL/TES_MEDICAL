@@ -100,6 +100,8 @@ namespace TES_MEDICAL.GUI.Services
             }
         }
 
+        
+
         public async Task<ToaThuoc> GetToaThuoc(Guid MaPK)
         {
             return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).ThenInclude(x=>x.PhieuKham).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
@@ -111,37 +113,34 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        //public async Task<ToaThuoc> AddToaThuoc(ToaThuoc model)
-        //{
-        //    try
-        //    {
-        //        using (var transaction = _context.Database.BeginTransaction())
-        //        {
-        //            await _context.ToaThuoc.AddAsync(model);
-        //            await _context.SaveChangesAsync();
-        //            await transaction.CommitAsync();
-
-        //            return model;
-        //        }
-                
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //}
+     
 
         public async Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model)
         {
-        
-                
-          var listUnpaged =( _context.PhieuKham.Include(x=>x.MaBNNavigation).Where((delegate (PhieuKham x)
-           {
-               if ((string.IsNullOrWhiteSpace(model.KeywordSearch)||(Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)|| (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0))&&x.MaBS==model.MaBS&&x.TrangThai>=1)
-                   return true;
-               else
-                   return false;
-           })).OrderByDescending(x => x.NgayKham));
+            IEnumerable<PhieuKham> listUnpaged = null;
+                if (model.TrangThai ==0)
+            {
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where((delegate (PhieuKham x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai == 0&&x.STTPhieuKham!=null)
+                        return true;
+                    else
+                        return false;
+                })).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
+
+            }
+                else
+            {
+
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Where((delegate (PhieuKham x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai >= 1)
+                        return true;
+                    else
+                        return false;
+                })).OrderByDescending(x => x.NgayKham));
+            }    
+
 
            
 

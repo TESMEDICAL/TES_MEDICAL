@@ -1,4 +1,4 @@
-﻿@model IPagedList<PhieuKham>
+﻿@model IPagedList<PhieuDatLich>
 
 @using X.PagedList.Mvc.Core;
 
@@ -8,14 +8,10 @@
 <div id="list">
 
     <div style="min-height:400px">
+        
         <table class="table table-striped table-bordered text-center" style="width:100%">
             <thead style="border-bottom: 1px solid black;">
                 <tr>
-
-                    <th>
-
-                        Ngay Khám
-                    </th>
 
                     <th>
 
@@ -27,6 +23,15 @@
                         Số điện thoại
                     </th>
 
+                    <th>
+
+                        Ngày sinh
+                    </th>
+                    <th>
+
+                        Ngày khám
+                    </th>
+
 
 
 
@@ -35,28 +40,31 @@
                 </tr>
             </thead>
             <tbody class="tbody">
-                @if ((ViewBag.Names as IEnumerable<PhieuKham>).Count() > 0)
+                @if ((ViewBag.Names as IEnumerable<PhieuDatLich>).Count() > 0)
                 {
-                    @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
+                    @foreach (var item in ViewBag.Names as IEnumerable<PhieuDatLich>)
                     {
-                        <tr>
+                <tr>
 
 
 
 
-                            <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-
-
-
-
-
-                            <td>@item.MaBNNavigation.HoTen</td>
+                    <td>@item.TenBN</td>
 
 
 
 
 
-                            <td>@item.MaBNNavigation.SDT</td>
+                    <td>@item.SDT</td>
+
+
+
+
+
+                    <td>@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
+
+
+                    <td>@item.NgayKham?.ToString("dd/MM/yyyy")</td>
 
 
 
@@ -68,9 +76,9 @@
 
 
 
-                            <td class="text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Chi tiết</a></td>
+                    <td class="text-nowrap"><a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick=Detail('@item.MaPhieu') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a></td>
 
-                        </tr>
+                </tr>
                     }
                 }
                 else
@@ -107,11 +115,12 @@
             };
         }
         @{
-            var searchModel = ViewBag.Data as PhieuKhamSearchModel;
+            var searchModel = ViewBag.Data as PhieuDatLichSearchModel;
         }
+        <input class="d-none" id="CurrentPage" value="@ViewBag.Page" />
 
 
-        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PagePhieuKham", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        @Html.PagedListPager((IPagedList<PhieuDatLich>)ViewBag.Names, page => Url.Action("ReloadPage", new { page, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
-</div>
+  </div>

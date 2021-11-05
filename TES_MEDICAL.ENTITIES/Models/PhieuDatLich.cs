@@ -28,15 +28,7 @@ namespace TES_MEDICAL.GUI.Models
 
         public DateTime? NgayKham { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (NgayKham < DateTime.Now)
-            {
-                yield return new ValidationResult(
-                    $"Ngày khám phải sau ngày hiện tại",
-                    new[] { nameof(NgayKham) });
-            }
-        }
+       
         
     }
 }

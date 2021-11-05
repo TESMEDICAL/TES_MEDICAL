@@ -1,4 +1,4 @@
-﻿@model IPagedList<PhieuKham>
+﻿@model IPagedList<ToaThuoc>
 
 @using X.PagedList.Mvc.Core;
 
@@ -14,7 +14,7 @@
 
                     <th>
 
-                        Ngay Khám
+                        STT
                     </th>
 
                     <th>
@@ -22,11 +22,7 @@
                         Tên Bệnh nhân
                     </th>
 
-                    <th>
-
-                        Số điện thoại
-                    </th>
-
+                    <th>Ngày sinh</th>
 
 
 
@@ -35,28 +31,28 @@
                 </tr>
             </thead>
             <tbody class="tbody">
-                @if ((ViewBag.Names as IEnumerable<PhieuKham>).Count() > 0)
+                @if ((ViewBag.Names as IEnumerable<ToaThuoc>).Count() > 0)
                 {
-                    @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
+                    @foreach (var item in ViewBag.Names as IEnumerable<ToaThuoc>)
                     {
                         <tr>
 
 
 
 
-                            <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                            <td>@item.STTTOATHUOC.STT</td>
 
 
 
 
 
-                            <td>@item.MaBNNavigation.HoTen</td>
+                            <td>@item.MaPhieuKhamNavigation.MaBNNavigation.HoTen</td>
 
 
 
 
 
-                            <td>@item.MaBNNavigation.SDT</td>
+                            <td>@item.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</td>
 
 
 
@@ -68,7 +64,13 @@
 
 
 
-                            <td class="text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Chi tiết</a></td>
+                            <td class="text-nowrap">
+                               
+                                    <a class='btn btn-info btn-sm active' onclick=ChangeDoUuTien('@item.MaPhieuKham')> <i class='fas fa-arrow-down'></i></a> <a onclick=Detail('@item.MaPhieuKham') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a>
+                                
+
+
+                            </td>
 
                         </tr>
                     }
@@ -107,11 +109,10 @@
             };
         }
         @{
-            var searchModel = ViewBag.Data as PhieuKhamSearchModel;
+            var searchModel = ViewBag.Data as ToaThuocSearchModel;
         }
 
-
-        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PagePhieuKham", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        <input class="d-none" id="CurrentPage" value="@ViewBag.Page" />
+        @Html.PagedListPager((IPagedList<ToaThuoc>)ViewBag.Names, page => Url.Action("ReloadPage", new { page, KeywordSearch = searchModel.KeywordSearch,TrangThai = searchModel.TrangThai,TrangThaiPK = 1 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
-</div>
