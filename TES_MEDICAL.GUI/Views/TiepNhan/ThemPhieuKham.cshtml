@@ -5,11 +5,11 @@
 
 
 
- @*<style>
-     .input-validation{
-         margin-top: 10px;
-     }
- </style>*@
+    @*<style>
+            .input-validation{
+                margin-top: 10px;
+            }
+        </style>*@
 
 
 }
@@ -23,9 +23,9 @@
             <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
-       <input style="display:none" name="MaBN" id="MaBN" />
-            @Html.HiddenFor(model=>model.UuTien)
-       
+            <input style="display:none" name="MaBN" id="MaBN" />
+            @Html.HiddenFor(model => model.UuTien)
+
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
             <div class="form-horizontal form-bordered">
@@ -71,16 +71,16 @@
                     </div>
                     <div class="col-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
-                <option value="0">Nam</option>
-                <option value="1">Nữ</option>
-            </select> -->
+                            <option value="0">Nam</option>
+                            <option value="1">Nữ</option>
+                        </select> -->
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
 
                         </select>
                     </div>
-                   
+
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
@@ -250,10 +250,8 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
         $("#SDT").keyup(function () {
@@ -262,7 +260,7 @@
 
 
             $.get("/tiepnhan/BenhNhan_bind", { SDT: $(this).val() }, function (data) {
-                
+
                 if (data != null) {
                     $("#HoTen").val(data.HoTen);
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
@@ -279,6 +277,15 @@
 
 
 
+                }
+                else {
+                    $("#HoTen").val("");
+                    $("#NgaySinh").val("");
+                    $("#DiaChi").val(data.DiaChi);
+                    
+                    $('#GioiTinh').val(0);
+                   
+                    $("#MaBN").val("");
                 }
             });
 
@@ -330,15 +337,15 @@
 
         //});
     });
- 
+
 </script>
 @section Scripts{
-    
+
 
     <script>
-       
 
-      
+
+
         function OpenThemDichVu() {
 
 
@@ -373,7 +380,7 @@
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
-           
+
             if ($("#frm").valid()) {
                 obj = {}
                 obj = $("#frm").serializeObject();
@@ -385,7 +392,7 @@
 
                 });
                 obj.dichVus = listdv
-              
+
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
                     type: 'POST',
@@ -405,7 +412,7 @@
                             $('#btSave').hide();
                             $('#btCheckOut').show();
                         }
-                      
+
                     }
                 });
             }
@@ -432,11 +439,11 @@
 
                     if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                window.location.href = result.redirectUrL;
-                            }
-                            else {
-                                toastr.warning(result.text);
+                        toastr.success(result.text);
+                        window.location.href = result.redirectUrL;
+                    }
+                    else {
+                        toastr.warning(result.text);
 
                     }
 
@@ -496,7 +503,7 @@
         });
 
 
-     
+
         $(document).on('click', '.remove', function () {
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");

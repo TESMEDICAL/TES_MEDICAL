@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
+using X.PagedList;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -44,12 +47,50 @@ namespace TES_MEDICAL.GUI.Services
         }
 
         //Get All Toa Thuốc Có Trạng Thái
-        public async Task<IEnumerable<ToaThuoc>> GetAllToaThuocCTT(byte TrangThai)
+        public async Task<IPagedList<ToaThuoc>> SearchToaThuoc(ToaThuocSearchModel model)
         {
-            return await _context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation)
-                .Where(x => x.TrangThai == TrangThai).ToListAsync();
-        }
+            IEnumerable<ToaThuoc> listUnpaged = null;
+           if (model.TrangThaiPK ==1)
+            {
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null)
+                        return true;
+                    else
+                        return false;
+                })).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+            }
+            else
+            {
+                listUnpaged = (_context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
+                {
+                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2)
+                        return true;
+                    else
+                        return false;
+                })).OrderByDescending(x=>x.MaPhieuKhamNavigation.NgayKham));
+            } 
+                
+              
 
+
+
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+
+
+            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+
+
+
+
+
+        }
         public async Task<IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu)
         {
             return await _context.ChiTietToaThuoc.Include(x => x.MaThuocNavigation)
@@ -63,7 +104,7 @@ namespace TES_MEDICAL.GUI.Services
         }
 
        
-        public async Task<ToaThuoc> ThanhToanThuoc(Guid maPK)
+        public async Task<ToaThuoc> ThanhToanThuoc(Guid maPK,string MaNV)
         {
             
             try
@@ -75,7 +116,7 @@ namespace TES_MEDICAL.GUI.Services
                     HoaDonThuoc hoadon = new HoaDonThuoc
                     {
                         MaHD = maHD,
-                        MaNV = "73e3fe40-e2da-49a0-a8b4-fcb125bf38c3",
+                        MaNV = MaNV,
                         NgayHD = DateTime.Now,
                         MaPK = maPK,
                         
@@ -167,6 +208,9 @@ namespace TES_MEDICAL.GUI.Services
                     var existingThuocDangPhat = await _context.ToaThuoc.FindAsync(maPK);
                     existingThuocDangPhat.TrangThai = 2;
 
+                    var phieuKham = await _context.PhieuKham.FindAsync(maPK);
+                    phieuKham.TrangThai = 2;
+                    _context.Update(phieuKham);
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();

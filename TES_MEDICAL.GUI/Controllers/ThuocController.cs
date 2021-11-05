@@ -73,7 +73,6 @@ namespace TES_MEDICAL.GUI.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
-            //model.MaThuoc = Guid.NewGuid();
             if (ModelState.IsValid)
             {
                 string filePath = "";
@@ -91,9 +90,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
 
-
-                
-
+                model.MaThuoc = Guid.NewGuid();
                 var result = await _service.Add(model);
                 if (result.errorCode == -1)
                 {
@@ -169,7 +166,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("TenThuoc", "Tên thuốc đã tồn tại");
-                    return PartialView("_partialAdd", model);
+                    return PartialView("_partialedit", model);
                 }
 
                 if (result.errorCode == 0)

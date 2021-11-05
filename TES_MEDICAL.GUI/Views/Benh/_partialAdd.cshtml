@@ -2,6 +2,9 @@
 
 @model TES_MEDICAL.GUI.Models.Benh
 
+<style>
+</style>
+
 <h4 style="font-weight:bold; text-align:center">THÊM MỚI BỆNH</h4>
 <hr />
 <div>
@@ -12,7 +15,7 @@
         <div class="text-danger"></div>
 
 
-        <div class="form-group col-4">
+        <div class="form-group col-md-7" style="margin-left: 100px">
             @Html.LabelFor(model => model.TenBenh, "Tên Bệnh", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
@@ -20,21 +23,23 @@
             </div>
         </div>
 
-        <div class="form-group col-4">
-            @Html.LabelFor(model => model.ThongTin, "Thông tin", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-4">
+        <div class="form-group col-md-4" style="margin-left: -40px">
             @Html.LabelFor(model => model.MaCK, "Chuyên Khoa", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group col-12" style="margin-left: 100px">
+            @Html.LabelFor(model => model.ThongTin, "Thông tin", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="form-floating col-md-10">
+                <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" style="height: 100px"></textarea>
+                @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
 
 
 

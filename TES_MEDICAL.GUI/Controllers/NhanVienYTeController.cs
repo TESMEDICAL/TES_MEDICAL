@@ -17,16 +17,18 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly INhanVienYte _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
         private readonly UserManager<NhanVienYte> _userManager;
-        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager, RoleManager<IdentityRole> roleManager)
         {
             _service = service;
             _chuyenkhoaRep = chuyenkhoaRep;
             _userManager = userManager;
+      
         }
 
         public async Task<ActionResult> Index(NhanVienYteSearchModel model)
         {
-
+           
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
             ViewBag.ChuyenKhoa = await _chuyenkhoaRep.GetAll();
@@ -95,11 +97,23 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
                 var user = new NhanVienYte { UserName = model.Email, Email = model.Email, HoTen = model.HoTen, ChucVu = model.ChucVu, TrangThai = model.TrangThai, Hinh = model.Hinh, ChuyenKhoa = model.ChuyenKhoa, PhoneNumber = model.SDTNV };
-                var result = await _userManager.CreateAsync(user, "Online1@!");
+                var result = await _userManager.CreateAsync(user,model.MatKhau);
 
 
                 if (result.Succeeded)
                 {
+
+                    if (model.ChucVu == 1)
+
+                        await _userManager.AddToRoleAsync(user, "nhanvien");
+
+                    else if (model.ChucVu == 2)
+
+
+                        await _userManager.AddToRoleAsync(user, "bacsi");
+                    else
+                        await _userManager.AddToRoleAsync(user, "duocsi");
+
                     if (file != null)
                     {
                         using (var fileStream = new FileStream(filePath, FileMode.Create))

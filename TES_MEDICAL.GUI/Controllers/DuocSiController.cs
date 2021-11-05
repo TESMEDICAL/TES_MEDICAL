@@ -1,35 +1,79 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    [Authorize(Roles = "duocsi")]
     public class DuocSiController : Controller
     {
         private readonly IDuocSi _service;
         private readonly IThuoc _thuocService;
+        private UserManager<NhanVienYte> _userManager;
 
 
-        public DuocSiController(IDuocSi service, IThuoc thuocService)
+        public DuocSiController(IDuocSi service, IThuoc thuocService, UserManager<NhanVienYte> userManager)
         {
             _service = service;
             _thuocService = thuocService;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReloadPage(byte TrangThai)
+        public async Task<IActionResult> ReloadPage(ToaThuocSearchModel model)
         {
-            var listToaThuocCTT = await _service.GetAllToaThuocCTT(TrangThai);
-            return Json(listToaThuocCTT);
+
+            //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            
+
+            var listmodel = await _service.SearchToaThuoc(model);
+
+            if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+            ViewBag.Names = listmodel;
+            ViewBag.TrangThai = model.TrangThai;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
+
+            return PartialView("_ListToaThuoc", listmodel);
             //return Ok(listToaThuocCTT);
         }
-        
+
+
+        [HttpGet]
+        public async Task<IActionResult> ReloadPageLichSu(ToaThuocSearchModel model)
+        {
+
+            //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+
+
+            var listmodel = await _service.SearchToaThuoc(model);
+
+            if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+            ViewBag.Names = listmodel;
+            ViewBag.TrangThai = model.TrangThai;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
+
+            return PartialView("_ListLichSu", listmodel);
+            //return Ok(listToaThuocCTT);
+        }
+
 
         public async Task<IActionResult> ChangeSoUuTien(Guid maPK)
         {
@@ -43,7 +87,8 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> ThanhToan(Guid maPK)
         {
-            var result = await _service.ThanhToanThuoc(maPK);
+            var MaNV = (await _userManager.GetUserAsync(User)).Id;
+            var result = await _service.ThanhToanThuoc(maPK,MaNV);
             if (result != null)
             {
                 return Json(new { status = 1, title = "", text = "Thanh toán thành công.", redirectUrL = Url.Action("ToaThuocDangPhat", "DuocSi"), obj = "" }, new JsonSerializerSettings());
@@ -71,17 +116,22 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public IActionResult Index()
+       
+
+        [Route("DuocSi")]
+        [Route("DuocSi/ToaThuoc")]
+        public async Task<IActionResult> ToaThuoc(ToaThuocSearchModel model)
         {
-            return View("ToaThuoc");
-        }
+           
+            model.TrangThai = 0;
+            model.TrangThaiPK = 1;
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _service.SearchToaThuoc(model);
 
-
-
-        // ToaThuoc/Index
-        [Authorize]
-        public IActionResult ToaThuoc()
-        {
+            ViewBag.Names = listPaged;
+            ViewBag.TrangThai = model.TrangThai;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
         }
 
@@ -95,8 +145,17 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         // Toathuoc/ToaThuocDangPhat
-        public IActionResult ToaThuocDangPhat()
+        public async Task<IActionResult> ToaThuocDangPhat(ToaThuocSearchModel model)
         {
+            model.TrangThai = 1;
+            model.TrangThaiPK = 1;
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _service.SearchToaThuoc(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.TrangThai = model.TrangThai;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
         }
 
@@ -109,8 +168,17 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-        public IActionResult LichSuThuoc()
+        public async Task<IActionResult> LichSuThuoc(ToaThuocSearchModel model)
         {
+            model.TrangThai = 2;
+            model.TrangThaiPK = 2;
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _service.SearchToaThuoc(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.TrangThai = model.TrangThai;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
         }
         public async Task<IActionResult> ChiTietLichSu(Guid MaPhieu)

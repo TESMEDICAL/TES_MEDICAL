@@ -19,6 +19,7 @@ using System.IO;
 using SelectPdf;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -75,6 +76,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<JsonResult> DocTor_Bind(Guid MaCK)
         {
+          
             var list = await _nhanvienyteRep.GetAllBS(MaCK);
             List<SelectListItem> ListBS = new List<SelectListItem>();
             foreach (var item in list)
@@ -132,7 +134,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     if (result != null)
                     {
                 var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
-                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS,stt );
+                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS );
                
 
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
@@ -147,9 +149,15 @@ namespace TES_MEDICAL.GUI.Controllers
         
       
 
-        public IActionResult QuanLyDatLich()
+        public async Task<IActionResult> QuanLyDatLich(PhieuDatLichSearchModel model)
         {
-           
+
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _service.SearchByCondition(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
         }
 
@@ -198,10 +206,20 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReloadPage()
+        public async Task<IActionResult> ReloadPage(PhieuDatLichSearchModel model)
         {
-            var listDatLich = await _service.GetAllPhieuDatLich();
-            return Json(listDatLich, new JsonSerializerSettings());
+            var listmodel = await _service.SearchByCondition(model);
+
+            if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+            ViewBag.Names = listmodel;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
+
+            return PartialView("_ListDatLich", listmodel);
         }
 
     }

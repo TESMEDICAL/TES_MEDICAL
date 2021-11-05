@@ -132,7 +132,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("TenDV", "Tên dịch vụ đã tồn tại");
-                    return PartialView("_partialAdd", model);
+                    return PartialView("_partialedit", model);
                 }
                 if (result.errorCode == 0)
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
