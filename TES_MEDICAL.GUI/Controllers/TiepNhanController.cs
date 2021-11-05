@@ -75,6 +75,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<JsonResult> DocTor_Bind(Guid MaCK)
         {
+            var stt = new STTViewModel { STT = 1, HoTen = "Đặng Thanh DUy", UuTien = "B", MaPK = Guid.NewGuid() };
+            await _hubContext.Clients.All.SendAsync("SentDocTor","c3c33798-e2d5-4a62-a0ae-2b061ec1828f", stt);
             var list = await _nhanvienyteRep.GetAllBS(MaCK);
             List<SelectListItem> ListBS = new List<SelectListItem>();
             foreach (var item in list)

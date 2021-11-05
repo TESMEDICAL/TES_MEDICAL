@@ -167,6 +167,9 @@ namespace TES_MEDICAL.GUI.Services
                     var existingThuocDangPhat = await _context.ToaThuoc.FindAsync(maPK);
                     existingThuocDangPhat.TrangThai = 2;
 
+                    var phieuKham = await _context.PhieuKham.FindAsync(maPK);
+                    phieuKham.TrangThai = 2;
+                    _context.Update(phieuKham);
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();

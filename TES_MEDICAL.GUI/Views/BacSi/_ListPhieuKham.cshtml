@@ -27,9 +27,9 @@
                         Số điện thoại
                     </th>
 
+                   
 
-
-
+                   
 
                     <th>Thao tác</th>
                 </tr>
@@ -74,11 +74,11 @@
                     }
                 }
                 else
-                {
-                    <tr>
-                        <td colspan="4" class="text-center">Không có dữ liệu</td>
-                    </tr>
-                }
+            {
+                <tr>
+                    <td colspan="4" class="text-center">Không có dữ liệu</td>
+                </tr>
+            }
 
             </tbody>
         </table>
@@ -111,7 +111,7 @@
         }
 
 
-        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PageList", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PageList", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
 </div>

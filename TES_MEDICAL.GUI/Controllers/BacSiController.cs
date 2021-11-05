@@ -1,29 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.SearchModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
+    [Authorize(Roles = "bacsi")]
     public class BacSiController : Controller
     {
         private readonly IKhamBenh _khambenhRep;
         private readonly IThuoc _thuocRep;
-        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep)
+        private readonly UserManager<NhanVienYte> _userManager;
+        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager)
         {
             _khambenhRep = khambenhRep;
             _thuocRep = thuocRep;
+            _userManager = userManager;
         }
        
 
         
         [HttpGet]
-        public async Task<IActionResult> ReloadPage(string MaBS)
+        public async Task<IActionResult> ReloadPage()
         {
+            var MaBS = (await _userManager.GetUserAsync(User)).Id;
             var listPK = await _khambenhRep.GetList(MaBS);
             return Json(listPK, new JsonSerializerSettings());
         }
@@ -58,21 +65,31 @@ new JsonSerializerSettings
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-            ViewBag.PKOld = JsonConvert.SerializeObject(item, Formatting.Indented,
+           
+         
+            return PartialView("_XacNhanKetQua", item);
+        }
+
+        public async Task<JsonResult> GetJsonPK(string MaPK)
+        {
+            var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
+
+            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
 new JsonSerializerSettings
 {
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-});
-            return PartialView("_XacNhanKetQua", item);
+}));
+
+          
         }
         [HttpPost]
         public async Task<IActionResult> ThemToa(PhieuKham model)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
-                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng," : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}";
+                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }    
-            var result = await _khambenhRep.AddToaThuoc(model,false);
+            var result = await _khambenhRep.AddToaThuoc(model);
 
             if (result != null)
             {
@@ -99,7 +116,48 @@ new JsonSerializerSettings
             return PartialView("_XacNhanKetQua",model);
         }
 
-     
+        [HttpPost]
+        public async Task<IActionResult> ReLoadThuoc(PhieuKham model)
+        {
+
+            var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
+            var listNew = await _khambenhRep.GetAllThuoc();
+            var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
+            ViewBag.Thuoc = listThuoc;
+            return PartialView("_partialToaThuocOld", model.ToaThuoc);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LichSuKham(PhieuKhamSearchModel model)
+        {
+            model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _khambenhRep.SearchByCondition(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Data = model;
+            return View();
+        }
+
+        public async Task<IActionResult> PagePhieuKham(PhieuKhamSearchModel model)
+        {
+            model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+            var listmodel = await _khambenhRep.SearchByCondition(model);
+           
+                if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+                ViewBag.Names = listmodel;
+                ViewBag.Data = model;
+
+                return PartialView("_LichSuKham", listmodel);
+                //return View("DanhSachThuoc", listmodel);
+          
+        }
+
+
 
         public IActionResult DanhSachThuoc()
         {
