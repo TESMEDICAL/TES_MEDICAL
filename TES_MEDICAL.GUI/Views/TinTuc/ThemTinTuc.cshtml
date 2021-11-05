@@ -148,7 +148,7 @@
                     @*<input type="text" asp-for="TieuDe" class="form-control">*@
                     <div class="form-floating mt-3 mb-3">
                         <textarea class="form-control" asp-for="TieuDe" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 130px"></textarea>
-                        <label for="floatingTextarea2">Nhập tiêu đề bài viết ...</label>
+                        @*<label for="floatingTextarea2">Nhập tiêu đề bài viết ...</label>*@
                         <span asp-validation-for="TieuDe" class="text-danger"></span>
                     </div>
                     
@@ -170,7 +170,7 @@
                 </div>
                 <div class="main-status">
                     <div class="main-status-label">
-                        <label class="form-label">Trạng thái</label>
+                        <label class="form-label">Nội dung</label>
                     </div>
                     <div class="form-check mt-3 mb-3">
                         <input asp-for="TrangThai" class="form-check-input" type="checkbox" id="gridCheck">
