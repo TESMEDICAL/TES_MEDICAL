@@ -1,7 +1,7 @@
 ﻿@page
 @model AccessDeniedModel
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Access Denied";
     //Layout = "~/Views/Shared/GuestLayout.cshtml";
     Layout = null;
 }
@@ -39,6 +39,13 @@
 <!-- Modernizr (browser feature detection library) -->
 <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .ltn__404-area{
+
+        background-color: rgb(95,174,129);
+        height: 100%;
+    }
+</style>
 
 
 
@@ -48,16 +55,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="error-404-inner text-center">
+                <div class="error-404-inner text-center text-light">
                     <div class="error-img mb-30">
-                        <img src="~/GuestElement/img/others/notaccess.png" width="700px" style="margin:0 auto;">
+                        <img src="~/GuestElement/img/others/notaccess.png" width="700px" style="margin:0 auto; margin-top:5%">
                     </div>
-                    <h1 class="error-404-title d-none">404</h1>
-                    <h2>Page Not Found!</h2>
+                    <h1 class="error-404-title d-none">HTTP 401 Authorization Required</h1>
+                    <h2>@ViewData["Title"]</h2>
                     <!-- <h3>Oops! Looks like something going rong</h3> -->
-                    <p>Oops! The page you are looking for does not exist. It might have been moved or deleted.</p>
+                    <p style="font-size:20px">Bạn không có quyền truy cập vào trang này, vui lòng đăng nhập và thử lại sau !</p>
                     <div class="btn-wrapper">
-                        <a href="@Url.ActionLink("Logout","Identity")" class="btn btn-transparent"><i class="fas fa-long-arrow-alt-left"></i> BACK TO HOME</a>
+                        <a href="@Url.ActionLink("Logout","Identity")" class="btn btn-transparent"><i class="fas fa-long-arrow-alt-left"></i> Quay trở lại</a>
                     </div>
                 </div>
             </div>
