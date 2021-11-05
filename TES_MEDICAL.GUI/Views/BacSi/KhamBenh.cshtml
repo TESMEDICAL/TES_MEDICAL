@@ -146,6 +146,7 @@
                             <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
                             <div class="col-md-10">
                                 <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                <span asp-validation-for="NgayTaiKham" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -298,6 +299,7 @@
 
 
 @section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
@@ -486,6 +488,7 @@
                 Phieukham.ChanDoan = $('#ChanDoan').val();
                 Phieukham.HuyetAp = $('#HuyetAp').val();
                 Phieukham.KetQuaKham = $('#KetQuaKham').val();
+                Phieukham.NgayTaiKham = $('#NgayTaiKham').val();
                 Phieukham.ToaThuoc = ToaThuoc;
 
 
@@ -506,7 +509,7 @@
                     }
                 });
             }
-            
+
         }
         $(document).on('click', '.addThuoc', function () {
 
