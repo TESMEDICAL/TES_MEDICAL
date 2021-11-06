@@ -147,6 +147,21 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(baiViet);
         }
 
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT)
+        {
+            var listPhieuKham = await _service.SearchByCondition(SDT);
+            if (listPhieuKham.Count() > 0)
+            {
+
+                return Json(listPhieuKham, new JsonSerializerSettings());
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+        }
+
 
     }
 }

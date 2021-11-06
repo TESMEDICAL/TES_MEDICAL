@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
+using X.PagedList;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -38,6 +40,12 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<PhieuDatLich> GetPhieuDat(string MaPhieu)
         {
             return await _context.PhieuDatLich.FindAsync(MaPhieu);
-        }    
+        }
+
+        public async Task<List<PhieuKham>> SearchByPhoneNumber(string SDT)
+        {
+            return await _context.PhieuKham.Where(x => x.MaBNNavigation.SDT == SDT).ToListAsync();
+
+        }
     }
 }
