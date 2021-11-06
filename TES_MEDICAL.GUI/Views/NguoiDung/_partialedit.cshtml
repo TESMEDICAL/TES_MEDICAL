@@ -3,7 +3,7 @@
 @model TES_MEDICAL.GUI.Models.NguoiDung
 
     <style>
-                .main {
+                .wrapper {
                     padding: 0;
                     margin: 0;
                     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -15,47 +15,47 @@
                     font-weight: 200;
                 }
 
-                .main-title-1 {
+                .wrapper-title-1 {
                     background-color: white;
                     border-left: 8px solid rgb(82, 183, 136);
                 }
 
-                    .main-title-1 h4 {
+                    .wrapper-title-1 h4 {
                         padding: 2%;
                         font-size: 35px;
                         font-weight: 400;
                     }
 
-                .main-left {
+                .wrapper-left {
                     margin-inline: 5%;
                 }
 
-                .main-right {
+                .wrapper-right {
                     text-align: center;
                 }
 
-                    .main-right .form-group .btn-img {
+                    .wrapper-right .form-group .btn-img {
                         width: 103%;
                         margin-left: -1%;
                         background-color: rgb(82, 183, 136);
                         color: white;
                     }
 
-                        .main-right .form-group .btn-img:hover {
+                        .wrapper-right .form-group .btn-img:hover {
                             background-color: white;
                             border: 2px solid rgb(82, 183, 136);
                             color: rgb(82, 183, 136);
                         }
     </style>
-    <div class="main-title-1 mb-4">
+    <div class="wrapper-title-1 mb-4">
         <h4>Chỉnh sửa người dùng</h4>
     </div>
-    <div class="main">
+    <div class="wrapper">
         @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.MaNguoiDung)
-            <div class="main-left col-sm-7 row">
+            <div class="wrapper-left col-sm-7 row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-4" style="display:none">
                     <label class="control-label col-md-6" for="MaNguoiDung">MaNguoiDung</label>
@@ -139,8 +139,7 @@
                     <div>
                         <label class="form-check-label">
                             @*@Html.CheckBoxFor(model => model.TrangThai) Đang hoạt động*@
-                            <input type="checkbox" asp-for="TrangThai" value="true" /> Đang hoạt động
-
+                            <input class="form-check-input" type="checkbox" asp-for="TrangThai" value="true" /> Đang hoạt động
                         </label>
                     </div>
 
@@ -148,7 +147,7 @@
             </div>
 
             <!--Phần hình-->
-            <div class="main-right col-sm-3">
+            <div class="wrapper-right col-sm-3">
                 <div class="form-group col-12">
                     @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
                         @*@Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })*@

@@ -1,7 +1,7 @@
 @model TES_MEDICAL.GUI.Models.NguoiDung
 
 <style>
-    .main{
+    .main-modal{
         padding-inline: 5%;
     }
     .main-title-1 {
@@ -41,13 +41,12 @@
     <div class="main-title-1 mb-4">
         <h4>Thông tin người dùng</h4>
     </div>
-    <div class="main row m-4">
+    <div class="main-modal row m-4">
         <!--Phần hình ảnh-->
         <div class="main-left col-sm-5">
             <img class="detail-img" src="~/images/@Model.HinhAnh" />
             @*@Html.DisplayFor(model => model.HinhAnh)*@
             @*<img src="/img/bs.png" style="width:200px" />*@
-
         </div>
         <div class="main-right col-sm-7">
                 <div class="main-right-top col-12 row mb-4">

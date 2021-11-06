@@ -4,7 +4,7 @@
 
 
 <style>
-    .main{
+    .wrapper{
         padding: 0;
         margin: 0;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -14,29 +14,29 @@
         margin-left: 10px;
         font-weight: 200;
     }
-    .main-title-1 {
+    .wrapper-title-1 {
         background-color: white;
     
         border-left: 8px solid rgb(82, 183, 136);
     }
-        .main-title-1 h4 {
+        .wrapper-title-1 h4 {
             padding: 2%;
             font-size: 35px;
             font-weight: 400;
         }
-    .main-left{
+    .wrapper-left{
        margin-inline: 5%;
     }
-    .main-right{
+    .wrapper-right{
         text-align: center;
     }
-        .main-right .form-group .btn-img {
+        .wrapper-right .form-group .btn-img {
             width: 103%;
             margin-left: -1%;
             background-color: rgb(82, 183, 136);
             color: white;
         }
-            .main-right .form-group .btn-img:hover {
+            .wrapper-right .form-group .btn-img:hover {
                 background-color: white;
                 border: 2px solid rgb(82, 183, 136);
                 color: rgb(82, 183, 136);
@@ -44,17 +44,17 @@
 
 </style>
 
-<div class="main-title-1 mb-4">
+<div class="wrapper-title-1 mb-4">
     <h4>Thêm người dùng</h4>
 </div>
-<div class="main">
+<div class="wrapper">
 
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         //@Html.AntiForgeryToken()
 
         <div class="text-danger"></div>
-        <div class="main-left col-sm-7 row">
+        <div class="wrapper-left col-sm-7 row">
             <div class="form-group col-12">
                 <label>
                     Họ tên
@@ -122,14 +122,14 @@
                 <label class="form-label">Trạng thái</label>
                 <div>
                     <label class="form-check-label">
-                        @Html.CheckBoxFor(model => model.TrangThai) Đang hoạt động
+                        @Html.CheckBoxFor(model => model.TrangThai , new { @class = "form-check-input" }) Đang hoạt động
                     </label>
                 </div>
             </div>
         </div>
 
         <!--Phần hình-->
-        <div class="main-right col-sm-3">
+        <div class="wrapper-right col-sm-3">
             <div class="form-group col-12">
                 @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
                 @*@Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control", @id = "image-holder2" } })*@

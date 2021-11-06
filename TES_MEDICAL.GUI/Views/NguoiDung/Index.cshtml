@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 <style>
-    .main {
+    .wrapper {
         background-color: white;
         font-family: Arial
     }
@@ -23,11 +23,11 @@
             padding: 10px;
         }
 
-    .header-left {
+    .header-modal-left {
         left: 0 auto;
     }
 
-    .header-right {
+    .header-modal-right {
         padding-right: 25px;
         margin-inline-start: auto;
         text-align: right;
@@ -61,7 +61,7 @@
 
 
 
-<div class="main m-3">
+<div class="wrapper m-3">
     <div class="main-title mb-4">
         <h6>Quản lý người dùng</h6>
     </div>
@@ -69,7 +69,7 @@
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
             @Html.AntiForgeryToken()
-            <div class="header-left col-sm-8 row">
+            <div class="header-modal-left col-sm-8 row">
                 <div class="header-input-1 col-3">
                     <input type="text" class="form-control" asp-for="HoTenSearch" placeholder="Nhập họ tên..." aria-label="Username" aria-describedby="basic-addon1">
                     @*@Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo họ tên" } })*@
@@ -89,7 +89,7 @@
                 </div>
 
             </div>
-            <div class="header-right col-sm-4 row">
+            <div class="header-modal-right col-sm-4 row">
                 <div class="header-btn col-7">
                     <button type="button" class="btn" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
                 </div>
