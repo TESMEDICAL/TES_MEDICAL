@@ -149,11 +149,15 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> SearchByPhoneNumber(string SDT)
         {
-            var listPhieuKham = await _service.SearchByCondition(SDT);
+            var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
             if (listPhieuKham.Count() > 0)
             {
 
-                return Json(listPhieuKham, new JsonSerializerSettings());
+                return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
             }
             else
             {
@@ -162,6 +166,9 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-
+        public IActionResult LichSuKham()
+        {
+            return View();
+        }
     }
 }

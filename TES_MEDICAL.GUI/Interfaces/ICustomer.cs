@@ -12,6 +12,6 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuDatLich> DatLich(PhieuDatLich model);
         Task<PhieuDatLich> GetPhieuDat(string MaPhieu);
 
-        Task<List<PhieuKham>> SearchByCondition(string SDT);
+        Task<List<PhieuKham>> SearchByPhoneNumber(string SDT);
     }
 }
