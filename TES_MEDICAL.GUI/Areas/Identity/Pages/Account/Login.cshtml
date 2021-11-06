@@ -99,17 +99,23 @@
                         <button type="submit" class="btn" style="width: 250px; background-color: rgb(54, 172, 105); color: white;">Đăng nhập</button>
                     </div>
 
-                    <div class="form-google col-xs-12 text-center">
-                        <a href="" class="btn" style="border: 1px solid gray; border-radius: 5px; width: 250px; color: black">
-                            <img style="margin-right: 20px;" src="~/MainElement/img/google.jpg" width="20px;" alt="">  Đăng nhập với Google
-                        </a>
-                    </div>
                 </div>
+            </form>
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-signin">
+                
+
+                    <div class="form-google col-xs-12 text-center">
+                        <button type="submit" class="btn" style="border: 1px solid gray; border-radius: 5px; width: 250px; color: black" name="provider" value="Google" title="Dùng tài khoản Google đăng nhập">
+                            <img style="margin-right: 20px;" src="~/MainElement/img/google.jpg" width="20px;" alt="">  Đăng nhập với Google
+                        </button>
+                    </div>
+                  
+                
             </form>
             <!-- END Login Form -->
 
-            
-            
+
+
         </div>
         <!-- END Login Block -->
     </div>
