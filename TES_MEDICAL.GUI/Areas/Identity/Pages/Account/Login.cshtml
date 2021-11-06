@@ -106,10 +106,22 @@
                     </div>
                 </div>
             </form>
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-signin">
+                <div>
+                    <p>
+
+                        <div class="">
+                            <button type="submit" class="btn btn-lg btn-google btn-block text-uppercase" name="provider" value="Google" title="Dùng tài khoản Google đăng nhập"><i class="fa fa-google-plus" aria-hidden="true"></i> Đăng nhập bằng tài khoản Google</button>
+                        </div>
+
+
+                    </p>
+                </div>
+            </form>
             <!-- END Login Form -->
 
-            
-            
+
+
         </div>
         <!-- END Login Block -->
     </div>
