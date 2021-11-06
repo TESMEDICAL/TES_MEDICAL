@@ -13,5 +13,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuDatLich> GetPhieuDat(string MaPhieu);
 
         Task<List<PhieuKham>> SearchByPhoneNumber(string SDT);
+
+        Task<PhieuKham> GetLichSuKhamById(Guid MaPK);
     }
 }

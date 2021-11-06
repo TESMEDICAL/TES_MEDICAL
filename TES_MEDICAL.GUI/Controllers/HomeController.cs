@@ -23,16 +23,21 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ICustomer _service;
         private readonly IValidate _valid;
         private readonly ITinTuc _tintucService;
-        
+        private readonly IDuocSi _duocSiService;
+        private readonly IDichVu _dichVuService;
+
+
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService)
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService, IDuocSi duocSiService,IDichVu dichvuService)
         {
             _logger = logger;
             _service = service;
             _valid = valid;
             _hubContext = hubContext;
             _tintucService = tintucService;
+            _duocSiService = duocSiService;
+            _dichVuService = dichvuService;
 
         }
 
@@ -169,6 +174,13 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult LichSuKham()
         {
             return View();
+        }
+
+        public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
+        {
+            ViewBag.CTLichSuDichVu = await _dichVuService.GetDichVu(MaPK);
+            ViewBag.CTLichSuThuoc = await _duocSiService.GetChiTiet(MaPK);
+            return PartialView("_PartialCT_LichSuKham", await _service.GetLichSuKhamById(MaPK));
         }
     }
 }

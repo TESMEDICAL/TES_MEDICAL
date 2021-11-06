@@ -37,6 +37,17 @@ namespace TES_MEDICAL.GUI.Services
             
         }
 
+        public async Task<PhieuKham> GetLichSuKhamById(Guid MaPK)
+        {
+            return await _context.PhieuKham
+                .Include(x => x.MaBNNavigation)
+                .Include(x => x.ToaThuoc)
+                .ThenInclude(x => x.ChiTietToaThuoc)
+                .Include(x => x.ChiTietDV)
+                .ThenInclude(x => x.MaDVNavigation)
+                .FirstOrDefaultAsync(x => x.MaPK == MaPK);
+        }
+
         public async Task<PhieuDatLich> GetPhieuDat(string MaPhieu)
         {
             return await _context.PhieuDatLich.FindAsync(MaPhieu);
