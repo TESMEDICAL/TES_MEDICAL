@@ -297,9 +297,11 @@
     </div>
 </div>
 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+
 
 @section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
@@ -318,6 +320,38 @@
 
 
             function () {
+
+                $("#frmKhamBenh").validate({
+                    // Specify validation rules
+                    rules: {
+                        Mach: "required",
+
+                        HuyetAp: "required",
+
+                        KetQuaKham: "required",
+
+                        ChanDoan: "required"
+
+                    },
+                    messages: {
+                        Mach: {
+                            required: "Bạn cần nhập tần số mạch",
+                        },
+
+                        HuyetAp: {
+                            required: "Bạn cần nhập huyết áp",
+                        },
+
+                        KetQuaKham: {
+                            required: "Bạn cần nhập kết quả khám",
+                        },
+
+                        ChanDoan: {
+                            required: "Bạn cần nhập chẩn đoán",
+                        }
+                    },
+
+                });
 
 
                 $.get("GetListThuoc", function (data) {
@@ -488,7 +522,6 @@
                 Phieukham.ChanDoan = $('#ChanDoan').val();
                 Phieukham.HuyetAp = $('#HuyetAp').val();
                 Phieukham.KetQuaKham = $('#KetQuaKham').val();
-                Phieukham.NgayTaiKham = $('#NgayTaiKham').val();
                 Phieukham.ToaThuoc = ToaThuoc;
 
 
