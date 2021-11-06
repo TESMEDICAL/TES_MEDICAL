@@ -9,6 +9,9 @@
     #danhSach_filter input {
         width: 100% !important;
     }
+    .error {
+        color: red !important;
+    }
 </style>
 
 <div class="col-12">
@@ -85,14 +88,12 @@
                         <label class="col-md-5 control-label" for="example-textarea-input">Mạch</label>
                         <div class="col-md-10">
                             <input type="text" asp-for="Mach" class="form-control" placeholder="Vui lòng nhập mạch">
-                            <span asp-validation-for="Mach" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <label class="col-md-5 control-label" for="example-textarea-input">Huyết áp</label>
                         <div class="col-md-10">
                             <input type="text" asp-for="HuyetAp" class="form-control" placeholder="Vui lòng nhập huyết áp">
-                            <span asp-validation-for="HuyetAp" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -124,7 +125,6 @@
                         <label class="col-sm-3 control-label" for="example-textarea-input">Kết quả khám</label>
                         <div class="col-sm-12">
                             <textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
-                            <span asp-validation-for="KetQuaKham" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm-7 row">
@@ -132,7 +132,6 @@
                             <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
                             <div class="col-md-11">
                                 <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
-                                <span asp-validation-for="ChanDoan" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -147,7 +146,6 @@
                             <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
                             <div class="col-md-10">
                                 <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
-                                <span asp-validation-for="NgayTaiKham" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
