@@ -73,7 +73,8 @@
             </div>
         </div>
         <br /><br />
-        <form id="frmKhamBenh">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmKhamBenh", id = "frmKhamBenh", enctype = "multipart/form-data", @class = "needs-validation" }))
+        {
             @Html.HiddenFor(model => model.MaPK);
             <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
                 <div class="block-title">
@@ -153,7 +154,9 @@
                 </div>
             </div>
             <br /><br />
-        </form>
+        }
+
+
 
 
     </div>
@@ -298,7 +301,52 @@
 </div>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script>
+    $(document).ready(
 
+
+        function () {
+
+            $("#frmKhamBenh").validate({
+                // Specify validation rules
+                rules: {
+                    Mach: "required",
+
+                    HuyetAp: "required",
+
+                    KetQuaKham: "required",
+
+                    ChanDoan: "required"
+
+                },
+                messages: {
+                    Mach: {
+                        required: "Bạn cần nhập tần số mạch",
+                    },
+
+                    HuyetAp: {
+                        required: "Bạn cần nhập huyết áp",
+                    },
+
+                    KetQuaKham: {
+                        required: "Bạn cần nhập kết quả khám",
+                    },
+
+                    ChanDoan: {
+                        required: "Bạn cần nhập chẩn đoán",
+                    }
+                },
+
+            });
+
+
+           
+
+
+
+
+        });
+</script>
 
 
 @section Scripts{
