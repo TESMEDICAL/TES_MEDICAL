@@ -25,15 +25,7 @@ namespace TES_MEDICAL.ADMIN.Server.Controllers
         {
             _services = services;
         }
-        // GET: api/<TokenController>
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IEnumerable<AdminUser>> Get()
-        {
-            
-            return await _services.GetAll();
-            
-        }
+       
         
         // GET api/<TokenController>/5
         [HttpGet("{id}")]

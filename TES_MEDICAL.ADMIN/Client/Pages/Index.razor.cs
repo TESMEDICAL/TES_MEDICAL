@@ -9,20 +9,21 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.ADMIN.Client.Pages
 {
     public partial class Index
     {
-        protected bool loading { get; set; } 
+        protected bool loading { get; set; } = true;
         protected bool Nocontent { get; set; } = false;
         private bool isNew { get; set; } = true;
         private string inputName { get; set; }
-        public List<PhanLoai> phanLoais { get; set; } = new List<PhanLoai>();
+        public List<ChuyenKhoa> ChuyenKhoas { get; set; } = new List<ChuyenKhoa>();
             public MetaData MetaData { get; set; } = new MetaData();
-            public PhanLoaiSearchModel _searchmodel = new PhanLoaiSearchModel ();
+            public ChuyenKhoaApiSearchModel _searchmodel = new ChuyenKhoaApiSearchModel ();
             [Inject]
-            public IPhanLoaiHttpRepository PhanloaiRepo { get; set; }
+            public IChuyenKhoaHttpRepository ChuyenKhoaRepo { get; set; }
             [Inject]
         private IModal modal { get; set; }
         [Inject]
@@ -43,6 +44,7 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+
             if(authenticationService.User==null)
             {
                 NavigationManager.NavigateTo("Login");
@@ -52,9 +54,11 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
             {
                 editContext = new EditContext(input);
 
-                var pagingResponse = await PhanloaiRepo.GetPhanLoais(_searchmodel);
-                phanLoais = pagingResponse.Items;
+                var pagingResponse = await ChuyenKhoaRepo.GetChuyenKhoas(_searchmodel);
+                ChuyenKhoas = pagingResponse.Items;
                 MetaData = pagingResponse.MetaData;
+                loading = false;
+                Nocontent = false;
             }    
 
            
@@ -64,12 +68,12 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
         protected async Task GetEdit(Guid id)
         {
             isNew = false;
-            input = (from item in phanLoais
-                     where item.Id == id
-                     select new Input { Name = item.TenLoai, id = item.Id }).FirstOrDefault();
+            input = (from item in ChuyenKhoas
+                     where item.MaCK == id
+                     select new Input { Name = item.TenCK, id = item.MaCK }).FirstOrDefault();
             TitleText = "Cập nhật thông tin";
             editContext = new EditContext(input);
-            await modal.ShowModal("PhanloaiModal");
+            await modal.ShowModal("ChuyenKhoaModal");
         }
 
       
@@ -89,13 +93,13 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
                 if (isNew)
                 {
 
-                    PhanLoai model = new PhanLoai() { Id = Guid.NewGuid(), TenLoai = input.Name };
-                    var result = await PhanloaiRepo.AddPhanLoai(model);
+                    ChuyenKhoa model = new ChuyenKhoa() { MaCK = Guid.NewGuid(), TenCK = input.Name };
+                    var result = await ChuyenKhoaRepo.AddChuyenKhoa(model);
                     if (result != null)
                     {
                         await modal.Success("Thêm thành công");
 
-                        await GetPhanLoai();
+                        await GetChuyenKhoa();
 
                     }
                     else
@@ -105,18 +109,18 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
                 }
                 else
                 {
-                    PhanLoai model = new PhanLoai() { Id = input.id, TenLoai = input.Name };
-                    var result = await PhanloaiRepo.UpdatePhanLoai(model);
+                    ChuyenKhoa model = new ChuyenKhoa() { MaCK = input.id, TenCK = input.Name };
+                    var result = await ChuyenKhoaRepo.UpdateChuyenKhoa(model);
                     if (result != null)
                     {
                         await modal.Success("Cập nhật thành công");
 
-                        await GetPhanLoai();
+                        await GetChuyenKhoa();
 
                     }
                     else
                     {
-                        await modal.Warning("Thêm không thành công vui lòng kiểm tra lại");
+                        await modal.Warning("Cập nhật không thành công vui lòng kiểm tra lại");
                     }
 
 
@@ -128,20 +132,20 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
         private async Task SelectedPage(int page)
         {
             _searchmodel.PageNumber = page;
-            await GetPhanLoai();
+            await GetChuyenKhoa();
         }
-        private async Task GetPhanLoai()
+        private async Task GetChuyenKhoa()
         {
 
 
-            loading = true;
+            //loading = true;
             Nocontent = false;
             _searchmodel.Name = inputName;
            
-            var pagingResponse = await PhanloaiRepo.GetPhanLoais(_searchmodel);
+            var pagingResponse = await ChuyenKhoaRepo.GetChuyenKhoas(_searchmodel);
             if (pagingResponse.Items.Count > 0)
             {
-                phanLoais = pagingResponse.Items;
+                ChuyenKhoas = pagingResponse.Items;
                 MetaData = pagingResponse.MetaData;
                 loading = false;
 
@@ -157,18 +161,18 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
        
         private async Task Timkiem()
         {
-            loading = true;
+            //loading = true;
             _searchmodel.Name = inputName;
-            await GetPhanLoai();
+            await GetChuyenKhoa();
             loading = false;
         }
 
         private async Task Clear()
         {
-            loading = true;
+            //loading = true;
             inputName = "";
-            _searchmodel = new PhanLoaiSearchModel();
-            await GetPhanLoai();
+            _searchmodel = new ChuyenKhoaApiSearchModel();
+            await GetChuyenKhoa();
             loading = false;
         }
 
@@ -178,10 +182,10 @@ namespace TES_MEDICAL.ADMIN.Client.Pages
         {
             if(await modal.Confirm("Bạn muốn xóa loại thức ăn này?"))
             {
-                if(await PhanloaiRepo.DeletePhanLoai(id))
+                if(await ChuyenKhoaRepo.DeleteChuyenKhoa(id))
                 {
                     await modal.Success("Xóa thành công");
-                    await GetPhanLoai();
+                    await GetChuyenKhoa();
                 }
                 else
                 {

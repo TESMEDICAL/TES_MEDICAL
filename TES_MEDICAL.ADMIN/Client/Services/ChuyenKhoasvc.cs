@@ -12,25 +12,26 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.ADMIN.Client.Services
 {
-    public interface IPhanLoaiHttpRepository
+    public interface IChuyenKhoaHttpRepository
     {
-        Task<PagingResponse<PhanLoai>> GetPhanLoais(PhanLoaiSearchModel searchmodel);
-        Task<PhanLoai> AddPhanLoai(PhanLoai phanLoai);
-        Task<PhanLoai> UpdatePhanLoai(PhanLoai phanLoai);
-        Task<bool> DeletePhanLoai(Guid id);
+        Task<PagingResponse<ChuyenKhoa>> GetChuyenKhoas(ChuyenKhoaApiSearchModel searchmodel);
+        Task<ChuyenKhoa> AddChuyenKhoa(ChuyenKhoa ChuyenKhoa);
+        Task<ChuyenKhoa> UpdateChuyenKhoa(ChuyenKhoa ChuyenKhoa);
+        Task<bool> DeleteChuyenKhoa(Guid id);
         
 
     }
-    public class PhanLoaisvc:IPhanLoaiHttpRepository
+    public class ChuyenKhoasvc:IChuyenKhoaHttpRepository
     {
         private readonly HttpClient _client;
         private readonly IAuthenticationService _service;
         private readonly IHttpService _httpService;
 
-        public PhanLoaisvc(HttpClient client, IAuthenticationService service, IJSRuntime jSRuntime, IHttpService httpService)
+        public ChuyenKhoasvc(HttpClient client, IAuthenticationService service, IJSRuntime jSRuntime, IHttpService httpService)
         {
             _client = client;
             _service = service;
@@ -39,52 +40,52 @@ namespace TES_MEDICAL.ADMIN.Client.Services
 
 
         }
-        public async Task<PagingResponse<PhanLoai>> GetPhanLoais(PhanLoaiSearchModel searchModel)
+        public async Task<PagingResponse<ChuyenKhoa>> GetChuyenKhoas(ChuyenKhoaApiSearchModel searchModel)
         {
             string accessToken = _service.User.Token;
-            var response = await _httpService.Post("/Phanloai/getpage", accessToken, searchModel);
+            var response = await _httpService.Post("/ChuyenKhoa/getpage", accessToken, searchModel);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 throw new ApplicationException(content);
             }
-            var pagingResponse = new PagingResponse<PhanLoai>
+            var pagingResponse = new PagingResponse<ChuyenKhoa>
             {
-                Items = JsonSerializer.Deserialize<List<PhanLoai>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
-                MetaData = JsonSerializer.Deserialize<MetaData>(response.Headers.GetValues("X-PaginationPhanLoai").First(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                Items = JsonSerializer.Deserialize<List<ChuyenKhoa>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+                MetaData = JsonSerializer.Deserialize<MetaData>(response.Headers.GetValues("X-PaginationChuyenKhoa").First(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
             };
             return pagingResponse;
         }
 
-        public async Task<PhanLoai> AddPhanLoai(PhanLoai model)
+        public async Task<ChuyenKhoa> AddChuyenKhoa(ChuyenKhoa model)
         {
             string accessToken = _service.User.Token;
-            var response = await _httpService.Post("/Phanloai", accessToken, model);
+            var response = await _httpService.Post("/ChuyenKhoa", accessToken, model);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest|| response.StatusCode ==System.Net.HttpStatusCode.Unauthorized)
                 return null;
             var content = await response.Content.ReadAsStreamAsync();
           
-            return await JsonSerializer.DeserializeAsync<PhanLoai>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return await JsonSerializer.DeserializeAsync<ChuyenKhoa>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             
         }
 
-        public async Task<PhanLoai> UpdatePhanLoai(PhanLoai model)
+        public async Task<ChuyenKhoa> UpdateChuyenKhoa(ChuyenKhoa model)
         {
             string accessToken = _service.User.Token;
-            var response = await _httpService.Put($"/Phanloai/{model.Id}", accessToken, model);
+            var response = await _httpService.Put($"/ChuyenKhoa/{model.MaCK}", accessToken, model);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 return null;
             var content = await response.Content.ReadAsStreamAsync();
 
-            return await JsonSerializer.DeserializeAsync<PhanLoai>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return await JsonSerializer.DeserializeAsync<ChuyenKhoa>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         }
 
-        public async Task<bool>  DeletePhanLoai(Guid id)
+        public async Task<bool>  DeleteChuyenKhoa(Guid id)
         {
             
                 string accessToken = _service.User.Token;
-            var response = await _httpService.Delete($"/Phanloai/{id}", accessToken,new {Id = id, TrangThai = false });
+            var response = await _httpService.Delete($"/ChuyenKhoa/{id}", accessToken,new {Id = id, TrangThai = false });
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 return false;
                 var content = await response.Content.ReadAsStreamAsync();

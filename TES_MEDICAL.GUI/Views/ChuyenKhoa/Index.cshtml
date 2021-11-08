@@ -56,7 +56,8 @@
 
 
 </div>
-<div id="nameListContainer">
+<div id="nameListContainer" >
+
     <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<ChuyenKhoa>" />
 
 </div>
@@ -290,6 +291,41 @@
         }
 
 
+        $("#TenCKSearch").keyup(function () {
+          
+                obj = {};
+
+                obj.TenCKSearch = $(this).val()
+
+                obj.page = 1;
+                $.ajax({
+                    url: '/ChuyenKhoa/PageList/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+
+                        if (result.status != 2) {
+                           
+
+                            $('#nameListContainer').html(result);
+                        }
+
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            
+
+
+
+        });
 
 
 

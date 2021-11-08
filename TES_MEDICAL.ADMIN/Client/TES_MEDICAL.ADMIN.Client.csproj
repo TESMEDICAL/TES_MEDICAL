@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Pages\Index.razor" />
     <None Include="Shared\MainLayout.razor" />
     <None Include="Shared\NavMenu.razor" />
     <None Include="Shared\SurveyPrompt.razor" />
@@ -24,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\TES_MEDICAL.ADMIN.Shared.csproj" />
+    <ProjectReference Include="..\..\TES_MEDICAL.ENTITIES\TES_MEDICAL.ENTITIES.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,9 @@
-﻿using TES_MEDICAL.ADMIN.Shared;
+﻿using TES_MEDICAL.ADMIN.Shared.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ADMIN.Shared;
 
 namespace TES_MEDICAL.ADMIN.Server.Paging
 {

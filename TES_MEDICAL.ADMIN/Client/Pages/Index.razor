@@ -10,12 +10,12 @@
 
     <div>
         <div class="d-flex flex-wrap m-2">
-            <input class="mr-2 mb-2 form-control-sm" @bind="inputName" placeholder="Tìm theo tên loại" />
+            <input class="mr-2 mb-2 form-control-sm" @bind="inputName" @bind:event="oninput" @onkeyup="Timkiem" placeholder="Tìm theo tên loại" />
             <div class="col-4">
 
-                <button type="button" class="btn btn-success btn-sm mr-2 " @onclick="Timkiem" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+               
 
-                <button type="button" class="btn btn-sm btn-success mr-2" @onclick="@(() => ShowAddModal("PhanloaiModal"))" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                <button type="button" class="btn btn-sm btn-success mr-2" @onclick="@(() => ShowAddModal("ChuyenKhoaModal"))" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
                 <button type="button" class="btn btn-success mr-2 btn-sm"id="btSeach" @onclick="Clear"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
                 @if (loading)
                 {
@@ -54,7 +54,7 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            @foreach (var item in phanLoais)
+            @foreach (var item in ChuyenKhoas)
             {
 <tr>
 
@@ -63,7 +63,7 @@
 
 
 
-    <td>@item.TenLoai</td>
+    <td>@item.TenCK</td>
 
 
 
@@ -74,7 +74,7 @@
 
 
 
-    <td><a class="btn btn-info btn-sm btn-sm active" @onclick="() => GetEdit(item.Id)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+    <td><a class="btn btn-info btn-sm btn-sm active" @onclick="() => GetEdit(item.MaCK)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
 
 </tr>}
         </tbody>
@@ -100,7 +100,7 @@ else
 </div>
 
 
-<div id="PhanloaiModal" class="modal fade" tabindex="-1">
+<div id="ChuyenKhoaModal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">

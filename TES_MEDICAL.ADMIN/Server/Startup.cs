@@ -1,6 +1,6 @@
 using TES_MEDICAL.ADMIN.Server.Controllers;
 using TES_MEDICAL.ADMIN.Server.Models;
-using TES_MEDICAL.ADMIN.Server.Services;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System;
+using TES_MEDICAL.ADMIN.Server.Services;
 
 namespace TES_MEDICAL.ADMIN.Server
 {
@@ -67,7 +68,8 @@ namespace TES_MEDICAL.ADMIN.Server
                    ValidateIssuerSigningKey = true,
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                    ValidateIssuer = false,
-                   ValidateAudience = false
+                   ValidateAudience = false,
+                   RequireExpirationTime = true
                };
            });
            
@@ -80,12 +82,8 @@ namespace TES_MEDICAL.ADMIN.Server
                 .WithExposedHeaders("X-Pagination"));
             });
             services.AddTransient<ILoginAdmin, LoginAdminsvc>();
-            services.AddTransient<IPhanLoai, PhanLoaisvc>();
-            services.AddTransient<IProduct, Productsvc>();
-            services.AddTransient<IAdminUser, AdminUsersvc>();
-            services.AddTransient<ICustomer, Customersvc>();
-            services.AddTransient<IDonHang, DonHangsvc>();
-            services.AddTransient<IKhachHang, KhachHangsvc>();
+            services.AddTransient<IChuyenKhoa, ChuyenKhoasvc>();
+          
            
             services.AddRazorPages();
         }

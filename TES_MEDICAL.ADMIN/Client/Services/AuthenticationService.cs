@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TES_MEDICAL.ADMIN.Shared.Models;
+using TES_MEDICAL.ADMIN.Shared.Helper;
 
 namespace TES_MEDICAL.ADMIN.Client.Services
 {
@@ -52,6 +53,8 @@ namespace TES_MEDICAL.ADMIN.Client.Services
 
         public async Task Login(string username, string password)
         {
+            //password = MaHoaHelper.Mahoa(password);
+            
             var itemJson = new StringContent(JsonSerializer.Serialize(new AdminLoginModel { UserName = username, Pass = password }), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("/token/authenticate", itemJson);

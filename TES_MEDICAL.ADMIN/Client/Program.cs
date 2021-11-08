@@ -24,17 +24,17 @@ namespace TES_MEDICAL.ADMIN.Client
             builder.Services
                 .AddScoped<IAuthenticationService, AuthenticationService>()
                .AddScoped<IHttpService, HttpService>()
-                .AddScoped<IPhanLoaiHttpRepository, PhanLoaisvc>()
+               .AddScoped<IChuyenKhoaHttpRepository,ChuyenKhoasvc>()
                 .AddScoped<IModal, ModalServices>()
-                .AddScoped<ILocalStorageService, LocalStorageService>()
-                .AddScoped<IDonHangHttpRepository,DonHangsvc>()
-                .AddScoped<IKhachHangHttpRepository,KhachHangsvc>()
-                .AddScoped<IKhachHangHttpRepository,KhachHangsvc>();
+                .AddScoped<ILocalStorageService, LocalStorageService>();
+
+             
+            
 
                 
                
-            builder.Services.AddScoped<IProductHttpRepository, Productsvc>();
-            builder.Services.AddScoped<IAdminUserHttpRepository, AdminUsersvc>();
+       
+        
             builder.Services.AddFileReaderService(o => o.UseWasmSharedBuffer = true);
             
 

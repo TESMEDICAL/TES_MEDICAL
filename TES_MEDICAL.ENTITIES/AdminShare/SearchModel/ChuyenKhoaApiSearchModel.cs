@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TES_MEDICAL.ADMIN.Shared.SearchModel
 {
-    public class PhanLoaiSearchModel:PagingParameters
+    public class ChuyenKhoaApiSearchModel:PagingParameters
     {
         public string Name { get; set; }
     }

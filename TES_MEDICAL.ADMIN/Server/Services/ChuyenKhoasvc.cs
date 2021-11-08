@@ -8,52 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using TES_MEDICAL.ADMIN.Server.Paging;
 using TES_MEDICAL.ADMIN.Shared.SearchModel;
 using TES_MEDICAL.ADMIN.Shared.Models;
+using TES_MEDICAL.GUI.Models;
+using TES_MEDICAL.ADMIN.Server.Helpers;
+using Microsoft.Data.SqlClient;
 
 namespace TES_MEDICAL.ADMIN.Server.Services
 {
-    public interface IPhanLoai
+    public interface IChuyenKhoa
     {
-        Task<IEnumerable<PhanLoai>> Get();
-       Task <PagedList<PhanLoai>> Get(PhanLoaiSearchModel searchModel);
-        Task<PhanLoai> Get(Guid id);
-        Task<PhanLoai> Add(PhanLoai model);
-        Task<PhanLoai> Update(PhanLoai model);
-        Task<bool> Delete(Guid id);
+        Task<IEnumerable<ChuyenKhoa>> Get();
+        Task<PagedList<ChuyenKhoa>> Get(ChuyenKhoaApiSearchModel model);
+        Task<ChuyenKhoa> Get(Guid id);
+        Task<ChuyenKhoa> Add(ChuyenKhoa model);
+        Task<ChuyenKhoa> Update(ChuyenKhoa model);
+       
 
     }
-    public class PhanLoaisvc:IPhanLoai
+    public class ChuyenKhoasvc:IChuyenKhoa
     {
         private readonly DataContext _context;
-        public PhanLoaisvc(DataContext context)
+        public ChuyenKhoasvc(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<PhanLoai>> Get()
+        public async Task<IEnumerable<ChuyenKhoa>> Get()
         {
-            return await _context.PhanLoai.ToListAsync();
+            return await _context.ChuyenKhoa.ToListAsync();
         }    
-        public async Task<PagedList<PhanLoai>> Get(PhanLoaiSearchModel model)
+        public async Task <PagedList<ChuyenKhoa>> Get(ChuyenKhoaApiSearchModel model)
         {
           
-            IEnumerable<PhanLoai> listUnpaged;
-            listUnpaged = await _context.PhanLoai.ToListAsync();
+            IEnumerable<ChuyenKhoa> listUnpaged;
+            listUnpaged = await _context.ChuyenKhoa.FromSqlRaw("EXEC dbo.SearchChuyenkhoa @KeyWord",new SqlParameter("KeyWord",string.IsNullOrWhiteSpace(model.Name)?DBNull.Value:model.Name)).ToListAsync();
 
-            if (!string.IsNullOrWhiteSpace(model.Name))
+          
 
-            {
-                listUnpaged = listUnpaged.Where(x => x.TenLoai.ToUpper().Contains(model.Name.ToUpper()));
-            }
-
-            return PagedList<PhanLoai>
+            return PagedList<ChuyenKhoa>
                 .ToPagedList(listUnpaged, model.PageNumber, model.PageSize);
         }
 
-        public async Task<PhanLoai> Get(Guid id)
+        public async Task<ChuyenKhoa> Get(Guid id)
         {
-            return await _context.PhanLoai.FindAsync(id);
+            return await _context.ChuyenKhoa.FindAsync(id);
         }
-        public async Task<PhanLoai> Add(PhanLoai model)
+        public async Task<ChuyenKhoa> Add(ChuyenKhoa model)
         {
             try
             {
@@ -69,7 +68,7 @@ namespace TES_MEDICAL.ADMIN.Server.Services
            
 
         }
-        public async Task<PhanLoai> Update(PhanLoai model)
+        public async Task<ChuyenKhoa> Update(ChuyenKhoa model)
         {
             try
             {
@@ -89,9 +88,9 @@ namespace TES_MEDICAL.ADMIN.Server.Services
         {
             try
             {
-                var item = _context.PhanLoai.Find(id);
+                var item = _context.ChuyenKhoa.Find(id);
                 
-                _context.PhanLoai.Remove(item);
+                _context.ChuyenKhoa.Remove(item);
                 await _context.SaveChangesAsync();
                 return true;
             }
