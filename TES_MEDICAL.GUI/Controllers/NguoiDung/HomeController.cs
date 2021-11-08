@@ -182,5 +182,27 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.CTLichSuThuoc = await _duocSiService.GetChiTiet(MaPK);
             return PartialView("_PartialCT_LichSuKham", await _service.GetLichSuKhamById(MaPK));
         }
+
+
+        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT)
+        {
+            var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
+            if (listPhieuDatLich.Count() > 0)
+            {
+
+                return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+        }
+
+        
     }
 }

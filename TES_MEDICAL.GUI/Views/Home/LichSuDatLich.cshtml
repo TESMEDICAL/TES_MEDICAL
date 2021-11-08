@@ -1,4 +1,4 @@
-﻿
+﻿@model List<TES_MEDICAL.GUI.Models.PhieuDatLich>
 @{
     ViewData["Title"] = "LỊCH SỬ ĐẶT LỊCH";
     Layout = "~/Views/Shared/GuestLayout.cshtml";
@@ -7,19 +7,19 @@
 <div class="row">
     <div class="col-lg-8 m-auto">
         <div class="ltn__form-box contact-form-box box-shadow white-bg">
-            <h4 class="title-2">Lịch sử đặt lịch của bạn</h4>
-            <form id="contact-form">
+            <h4 class="title-2">Lịch đặt lịch của bạn</h4>
+            <div id="contact-form">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-item input-item-email">
-                            <input type="text" placeholder="Mời bạn nhập số điện thoại">
+                            <input style="color:darkslategrey" id="SDT" type="text" placeholder="Mời bạn nhập số điện thoại">
                         </div>
                     </div>
                 </div>
                 <div class="btn-wrapper mt-0">
-                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="OpenModal()">Xem lịch sử</button>
+                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="OpenLichSuKham()">Xem lịch sử</button>
                 </div>
-            </form>
+            </div>
         </div>
         <br />
 
@@ -34,14 +34,17 @@
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-info row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <h6 style="font-weight:bold"><a href="#">Họ và tên</a></h6>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <h6 style="font-weight:bold"><a href="#">Số điện thoại</a></h6>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <h6 style="font-weight:bold"><a href="#">Ngày khám</a></h6>
+                            </div>
+                            <div class="col-sm-3">
+                                <h6 style="font-weight:bold"><a href="#"></a></h6>
                             </div>
                         </div>
                     </div>
@@ -50,16 +53,20 @@
                 <!--Dữ liệu-->
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
-                        <div class="mini-cart-info row">
-                            <div class="col-sm-4">
-                                <h6><a href="#">Đặng Thanh Duy</a></h6>
-                            </div>
-                            <div class="col-sm-4">
-                                <h6><a href="#">0979510278</a></h6>
-                            </div>
-                            <div class="col-sm-4">
-                                <h6><a href="#">@DateTime.Now</a></h6>
-                            </div>
+                        <div id="ShowLichSu" class="mini-cart-info row">
+                            @*@foreach (var item in Model)
+                                {
+                                    <div class="col-sm-4">
+                                        <h6><a href="#">@item.MaBNNavigation.HoTen</a></h6>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h6><a href="#">@item.MaBNNavigation.SDT</a></h6>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h6><a href="#">@item.NgayKham</a></h6>
+                                    </div>
+                                }*@
+
                         </div>
                     </div>
                 </div>
@@ -90,10 +97,7 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
-                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -102,20 +106,46 @@
 </div>
 
 <script>
-    function OpenModal() {
+    function OpenLichSuKham() {
         $.ajax({
-            url: "/Home/LichSuDatLich",
+            url: "/Home/SearchDatLichByPhoneNumber",
             type: 'GET',
+            data: {
+                SDT: $('#SDT').val()
+            },
             success: function (response) {
-                $("#myModalContent").html(response);
-                $('#myModal').show();
-                $('#btSave').show();
-                $('#btupdate').hide();
+                $("#ShowLichSu").html("");
+                JSON.parse(response).forEach(function (item) {
+                    console.log(item);
+                    var stringDate = new Date(item.ngayKham);
+                    var dd = stringDate.getDate();
+                    var MM = stringDate.getMonth();
+                    var yyyy = stringDate.getFullYear();
+                    var hh = stringDate.getHours();
+                    var mm = stringDate.getMinutes();
+                    var ss = stringDate.getSeconds();
+                    var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                    $("#ShowLichSu").append(`
+                    <div class="col-sm-3">
+                                    <h6><a href="#">${item.TenBN}</a></h6>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6><a href="#">${item.SDT}</a></h6>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6><a href="#">${ngayKham}</a></h6>
+                                </div>
+                                
+                    `)
+                });
+                console.log(response);
 
             }
         });
     }
+
 </script>
+
 
 
 
