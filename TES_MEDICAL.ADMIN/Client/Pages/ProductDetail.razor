@@ -1,0 +1,34 @@
+﻿@page "/DetailQR/{id}"
+@layout DetailLayout
+
+
+@if (Product != null)
+{
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8 m-auto">
+            <img src="@Product.Hinh" class="w-100" alt="">
+        </div>
+        <div class="col-12">
+            <ul class="list-group mt-2">
+                <li class="list-group-item"><h1 class="h2 font-weight-bold">@Product.TenMon</h1></li>
+                <li class="list-group-item"><h2 class="h3 text-danger">@Product.Gia.ToString("n0").Replace(',', '.') <sup>đ</sup> </h2></li>
+
+                <li class="list-group-item">Loại: @Product.MaLoaiNavigation.TenLoai</li>
+
+            </ul>
+        </div>
+
+
+    </div>
+
+    <div class="row p-3">
+
+        <p class="lead">
+            @Product.MoTa
+        </p>
+
+    </div>
+</div>}
+
+

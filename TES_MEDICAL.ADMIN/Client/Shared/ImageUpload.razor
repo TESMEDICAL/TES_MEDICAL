@@ -1,0 +1,15 @@
+﻿
+
+<input type="file" id="getFile" style="display:none" @ref="_input" @onchange="HandleSelected" accept=".jpg, .jpeg, .png" />
+@if (ImgUrl != null)
+{
+    <div>
+        <img src="@ImgUrl" width="150" height="150" />
+    </div>
+}
+else
+{
+    <div>
+        <img src="StaticFiles/Images/unchose.jpg" width="150" height="150" />
+    </div>
+}

@@ -1,0 +1,292 @@
+﻿@page "/AdminUser"
+
+@using TES_MEDICAL.ADMIN.Client.Components
+@attribute [Authorize]
+
+
+
+<div class="m-3">
+
+
+    <div>
+        <div class="d-flex flex-wrap m-2">
+            <input class="mr-2 mb-2 form-control-sm" @bind="@searchName" placeholder="Tìm theo Tên món" />
+            
+            <div class="col-4">
+
+                <button type="button" class="btn btn-success btn-sm mr-2 " @onclick="Timkiem" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+
+                <button type="button" class="btn btn-sm btn-success mr-2" @onclick="ShowAddModal" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                <button type="button" class="btn btn-success mr-2 btn-sm" id="btSeach" @onclick="Clear"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                @*@if (loading)
+                            {
+                    <span class="spinner-border spinner-border-sm mr-1"></span>}*@
+            </div>
+            <div class="ml-auto col-2">
+
+
+                <div class="form-check">
+                    <input type="checkbox" @bind="@searchTrangThai" @oninput="@(async e=> { searchTrangThai =(bool)e.Value; await GetAdminUser(); })" class="form-check-input" id="chkall" />
+                    <label class="form-check-label">Hiện toàn bộ</label>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+</div>
+<div id="nameListContainer">
+    @if (!Nocontent && !loading)
+    {
+<div style="min-height:400px">
+    <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
+        <thead class="bg-success">
+            <tr>
+                <th>
+                    UserName
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                   Quyền
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                
+
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (var item in AdminUsers)
+            {
+<tr>
+    <td>@item.UserName</td>
+    <td>@item.Name</td>
+    
+    <td>@(item.Quyen==1?"Quản trị":"Người dùng")</td>
+    <td>@(item.TrangThai?"Hoạt động":"Không hoạt động")</td>
+    <td>
+        <a class="btn btn-info btn-sm btn-sm active" @onclick="() => GetEdit(item.Id)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | @if (item.TrangThai)
+        {<a class="btn btn-danger btn-sm active" @onclick="() => Delete(item.Id)" title="Tạm ngừng phục vụ món"> <i class="fa fa-trash"></i></a>}
+        else
+        {
+<a class="btn btn-success btn-sm active" @onclick="() => Restore(item.Id)" title="Tiếp tục phục vụ món"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+    </td>
+
+</tr>}
+        </tbody>
+    </table>
+</div>
+                <div class="row">
+                    <div class="col">
+                        <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+                    </div>
+                </div>}
+            else
+            {
+                if (Nocontent && !loading)
+                {
+<span>Không có kết quả</span> }
+else
+{
+<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>                }
+
+
+            }
+
+</div>
+
+
+<div id="AdminUserModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">@TitleText</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <EditForm EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group ">
+                    <input type="text" disabled style="display:none" placeholder="ID" @bind="inputAdd.id" class="form-control" />
+
+                </div>
+                <div class="d-flex flex-wrap">
+
+
+
+
+                    <div class="form-group col-6">
+                        <label class="control-label">Tên đăng nhập</label>
+                        <input @bind="inputAdd.UserName" class="form-control" />
+
+                        <ValidationMessage For="@(() => inputAdd.UserName)" />
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="control-label">Họ và tên</label>
+                        <input @bind="inputAdd.Name" class="form-control" />
+
+                        <ValidationMessage For="@(() => inputAdd.Name)" />
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="control-label">Mật khẩu</label>
+                        <input type="password" @bind="inputAdd.MatKhau" class="form-control" />
+
+                        <ValidationMessage For="@(() => inputAdd.MatKhau)" />
+
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="control-label">Mật khẩu xác nhận</label>
+                        <input type="password" @bind="inputAdd.MatKhauXacNhan" class="form-control" />
+
+                        <ValidationMessage For="@(() => inputAdd.MatKhauXacNhan)" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="control-label">Quyền</label>
+                        <select class="form-control mr-2" @bind="inputAdd.Quyen">
+
+
+                            <option value="1">Admin</option>
+                            <option value="2">Người dùng</option>
+
+
+
+
+                        </select>
+
+
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" @bind="inputAdd.TrangThai" /> Trạng Thái
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-body">
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <button type="submit" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+
+    </div>
+</div>
+
+<div id="AdminUserUpdateModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">@TitleText</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <EditForm EditContext="@editContext" OnValidSubmit="UpdateHandleValidSubmit">
+                <DataAnnotationsValidator />
+             
+
+
+                <div class="modal-body">
+                    <div id="myModalContent">
+                        <div class="form-group ">
+                            <input type="text" disabled style="display:none" placeholder="ID" @bind="inputupdate.id" class="form-control" />
+
+                        </div>
+                        <div class="d-flex flex-wrap">
+
+
+
+
+                            <div class="form-group col-6">
+                                <label class="control-label">Tên đăng nhập</label>
+                                <input @bind="inputupdate.UserName" class="form-control" />
+
+                                <ValidationMessage For="@(() => inputupdate.UserName)" />
+
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="control-label">Họ và tên</label>
+                                <input @bind="inputupdate.Name" class="form-control" />
+
+                                <ValidationMessage For="@(() => inputupdate.Name)" />
+
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label class="control-label">Quyền</label>
+                                <select class="form-control mr-2" @bind="inputupdate.Quyen">
+
+
+                                    <option value="1">Admin</option>
+                                    <option value="2">Người dùng</option>
+
+
+
+
+                                </select>
+
+
+                            </div>
+                            <div class="form-group col-6">
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" @bind="inputupdate.TrangThai" /> Trạng Thái
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <button type="submit" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
