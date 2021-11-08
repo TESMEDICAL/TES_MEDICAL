@@ -38,7 +38,12 @@ namespace TES_MEDICAL.CLIENTBACSI
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-
+            builder.Services.AddOidcAuthentication(options =>
+            {
+                // Configure your authentication provider options here.
+                // For more information, see https://aka.ms/blazor-standalone-auth
+                builder.Configuration.Bind("Local", options.ProviderOptions);
+            });
             await builder.Build().RunAsync();
         }
     }

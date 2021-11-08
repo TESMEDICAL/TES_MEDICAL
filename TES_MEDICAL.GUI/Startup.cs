@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -41,13 +41,13 @@ namespace TES_MEDICAL.GUI
         }
 
         public IConfiguration Configuration { get; }
-     
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Token tồn tại trong 2 tiếng
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-   opt.     TokenLifespan = TimeSpan.FromHours(2));
+   opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddResponseCompression(opts =>
             {
@@ -56,8 +56,16 @@ namespace TES_MEDICAL.GUI
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
-            services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
-           
+
+            services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(120); });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+
+            //    options.Cookie.Name = ".AspNetCore.Identity.Application";
+            //    //options.ExpireTimeSpan = TimeSpan.FromHours(1);
+            //    options.SlidingExpiration = true;
+            //});
+
             //        services.AddAuthentication()
             //.AddGoogle(googleOptions =>
             //{
@@ -75,10 +83,9 @@ namespace TES_MEDICAL.GUI
     .AddCookie(options =>
     {
 
-        options.Cookie.Name = ".AspNetCore.Identity.Application";
-        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+
         options.SlidingExpiration = true;
-      
+
     }
     )
 
@@ -95,14 +102,19 @@ namespace TES_MEDICAL.GUI
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
+            }).AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
             });
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
             //       .AddEntityFrameworkStores<DataContext>();
-            services.AddDefaultIdentity<NhanVienYte>(options => { options.SignIn.RequireConfirmedAccount = false;
-                
+            services.AddDefaultIdentity<NhanVienYte>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
+
             }).AddRoles<IdentityRole>().AddErrorDescriber<CustomErrorDescriber>()
                    .AddEntityFrameworkStores<DataContext>();
             services
@@ -111,8 +123,8 @@ namespace TES_MEDICAL.GUI
               .AddRepositories();
 
             services.AddSignalR();
-        
-      
+
+
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -142,9 +154,12 @@ namespace TES_MEDICAL.GUI
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Name = ".AspNetCore.Identity.Application";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
             });
 
 
@@ -171,7 +186,7 @@ namespace TES_MEDICAL.GUI
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
-         
+
             app.UseAuthorization();
             //app.UseEndpoints(endpoints =>
             //{

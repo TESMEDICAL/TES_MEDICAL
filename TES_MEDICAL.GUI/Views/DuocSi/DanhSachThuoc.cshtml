@@ -3,7 +3,7 @@
 @using TES_MEDICAL.GUI.Models;
 
 @{
-    ViewData["Title"] = "DanhSachThuoc";
+    ViewData["Title"] = "DANH SÁCH THUỐC";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
@@ -73,10 +73,10 @@
 
     </div>
 </div>
-
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 @section Scripts{
     <script>
-        
+
         function OpenChiTietThuoc() {
             $.ajax({
                 url: "/DuocSi/ChiTietThuoc/",
@@ -200,7 +200,7 @@
         }
     </script>
 
- }
+}
 
 
 

@@ -11,6 +11,7 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8">
+    
 
     <title>@ViewData["Title"]</title>
 
@@ -411,7 +412,7 @@
                                     <a href="/tiepnhan/capnhatdichvu"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
                                 </li>
                             }
-                            else
+                            else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
                             {
                                 <!-- Phần Dược Sĩ -->
                                 <li class="sidebar-header">
@@ -432,9 +433,9 @@
                                     <a href="@Url.Action("DanhSachThuoc","DuocSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
                                 </li>
                             }
-
-                            <!-- Phần Bác Sĩ -->
-                            @*<li class="sidebar-header">
+                            else
+                            {
+                                <li class="sidebar-header">
                                     <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="fas fa-notes-medical"></i></a></span>
                                     <span class="sidebar-header-title">Bác sĩ</span>
                                 </li>
@@ -442,12 +443,16 @@
                                 <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
                                     <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
                                 </li>
-                                <li class="@Html.IsSelected(actions: "KhamBenh", controllers: "BacSi")">
-                                    <a href="@Url.Action("KhamBenh","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Khám bệnh</span></a>
+                                <li class="@Html.IsSelected(actions: "LichSuKham", controllers: "BacSi")">
+                                    <a href="@Url.Action("LichSuKham","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử khám</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
                                     <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
-                                </li>*@
+                                </li>
+
+                            }
+
+
 
 
                         </ul>
@@ -666,14 +671,17 @@
     </div>
     <!--End ChangePassword-->
     <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
 
     <script src="~/MainElement/js/plugins.js"></script>
@@ -815,6 +823,10 @@
         }
 
     </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
     <!--Kết thúc Script chạy Active trên Menu-->
     <!-- Google Maps API Key (you will have to obtain a Google Maps API key to use Google Maps) -->
     <!-- For more info please have a look at https://developers.google.com/maps/documentation/javascript/get-api-key#key -->
@@ -826,7 +838,7 @@
     <script src="~/MainElement/js/site.js"></script>
     <script src="~/js/datatableExt.js"></script>
 
-    <link rel="stylesheet" href="~/css/PagedList.css" />
+
 
 
 

@@ -1,6 +1,6 @@
 ﻿@model PhieuKhamViewModel
 @{
-    ViewData["Title"] = "ThemPhieuKham";
+    ViewData["Title"] = "THÊM PHIẾU KHÁM";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 
 
@@ -277,6 +277,15 @@
 
 
 
+                }
+                else {
+                    $("#HoTen").val("");
+                    $("#NgaySinh").val("");
+                    $("#DiaChi").val(data.DiaChi);
+                    
+                    $('#GioiTinh').val(0);
+                   
+                    $("#MaBN").val("");
                 }
             });
 
