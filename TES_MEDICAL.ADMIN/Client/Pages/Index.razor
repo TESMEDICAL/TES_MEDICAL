@@ -1,0 +1,167 @@
+﻿@page "/"
+@page "/index"
+@using TES_MEDICAL.ADMIN.Client.Components
+@attribute [Authorize]
+
+
+
+<div class="m-3">
+
+
+    <div>
+        <div class="d-flex flex-wrap m-2">
+            <input class="mr-2 mb-2 form-control-sm" @bind="inputName" @bind:event="oninput" @onkeyup="Timkiem" placeholder="Tìm theo tên loại" />
+            <div class="col-4">
+
+               
+
+                <button type="button" class="btn btn-sm btn-success mr-2" @onclick="@(() => ShowAddModal("ChuyenKhoaModal"))" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                <button type="button" class="btn btn-success mr-2 btn-sm"id="btSeach" @onclick="Clear"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                @if (loading)
+                {
+                    <span class="spinner-border spinner-border-sm mr-1"></span>}
+            </div> 
+
+        </div>
+
+        
+
+    </div>
+
+
+
+
+
+</div>
+<div id="nameListContainer">
+    @if (!Nocontent && !loading)
+    {
+
+<div style="min-height:400px">
+    <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
+        <thead class="bg-success">
+            <tr>
+
+
+
+                <th>
+
+                    Tên loại thức ăn
+                </th>
+
+
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (var item in ChuyenKhoas)
+            {
+<tr>
+
+
+
+
+
+
+    <td>@item.TenCK</td>
+
+
+
+
+
+
+
+
+
+
+    <td><a class="btn btn-info btn-sm btn-sm active" @onclick="() => GetEdit(item.MaCK)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+
+</tr>}
+        </tbody>
+    </table>
+</div>
+                <div class="row">
+                    <div class="col">
+                        <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage" />
+                    </div>
+                </div>}
+            else
+            {
+                if (Nocontent && !loading)
+                {
+<span>Không có kết quả</span> }
+else
+{
+<div class="spinner-border spinner-border-sm"></div><span>Đang lấy dữ liệu</span>}
+
+
+}
+
+</div>
+
+
+<div id="ChuyenKhoaModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                
+                    <h5 class="modal-title">@TitleText</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               
+            </div>
+            <EditForm  EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group ">
+                    <input type="text" disabled style="display:none" placeholder="ID" @bind="input.id" class="form-control" />
+
+                </div>
+                <div class="row">
+                    
+                   
+                    <label class="control-label col-md-10 m-auto">Tên loại</label>
+                
+                    <div class="form-group  col-10 m-auto" >
+                        <input type="text" placeholder="Tên" @bind="input.Name" class="form-control" />
+
+                    </div>
+                    <div class="col-10 m-auto">
+                        <ValidationMessage For="@(() => input.Name)" />
+                    </div>
+
+                </div>
+
+
+                <div class="modal-body">
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="text-right">
+                        <button type="submit" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+
+                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    //
+    //private IEnumerable<User> users;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    loading = true;
+    //    users = await UserService.GetAll();
+    //    loading = false;
+    //}
+}

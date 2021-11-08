@@ -2,7 +2,7 @@
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "QUẢN LÝ THUỐC";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
@@ -198,7 +198,7 @@
                         var file = fileUpload.files[0];
 
                         formData.append("file", file);
-                        formData.append('MaThuoc', $("#add_thuoc").val());
+                        formData.append('MaThuoc', $("#MaThuoc").val());
                         formData.append('TenThuoc', $("#TenThuoc").val());
                         formData.append('Vitri', $("#Vitri").val());
                         formData.append('DonGia', $("#DonGia").val());
