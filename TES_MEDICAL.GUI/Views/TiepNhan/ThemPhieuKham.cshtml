@@ -154,12 +154,13 @@
 
 <div class="col-12">
     <div class="block">
-
         <div class="form-group" style="float:right">
-            <button class="btn me-1" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
             <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-
         </div>
+        <div class="button-reload form-group" style="float:right">
+            <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+        </div>
+
         <div class="form-group">
             <table class="table table-striped">
                 <thead>
@@ -173,11 +174,10 @@
                 <tbody id="listDV">
                 </tbody>
             </table>
-            <div class="form-group" style="text-align:right">
+            <div class=" form-group" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
-
             </div>
         </div>
 
