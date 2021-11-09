@@ -9,7 +9,8 @@ using System.Web;
 using X.PagedList;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
-
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.ADMIN.Shared.Helper;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -17,11 +18,9 @@ namespace TES_MEDICAL.GUI.Services
     {
         private static int pageSize = 6;
          private readonly DataContext _context;
-
         public NguoiDungsvc(DataContext context)
         {
             _context = context;
-
         }
       
       
@@ -208,6 +207,14 @@ namespace TES_MEDICAL.GUI.Services
             
             return data;
             
+        }
+
+        public NguoiDung Login(AdminLoginViewModel viewLogin)
+        {
+            var u = _context.NguoiDung.Where(
+                p => p.Email.Equals(viewLogin.UserName)
+                && p.MatKhau.Equals(MaHoaHelper.Mahoa(viewLogin.Password))).FirstOrDefault();
+            return u;
         }
     }
 }

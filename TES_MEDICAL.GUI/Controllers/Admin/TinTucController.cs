@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
 
-    public class TinTucController : Controller
+    public class TinTucController : BaseController
     {
         private readonly ITinTuc _service;
         private readonly ITheLoai _theLoaiRep;

@@ -181,7 +181,7 @@ namespace TES_MEDICAL.GUI
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
             app.UseCors("MyPolicy");
 
