@@ -48,7 +48,41 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-       
+
+        public async Task<Response<NhanVienYte>> Edit(string id, bool TrangThai)
+        {
+            try
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+
+                    var existingNguoiDung = await _context.NhanVienYte.FindAsync(id);
+                   
+                    existingNguoiDung.TrangThai = TrangThai;
+
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return new Response<NhanVienYte> { errorCode = 0, Obj = existingNguoiDung };
+                }
+
+
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<NhanVienYte> { errorCode = -1 };
+                }
+
+                return new Response<NhanVienYte> { errorCode = -2 };
+            }
+
+
+
+
+        }
+
         //         public  IEnumerable<ChuyenKhoa> ChuyenKhoaNav()
         //{
         //    return _context.ChuyenKhoa.ToList();
@@ -60,29 +94,30 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<NhanVienYte> listUnpaged;
-            listUnpaged = _context.NhanVienYte.Include(x => x.ChuyenKhoaNavigation);
-
-
-
-            if (!string.IsNullOrWhiteSpace(model.HoTenSearch))
-
+            if (model.TrangThai == true)
             {
-                listUnpaged = listUnpaged.Where(x => x.HoTen.ToUpper().Contains(model.HoTenSearch.ToUpper()));
+                listUnpaged = _context.NhanVienYte.Include(x=>x.ChuyenKhoaNavigation).Where(x =>
+                   (string.IsNullOrWhiteSpace(model.KeyWordSearch)) ||
+                   EF.Functions.Collate(x.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                   EF.Functions.Collate(x.PhoneNumber, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
+                     
+                    
+
+
+                   ).OrderBy(x => x.HoTen);
+            }
+            else
+            {
+                listUnpaged = _context.NhanVienYte.Include(x=>x.ChuyenKhoaNavigation).Where(x =>
+                  ((string.IsNullOrWhiteSpace(model.KeyWordSearch)) ||
+                  EF.Functions.Collate(x.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                  EF.Functions.Collate(x.PhoneNumber, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+                  && x.TrangThai == true
+
+
+                  ).OrderBy(x => x.HoTen);
             }
 
-
-            if (!string.IsNullOrWhiteSpace(model.SDTNVSearch))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.PhoneNumber.ToUpper().Contains(model.SDTNVSearch.ToUpper()));
-            }
-
-
-            if (!string.IsNullOrWhiteSpace(model.ChuyenKhoaSearch.ToString()))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.ChuyenKhoa == model.ChuyenKhoaSearch);
-            }
 
 
 

@@ -191,10 +191,22 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (await _service.Delete(id))
+            var thuoc = await _service.Get(id);
+            thuoc.TrangThai = false;
+            if (await _service.Edit(thuoc)!=null)
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            var thuoc = await _service.Get(id);
+            thuoc.TrangThai = true;
+            if (await _service.Edit(thuoc) != null)
+                return Json(new { status = 1, title = "", text = "Khôi phục thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            else
+                return Json(new { status = -2, title = "", text = "Thao tác không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
     }
 }

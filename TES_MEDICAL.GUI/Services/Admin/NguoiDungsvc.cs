@@ -148,40 +148,42 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<IPagedList<NguoiDung>> SearchByCondition(NguoiDungSearchModel model)
         {
 
-                IEnumerable<NguoiDung> listUnpaged;
-                listUnpaged = _context.NguoiDung.OrderBy(x=>x.Email) ;
-               
-                
+                IEnumerable<NguoiDung> listUnpaged = null;
+            if (model.TrangThai == true)
+            {
+                listUnpaged = _context.NguoiDung.Where(x =>
+                   (string.IsNullOrWhiteSpace(model.KeyWordSearch)) ||
+                   EF.Functions.Collate(x.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                   EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
 
-                                                                                                                                                             if(!string.IsNullOrWhiteSpace(model.HoTenSearch)) 
-                                
-                   {
-                     listUnpaged = listUnpaged.Where(x => x.HoTen.ToUpper().Contains(model.HoTenSearch.ToUpper()));
-                   }
-                         
-                                  
-                                                                        if(!string.IsNullOrWhiteSpace(model.SDTSearch)) 
-                                
-                   {
-                     listUnpaged = listUnpaged.Where(x => x.SDT.ToUpper().Contains(model.SDTSearch.ToUpper()));
-                   }
-                         
-                                  
-                                                                                                                                            if(!string.IsNullOrWhiteSpace(model.TrangThaiSearch.ToString())) 
-                                
-                    {
-                     listUnpaged = listUnpaged.Where(x => x.TrangThai==model.TrangThaiSearch);
-                    }
-   
-     
 
-                                     
-                                           
-              
-                        
-             
-               
-                var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
+                   ).OrderBy(x => x.HoTen);
+            }
+            else
+            {
+                listUnpaged = _context.NguoiDung.Where(x =>
+                  ((string.IsNullOrWhiteSpace(model.KeyWordSearch)) ||
+                  EF.Functions.Collate(x.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                  EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+                  && x.TrangThai == true
+
+
+                  ).OrderBy(x => x.HoTen);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
 
                 if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)

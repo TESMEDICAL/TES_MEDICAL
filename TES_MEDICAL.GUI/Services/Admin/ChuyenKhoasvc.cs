@@ -153,7 +153,12 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<ChuyenKhoa> listUnpaged = null;
-            listUnpaged = await _context.ChuyenKhoa.FromSqlRaw("EXEC dbo.SearchChuyenkhoa @KeyWord",new SqlParameter("KeyWord",string.IsNullOrWhiteSpace(model.TenCKSearch)?DBNull.Value:model.TenCKSearch)).ToListAsync();
+            listUnpaged = _context.ChuyenKhoa.Where(x => 
+            string.IsNullOrWhiteSpace(model.TenCKSearch)||
+            EF.Functions.Collate(x.TenCK, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.TenCKSearch, "SQL_Latin1_General_Cp1_CI_AI"))
+            )
+                .OrderBy(x=>x.TenCK);
+           
 
 
 

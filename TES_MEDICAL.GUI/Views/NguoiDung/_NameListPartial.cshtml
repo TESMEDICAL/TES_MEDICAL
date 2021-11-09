@@ -74,35 +74,39 @@
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<NguoiDung>)
                 {
-                    <tr>
-                        <td class="col-2">@item.HoTen</td>
+        <tr>
+            <td class="col-2">@item.HoTen</td>
 
-                        <td class="col-2">@item.SDT</td>
+            <td class="col-2">@item.SDT</td>
 
-                        <td class="col-2 text-center">
-                            <img class="listname-img" src="~/images/@item.HinhAnh" />
-                        </td>
-
-
-                        <td class="col-2 text-center">
-                            @if (item.ChucVu == 1)
-                            {
-                                @("Admin")
-                            }
-                            else
-                            {
-                                @("User")
-                            }
-                        </td>
+            <td class="col-2 text-center">
+                <img class="listname-img" src="~/images/@item.HinhAnh" />
+            </td>
 
 
-                        <td class="col-2 text-center">@item.TrangThai</td>
+            <td class="col-2 text-center">
+                @if (item.ChucVu == 1)
+                {
+                    @("Admin")
+                }
+                else
+                {
+                    @("User")
+                }
+            </td>
 
-                        <td class="table-btn text-nowrap col-2 text-center">
-                            <a class="btn-edit btn btn-sm active" onclick="Edit('@item.MaNguoiDung')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            <a class="btn-delete btn btn-sm active" onclick="_delete('@item.MaNguoiDung')"> <i class="fa fa-trash"></i></a>
-                            <a class="btn-infomation btn btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
-                    </tr>
+
+            <td class="col-2 text-center">@(item.TrangThai?"Hoạt động":"Không hoạt động")</td>
+
+            <td>
+                <a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')" title="Chỉnh sửa thông tin"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | @if (item.TrangThai)
+                {<a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                else
+                {
+        <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaNguoiDung')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin chi tiết"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+            </td>
+        </tr>
                 }
         </table>
     </div>
@@ -134,7 +138,7 @@
         }
 
 
-        @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page, HoTenSearch = searchModel.HoTenSearch, SDTSearch = searchModel.SDTSearch, TrangThaiSearch = searchModel.TrangThaiSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch, TrangThai = searchModel.TrangThai }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
 

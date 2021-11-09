@@ -17,6 +17,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task <IPagedList<NhanVienYte>> SearchByCondition(NhanVienYteSearchModel model);
         
         Task<IEnumerable<NhanVienYte>> GetAllBS(Guid MaCK);
+        Task<Response<NhanVienYte>> Edit(string id, bool TrangThai);
 
     }
 }

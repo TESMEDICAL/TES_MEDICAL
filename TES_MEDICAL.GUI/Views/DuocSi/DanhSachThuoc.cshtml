@@ -16,17 +16,10 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
+                @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
             </div>
 
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo đơn giá" } })
-            </div>
-
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo thông tin" } })
-            </div>
-
+           
 
             <div class="col-4">
 
@@ -125,43 +118,41 @@
                 }
             });
         }
+        $("#KeyWordSearch").keyup(function () {
 
-        function Timkiem() {
+            obj = {};
+           
+            obj.KeyWordSearch = $(this).val()
 
-
+            obj.page = 1;
             $.ajax({
                 url: '/DuocSi/PageList/',
 
                 type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
 
+
+                data: obj,
 
                 success: function (result) {
 
+                    if (result.status != 2) {
 
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
 
                         $('#nameListContainer').html(result);
                     }
 
-
+                    $('#nameListContainer').html(result);
                 },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
 
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
+
+
+
+
+        });
 
         function Clear() {
 

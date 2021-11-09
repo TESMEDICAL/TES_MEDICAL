@@ -63,7 +63,11 @@
                         <td class="text-center">@item.MaTLNavigation.TenTL</td>
                         <td class="table-btn text-nowrap text-center">
                             <a class="btn-edit btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            <a class="btn-delete btn btn-sm active" title="Xóa" onclick="_delete('@item.MaBaiViet')"> <i class="fa fa-trash"></i></a>
+                            @if (item.TrangThai)
+                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            else
+                            {
+                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaBaiViet')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
                             <a class="btn-infomation btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
                     </tr>
