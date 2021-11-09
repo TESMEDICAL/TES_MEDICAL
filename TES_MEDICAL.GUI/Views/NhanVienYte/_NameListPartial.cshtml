@@ -114,7 +114,11 @@
                         <td class="col-1 text-center">@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</td>
 
                         <td class="table-btn text-nowrap col-2 text-center">
-                            <a class="btn-delete btn btn-sm active" onclick="_delete('@item.Id')"> <i class="fa fa-trash"></i></a>&nbsp;
+                            @if (item.TrangThai)
+                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.Id')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            else
+                            {
+                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.Id')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
                             <a class="btn-infomation btn btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
 
@@ -151,7 +155,7 @@
         }
        
              
-        @Html.PagedListPager((IPagedList<NhanVienYte>)ViewBag.Names, page => Url.Action("PageList", new { page , HoTenSearch  = searchModel.HoTenSearch,   SDTNVSearch  = searchModel.SDTNVSearch,  ChuyenKhoaSearch  = searchModel.ChuyenKhoaSearch   }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        @Html.PagedListPager((IPagedList<NhanVienYte>)ViewBag.Names, page => Url.Action("PageList", new { page , KeyWordSearch = searchModel.KeyWordSearch, TrangThai  = searchModel.TrangThai   }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
    
 

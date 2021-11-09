@@ -205,13 +205,27 @@ namespace TES_MEDICAL.GUI.Controllers
 
         //}
 
-        //[HttpPost]
-        //public async Task<ActionResult> Delete(Guid id)
-        //{
-        //    if (await _service.Delete(id))
-        //        return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        //    else
-        //        return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var user = await _service.Get(id);
+            user.TrangThai = false;
+            var item = await _service.Edit(id, false);
+            if (item.errorCode==0)
+                return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            else
+                return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+        [HttpPost]
+        public async Task<ActionResult> Restore(string id)
+        {
+            var user = await _service.Get(id);
+            user.TrangThai = false;
+            var item = await _service.Edit(id, true);
+            if (item.errorCode == 0)
+                return Json(new { status = 1, title = "", text ="Khôi phục thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            else
+                return Json(new { status = -2, title = "", text = "Khôi phục không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
     }
 }

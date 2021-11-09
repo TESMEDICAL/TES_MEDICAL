@@ -153,31 +153,24 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<Thuoc> listUnpaged;
-            listUnpaged = _context.Thuoc.OrderBy(x => x.TenThuoc);
+            listUnpaged = _context.Thuoc.Where(x=> 
+            string.IsNullOrWhiteSpace(model.KeyWordSearch) || 
+            EF.Functions.Collate(x.TenThuoc, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))||
+            EF.Functions.Collate(x.ThongTin, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
 
 
 
-            if (!string.IsNullOrWhiteSpace(model.TenThuocSearch))
 
+
+
+
+                ).OrderBy(x => x.TenThuoc);
+
+            if(!model.TrangThai)
             {
-                listUnpaged = listUnpaged.Where(x => x.TenThuoc.ToUpper().Contains(model.TenThuocSearch.ToUpper()));
-            }
+             listUnpaged =   listUnpaged.Where(x => x.TrangThai);
+            }    
 
-
-            if (!string.IsNullOrWhiteSpace(model.DonGiaSearch.ToString()))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.DonGia == model.DonGiaSearch);
-            }
-
-
-
-
-            if (!string.IsNullOrWhiteSpace(model.ThongTinSearch))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.ThongTin.ToUpper().Contains(model.ThongTinSearch.ToUpper()));
-            }
 
 
 

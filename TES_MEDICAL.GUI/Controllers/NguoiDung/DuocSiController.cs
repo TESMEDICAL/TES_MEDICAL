@@ -191,6 +191,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
         {
             if (!model.Page.HasValue) model.Page = 1;
+            model.TrangThai = false;
             var listPaged = await _thuocService.SearchByCondition(model);
 
             ViewBag.Names = listPaged;

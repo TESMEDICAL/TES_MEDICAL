@@ -141,16 +141,19 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             IEnumerable<TheLoai> listUnpaged;
-            listUnpaged = _context.TheLoai.OrderBy(x => x.TenTL);
+            listUnpaged = _context.TheLoai.Where(x=>string.IsNullOrWhiteSpace(
+                model.TenTLSearch)||
+                EF.Functions.Collate(x.TenTL, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.TenTLSearch, "SQL_Latin1_General_Cp1_CI_AI"))
+                
+                
+                
+                
+                
+                ).OrderBy(x => x.TenTL);
 
 
 
-            if (!string.IsNullOrWhiteSpace(model.TenTLSearch))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.TenTL.ToUpper().Contains(model.TenTLSearch.ToUpper()));
-            }
-
+          
 
 
 

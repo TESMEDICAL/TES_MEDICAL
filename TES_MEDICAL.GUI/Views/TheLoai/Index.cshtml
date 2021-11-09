@@ -408,43 +408,41 @@
 
         }
 
-        function Timkiem() {
+        $("#TenTLSearch").keyup(function () {
 
+            obj = {};
 
+            obj.TenTLSearch = $(this).val()
+
+            obj.page = 1;
             $.ajax({
                 url: '/TheLoai/PageList/',
 
                 type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
 
+
+                data: obj,
 
                 success: function (result) {
 
+                    if (result.status != 2) {
 
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
 
                         $('#nameListContainer').html(result);
                     }
 
-
+                    $('#nameListContainer').html(result);
                 },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
 
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
 
+
+
+
+        });
         function Clear() {
 
 
