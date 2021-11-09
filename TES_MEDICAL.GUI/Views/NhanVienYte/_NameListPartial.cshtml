@@ -38,7 +38,9 @@
     .btn-infomation {
         background-color: rgb(17, 138, 178);
     }
-
+    .table-btn a{
+        margin-top: 20%;
+    }
     .table-btn a i {
         color: white;
     }
@@ -54,29 +56,29 @@
 <div id="list" >
    
     <div class="list-table" style="min-height:400px">
-        <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
+        <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">                                               
                     <th class="col-2">
                         Họ tên
                     </th>
                                                                        
-                    <th class="col-2">
-                        Số điện thoại
+                    <th class="col-1">
+                        SĐT
                     </th>
                                                                        
-                    <th class="col-1 text-center">
+                    <th class="col-2 text-center">
                         Chức vụ
                     </th>
                                                                        
-                    <th class="col-2 text-center"> 
-                        Trạng thái
+                    <th class="col-1 text-center"> 
+                        Tr.Thái
                     </th>
                                                                        
                     <th class="col-2 text-center">
                         Hình ảnh
                     </th>
                                                                        
-                    <th class="col-1 text-center">
+                    <th class="col-2 text-center">
                         Chuyên khoa
                     </th>
                                                               
@@ -86,32 +88,34 @@
                 @foreach (var item in ViewBag.Names as IEnumerable<NhanVienYte>)
                 {
                     <tr>
-                        <td class="col-2">@item.HoTen</td>
+                        <td class="col-2"><p style="margin-top: 25%;">@item.HoTen</p></td>
 
-                        <td class="col-2">@item.PhoneNumber</td>
+                        <td class="col-1"><p style="margin-top: 50%;">@item.PhoneNumber</p></td>
 
-                        <td class="col-1 text-center">
-                            @if (item.ChucVu == 1)
-                            {
-                                @("Nhân viên y tế")
-                            }
-                            else if (item.ChucVu == 2)
-                            {
-                                @("Bác sĩ")
-                            }
-                            else
-                            {
-                                @("Dược sĩ")
-                            }
+                        <td class="col-2 text-center">
+                            <p style="margin-top: 25%;">
+                                @if (item.ChucVu == 1)
+                                {
+                                    @("Nhân viên y tế")
+                                }
+                                else if (item.ChucVu == 2)
+                                {
+                                    @("Bác sĩ")
+                                }
+                                else
+                                {
+                                    @("Dược sĩ")
+                                }
+                            </p>
                         </td>
 
-                        <td class="col-2 text-center">@item.TrangThai</td>
+                        <td class="col-1 text-center"><p style="margin-top: 60%;">@item.TrangThai</p></td>
 
                         <td class="col-2 text-center">
                             <img class="listname-img" src="~/images/@item.Hinh" />
                         </td>
                         
-                        <td class="col-1 text-center">@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</td>
+                        <td class="col-2 text-center"><p style="margin-top: 25%;">@(item.ChucVu==2?item.ChuyenKhoaNavigation.TenCK:"Không có")</p></td>
 
                         <td class="table-btn text-nowrap col-2 text-center">
                             @if (item.TrangThai)

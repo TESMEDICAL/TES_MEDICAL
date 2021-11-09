@@ -8,18 +8,20 @@
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 <style>
-    .main {
+    .box {
         background-color: white;
         font-family: Arial
     }
-    .main-title {
-        background-color: lightgray;
+    .box-title {
+        background-color: rgb(233, 236, 239);
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
-        .main-title h6 {
+        .box-title h6 {
             padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
         }
     .header-left{
         left: 0 auto;
@@ -54,8 +56,8 @@
 
 
 
-<div class="main m-3">
-    <div class="main-title mb-4">
+<div class="box m-3">
+    <div class="box-title mb-4">
          <h6>Quản lý trang chủ</h6>   
     </div>
 
@@ -66,7 +68,7 @@
             @Html.AntiForgeryToken()
 
             <div class="header-left col-sm-8 row">
-                <div class="header-input-1 col-3">
+                <div class="header-input-1 col-5">
                     <input type="text" class="form-control" asp-for="TieuDeSearch" placeholder="Nhập tiêu đề..." aria-label="Username" aria-describedby="basic-addon1">
                     @*@Html.EditorFor(model => model.TieuDeSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tiêu đề" } })*@
                 </div>
@@ -102,7 +104,7 @@
         }
 
     </div>
-    <div id="nameListContainer" class="mt-2" style="margin-inline: 15px;">        
+    <div id="nameListContainer" class="mt-2" style="margin-inline: 5px;">        
         <div class="name-list">
             <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TinTuc>" />
         </div>
