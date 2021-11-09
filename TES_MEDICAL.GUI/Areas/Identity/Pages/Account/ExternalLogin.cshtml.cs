@@ -142,11 +142,9 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             {
 
                 var user = await _userManager.FindByNameAsync(Input.Email);
-                if (user != null && await _userManager.CheckPasswordAsync(user, Input.PassWord))
-
-                   
+                if (user != null && await _userManager.CheckPasswordAsync(user, Input.PassWord))     
                 {
-                  var  result = await _userManager.AddLoginAsync(user, info);
+                     var  result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
                      

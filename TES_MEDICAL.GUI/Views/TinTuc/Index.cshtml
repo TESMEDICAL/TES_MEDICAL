@@ -71,10 +71,7 @@
                     @*@Html.EditorFor(model => model.TieuDeSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tiêu đề" } })*@
                 </div>
 
-                <div class="header-input-2 col-3">
-                    <input type="text" class="form-control" asp-for="TrangThaiSearch" placeholder="Nhập trạng thái ..." aria-label="Username" aria-describedby="basic-addon1">
-                    @*@Html.EditorFor(model => model.TrangThaiSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo trạng thái" } })*@
-                </div>
+               
 
                 <div class="header-dropdown col-3">
 
@@ -94,7 +91,7 @@
                 </div>
             </div>
             <div class="form-check ms-auto mb-2 text-right mt-3">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <input class="form-check-input" type="checkbox" value="" id="CheckAll" onchange="reloadpage(1)">
                 <label class="form-check-label" for="flexCheckChecked">
                     Hiện tất cả
                 </label>
@@ -105,7 +102,7 @@
         }
 
     </div>
-    <div id="nameListContainer" class="mt-2">        
+    <div id="nameListContainer" class="mt-2" style="margin-inline: 15px;">        
         <div class="name-list">
             <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TinTuc>" />
         </div>
@@ -250,7 +247,12 @@
 
         function reloadpage(page) {
             obj = {};
-
+            if ($('#CheckAll').is(':checked')) {
+                obj.TrangThai = true;
+            }
+            else {
+                obj.TrangThai = false;
+            }
             obj.Page = page;
             $.ajax({
                 url: '/TinTuc/PageList/',
@@ -373,7 +375,7 @@
 
 
         function _delete(id) {
-            var cf = confirm('Bạn muốn xoá bản ghi này?');
+            var cf = confirm('Bạn muốn vô hiệu hóa tin  này?');
             if (cf) {
                 $.ajax({
                     type: "POST",
@@ -401,8 +403,48 @@
 
         }
 
-        function Timkiem() {
 
+
+        function _restore(id) {
+            var cf = confirm('Bạn muốn Khôi phục tin này?');
+            if (cf) {
+                $.ajax({
+                    type: "POST",
+                    url: "/TinTuc/Restore",
+                    data: { "id": id },
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+                            toastr.success(result.text);
+
+                            reloadpage();
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+
+        }
+
+        function Timkiem() {
+            obj = {}
+            obj.Page = 1
+            obj.TieuDeSearch = $('#TieuDeSearch').val();
+            obj.MaTLSearch = $('#MaTLSearch').val();
+            if ($('#CheckAll').is(':checked')) {
+                obj.TrangThai = true;
+            }
+            else {
+                obj.TrangThai = false;
+            }
 
             $.ajax({
                 url: '/TinTuc/PageList/',
@@ -410,7 +452,7 @@
                 type: "Get",
                 timeout: 20000,
                 async: false,
-                data: $("#frmSearch").serialize(),
+                data: obj,
 
 
                 success: function (result) {

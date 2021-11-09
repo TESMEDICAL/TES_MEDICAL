@@ -3,30 +3,61 @@
 @model TES_MEDICAL.GUI.Models.NhanVienYte
 
 <style>
-    .details-img {
-        width: 200px;
-        height: 200px;
+    .main-modal {
+        padding-inline: 5%;
+    }
+
+    .main-title-1 {
+        background-color: white;
+        border-left: 8px solid rgb(82, 183, 136);
+    }
+
+        .main-title-1 h4 {
+            padding: 2%;
+            font-size: 35px;
+            font-weight: 400;
+        }
+
+    .main-left-1 {
+        text-align: center;
+    }
+
+    .detail-img {
+        width: 250px;
+        height: 250px;
         object-fit: cover;
         object-position: center center;
+    }
+
+    .main-right-1 .main-right-top h1 {
+        font-weight: bold;
+        color: rgb(82, 183, 136);
+    }
+
+    .main-right-1 .main-right-top .main-role {
+        font-weight: 300;
+        font-size: 25px;
+    }
+
+    .main-right-item h6 {
+        font-size: 20px;
     }
 </style>
 
 <div class="container-fluid" id="pannelNguoiDung">
-    <h4 style="text-align:center; font-weight:bold">THÔNG TIN NHÂN VIÊN Y TẾ</h4>
-    <hr />
-    <div class="row m-4">
+    <div class="main-title-1 mb-4">
+        <h4>Thông tin nhân viên y tế</h4>
+    </div>
+    <div class="main-modal row m-4">
         <!--Phần hình ảnh-->
-        <div class="col-sm-4">
+        <div class="main-left-1 col-sm-4">
              <img class="detail-img" src="~/images/@Model.Hinh" />
-                @*@Html.DisplayFor(model => model.HinhAnh)*@ 
-            
-
+                @*@Html.DisplayFor(model => model.HinhAnh)*@            
         </div>
-        <div class="col-sm-8">
-            <div>
-                <div class="col-12 row ">
-                    <h3 class="text-success" style="font-weight: bold;">@Model.HoTen</h3>
-                    <p style="font-weight: bold;">
+        <div class="main-right-1 col-sm-8">
+                <div class="main-right-top col-12 row mb-4">
+                    <h1 class="main-name">@Model.HoTen</h1>
+                    <h5 class="main-role">
                         Chức vụ :
                         @if (Model.ChucVu == 1)
                         {
@@ -41,52 +72,61 @@
                             @("Dược sĩ")
                         }
 
-                    </p>
+                    </h5>
                 </div>
                 
-                <div class="row col-12">
-                    <div class="col-sm-4" style="font-weight:bold!important">
+                <div class="main-right-item row col-12">
+                    <div class="col-sm-4">
                         Email
                     </div>
                     <div class="col-sm-8">
                         <!-- @Html.DisplayFor(model => model.Email) -->
-                        @Model.Email
+                        <h6 style="font-weight: 600">
+                            @Model.Email
+                        </h6>                                                
                     </div>
                 </div>
 
 
-                <div class="col-12 row">
-                    <div class="col-sm-4" style="font-weight:bold!important">
+                <div class="main-right-item row col-12">
+                    <div class="col-sm-4">
                         Số điện thoại
                     </div>
                     <div class="col-sm-8">
+                        <h6 style="font-weight: 600">
+                            @Model.PhoneNumber
+                        </h6>
+<!-- @Html.DisplayFor(model => model.PhoneNumber) -->
+
+
                         <!-- @Html.DisplayFor(model => model.PhoneNumber) -->
-                        @Model.PhoneNumber
                     </div>
                 </div>
 
-                <div class="col-12 row">
-                    <div class="col-sm-4" style="font-weight:bold!important">
+                <div class="main-right-item row col-12">
+                    <div class="col-sm-4">
                         Chuyên khoa
                     </div>
                     <div class="col-sm-8">
+                        <h6 style="font-weight: 600">
+                            @Model.ChuyenKhoaNavigation.TenCK
+                        </h6>
+
                         <!-- @Html.DisplayFor(model => model.ChuyenKhoa) -->
-                        @Model.ChuyenKhoaNavigation.TenCK
                     </div>
                 </div>
 
-                <div class="col-12 row">
-                    <div class="col-sm-4" style="font-weight:bold!important">
+                <div class="main-right-item row col-12">
+                    <div class="col-sm-4">
                         Trạng thái
                     </div>
                     <div class="col-sm-8">
+                        <h6 style="font-weight: 600">
+                            @Model.TrangThai
+                        </h6>
                         <!-- @Html.DisplayFor(model => model.TrangThai) -->
-                        @Model.TrangThai
                     </div>
                 </div>
-
-
-            </div>
         </div>
 
 
