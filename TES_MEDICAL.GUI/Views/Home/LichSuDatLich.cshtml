@@ -44,7 +44,7 @@
                                 <h6 style="font-weight:bold"><a href="#">Ngày khám</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#"></a></h6>
+                                <h6 style="font-weight:bold"><a href="#">Mã phiếu khám</a></h6>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                 $("#ShowLichSu").html("");
                 JSON.parse(response).forEach(function (item) {
                     console.log(item);
-                    var stringDate = new Date(item.ngayKham);
+                    var stringDate = new Date(item.NgayKham);
                     var dd = stringDate.getDate();
                     var MM = stringDate.getMonth();
                     var yyyy = stringDate.getFullYear();
@@ -125,24 +125,31 @@
                     var mm = stringDate.getMinutes();
                     var ss = stringDate.getSeconds();
                     var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                    
                     $("#ShowLichSu").append(`
-                    <div class="col-sm-3">
+                                <div class="col-sm-3">
                                     <h6><a href="#">${item.TenBN}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6><a href="#">${item.SDT}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${ngayKham}</a></h6>
+                                    <h6><a href="#" id="demo">${ngayKham}</a></h6>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h6><a href="#">${item.MaPhieu}</a></h6>
                                 </div>
                                 
                     `)
+                    
                 });
                 console.log(response);
 
             }
         });
     }
+
+    
 
 </script>
 

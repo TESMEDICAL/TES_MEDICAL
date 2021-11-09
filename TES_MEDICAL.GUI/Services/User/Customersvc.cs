@@ -61,7 +61,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<List<PhieuDatLich>> SearchDatLichByPhonenumber(string SDT)
         {
-            return await _context.PhieuDatLich.Where(x => x.NgayKham > DateTime.Now).ToListAsync();
+            return await _context.PhieuDatLich.Where(x => x.NgayKham > DateTime.Now).Where(x => x.SDT == SDT).ToListAsync();
 
         }
     }
