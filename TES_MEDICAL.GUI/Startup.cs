@@ -102,6 +102,10 @@ namespace TES_MEDICAL.GUI
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
+            }).AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
             });
 
 
