@@ -196,7 +196,7 @@ namespace TES_MEDICAL.GUI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=TiepNhan}/{action=ThemPhieuKham}");
+                    pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapHub<SignalServer>("/signalServer");
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();

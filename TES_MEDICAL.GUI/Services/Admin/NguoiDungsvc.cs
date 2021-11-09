@@ -34,6 +34,8 @@ namespace TES_MEDICAL.GUI.Services
             {
              using (var transaction = _context.Database.BeginTransaction())
                 {
+                    model.MatKhau = MaHoaHelper.Mahoa(model.MatKhau);
+                    
                     _context.Entry(model).State = EntityState.Added;
                     await _context.SaveChangesAsync();
                             
@@ -45,12 +47,6 @@ namespace TES_MEDICAL.GUI.Services
 
                 }
            
-
-                
-                   
-                   
-                   
-              
 
             }
             catch(DbUpdateException ex)

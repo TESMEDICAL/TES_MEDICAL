@@ -26,9 +26,9 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
         }
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
     }
 }

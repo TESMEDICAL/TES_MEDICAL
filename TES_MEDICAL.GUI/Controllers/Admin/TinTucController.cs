@@ -13,7 +13,6 @@ using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-
     public class TinTucController : BaseController
     {
         private readonly ITinTuc _service;
@@ -25,6 +24,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _theLoaiRep = theLoaiRep;
         }
 
+        
         public async Task<ActionResult> Index(TinTucSearchModel model)
         {
 

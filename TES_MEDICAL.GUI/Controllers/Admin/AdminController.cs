@@ -13,6 +13,7 @@ using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers.Admin
 {
+    
     public class AdminController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -65,9 +66,9 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             return RedirectToAction("Login", "Admin");
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
     }
 }
