@@ -1,10 +1,29 @@
-
-
 @model TES_MEDICAL.GUI.Models.DichVu
 
-<h4 style="text-align:center; font-weight:bold">THÊM DỊCH VỤ</h4>
-<hr />
-<div>
+<style>
+    .wrapper {
+        padding: 0;
+        margin: 0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        /*        display: flex;
+    */
+    }
+    .wrapper-title-1 {
+        background-color: white;
+        border-left: 8px solid rgb(82, 183, 136);
+    }
+
+        .wrapper-title-1 h4 {
+            padding: 2%;
+            font-size: 35px;
+            font-weight: 400;
+        }
+</style>
+
+<div class="wrapper-title-1 mb-5">
+    <h4>Thêm dịch vụ</h4>
+</div>
+<div class="wrapper">
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -12,7 +31,7 @@
         <div class="text-danger"></div>
 
 
-        <div class="form-group col-4">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.TenDV, "Tên dịch vụ", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TenDV, new { htmlAttributes = new { @class = "form-control" } })
@@ -20,28 +39,15 @@
             </div>
         </div>
 
-        <div class="form-group col-4">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.DonGia, "Đơn giá", htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
-
-
-
-
     }
-
-
-
-
-
 </div>
-
-
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 <script>
