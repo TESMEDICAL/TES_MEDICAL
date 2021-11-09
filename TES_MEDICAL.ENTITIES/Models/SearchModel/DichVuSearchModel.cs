@@ -11,8 +11,9 @@ namespace TES_MEDICAL.GUI.Models
     public class DichVuSearchModel
     {
         public int? Page { get; set; }
-        public String TenDVSearch { get; set; }
-        public Decimal? DonGiaSearch { get; set; }
+        public String KeyWordSearch { get; set; }
+        public bool TrangThai { get; set; }
+       
     }
 }
 

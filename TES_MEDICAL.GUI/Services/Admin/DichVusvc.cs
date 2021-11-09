@@ -151,19 +151,18 @@ namespace TES_MEDICAL.GUI.Services
             listUnpaged = _context.DichVu.OrderBy(x => x.TenDV);
 
 
+            listUnpaged = _context.DichVu.Where(x =>
+                       string.IsNullOrWhiteSpace(model.KeyWordSearch) ||
+                       EF.Functions.Collate(x.TenDV, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
+                       )
+                           .OrderBy(x => x.TenDV);
 
-            if (!string.IsNullOrWhiteSpace(model.TenDVSearch))
 
+            if(!model.TrangThai)
             {
-                listUnpaged = listUnpaged.Where(x => x.TenDV.ToUpper().Contains(model.TenDVSearch.ToUpper()));
-            }
+                listUnpaged = listUnpaged.Where(x => x.TrangThai);
+            }    
 
-
-            if (!string.IsNullOrWhiteSpace(model.DonGiaSearch.ToString()))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.DonGia == model.DonGiaSearch);
-            }
 
 
 

@@ -89,9 +89,13 @@
 
                         <td class="table-btn col-3 text-center text-nowrap">
                             <a class="btn btn-edit btn-sm btn-sm active" onclick="Edit('@item.MaDV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            <a class="btn btn-infomation btn-sm active" onclick="_delete('@item.MaDV')"> <i class="fa fa-trash"></i></a> @*| <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaDV')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>*@</td>
+                            @if (item.TrangThai)
+                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaDV')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            else
+                            {
+                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaDV')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
 
-                    </tr>
+</tr>
                 }
         </table>
     </div>
@@ -123,7 +127,7 @@
         }
 
 
-        @Html.PagedListPager((IPagedList<DichVu>)ViewBag.Names, page => Url.Action("PageList", new { page, TenDVSearch = searchModel.TenDVSearch, DonGiaSearch = searchModel.DonGiaSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        @Html.PagedListPager((IPagedList<DichVu>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch,TranThai = searchModel.TrangThai }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
 
