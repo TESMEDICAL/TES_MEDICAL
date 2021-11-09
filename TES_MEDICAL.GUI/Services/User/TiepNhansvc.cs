@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Services
             try
             {
 
-                model.MaNVHD = "da63a519-f9fa-48ac-ab40-f1cb3c4601de";
+               
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var MaPK = Guid.NewGuid();
                 var list = new List<string>();

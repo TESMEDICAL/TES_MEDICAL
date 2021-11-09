@@ -146,24 +146,22 @@ namespace TES_MEDICAL.GUI.Models
 
             modelBuilder.Entity<CTTrieuChung>(entity =>
             {
-                entity.HasKey(e => new { e.MaBenh, e.TenTrieuChung })
-                    .HasName("cttc_pk");
+                entity.HasKey(e => new { e.MaBenh, e.MaTrieuChung })
+                    .HasName("PK__CTTrieuC__E45FC2F731FF98AB");
 
-                entity.Property(e => e.TenTrieuChung).HasMaxLength(50);
-
-                entity.Property(e => e.ChiTietTrieuChung).IsRequired();
+            
 
                 entity.HasOne(d => d.MaBenhNavigation)
                     .WithMany(p => p.CTTrieuChung)
                     .HasForeignKey(d => d.MaBenh)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CTTrieuCh__MaBen__4316F928");
+                    .HasConstraintName("FK__CTTrieuCh__MaBen__19DFD96B");
 
-                entity.HasOne(d => d.TenTrieuChungNavigation)
+                entity.HasOne(d => d.MaTrieuChungNavigation)
                     .WithMany(p => p.CTTrieuChung)
-                    .HasForeignKey(d => d.TenTrieuChung)
+                    .HasForeignKey(d => d.MaTrieuChung)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CTTrieuCh__TenTr__440B1D61");
+                    .HasConstraintName("FK__CTTrieuCh__MaTri__1AD3FDA4");
             });
 
             modelBuilder.Entity<ChiTietDV>(entity =>
@@ -456,7 +454,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.MaThuoc).ValueGeneratedNever();
 
                 entity.Property(e => e.DonGia).HasColumnType("money");
-
+                
                 entity.Property(e => e.HinhAnh).HasMaxLength(250);
 
                 entity.Property(e => e.TenThuoc)
@@ -520,19 +518,22 @@ namespace TES_MEDICAL.GUI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__ToaThuoc__MaPhie__38996AB5");
             });
-
             modelBuilder.Entity<TrieuChung>(entity =>
             {
-                entity.HasKey(e => e.TenTrieuChung)
-                    .HasName("PK__TrieuChu__38C0D567B7BAD8FD");
+                entity.HasKey(e => e.MatrieuChung)
+                    .HasName("PK__TrieuChu__18521B702BAAC1B3");
 
-                entity.Property(e => e.TenTrieuChung).HasMaxLength(50);
+                entity.HasIndex(e => e.TenTrieuChung, "UQ__TrieuChu__38C0D5667814C499")
+                    .IsUnique();
 
-                entity.Property(e => e.TenTrieuChungKhongDau)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.MatrieuChung).ValueGeneratedNever();
+
+                entity.Property(e => e.TenTrieuChung).HasMaxLength(100);
+
+                entity.Property(e => e.TenTrieuChungKhongDau).HasMaxLength(100);
             });
-           
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }

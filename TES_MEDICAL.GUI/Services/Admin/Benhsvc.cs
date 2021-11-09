@@ -10,6 +10,7 @@ using X.PagedList;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using Microsoft.Data.SqlClient;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -25,7 +26,7 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public async Task<Benh> Add(Benh model)
+        public async Task<Benh> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
         {
             try
             {
@@ -34,9 +35,9 @@ namespace TES_MEDICAL.GUI.Services
                     _context.Entry(model).State = EntityState.Added;
                     await _context.SaveChangesAsync();
                     Guid id = model.MaBenh;
-                    if (model.CTTrieuChung.Count > 0)
+                    if (TrieuChungs.Count() > 0)
                     {
-                        foreach (var item in model.CTTrieuChung)
+                        foreach (var item in TrieuChungs)
                         {
                             item.MaBenh = id;
                             List<SqlParameter> parms = new List<SqlParameter>
@@ -70,7 +71,7 @@ namespace TES_MEDICAL.GUI.Services
         {
 
             var item = await _context.Benh
-                            .Include(p => p.CTTrieuChung)
+                            .Include(p => p.CTTrieuChung).ThenInclude(x=>x.MaTrieuChungNavigation)
                             .FirstOrDefaultAsync(i => i.MaBenh == id);
 
             if (item == null)
@@ -80,7 +81,7 @@ namespace TES_MEDICAL.GUI.Services
             return item;
         }
 
-        public async Task<Benh> Edit(Benh model)
+        public async Task<Benh> Edit(Benh model,List<CTrieuChungModel> trieuchungs)
         {
             try
             {
@@ -89,12 +90,12 @@ namespace TES_MEDICAL.GUI.Services
                     var listCTTrieuChung = _context.CTTrieuChung.Where(p => p.MaBenh == model.MaBenh);
                     foreach (var existingCTTrieuChung in listCTTrieuChung)
                     {
-                        if (!model.CTTrieuChung.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh))
+                        if (!trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh))
 
                             _context.Entry(existingCTTrieuChung).State = EntityState.Deleted;
                     }
 
-                    foreach (var item in model.CTTrieuChung)
+                    foreach (var item in trieuchungs)
                     {
 
                         if (item.MaBenh == Guid.Empty)
@@ -117,10 +118,10 @@ namespace TES_MEDICAL.GUI.Services
 
                         else
                         {
-                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh);
+                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh,item.MaTrieuChung);
 
 
-                            exist.TenTrieuChung = item.TenTrieuChung;
+                           
 
 
 
