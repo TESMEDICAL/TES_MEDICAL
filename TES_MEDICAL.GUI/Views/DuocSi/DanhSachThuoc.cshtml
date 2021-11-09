@@ -3,7 +3,7 @@
 @using TES_MEDICAL.GUI.Models;
 
 @{
-    ViewData["Title"] = "DanhSachThuoc";
+    ViewData["Title"] = "DANH SÁCH THUỐC";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
@@ -17,23 +17,16 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="col-2 me-2">
-                @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Lọc theo tên thuốc" } })
+            <div class="col-2 mr-2">
+                @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
             </div>
 
-            <div class="col-2 me-2">
-                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Lọc theo đơn giá" } })
-            </div>
+           
 
-            <div class="col-2 me-2">
-                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Lọc theo thông tin" } })
-            </div>
-            <div class="button-reload col-2">
-                <button type="button" class="btn" style="color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
-            </div>
+            <div class="col-4">
 
-            <div class="button-reload col-3 ms-5 text-end">
-                <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                <button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
+                <button type="button" class="btn mr-2 btn-sm" style="background-color:seagreen; color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
             </div>
         }
 
@@ -131,43 +124,41 @@
                 }
             });
         }
+        $("#KeyWordSearch").keyup(function () {
 
-        function Timkiem() {
+            obj = {};
+           
+            obj.KeyWordSearch = $(this).val()
 
-
+            obj.page = 1;
             $.ajax({
                 url: '/DuocSi/PageList/',
 
                 type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
 
+
+                data: obj,
 
                 success: function (result) {
 
+                    if (result.status != 2) {
 
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
 
                         $('#nameListContainer').html(result);
                     }
 
-
+                    $('#nameListContainer').html(result);
                 },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
 
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
+
+
+
+
+        });
 
         function Clear() {
 

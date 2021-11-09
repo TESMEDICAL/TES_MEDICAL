@@ -31,5 +31,9 @@ namespace TES_MEDICAL.CLIENTBACSI.Pages
                 NavigationManager.NavigateTo("/");
             }
         }
+        private void GoogleSignIn()
+        {
+            NavigationManager.NavigateTo("user/GoogleSignIn", true);
+        }
     }
 }
