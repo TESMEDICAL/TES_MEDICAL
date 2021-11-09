@@ -21,13 +21,14 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IThuoc _thuocRep;
         private readonly UserManager<NhanVienYte> _userManager;
         private readonly IHubContext<SignalServer> _hubContext;
+       
         public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager, IHubContext<SignalServer> hubContext)
         {
             _khambenhRep = khambenhRep;
             _thuocRep = thuocRep;
             _userManager = userManager;
             _hubContext = hubContext;
-            _thuocService = thuocSerice;
+            
         }
        
 
@@ -191,7 +192,8 @@ new JsonSerializerSettings
         public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
         {
             if (!model.Page.HasValue) model.Page = 1;
-            var listPaged = await _thuocService.SearchByCondition(model);
+            model.TrangThai = false;
+            var listPaged = await _thuocRep.SearchByCondition(model);
 
             ViewBag.Names = listPaged;
             ViewBag.Data = model;
@@ -201,8 +203,8 @@ new JsonSerializerSettings
         [HttpGet]
         public async Task<IActionResult> PageList(ThuocSearchModel model)
         {
-
-            var listmodel = await _thuocService.SearchByCondition(model);
+            model.TrangThai = false;
+            var listmodel = await _thuocRep.SearchByCondition(model);
             if (listmodel.Count() > 0)
             {
 
@@ -224,7 +226,7 @@ new JsonSerializerSettings
 
         public async Task<IActionResult> ChiTietThuoc(Guid id)
         {
-            if (await _thuocService.Get(id) == null)
+            if (await _thuocRep.Get(id) == null)
             {
                 return NotFound(); ;
             }
@@ -232,7 +234,7 @@ new JsonSerializerSettings
             {
 
 
-                return PartialView("_ChiTietThuoc", await _thuocService.Get(id));
+                return PartialView("_ChiTietThuoc", await _thuocRep.Get(id));
             }
         }
 
