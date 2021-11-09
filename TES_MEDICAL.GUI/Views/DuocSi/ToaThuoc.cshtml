@@ -127,6 +127,7 @@
             obj = {};
 
             obj.Page = page;
+            obj.TrangThaiPK = 1;
             obj.TrangThai = 0;
             $("#TimKiem").val("");
             $.ajax({
@@ -292,6 +293,7 @@
                 obj.page = $('#CurrentPage').val();
             obj.KeyWordSearch = $('#TimKiem').val()
             obj.TrangThai = 0;
+            obj.TrangThaiPK = 1;
 
                 $.ajax({
                     url: '/DuocSi/ReloadPage/',

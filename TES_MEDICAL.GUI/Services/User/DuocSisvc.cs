@@ -128,7 +128,7 @@ namespace TES_MEDICAL.GUI.Services
                     var existingThuoc = await _context.ToaThuoc.FindAsync(maPK);
                     existingThuoc.TrangThai = 1;
                     stt.UuTien = "B";
-                    if(_context.ToaThuoc.Where(x => x.TrangThai == 1).Count() > 0)
+                    if(_context.ToaThuoc.Include(x=>x.STTTOATHUOC).Where(x => x.TrangThai == 1 && x.STTTOATHUOC != null).Count() > 0)
                     {
                         stt.STT = _context.ToaThuoc.Include(x => x.STTTOATHUOC).Where(x => x.TrangThai == 1).Max(x => x.STTTOATHUOC.STT);
 
@@ -141,7 +141,7 @@ namespace TES_MEDICAL.GUI.Services
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     var phieuKham = await _context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.ToaThuoc).ThenInclude(x => x.HoaDonThuoc).ThenInclude(x => x.MaNVNavigation).Include(x => x.ToaThuoc.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == maPK);
-                    CreateHD(phieuKham);
+                    //CreateHD(phieuKham);
                     return existingThuoc;
                 }
 
@@ -155,49 +155,49 @@ namespace TES_MEDICAL.GUI.Services
         }
 
         //Ham Create Hoa Don
-        public void CreateHD(PhieuKham PK)
-        {
+        //public void CreateHD(PhieuKham PK)
+        //{
 
-            var tongTien = PK.ToaThuoc.ChiTietToaThuoc.Sum(x => x.MaThuocNavigation.DonGia * x.SoLuong);
-            var listThuoc = "";
-            foreach (var item in PK.ToaThuoc.ChiTietToaThuoc)
-            {
+        //    var tongTien = PK.ToaThuoc.ChiTietToaThuoc.Sum(x => x.MaThuocNavigation.DonGia * x.SoLuong);
+        //    var listThuoc = "";
+        //    foreach (var item in PK.ToaThuoc.ChiTietToaThuoc)
+        //    {
 
-                listThuoc += $"<tr><td class='col-3'><strong>{item.MaThuocNavigation.TenThuoc}</strong></td><td class='col-4'><strong>{item.GhiChu}</strong></td><td class='col-2 text-center'><strong>{item.SoLuong}</strong></td><td class='col-3 text-end'><strong>{(item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.')}</strong></td></tr>";
+        //        listThuoc += $"<tr><td class='col-3'><strong>{item.MaThuocNavigation.TenThuoc}</strong></td><td class='col-4'><strong>{item.GhiChu}</strong></td><td class='col-2 text-center'><strong>{item.SoLuong}</strong></td><td class='col-3 text-end'><strong>{(item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.')}</strong></td></tr>";
 
-            }
-            //ten | soluong | thanhtien | ghichu
-            var tenNV = PK.ToaThuoc.HoaDonThuoc.MaNVNavigation.HoTen;
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/InvoiceThuoc.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHD}", PK.ToaThuoc.HoaDonThuoc.MaHD);
-                html = html.Replace("{MaPK}", PK.ToaThuoc.HoaDonThuoc.MaPKNavigation.MaPhieuKham.ToString());
-                html = html.Replace("{NgayHD}", PK.ToaThuoc.HoaDonThuoc.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-                html = html.Replace("{MaNV}", tenNV);
-                html = html.Replace("{TongTien}", tongTien.ToString("n0").Replace(',', '.'));
-                html = html.Replace("{listThuoc}", listThuoc);
-                html = html.Replace("{tenBN}", PK.MaBNNavigation.HoTen);
-                html = html.Replace("{SDT}", PK.MaBNNavigation.SDT);
-                html = html.Replace("{NgaySinh}", PK.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy"));
-                html = html.Replace("{DiaChi}", PK.MaBNNavigation.DiaChi);
+        //    }
+        //    //ten | soluong | thanhtien | ghichu
+        //    var tenNV = PK.ToaThuoc.HoaDonThuoc.MaNVNavigation.HoTen;
+        //    var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+        //    using (var reader = new System.IO.StreamReader(root + @"/InvoiceThuoc.html"))
+        //    {
+        //        string readFile = reader.ReadToEnd();
+        //        string html = string.Empty;
+        //        html = readFile;
+        //        html = html.Replace("{MaHD}", PK.ToaThuoc.HoaDonThuoc.MaHD);
+        //        html = html.Replace("{MaPK}", PK.ToaThuoc.HoaDonThuoc.MaPKNavigation.MaPhieuKham.ToString());
+        //        html = html.Replace("{NgayHD}", PK.ToaThuoc.HoaDonThuoc.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
+        //        html = html.Replace("{MaNV}", tenNV);
+        //        html = html.Replace("{TongTien}", tongTien.ToString("n0").Replace(',', '.'));
+        //        html = html.Replace("{listThuoc}", listThuoc);
+        //        html = html.Replace("{tenBN}", PK.MaBNNavigation.HoTen);
+        //        html = html.Replace("{SDT}", PK.MaBNNavigation.SDT);
+        //        html = html.Replace("{NgaySinh}", PK.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy"));
+        //        html = html.Replace("{DiaChi}", PK.MaBNNavigation.DiaChi);
 
 
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
+        //        HtmlToPdf ohtmlToPdf = new HtmlToPdf();
+        //        PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
+        //        byte[] pdf = opdfDocument.Save();
+        //        opdfDocument.Close();
 
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon\HoaDonThuoc", PK.ToaThuoc.HoaDonThuoc.MaHD + ".pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);
+        //        string filePath = "";
+        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon\HoaDonThuoc", PK.ToaThuoc.HoaDonThuoc.MaHD + ".pdf");
+        //        System.IO.File.WriteAllBytes(filePath, pdf);
 
-            }
+        //    }
 
-        }
+        //}
 
         public async Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK)
         {

@@ -79,9 +79,9 @@ namespace TES_MEDICAL.GUI.Services
 
 
                 var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
-                Thread th_one = new Thread(() => CreateHD(hd));
+                //Thread th_one = new Thread(() => CreateHD(hd));
 
-                th_one.Start();
+                //th_one.Start();
                 return hd;
 
             }
@@ -131,46 +131,46 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public void CreateHD(HoaDon HD)
-        {
+        //public void CreateHD(HoaDon HD)
+        //{
 
-            var tongTien = HD.MaPKNavigation.ChiTietDV.Sum(x => x.MaDVNavigation.DonGia);
-            var listDichVu = "";
-            foreach (var item in HD.MaPKNavigation.ChiTietDV)
-            {
+        //    var tongTien = HD.MaPKNavigation.ChiTietDV.Sum(x => x.MaDVNavigation.DonGia);
+        //    var listDichVu = "";
+        //    foreach (var item in HD.MaPKNavigation.ChiTietDV)
+        //    {
 
-                listDichVu += $"<tr><td class='col-6'><strong>{item.MaDVNavigation.TenDV}</strong></td><td class='col-6 text-end'><strong>{item.MaDVNavigation.DonGia.ToString("n0").Replace(',', '.')}</strong></td></tr>";
+        //        listDichVu += $"<tr><td class='col-6'><strong>{item.MaDVNavigation.TenDV}</strong></td><td class='col-6 text-end'><strong>{item.MaDVNavigation.DonGia.ToString("n0").Replace(',', '.')}</strong></td></tr>";
 
-            }
-            var bn = HD.MaPKNavigation.MaBNNavigation;
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHoaDon}", HD.MaPK.ToString());
-                html = html.Replace("{MaNhanVien}", HD.MaNVNavigation.HoTen);
-                html = html.Replace("{NgayKham}", HD.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-                html = html.Replace("{HoTen}", bn.HoTen);
-                html = html.Replace("{NgaySinh}", bn.NgaySinh?.ToString("dd/MM/yyyy"));
-                html = html.Replace("{SDT}", bn.SDT);
-                html = html.Replace("{DiaChi}", bn.DiaChi);
-                html = html.Replace("{listDichVu}", listDichVu);
-                html = html.Replace("{tongtien}", tongTien.ToString("n0").Replace(',', '.'));
+        //    }
+        //    var bn = HD.MaPKNavigation.MaBNNavigation;
+        //    var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+        //    using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
+        //    {
+        //        string readFile = reader.ReadToEnd();
+        //        string html = string.Empty;
+        //        html = readFile;
+        //        html = html.Replace("{MaHoaDon}", HD.MaPK.ToString());
+        //        html = html.Replace("{MaNhanVien}", HD.MaNVNavigation.HoTen);
+        //        html = html.Replace("{NgayKham}", HD.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
+        //        html = html.Replace("{HoTen}", bn.HoTen);
+        //        html = html.Replace("{NgaySinh}", bn.NgaySinh?.ToString("dd/MM/yyyy"));
+        //        html = html.Replace("{SDT}", bn.SDT);
+        //        html = html.Replace("{DiaChi}", bn.DiaChi);
+        //        html = html.Replace("{listDichVu}", listDichVu);
+        //        html = html.Replace("{tongtien}", tongTien.ToString("n0").Replace(',', '.'));
 
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
+        //        HtmlToPdf ohtmlToPdf = new HtmlToPdf();
+        //        PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
+        //        byte[] pdf = opdfDocument.Save();
+        //        opdfDocument.Close();
 
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", HD.MaHoaDon + ".pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);
+        //        string filePath = "";
+        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", HD.MaHoaDon + ".pdf");
+        //        System.IO.File.WriteAllBytes(filePath, pdf);
 
-            }
+        //    }
 
-        }
+        //}
 
 
 
