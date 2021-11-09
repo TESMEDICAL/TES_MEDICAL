@@ -128,7 +128,15 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError("Email", error.Description);
+                        if (error.Code.Contains("Email"))
+                            {
+                            ModelState.AddModelError("Email", error.Description);
+                        }
+                        if(error.Code.Contains("Password"))
+                        {
+                            ModelState.AddModelError("MatKhau", "Mật khẩu không hợp lệ");
+                        }
+                      
                     }
                     return PartialView("_partialAdd", model);
 
