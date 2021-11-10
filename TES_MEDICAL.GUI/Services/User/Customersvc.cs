@@ -43,7 +43,7 @@ namespace TES_MEDICAL.GUI.Services
                 .Include(x => x.MaBNNavigation)
                 .Include(x => x.ToaThuoc)
                 .ThenInclude(x => x.ChiTietToaThuoc)
-                .Include(x => x.ChiTietDV)
+                .Include(x => x.HoaDon).ThenInclude(x=>x.ChiTietDV)
                 .ThenInclude(x => x.MaDVNavigation)
                 .FirstOrDefaultAsync(x => x.MaPK == MaPK);
         }
