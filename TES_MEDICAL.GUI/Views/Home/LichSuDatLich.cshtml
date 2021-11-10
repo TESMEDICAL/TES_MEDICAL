@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="btn-wrapper mt-0">
-                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="OpenLichSuKham()">Xem lịch sử</button>
+                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="OpenLichSuDatLich()">Xem lịch sử</button>
                 </div>
             </div>
         </div>
@@ -34,6 +34,7 @@
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-info row">
+
                             <div class="col-sm-3">
                                 <h6 style="font-weight:bold"><a href="#">Họ và tên</a></h6>
                             </div>
@@ -66,6 +67,7 @@
                                         <h6><a href="#">@item.NgayKham</a></h6>
                                     </div>
                                 }*@
+
 
                         </div>
                     </div>
@@ -106,7 +108,7 @@
 </div>
 
 <script>
-    function OpenLichSuKham() {
+    function OpenLichSuDatLich() {
         $.ajax({
             url: "/Home/SearchDatLichByPhoneNumber",
             type: 'GET',
@@ -115,18 +117,25 @@
             },
             success: function (response) {
                 $("#ShowLichSu").html("");
-                JSON.parse(response).forEach(function (item) {
-                    console.log(item);
-                    var stringDate = new Date(item.NgayKham);
-                    var dd = stringDate.getDate();
-                    var MM = stringDate.getMonth();
-                    var yyyy = stringDate.getFullYear();
-                    var hh = stringDate.getHours();
-                    var mm = stringDate.getMinutes();
-                    var ss = stringDate.getSeconds();
-                    var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-                    
+                if (response.status == -2) {
                     $("#ShowLichSu").append(`
+                            <div class="col-sm-12 text-center text-danger">
+                                <h6 style="font-weight:bold"><a href="#">Không tìm thấy</a></h6>
+                            </div>
+                    `)
+                }
+                else {
+                    JSON.parse(response).forEach(function (item) {
+                        console.log(item);
+                        var stringDate = new Date(item.NgayKham);
+                        var dd = stringDate.getDate();
+                        var MM = stringDate.getMonth();
+                        var yyyy = stringDate.getFullYear();
+                        var hh = stringDate.getHours();
+                        var mm = stringDate.getMinutes();
+                        var ss = stringDate.getSeconds();
+                        var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                        $("#ShowLichSu").append(`
                                 <div class="col-sm-3">
                                     <h6><a href="#">${item.TenBN}</a></h6>
                                 </div>
@@ -139,17 +148,19 @@
                                 <div class="col-sm-3">
                                     <h6><a href="#">${item.MaPhieu}</a></h6>
                                 </div>
-                                
+
                     `)
-                    
-                });
+
+                    });
+                }
+                
                 console.log(response);
 
             }
         });
     }
 
-    
+
 
 </script>
 

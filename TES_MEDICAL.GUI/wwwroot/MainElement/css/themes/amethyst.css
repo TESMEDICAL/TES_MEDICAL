@@ -54,6 +54,13 @@ header.navbar-inverse.navbar-fixed-top,
 .content-header-media .header-section {
     background: #583a63;
 }
+#table-header {
+    background: #583a63;
+}
+#btn-confirm, #btSeach {
+    background: #af64cc;
+    border: none;
+}
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,
