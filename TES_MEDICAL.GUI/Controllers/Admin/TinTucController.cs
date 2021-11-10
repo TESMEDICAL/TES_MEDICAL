@@ -95,8 +95,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
-        [HttpGet]
 
+        [HttpGet]
         public async Task<ActionResult> Edit(Guid id)
         {
             ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
@@ -128,6 +128,17 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 return PartialView("_partialDetail", await _service.Get(id));
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Preview(TinTuc model)
+        {
+            NguoiDung nguoiDung = new NguoiDung();
+            nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+
+            model.MaBaiViet = Guid.NewGuid();
+            model.MaNguoiViet = nguoiDung.MaNguoiDung;
+            return PartialView("_partialPreview",model);
         }
 
 
