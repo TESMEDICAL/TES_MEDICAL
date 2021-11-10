@@ -85,8 +85,10 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 model.MaBenh = Guid.NewGuid();
                 var result = await _service.Add(model, Trieuchungs.ToList());
+
                 if (result.errorCode == -1)
                 {
+                    ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
                     ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
                     return PartialView("_partialAdd", model);
                 }
@@ -95,6 +97,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 else
                     return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+            ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
             return PartialView("_partialAdd", model);
         }
         [HttpGet]

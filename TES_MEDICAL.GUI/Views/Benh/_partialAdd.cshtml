@@ -69,7 +69,7 @@
     <div class="wrapper-top ">
         @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
         {
-            @Html.AntiForgeryToken()
+            <div class="text-danger"></div>
 
             <div class="wrapper-left col-sm-4">
                 <div class="wrapper-left-title">
@@ -167,7 +167,6 @@
 
 </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
 
 
