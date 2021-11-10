@@ -244,6 +244,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
+     
+
         };
 
                     var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
