@@ -58,6 +58,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             }
             return View(viewLogin);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
