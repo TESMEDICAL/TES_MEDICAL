@@ -5,80 +5,43 @@
 
 @using X.PagedList;
 @using X.PagedList.Web.Common
+
 <div id="list">
 
     <div style="min-height:400px">
-        
-        <table class="table table-striped table-bordered text-center" style="width:100%">
-            <thead style="border-bottom: 1px solid black;">
-                <tr>
+        <table class="table table-bordered text-center" style="width:100%">
+                <tr id="table-header" class="text-light">
 
-                    <th>
-
-                        Tên Bệnh nhân
+                    <th class="col-sm-4" style=" font-size: 2vmin; text-align: left;">
+                        Tên bệnh nhân
                     </th>
-
-                    <th>
-
-                        Số điện thoại
+                    <th class="col-sm-2" style=" font-size: 2vmin;">
+                        SĐT
                     </th>
-
-                    <th>
-
+                    <th class="col-sm-2" style=" font-size: 2vmin;">
                         Ngày sinh
                     </th>
-                    <th>
-
+                    <th class="col-sm-2" style=" font-size: 2vmin;">
                         Ngày khám
                     </th>
-
-
-
-
-
-                    <th>Thao tác</th>
+                    <th class="col-sm-2" style=" font-size: 2vmin;">Thao tác</th>
                 </tr>
-            </thead>
-            <tbody class="tbody">
+                
                 @if ((ViewBag.Names as IEnumerable<PhieuDatLich>).Count() > 0)
                 {
                     @foreach (var item in ViewBag.Names as IEnumerable<PhieuDatLich>)
                     {
-                <tr>
-
-
-
-
-                    <td>@item.TenBN</td>
-
-
-
-
-
-                    <td>@item.SDT</td>
-
-
-
-
-
-                    <td>@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
-
-
-                    <td>@item.NgayKham?.ToString("dd/MM/yyyy")</td>
-
-
-
-
-
-
-
-
-
-
-
-                    <td class="text-nowrap"><a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick=Detail('@item.MaPhieu') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a></td>
-
-                </tr>
+                        <tr>
+                            <td class="col-sm-4" style="text-align: left; font-size: 2vmin;">@item.TenBN</td>
+                            <td class="col-sm-2" style="font-size: 2vmin;">@item.SDT</td>
+                            <td class="col-sm-2" style="font-size: 2vmin;">@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
+                            <td class="col-sm-2" style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy")</td>
+                            <td class="col-sm-2 text-nowrap" >
+                                <a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+                                <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a>
+                                <a onclick=Detail('@item.MaPhieu') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a>
+                            </td>
+                        </tr>
                     }
                 }
                 else
@@ -88,7 +51,6 @@
                     </tr>
                 }
 
-            </tbody>
         </table>
     </div>
 

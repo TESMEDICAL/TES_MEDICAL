@@ -11,7 +11,7 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    
+
 
     <title>@ViewData["Title"]</title>
 
@@ -23,8 +23,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    
-    
+
+
 
 
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
@@ -71,7 +71,7 @@
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
 
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!--    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />-->
 
     <style>
         .active:hover {
@@ -536,13 +536,13 @@
                         <div class="header-section">
                             <div style="display: flex;">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div style="width: 60%" @*class="hidden-xs hidden-sm"*@>
-                                    <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
+                                <div style="width: 60%; " @*class="hidden-xs hidden-sm"*@>
+                                    <h1 style="font-size: 5vmin;">Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div style="width: 38%; text-align: right;">
-                                    <h2 class="animation-hatch">
+                                <div style="width: 38%;  text-align: right;">
+                                    <h2 style="font-size: 5vmin;" class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
