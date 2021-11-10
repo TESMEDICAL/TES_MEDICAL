@@ -233,9 +233,9 @@ namespace TES_MEDICAL.GUI.Services
                 var listContent = string.Join(",", list);
                 try
                 {
-                    List<SqlParameter> parms = new List<SqlParameter>
+                List<SqlParameter> parms = new List<SqlParameter>
                             {
-                                
+
                                          new SqlParameter { ParameterName = "@MaNV", Value= MaNV },
                                           new SqlParameter { ParameterName = "@MaPK", Value= MaPK,SqlDbType = SqlDbType.UniqueIdentifier },
                                            new SqlParameter { ParameterName = "@MaHD", Value= maHD },
@@ -244,7 +244,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                            };
+        };
+
                     var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
                     await _context.SaveChangesAsync();
                    if(result.Count>0)
