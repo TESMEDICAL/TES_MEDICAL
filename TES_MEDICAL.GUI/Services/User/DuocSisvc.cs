@@ -141,7 +141,7 @@ namespace TES_MEDICAL.GUI.Services
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     var phieuKham = await _context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.ToaThuoc).ThenInclude(x => x.HoaDonThuoc).ThenInclude(x => x.MaNVNavigation).Include(x => x.ToaThuoc.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == maPK);
-                    CreateHD(phieuKham);
+                    //CreateHD(phieuKham);
                     return existingThuoc;
                 }
 
