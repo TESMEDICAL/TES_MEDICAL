@@ -339,28 +339,30 @@
                         <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
                         <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
                             @*You can also add the default color theme
-                                <li class="active">
-                                    <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
-                                </li>*@
+        <li class="active">
+            <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
+        </li>*@
 
+                            <!--<li>-->
+                            @*<a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="/MainElement/css/themes/night.css" data-toggle="tooltip" title="Night"></a>*@
+                            <!--</li>-->
                             <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="/MainElement/css/themes/night.css" data-toggle="tooltip" title="Night"></a>
+                                <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
                             </li>
-                            <li>
+                            @*<li>
                                 <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="/MainElement/css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
-                            </li>
-                            <li>
+                            </li>*@
+                            @*<li>
                                 <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="/MainElement/css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
-                            </li>
+                            </li>*@
+
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
-                            </li>
+
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-fancy themed-border-fancy" data-theme="/MainElement/css/themes/fancy.css" data-toggle="tooltip" title="Fancy"></a>
                             </li>
@@ -373,18 +375,18 @@
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-lake themed-border-lake" data-theme="/MainElement/css/themes/lake.css" data-toggle="tooltip" title="Lake"></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-forest themed-border-forest" data-theme="/MainElement/css/themes/forest.css" data-toggle="tooltip" title="Forest"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-waterlily themed-border-waterlily" data-theme="/MainElement/css/themes/waterlily.css" data-toggle="tooltip" title="Waterlily"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-emerald themed-border-emerald" data-theme="/MainElement/css/themes/emerald.css" data-toggle="tooltip" title="Emerald"></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-blackberry themed-border-blackberry" data-theme="/MainElement/css/themes/blackberry.css" data-toggle="tooltip" title="Blackberry"></a>
-                            </li>
+                            @*<li>
+            <a href="javascript:void(0)" class="themed-background-dark-forest themed-border-forest" data-theme="/MainElement/css/themes/forest.css" data-toggle="tooltip" title="Forest"></a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="themed-background-dark-waterlily themed-border-waterlily" data-theme="/MainElement/css/themes/waterlily.css" data-toggle="tooltip" title="Waterlily"></a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="themed-background-dark-emerald themed-border-emerald" data-theme="/MainElement/css/themes/emerald.css" data-toggle="tooltip" title="Emerald"></a>
+        </li>
+        <li>
+            <a href="javascript:void(0)" class="themed-background-dark-blackberry themed-border-blackberry" data-theme="/MainElement/css/themes/blackberry.css" data-toggle="tooltip" title="Blackberry"></a>
+        </li>*@
                         </ul>
 
 
@@ -532,20 +534,18 @@
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
                     <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
-                            <div class="row">
+                            <div style="display: flex;">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                                <div style="width: 60%" @*class="hidden-xs hidden-sm"*@>
                                     <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div class="col-3  ms-auto">
-
+                                <div style="width: 38%; text-align: right;">
                                     <h2 class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
-
                                 </div>
                                 <!-- END Top Stats -->
                             </div>

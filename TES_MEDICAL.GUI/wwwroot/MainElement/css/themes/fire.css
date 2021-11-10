@@ -45,7 +45,24 @@ header.navbar-inverse.navbar-fixed-top,
 .navbar.navbar-inverse {
     background-color: #71504d;
 }
+.button-reload button {
+    background: #4a2e2b;
+}
 
+.button-reload a {
+    background: #4a2e2b;
+}
+.content-header-media .header-section {
+    background: #4a2e2b;
+}
+#table-header {
+    background: #4a2e2b;
+}
+
+#btn-confirm, #btSeach {
+    background: #e74c3c;
+    border: none;
+}
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,

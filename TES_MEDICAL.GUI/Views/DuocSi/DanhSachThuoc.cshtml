@@ -3,12 +3,14 @@
 @using TES_MEDICAL.GUI.Models;
 
 @{
-    ViewData["Title"] = "DanhSachThuoc";
+    ViewData["Title"] = "DANH SÁCH THUỐC";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-<div class="m-3">
-
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Danh sách thuốc</strong></h2>
+    </div>
     <div>
 
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
@@ -16,35 +18,32 @@
             @Html.AntiForgeryToken()
 
             <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenThuocSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
+                @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
             </div>
 
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo đơn giá" } })
-            </div>
-
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo thông tin" } })
-            </div>
-
+           
 
             <div class="col-4">
 
                 <button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
                 <button type="button" class="btn mr-2 btn-sm" style="background-color:seagreen; color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
             </div>
-
-
-
         }
+
+    </div>
+    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 20px;">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+        <label class="form-check-label" for="flexCheckChecked">
+            Hiện tất cả
+        </label>
+    </div>
+    <div id="nameListContainer" class="mt-3">
+        <partial name="_NameListThuoc" model="ViewBag.Names as IPagedList<Thuoc>" />
 
     </div>
 </div>
 
-<div id="nameListContainer">
-    <partial name="_NameListThuoc" model="ViewBag.Names as IPagedList<Thuoc>" />
 
-</div>
 
 <!--Model chính-->
 <div id="myModal" class="modal fade">
@@ -125,43 +124,41 @@
                 }
             });
         }
+        $("#KeyWordSearch").keyup(function () {
 
-        function Timkiem() {
+            obj = {};
+           
+            obj.KeyWordSearch = $(this).val()
 
-
+            obj.page = 1;
             $.ajax({
                 url: '/DuocSi/PageList/',
 
                 type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
 
+
+                data: obj,
 
                 success: function (result) {
 
+                    if (result.status != 2) {
 
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
 
                         $('#nameListContainer').html(result);
                     }
 
-
+                    $('#nameListContainer').html(result);
                 },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
 
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
+
+
+
+
+        });
 
         function Clear() {
 

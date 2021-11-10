@@ -12,7 +12,7 @@ namespace TES_MEDICAL.GUI.Models
     {   
         public int? Page  { get; set; }
         public String TieuDeSearch{ get; set; }
-        public  Boolean? 
+        public  bool 
         TrangThaiSearch{ get; set; }
         public  Guid? 
         MaTLSearch{ get; set; }
