@@ -19,7 +19,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<HoaDon> Get(string MaHD)
         {
-            var item = await _context.HoaDon.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBSNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBNNavigation).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation)
+            var item = await _context.HoaDon.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBSNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBNNavigation).Include(x => x.ChiTietDV).ThenInclude(x => x.MaDVNavigation)
 
                 .FirstOrDefaultAsync(i => i.MaHoaDon == MaHD);
 
