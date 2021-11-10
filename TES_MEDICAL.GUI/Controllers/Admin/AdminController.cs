@@ -39,22 +39,38 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             return View(login);
             #endregion
         }
+
+        public IActionResult NoneUser()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(AdminLoginViewModel viewLogin)
         {
             if (ModelState.IsValid)
             {
+                
                 NguoiDung nguoidung = _nguoidungSvc.Login(viewLogin);
-                if (nguoidung != null)
+                if(nguoidung.TrangThai == true)
                 {
-                    HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
-                    HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
-                    HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
-                    HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
-                        JsonConvert.SerializeObject(nguoidung));
+                    if (nguoidung != null)
+                    {
+                        HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
+                        HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
+                        HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
+                        HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
+                            JsonConvert.SerializeObject(nguoidung));
 
-                    return RedirectToAction("Index", "TinTuc");
+                        return RedirectToAction("Index", "TinTuc");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("NoneUser", "Admin");
+
                 }
             }
             return View(viewLogin);
