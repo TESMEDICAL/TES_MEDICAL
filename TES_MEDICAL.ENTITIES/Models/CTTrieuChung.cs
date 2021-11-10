@@ -8,10 +8,10 @@ namespace TES_MEDICAL.GUI.Models
     public partial class CTTrieuChung
     {
         public Guid MaBenh { get; set; }
-        public string TenTrieuChung { get; set; }
+        public Guid MaTrieuChung { get; set; }
         public string ChiTietTrieuChung { get; set; }
 
         public virtual Benh MaBenhNavigation { get; set; }
-        public virtual TrieuChung TenTrieuChungNavigation { get; set; }
+        public virtual TrieuChung MaTrieuChungNavigation { get; set; }
     }
 }

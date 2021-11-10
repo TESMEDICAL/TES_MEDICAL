@@ -32,7 +32,24 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\css\bootstrap.css.map" />
+    <None Include="wwwroot\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\js\datatableExt.js" />
+    <None Include="wwwroot\js\datetime.js" />
+    <None Include="wwwroot\js\formToObject.js" />
+    <None Include="wwwroot\js\inputmask.js" />
+    <None Include="wwwroot\js\jquery-ui.js" />
+    <None Include="wwwroot\js\jquery-ui.min.js" />
+    <None Include="wwwroot\js\jquery.inputmask.bundle.js" />
+    <None Include="wwwroot\js\jquery.inputmask.js" />
+    <None Include="wwwroot\js\jQuery.print.js" />
+    <None Include="wwwroot\js\jquery.validate.min.js" />
+    <None Include="wwwroot\js\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\js\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\js\moment.js" />
     <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\toastr.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
@@ -96,7 +113,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\GuestElement\" />
     <Folder Include="wwwroot\HoaDon\HoaDonThuoc\" />
 
     <Folder Include="wwwroot\images\photos\" />

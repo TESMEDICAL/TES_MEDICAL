@@ -146,43 +146,46 @@ namespace TES_MEDICAL.GUI.Models
 
             modelBuilder.Entity<CTTrieuChung>(entity =>
             {
-                entity.HasKey(e => new { e.MaBenh, e.TenTrieuChung })
-                    .HasName("cttc_pk");
+                entity.HasKey(e => new { e.MaBenh, e.MaTrieuChung })
+                    .HasName("PK__CTTrieuC__E45FC2F731FF98AB");
 
-                entity.Property(e => e.TenTrieuChung).HasMaxLength(50);
-
-                entity.Property(e => e.ChiTietTrieuChung).IsRequired();
+            
 
                 entity.HasOne(d => d.MaBenhNavigation)
                     .WithMany(p => p.CTTrieuChung)
                     .HasForeignKey(d => d.MaBenh)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CTTrieuCh__MaBen__4316F928");
+                    .HasConstraintName("FK__CTTrieuCh__MaBen__19DFD96B");
 
-                entity.HasOne(d => d.TenTrieuChungNavigation)
+                entity.HasOne(d => d.MaTrieuChungNavigation)
                     .WithMany(p => p.CTTrieuChung)
-                    .HasForeignKey(d => d.TenTrieuChung)
+                    .HasForeignKey(d => d.MaTrieuChung)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CTTrieuCh__TenTr__440B1D61");
+                    .HasConstraintName("FK__CTTrieuCh__MaTri__1AD3FDA4");
             });
 
             modelBuilder.Entity<ChiTietDV>(entity =>
             {
-                entity.HasKey(e => new { e.MaPhieuKham, e.MaDV })
-                    .HasName("pk_ctdv");
+                entity.HasKey(e => new { e.MaHD, e.MaDV })
+                    .HasName("PK__ChiTietD__4557FE8526B532A5");
 
+                entity.Property(e => e.MaHD)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+                entity.Property(e => e.DonGiaDV).HasColumnType("money");
                 entity.HasOne(d => d.MaDVNavigation)
                     .WithMany(p => p.ChiTietDV)
                     .HasForeignKey(d => d.MaDV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChiTietDV__MaDV__5812160E");
+                    .HasConstraintName("FK__ChiTietDV__MaDV__40058253");
 
-                entity.HasOne(d => d.MaPhieuKhamNavigation)
+                entity.HasOne(d => d.MaHDNavigation)
                     .WithMany(p => p.ChiTietDV)
-                    .HasForeignKey(d => d.MaPhieuKham)
+                    .HasForeignKey(d => d.MaHD)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ChiTietDV__MaPhi__571DF1D5");
+                    .HasConstraintName("FK__ChiTietDV__MaHD__3F115E1A");
             });
+
 
             modelBuilder.Entity<ChiTietSinhHieu>(entity =>
             {
@@ -210,7 +213,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasName("PK__ChiTietT__339EF89FCA764F6C");
 
                 entity.Property(e => e.GhiChu);
-
+                entity.Property(e => e.DonGiaThuoc).HasColumnType("money");
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.ChiTietToaThuoc)
                     .HasForeignKey(d => d.MaPK)
@@ -249,14 +252,21 @@ namespace TES_MEDICAL.GUI.Models
                     .IsRequired()
                     .HasMaxLength(100);
             });
-
             modelBuilder.Entity<HoaDon>(entity =>
             {
                 entity.HasKey(e => e.MaHoaDon)
                     .HasName("PK__HoaDon__835ED13BE8E6487A");
 
+                entity.HasIndex(e => e.MaNV, "IX_HoaDon_MaNV");
+
+                entity.HasIndex(e => e.MaPK, "IX_HoaDon_MaPK");
+
                 entity.Property(e => e.MaHoaDon)
                     .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MaNV)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NgayHD).HasColumnType("datetime");
@@ -266,7 +276,6 @@ namespace TES_MEDICAL.GUI.Models
                 entity.HasOne(d => d.MaNVNavigation)
                     .WithMany(p => p.HoaDon)
                     .HasForeignKey(d => d.MaNV)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__HoaDon__MaNV__35BCFE0A");
 
                 entity.HasOne(d => d.MaPKNavigation)
@@ -398,12 +407,18 @@ namespace TES_MEDICAL.GUI.Models
                 entity.HasKey(e => e.MaPK)
                     .HasName("PK__PhieuKha__2725E7FDD3F81957");
 
-                entity.Property(e => e.MaPK).ValueGeneratedNever();
+                entity.HasIndex(e => e.MaBN, "IX_PhieuKham_MaBN");
 
-                entity.Property(e => e.ChanDoan);
+                entity.HasIndex(e => e.MaBS, "IX_PhieuKham_MaBS");
+
+                entity.Property(e => e.MaPK).ValueGeneratedNever();
 
                 entity.Property(e => e.HuyetAp)
                     .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MaBS)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Mach).HasMaxLength(50);
@@ -416,6 +431,8 @@ namespace TES_MEDICAL.GUI.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.TrangThai).HasDefaultValueSql("(CONVERT([tinyint],(0)))");
+
                 entity.HasOne(d => d.MaBNNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBN)
@@ -425,9 +442,13 @@ namespace TES_MEDICAL.GUI.Models
                 entity.HasOne(d => d.MaBSNavigation)
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
+                entity.HasOne(d => d.MaBenhNavigation)
+                      .WithMany(p => p.PhieuKham)
+                      .HasForeignKey(d => d.MaBenh)
+                      .HasConstraintName("FK_PhieuKham_MaBenh");
             });
+
 
 
             modelBuilder.Entity<STTPhieuKham>(entity =>
@@ -456,7 +477,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.MaThuoc).ValueGeneratedNever();
 
                 entity.Property(e => e.DonGia).HasColumnType("money");
-
+                
                 entity.Property(e => e.HinhAnh).HasMaxLength(250);
 
                 entity.Property(e => e.TenThuoc)
@@ -520,19 +541,22 @@ namespace TES_MEDICAL.GUI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__ToaThuoc__MaPhie__38996AB5");
             });
-
             modelBuilder.Entity<TrieuChung>(entity =>
             {
-                entity.HasKey(e => e.TenTrieuChung)
-                    .HasName("PK__TrieuChu__38C0D567B7BAD8FD");
+                entity.HasKey(e => e.MatrieuChung)
+                    .HasName("PK__TrieuChu__18521B702BAAC1B3");
 
-                entity.Property(e => e.TenTrieuChung).HasMaxLength(50);
+                entity.HasIndex(e => e.TenTrieuChung, "UQ__TrieuChu__38C0D5667814C499")
+                    .IsUnique();
 
-                entity.Property(e => e.TenTrieuChungKhongDau)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.MatrieuChung).ValueGeneratedNever();
+
+                entity.Property(e => e.TenTrieuChung).HasMaxLength(100);
+
+                entity.Property(e => e.TenTrieuChungKhongDau).HasMaxLength(100);
             });
-           
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }

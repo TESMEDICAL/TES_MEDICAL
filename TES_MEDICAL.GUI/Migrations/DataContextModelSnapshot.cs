@@ -223,32 +223,35 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaBenh")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TenTrieuChung")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid>("MaTrieuChung")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ChiTietTrieuChung")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaBenh", "TenTrieuChung")
-                        .HasName("cttc_pk");
+                    b.HasKey("MaBenh", "MaTrieuChung")
+                        .HasName("PK__CTTrieuC__E45FC2F731FF98AB");
 
-                    b.HasIndex("TenTrieuChung");
+                    b.HasIndex("MaTrieuChung");
 
                     b.ToTable("CTTrieuChung");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.ChiTietDV", b =>
                 {
-                    b.Property<Guid>("MaPhieuKham")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaHD")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<Guid>("MaDV")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("MaPhieuKham", "MaDV")
-                        .HasName("pk_ctdv");
+                    b.Property<decimal?>("DonGiaDV")
+                        .HasColumnType("money");
+
+                    b.HasKey("MaHD", "MaDV")
+                        .HasName("PK__ChiTietD__4557FE8526B532A5");
 
                     b.HasIndex("MaDV");
 
@@ -290,6 +293,9 @@ namespace TES_MEDICAL.GUI.Migrations
 
                     b.Property<bool>("Chieu")
                         .HasColumnType("bit");
+
+                    b.Property<decimal?>("DonGiaThuoc")
+                        .HasColumnType("money");
 
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
@@ -366,6 +372,8 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("MaNV")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
                     b.Property<Guid>("MaPK")
@@ -380,9 +388,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasKey("MaHoaDon")
                         .HasName("PK__HoaDon__835ED13BE8E6487A");
 
-                    b.HasIndex("MaNV");
+                    b.HasIndex(new[] { "MaNV" }, "IX_HoaDon_MaNV");
 
-                    b.HasIndex("MaPK");
+                    b.HasIndex(new[] { "MaPK" }, "IX_HoaDon_MaPK");
 
                     b.ToTable("HoaDon");
                 });
@@ -605,7 +613,12 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MaBS")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<Guid?>("MaBenh")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Mach")
                         .HasMaxLength(50)
@@ -623,7 +636,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<byte>("TrangThai")
-                        .HasColumnType("tinyint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValueSql("(CONVERT([tinyint],(0)))");
 
                     b.Property<string>("TrieuChungSoBo")
                         .HasColumnType("nvarchar(max)");
@@ -631,9 +646,11 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasKey("MaPK")
                         .HasName("PK__PhieuKha__2725E7FDD3F81957");
 
-                    b.HasIndex("MaBN");
+                    b.HasIndex("MaBenh");
 
-                    b.HasIndex("MaBS");
+                    b.HasIndex(new[] { "MaBN" }, "IX_PhieuKham_MaBN");
+
+                    b.HasIndex(new[] { "MaBS" }, "IX_PhieuKham_MaBS");
 
                     b.ToTable("PhieuKham");
                 });
@@ -784,17 +801,23 @@ namespace TES_MEDICAL.GUI.Migrations
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.TrieuChung", b =>
                 {
+                    b.Property<Guid>("MatrieuChung")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("TenTrieuChung")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TenTrieuChungKhongDau")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("TenTrieuChung")
-                        .HasName("PK__TrieuChu__38C0D567B7BAD8FD");
+                    b.HasKey("MatrieuChung")
+                        .HasName("PK__TrieuChu__18521B702BAAC1B3");
+
+                    b.HasIndex(new[] { "TenTrieuChung" }, "UQ__TrieuChu__38C0D5667814C499")
+                        .IsUnique()
+                        .HasFilter("[TenTrieuChung] IS NOT NULL");
 
                     b.ToTable("TrieuChung");
                 });
@@ -866,18 +889,18 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.Benh", "MaBenhNavigation")
                         .WithMany("CTTrieuChung")
                         .HasForeignKey("MaBenh")
-                        .HasConstraintName("FK__CTTrieuCh__MaBen__4316F928")
+                        .HasConstraintName("FK__CTTrieuCh__MaBen__19DFD96B")
                         .IsRequired();
 
-                    b.HasOne("TES_MEDICAL.GUI.Models.TrieuChung", "TenTrieuChungNavigation")
+                    b.HasOne("TES_MEDICAL.GUI.Models.TrieuChung", "MaTrieuChungNavigation")
                         .WithMany("CTTrieuChung")
-                        .HasForeignKey("TenTrieuChung")
-                        .HasConstraintName("FK__CTTrieuCh__TenTr__440B1D61")
+                        .HasForeignKey("MaTrieuChung")
+                        .HasConstraintName("FK__CTTrieuCh__MaTri__1AD3FDA4")
                         .IsRequired();
 
                     b.Navigation("MaBenhNavigation");
 
-                    b.Navigation("TenTrieuChungNavigation");
+                    b.Navigation("MaTrieuChungNavigation");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.ChiTietDV", b =>
@@ -885,18 +908,18 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasOne("TES_MEDICAL.GUI.Models.DichVu", "MaDVNavigation")
                         .WithMany("ChiTietDV")
                         .HasForeignKey("MaDV")
-                        .HasConstraintName("FK__ChiTietDV__MaDV__5812160E")
+                        .HasConstraintName("FK__ChiTietDV__MaDV__40058253")
                         .IsRequired();
 
-                    b.HasOne("TES_MEDICAL.GUI.Models.PhieuKham", "MaPhieuKhamNavigation")
+                    b.HasOne("TES_MEDICAL.GUI.Models.HoaDon", "MaHDNavigation")
                         .WithMany("ChiTietDV")
-                        .HasForeignKey("MaPhieuKham")
-                        .HasConstraintName("FK__ChiTietDV__MaPhi__571DF1D5")
+                        .HasForeignKey("MaHD")
+                        .HasConstraintName("FK__ChiTietDV__MaHD__3F115E1A")
                         .IsRequired();
 
                     b.Navigation("MaDVNavigation");
 
-                    b.Navigation("MaPhieuKhamNavigation");
+                    b.Navigation("MaHDNavigation");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.ChiTietSinhHieu", b =>
@@ -988,6 +1011,13 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasForeignKey("MaBS")
                         .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
 
+                    b.HasOne("TES_MEDICAL.GUI.Models.Benh", "MaBenhNavigation")
+                        .WithMany("PhieuKham")
+                        .HasForeignKey("MaBenh")
+                        .HasConstraintName("FK_PhieuKham_MaBenh");
+
+                    b.Navigation("MaBenhNavigation");
+
                     b.Navigation("MaBNNavigation");
 
                     b.Navigation("MaBSNavigation");
@@ -1049,6 +1079,8 @@ namespace TES_MEDICAL.GUI.Migrations
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
                 {
                     b.Navigation("CTTrieuChung");
+
+                    b.Navigation("PhieuKham");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.BenhNhan", b =>
@@ -1064,6 +1096,11 @@ namespace TES_MEDICAL.GUI.Migrations
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.DichVu", b =>
+                {
+                    b.Navigation("ChiTietDV");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.GUI.Models.HoaDon", b =>
                 {
                     b.Navigation("ChiTietDV");
                 });
@@ -1084,8 +1121,6 @@ namespace TES_MEDICAL.GUI.Migrations
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.PhieuKham", b =>
                 {
-                    b.Navigation("ChiTietDV");
-
                     b.Navigation("ChiTietSinhHieu");
 
                     b.Navigation("HoaDon");

@@ -9,7 +9,6 @@ namespace TES_MEDICAL.GUI.Models
     {
         public PhieuKham()
         {
-            ChiTietDV = new HashSet<ChiTietDV>();
             ChiTietSinhHieu = new HashSet<ChiTietSinhHieu>();
             HoaDon = new HashSet<HoaDon>();
         }
@@ -26,13 +25,14 @@ namespace TES_MEDICAL.GUI.Models
         public DateTime NgayKham { get; set; }
         public DateTime? NgayTaiKham { get; set; }
         public byte TrangThai { get; set; }
+        public Guid? MaBenh { get; set; }
 
         public virtual BenhNhan MaBNNavigation { get; set; }
         public virtual NhanVienYte MaBSNavigation { get; set; }
         public virtual STTPhieuKham STTPhieuKham { get; set; }
         public virtual ToaThuoc ToaThuoc { get; set; }
-        public virtual ICollection<ChiTietDV> ChiTietDV { get; set; }
         public virtual ICollection<ChiTietSinhHieu> ChiTietSinhHieu { get; set; }
         public virtual ICollection<HoaDon> HoaDon { get; set; }
+        public virtual Benh MaBenhNavigation { get; set; }
     }
 }

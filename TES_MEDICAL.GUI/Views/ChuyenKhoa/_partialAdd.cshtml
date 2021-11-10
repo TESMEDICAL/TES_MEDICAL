@@ -1,8 +1,30 @@
 @model TES_MEDICAL.GUI.Models.ChuyenKhoa
 
-<h4 style="text-align:center; font-weight:bold">THÊM CHUYÊN KHOA</h4>
-<hr />
-<div>
+<style>
+    .wrapper {
+        padding: 0;
+        margin: 0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        /*        display: flex;
+    */
+    }
+
+    .wrapper-title-1 {
+        background-color: white;
+        border-left: 8px solid rgb(82, 183, 136);
+    }
+
+        .wrapper-title-1 h4 {
+            padding: 2%;
+            font-size: 35px;
+            font-weight: 400;
+        }
+</style>
+
+    <div class="wrapper-title-1 mb-4">
+        <h4>Thêm chuyên khoa</h4>
+    </div>
+<div class="wrapper">
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -13,7 +35,7 @@
 
         <div class="form-group col-12">
             @Html.LabelFor(model => model.TenCK, "Tên chuyên khoa", htmlAttributes: new { @class = "control-label col-md-6" })
-            <div class="col-md-12">
+            <div class="col-md-7">
                 @Html.EditorFor(model => model.TenCK, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenCK, "", new { @class = "text-danger" })
             </div>
