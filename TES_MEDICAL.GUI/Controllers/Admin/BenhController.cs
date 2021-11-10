@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -66,7 +65,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public IActionResult addCTTrieuChung()
         {
 
-            return PartialView("_CTTrieuChungView", new CTTrieuChung());
+            return PartialView("_CTTrieuChungView", new CTrieuChungModel());
         }
 
 
@@ -80,11 +79,11 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(Benh model)
+        public async Task<IActionResult> Add(Benh model,CTrieuChungModel[] Trieuchungs)
         {
 
             model.MaBenh = Guid.NewGuid();
-            if (await _service.Add(model) != null)
+            if (await _service.Add(model,Trieuchungs.ToList()) != null)
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
@@ -95,15 +94,21 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            if (await _service.Get(id) == null)
+            var item = await _service.Get(id);
+            if (item == null)
             {
                 return NotFound(); ;
             }
             else
             {
+                var listTC = new List<CTrieuChungModel>();
                 ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK", (await _service.Get(id)).MaCK);
 
-
+                foreach(var trieuchung in item.CTTrieuChung)
+                {
+                    listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung, ChiTietTrieuChung = trieuchung.ChiTietTrieuChung });
+                }
+                ViewBag.ListTC = listTC;
                 return PartialView("_partialedit", await _service.Get(id));
             }
 
@@ -127,10 +132,10 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Benh model)
+        public async Task<IActionResult> Edit(Benh model, CTrieuChungModel[] Trieuchungs)
         {
 
-            if (await _service.Edit(model) != null)
+            if (await _service.Edit(model,Trieuchungs.ToList()) != null)
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

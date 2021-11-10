@@ -20,6 +20,7 @@ using SelectPdf;
 using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -31,14 +32,15 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDichVu _dichvuRep;
         private readonly INhanVienYte _nhanvienyteRep;
         private readonly IHubContext<RealtimeHub> _hubContext;
-      
+        private readonly UserManager<NhanVienYte> _userManager;
         public TiepNhanController(
             ITiepNhan service,
             IChuyenKhoa chuyenKhoaRep,
             IDichVu dichvuRep,
             INhanVienYte nhanVienYteRep,
-            IHubContext<RealtimeHub> hubContext
-           
+            IHubContext<RealtimeHub> hubContext,
+            UserManager<NhanVienYte> userManager
+
 
 
             )
@@ -48,7 +50,9 @@ namespace TES_MEDICAL.GUI.Controllers
             _dichvuRep = dichvuRep;
             _nhanvienyteRep = nhanVienYteRep;
             _hubContext = hubContext;
-           
+            _userManager = userManager;
+            
+            _userManager = userManager;
             
         }
        
@@ -123,12 +127,53 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
+        [HttpPost]
+
+        public async Task<IActionResult> XacNhanCapNhat(Guid MaPK,ChiTietDV[] dichVus)
+        {
+            if (dichVus!=null && dichVus.Count()>0)
+            {
+                var model = await _service.GetPhieuKhamById(MaPK);
+                ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
+                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.MaBNNavigation.HoTen, SDT = model.MaBNNavigation.SDT, GioiTinh = model.MaBNNavigation.GioiTinh, NgaySinh = model.MaBNNavigation.NgaySinh, TrieuChung = model.TrieuChungSoBo, DiaChi = model.MaBNNavigation.DiaChi };
+                result.dichVus = new List<DichVu>();
+
+                foreach (var item in dichVus)
+                {
+                    result.dichVus.Add(await _dichvuRep.Get(item.MaDV));
+                }
+                return PartialView("_XacNhanDichVu", result);
+
+            }
+            else
+                return Json(new { status = -2, title = "", text = "Vui lòng chọn it nhất một dịch vụ", obj = "" }, new JsonSerializerSettings());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCheckOut(Guid MaPK, ChiTietDV[] dichVus)
+        {
+            string MaNVHD = (await _userManager.GetUserAsync(User)).Id;
+            var result = await _service.UpDateDichVu(MaNVHD,MaPK,dichVus.ToList());
+
+            if (result != null)
+            {
+               
+
+
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+            }
+
+            else
+                return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
+        }
+
+
 
 
         [HttpPost]
         public async Task<IActionResult> FinalCheckOut(PhieuKhamViewModel model)
         {
-
+            model.MaNVHD = (await _userManager.GetUserAsync(User)).Id;
             var result = await _service.CreatePK(model);
 
                     if (result != null)
@@ -161,10 +206,48 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
-        public IActionResult CapNhatDichVu()
+        public async Task<IActionResult> CapNhatDichVu(PhieuKhamSearchModel model)
         {
-            ViewBag.Current = "capnhatdichvu";
+
+            if (!model.Page.HasValue) model.Page = 1;
+            var listPaged = await _service.GetListPhieuKham(model);
+
+            ViewBag.Names = listPaged;
+            ViewBag.Page = model.Page;
+            ViewBag.Data = model;
             return View();
+        }
+
+
+        public async Task<IActionResult> ChiTietCapNhat(Guid MaPK)
+        {
+            var phieuKham = await _service.GetPhieuKhamById(MaPK);
+            var listOld = await _service.GetListDVByPK(MaPK);
+               
+           
+            var listNew = await _dichvuRep.GetDichVu(Guid.Empty);
+            var listDV = listNew.Where(x => !listOld.Any(y => y.MaDV == x.MaDV));
+            ViewBag.ListOld = listOld;
+            ViewBag.DichVu = listDV;
+            return View(phieuKham);
+        }
+
+        public async Task<IActionResult> ReLoadCapNhat(PhieuKhamSearchModel model)
+        {
+           
+                var listmodel = await _service.GetListPhieuKham(model);
+
+                if (!model.Page.HasValue) model.Page = 1;
+
+
+
+
+                ViewBag.Names = listmodel;
+                ViewBag.Page = model.Page;
+                ViewBag.Data = model;
+
+                return PartialView("_ListPhieuKham", listmodel);
+            
         }
         public IActionResult ThemDichVuMoi()
         {

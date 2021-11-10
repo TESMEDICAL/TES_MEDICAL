@@ -94,14 +94,9 @@
                 @Html.AntiForgeryToken()
                 <div class="header-modal-left col-sm-8 row">
                     <div class="header-input-1 col-3">
-                        @Html.EditorFor(model => model.TenDVSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập tên dịch vụ..." } })
+                        @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr -2 mb-2 form-control", @placeholder = "Nhập tên dịch vụ..." } })
                     </div>
-                    <div class="header-input-1 col-3">
-                        @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập giá dịch vụ..." } })
-                    </div>
-                    <div class="header-btn col-3">
-                        <button type="button" class="btn " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
-                    </div>
+                   
                 </div>               
                 <div class="header-modal-right col-sm-4 row">
                     <div class="header-btn col-7">
@@ -113,7 +108,7 @@
                 </div>
 
                 <div class="form-check ms-auto mb-2 text-right mt-3">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                    <input class="form-check-input" type="checkbox" value="" id="CheckAll" onchange="reloadpage(1)">
                     <label class="form-check-label" for="flexCheckChecked">
                         Hiện tất cả
                     </label>
@@ -263,7 +258,12 @@
 
         function reloadpage(page) {
             obj = {};
-
+            if ($('#CheckAll').is(':checked')) {
+                obj.TrangThai = true;
+            }
+            else {
+                obj.TrangThai = false;
+            }
             obj.Page = page;
             $.ajax({
                 url: '/DichVu/PageList/',
@@ -386,7 +386,7 @@
 
 
         function _delete(id) {
-            var cf = confirm('Bạn muốn xoá bản ghi này?');
+            var cf = confirm('Bạn muốn xóa dịch vụ này?');
             if (cf) {
                 $.ajax({
                     type: "POST",
@@ -413,43 +413,75 @@
             }
 
         }
+     
 
-        function Timkiem() {
 
 
+        function _restore(id) {
+            var cf = confirm('Bạn muốn khôi phục dịch vụ  này?');
+            if (cf) {
+                $.ajax({
+                    type: "POST",
+                    url: "/DichVu/Restore",
+                    data: { "id": id },
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+                            toastr.success(result.text);
+
+                            reloadpage();
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+
+        }
+        $("#KeyWordSearch").keyup(function () {
+
+            obj = {};
+
+            obj.TenCKSearch = $(this).val()
+
+            obj.page = 1;
             $.ajax({
                 url: '/DichVu/PageList/',
 
                 type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
 
+
+                data: obj,
 
                 success: function (result) {
 
+                    if (result.status != 2) {
 
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
 
                         $('#nameListContainer').html(result);
                     }
 
-
+                  
                 },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
 
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-        }
+
+
+
+
+        });
+
+       
 
         function Clear() {
 

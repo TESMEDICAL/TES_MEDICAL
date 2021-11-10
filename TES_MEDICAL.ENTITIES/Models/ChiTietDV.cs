@@ -7,10 +7,10 @@ namespace TES_MEDICAL.GUI.Models
 {
     public partial class ChiTietDV
     {
-        public Guid MaPhieuKham { get; set; }
+        public string MaHD { get; set; }
         public Guid MaDV { get; set; }
 
         public virtual DichVu MaDVNavigation { get; set; }
-        public virtual PhieuKham MaPhieuKhamNavigation { get; set; }
+        public virtual HoaDon MaHDNavigation { get; set; }
     }
 }

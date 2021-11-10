@@ -1,4 +1,4 @@
-﻿@model PhieuKhamViewModel
+﻿@model PhieuKham
 @{
     ViewData["Title"] = "THÊM PHIẾU KHÁM";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
@@ -23,8 +23,8 @@
             <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
-            <input style="display:none" name="MaBN" id="MaBN" />
-            @Html.HiddenFor(model => model.UuTien)
+            <input style="display:none" name="MaPK" id="MaPK" value="@Model.MaPK" />
+            @Html.HiddenFor(model => model.STTPhieuKham.MaUuTien)
 
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
@@ -34,23 +34,19 @@
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
                     <div class="col-sm-10">
-                        <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <input type="text" value="@Model.MaBNNavigation.SDT"  class="form-control" placeholder="Vui lòng nhập số điện thoại" readonly>
                     </div>
-                    <div style="margin-left: 100px;">
-                        <span asp-validation-for="SDT" class="text-danger"></span>
-                    </div>
+                  
                 </div>
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-sm-2">
                         <label for="Hoten" class="col-form-label">Họ tên</label>
                     </div>
                     <div class="col-sm-10">
-                        <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        <input type="text" value="@Model.MaBNNavigation.SDT" class="form-control" placeholder="Vui lòng nhập họ tên" readonly>
 
                     </div>
-                    <div style="margin-left: 100px;">
-                        <span asp-validation-for="HoTen" class="text-danger"></span>
-                    </div>
+                   
                 </div>
 
 
@@ -59,22 +55,20 @@
                         <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
                     </div>
                     <div class="col-sm-10">
-                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
+                        <input type="date" value="@(Model.MaBNNavigation.NgaySinh!=null?Model.MaBNNavigation.NgaySinh?.ToString("yyyy-MM-dd"):"")" readonly  class="form-control">
                     </div>
-                    <div style="margin-left: 100px;">
-                        <span asp-validation-for="NgaySinh" class="text-danger"></span>
-                    </div>
+                    
                 </div>
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-sm-2">
+                    <div class="col-2">
                         <label for="GioiTinh" class="col-form-label">Giới tính</label>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
                         </select> -->
-                        <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
+                        <select style="font-size: 13px;" class="form-select" asp-for="@Model.MaBNNavigation.GioiTinh" disabled>
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
 
@@ -84,15 +78,13 @@
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-sm-2">
+                    <div class="col-2">
                         <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
                     <div class="input-validation col-10">
-                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        <textarea type="textarea"  class="form-control" readonly>@Model.MaBNNavigation.DiaChi</textarea>
                     </div>
-                    <div style="margin-left: 100px;">
-                        <span asp-validation-for="DiaChi" class="text-danger"></span>
-                    </div>
+                   
                 </div>
             </div>
             <!-- END Basic Form Elements Content -->
@@ -113,7 +105,7 @@
                 <div class="form-group row">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Chuyên khoa</label>
-                        <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
+                        <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK" disabled>
                             <option value="">Chọn chuyên khoa</option>
                         </select>
                         @*span validate chuyên khoa*@
@@ -123,21 +115,18 @@
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Bác sĩ</label>
-                        <select style="font-size: 13px;" class="form-select" asp-for="MaBS">
-                            <option value="">Chọn bác sĩ</option>
+                        <select style="font-size: 13px;" class="form-select"  disabled>
+                            <option value="">@Model.MaBSNavigation.HoTen</option>
 
                         </select>
-                        <div style="margin-left: 5px; margin-top: 5px;">
-                            <span asp-validation-for="MaBS" class="text-danger"></span>
-                        </div>
+                        
                     </div>
                     <div class="col-12">
-                        @*<div class="col-12">
+                        <div class="col-2">
                             <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
-                        </div>*@
-                        <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
+                        </div>
                         <div class="col-12">
-                            <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
+                            <textarea type="textarea"  readonly class="form-control" style="height: 128px;">@Model.TrieuChungSoBo</textarea>
                         </div>
                         @*span validate Triệu chứng*@
                         <div style="margin-left: 5px; margin-top: 5px;">
@@ -155,34 +144,33 @@
 
 <div class="col-12">
     <div class="block">
-        @*<div class="form-group" style="float:right">
+        <div class="form-group" style="float:right">
             <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
         </div>
         <div class="button-reload form-group" style="float:right">
             <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
-        </div>*@
-        <div class="d-flex justify-content-end">
-            <div class="button-reload form-group">
-                <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
-            </div>
-            <div class="form-group">
-                <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-            </div>
         </div>
-            
-        <div class="form-group" style="margin-top: 20px;">
-            <table class="table table-bordered mt-3">
-                    <tr id="table-header" class="text-light">
-                        <th class="col-6">Dịch vụ</th>
-                        <th class="col-4">Đơn giá</th>
-                        <th class="col-2 text-center">Thao tác</th>
+
+        <div class="form-group">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Dịch vụ</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Thao tác</th>
                     </tr>
+                </thead>
                 <tbody id="listDV">
+                    @foreach (var item in  ViewBag.ListOld as List<ChiTietDV>)
+                    {
+                        <tr><td style="display:none">@item.MaDV</td><td>@item.MaDVNavigation.TenDV</td><td>@item.MaDVNavigation.DonGia</td><td><button class="btn btn-danger btn-sm remove" disabled> <i class="fa fa-trash"></i></button></td></tr>
+                    }
                 </tbody>
             </table>
-            <div class=" form-group mb-2 mt-5" style="text-align:right">
+            <div class=" form-group" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
-                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
             </div>
         </div>
@@ -236,13 +224,15 @@
             <div class="modal-body">
 
                 <div id="myModalContent">
-                    <partial name="_AddDichVu" model="@ViewBag.ListDV" />
+                    <partial name="_AddDichVu" model="@ViewBag.DichVu" />
                 </div>
             </div>
 
 
             <div class="modal-footer">
                 <div class="text-right">
+
+
                     <button type="button" class="btn btn-success btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -286,9 +276,9 @@
                     $("#HoTen").val("");
                     $("#NgaySinh").val("");
                     $("#DiaChi").val(data.DiaChi);
-                    
+
                     $('#GioiTinh').val(0);
-                   
+
                     $("#MaBN").val("");
                 }
             });
@@ -348,7 +338,7 @@
 
     <script>
 
-
+        var lisdv = [];
 
         function OpenThemDichVu() {
 
@@ -373,7 +363,7 @@
 
 
 
-                $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6" >${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2" style ="text-aline: center;" ><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+                $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
 
 
 
@@ -386,24 +376,32 @@
         function OpenXacNhanDV() {
 
             if ($("#frm").valid()) {
-                obj = {}
-                obj = $("#frm").serializeObject();
-                var listdv = [];
-                $("#listDV > tr").each(function () {
+            
+              
+                listdv = [];
+                $('.NewDV').each(function () {
+                    console.log($(this).html());
                     $tr = $(this)
                     var $td = $tr.find("td");
                     listdv.push({ MaDV: $td.eq(0).text() })
 
                 });
-                obj.dichVus = listdv
+              
+              
 
                 $.ajax({
-                    url: "/TiepNhan/XacNhanDichVu/",
+                    url: "/TiepNhan/XacNhanCapNhat/",
                     type: 'POST',
 
 
                     async: true,
-                    data: obj,
+                    data: {
+                        MaPK: $('#MaPK').val(),
+                        dichVus: listdv
+
+
+
+                    },
 
 
                     success: function (response) {
@@ -436,8 +434,12 @@
             );
             $.ajax({
                 type: "POST",
-                url: "/TiepNhan/FinalCheckOut/",
-                data: obj,
+                url: "/TiepNhan/UpdateCheckOut/",
+                data:
+                {
+                    MaPK: $('#MaPK').val(),
+                    dichVus: listdv
+                },
                 success: function (result) {
                     $('#preloader-wrapper').toggleClass('hide');
 
@@ -511,7 +513,7 @@
         $(document).on('click', '.remove', function () {
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
             $tr.remove();
 
         });
@@ -520,7 +522,7 @@
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
 
-            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
+            $("#listDV").append(`<tr class="NewDV"><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
 

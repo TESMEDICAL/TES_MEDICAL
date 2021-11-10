@@ -12,21 +12,14 @@
             <thead style="border-bottom: 1px solid black;">
                 <tr>
 
-                    <th>
 
-                        Ngay Khám
-                    </th>
 
                     <th>
 
                         Tên Bệnh nhân
                     </th>
 
-                    <th>
-
-                        Số điện thoại
-                    </th>
-
+                    <th>SDT</th>
 
 
 
@@ -40,12 +33,6 @@
                     @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
                     {
                         <tr>
-
-
-
-
-                            <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-
 
 
 
@@ -68,7 +55,14 @@
 
 
 
-                            <td class=" text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Chi tiết</a></td>
+
+
+
+
+                            <td class="button-reload text-nowrap">
+                                <a class="btn btn-info btn-sm active" title="Khám bệnh" href="@Url.Action("ChiTietCapNhat","TiepNhan",new {MaPK = item.MaPK })"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+
+                            </td>
 
                         </tr>
                     }
@@ -110,8 +104,8 @@
             var searchModel = ViewBag.Data as PhieuKhamSearchModel;
         }
 
-
-        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PagePhieuKham", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+        <input class="d-none" id="CurrentPage" value="@ViewBag.Page" />
+        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("ReLoadCapNhat", new { page, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
 </div>
