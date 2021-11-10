@@ -27,5 +27,11 @@ namespace TES_MEDICAL.GUI.Services
                .OrderBy(x => x.TenBenh).ToListAsync();
 
         }
+        public async Task<PhieuKham> GetAuToFill(string TenBenh)
+        {
+            var item = await _context.PhieuKham.Include(x=>x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => string.Compare(x.MaBenhNavigation.TenBenh,TenBenh,false)==0);
+            return item;
+        }
+       
     }
 }
