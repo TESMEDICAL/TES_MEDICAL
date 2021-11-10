@@ -24,5 +24,6 @@ namespace TES_MEDICAL.GUI.Models
 
         public virtual ChuyenKhoa MaCKNavigation { get; set; }
         public virtual ICollection<CTTrieuChung> CTTrieuChung { get; set; }
+        public virtual ICollection<PhieuKham> PhieuKham { get; set; }
     }
 }
