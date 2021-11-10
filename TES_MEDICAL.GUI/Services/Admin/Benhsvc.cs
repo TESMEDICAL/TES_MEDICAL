@@ -26,7 +26,7 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public async Task<Benh> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
+        public async Task<Response<Benh>> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
         {
             try
             {
@@ -54,16 +54,19 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<Benh> { errorCode = 0, Obj = model };
 
                 }
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<Benh> { errorCode = -1 };
+                }
 
+                return new Response<Benh> { errorCode = -2 };
             }
         }
 

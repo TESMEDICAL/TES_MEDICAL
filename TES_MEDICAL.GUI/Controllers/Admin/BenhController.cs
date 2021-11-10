@@ -81,14 +81,21 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Benh model,CTrieuChungModel[] Trieuchungs)
         {
-
-            model.MaBenh = Guid.NewGuid();
-            if (await _service.Add(model,Trieuchungs.ToList()) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
+            if (ModelState.IsValid)
+            {
+                model.MaBenh = Guid.NewGuid();
+                var result = await _service.Add(model, Trieuchungs.ToList());
+                if (result.errorCode == -1)
+                {
+                    ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
+                    return PartialView("_partialAdd", model);
+                }
+                if (result.errorCode == 0)
+                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                else
+                    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            return PartialView("_partialAdd", model);
         }
         [HttpGet]
 
