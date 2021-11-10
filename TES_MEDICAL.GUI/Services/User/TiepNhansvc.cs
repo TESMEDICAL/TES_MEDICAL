@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Services
             try
             {
 
-                model.MaNVHD = "da63a519-f9fa-48ac-ab40-f1cb3c4601de";
+               
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var MaPK = Guid.NewGuid();
                 var list = new List<string>();
@@ -78,10 +78,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
-                Thread th_one = new Thread(() => CreateHD(hd));
-
-                th_one.Start();
+                var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
+               
                 return hd;
 
             }
@@ -131,47 +129,7 @@ namespace TES_MEDICAL.GUI.Services
         }
 
 
-        public void CreateHD(HoaDon HD)
-        {
-
-            var tongTien = HD.MaPKNavigation.ChiTietDV.Sum(x => x.MaDVNavigation.DonGia);
-            var listDichVu = "";
-            foreach (var item in HD.MaPKNavigation.ChiTietDV)
-            {
-
-                listDichVu += $"<tr><td class='col-6'><strong>{item.MaDVNavigation.TenDV}</strong></td><td class='col-6 text-end'><strong>{item.MaDVNavigation.DonGia.ToString("n0").Replace(',', '.')}</strong></td></tr>";
-
-            }
-            var bn = HD.MaPKNavigation.MaBNNavigation;
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHoaDon}", HD.MaPK.ToString());
-                html = html.Replace("{MaNhanVien}", HD.MaNVNavigation.HoTen);
-                html = html.Replace("{NgayKham}", HD.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-                html = html.Replace("{HoTen}", bn.HoTen);
-                html = html.Replace("{NgaySinh}", bn.NgaySinh?.ToString("dd/MM/yyyy"));
-                html = html.Replace("{SDT}", bn.SDT);
-                html = html.Replace("{DiaChi}", bn.DiaChi);
-                html = html.Replace("{listDichVu}", listDichVu);
-                html = html.Replace("{tongtien}", tongTien.ToString("n0").Replace(',', '.'));
-
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
-
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", HD.MaHoaDon + ".pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);
-
-            }
-
-        }
-
+      
 
 
         public async Task<IPagedList<PhieuDatLich>> SearchByCondition(PhieuDatLichSearchModel model)
@@ -205,6 +163,75 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
+
+
+
+        public async Task<IPagedList<PhieuKham>> GetListPhieuKham(PhieuKhamSearchModel model)
+        {
+
+
+            var listUnpaged = (_context.PhieuKham.Include(x=>x.MaBNNavigation).Where(x=>
+                (string.IsNullOrWhiteSpace(model.KeywordSearch)||
+                EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+
+                     EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) )
+                     && x.TrangThai ==0
+
+
+
+
+                ).OrderByDescending(x => x.NgayKham));
+
+
+
+
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+
+
+            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+
+
+
+
+
+        }
+
+        public async Task<PhieuKham> GetPhieuKhamById(Guid id)
+        {
+            return await _context.PhieuKham.Include(x=>x.STTPhieuKham).Include(x=>x.MaBSNavigation).Include(x => x.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPK == id);
+
+        }
+
+        public async Task<List<ChiTietDV>> GetListDVByPK(Guid MaPK)
+        {
+            return await (from pk in _context.PhieuKham
+                    join hd in _context.HoaDon
+                    on pk.MaPK equals (hd.MaPK)
+                    join ctdv in _context.ChiTietDV
+                    on hd.MaHoaDon equals (ctdv.MaHD)
+                    where pk.MaPK == MaPK
+                    select ctdv).ToListAsync();
+        }
+       //public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
+       // {
+       //     var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+       //     decimal tongTien = 0;
+       //     foreach(var item in chiTietDVs)
+       //     {
+       //         _context.ChiTietDV.Add(new ChiTietDV { MaDV = item.MaDV, MaPhieuKham = item.MaPhieuKham });
+                
+       //     }    
+            
+       //     var HD = new HoaDon { MaHoaDon = maHD, MaNV = MaNV, MaPK = MaPK, NgayHD = DateTime.Now, };
+       //     return HD;
+       // }
+
 
 
 

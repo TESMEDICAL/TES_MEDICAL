@@ -75,6 +75,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> Add(DichVu model)
         {
+            model.TrangThai = true;
             if (ModelState.IsValid)
             {
                 model.MaDV = Guid.NewGuid();
@@ -145,10 +146,24 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (await _service.Delete(id))
+            var dv = await _service.Get(id);
+            dv.TrangThai = false;
+            if (await _service.Edit(dv)!=null)
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            var dv = await _service.Get(id);
+            dv.TrangThai = true;
+            if (await _service.Edit(dv) != null)
+                return Json(new { status = 1, title = "", text = "Khôi phục thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            else
+                return Json(new { status = -2, title = "", text = "Thao Tác không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
     }
 }

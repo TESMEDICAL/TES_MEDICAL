@@ -158,7 +158,7 @@
 
             <tbody class="tbody" id="partialCTTrieuChung">
 
-                @foreach (var item in Model.CTTrieuChung)
+                @foreach (var item in ViewBag.ListTC as List<CTrieuChungModel>)
                 {
                     <partial name="_CTTrieuChungView" model="item" />
 
@@ -174,13 +174,5 @@
 
 
 </div>
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
-<script>
-
-    $(document).ready(function () {
-
-    });
-</script>
 
 

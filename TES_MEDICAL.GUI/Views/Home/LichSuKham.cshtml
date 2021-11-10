@@ -1,13 +1,13 @@
-﻿@model List<TES_MEDICAL.GUI.Models.PhieuDatLich>
+﻿@model List<TES_MEDICAL.GUI.Models.PhieuKham>
 @{
-    ViewData["Title"] = "LỊCH SỬ ĐẶT LỊCH";
+    ViewData["Title"] = "LỊCH SỬ KHÁM";
     Layout = "~/Views/Shared/GuestLayout.cshtml";
 }
 
 <div class="row">
     <div class="col-lg-8 m-auto">
         <div class="ltn__form-box contact-form-box box-shadow white-bg">
-            <h4 class="title-2">Lịch đặt lịch của bạn</h4>
+            <h4 class="title-2">Lịch sử khám bệnh của bạn</h4>
             <div id="contact-form">
                 <div class="row">
                     <div class="col-md-6">
@@ -44,7 +44,7 @@
                                 <h6 style="font-weight:bold"><a href="#">Ngày khám</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Mã phiếu khám</a></h6>
+                                <h6 style="font-weight:bold"><a href="#"></a></h6>
                             </div>
                         </div>
                     </div>
@@ -108,12 +108,16 @@
 <script>
     function OpenLichSuKham() {
         $.ajax({
-            url: "/Home/SearchDatLichByPhoneNumber",
+            url: "/Home/SearchByPhoneNumber",
             type: 'GET',
             data: {
                 SDT: $('#SDT').val()
             },
             success: function (response) {
+                //$("#myModalContent").html(response);
+                //$('#myModal').show();
+                //$('#btSave').show();
+                //$('#btupdate').hide();r
                 $("#ShowLichSu").html("");
                 JSON.parse(response).forEach(function (item) {
                     console.log(item);
@@ -124,24 +128,21 @@
                     var hh = stringDate.getHours();
                     var mm = stringDate.getMinutes();
                     var ss = stringDate.getSeconds();
-                    var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-                    
+                    var ngayKham = dd + "/" + MM + "/"+ yyyy  +", " + hh + ":" + mm + ":" + ss;
                     $("#ShowLichSu").append(`
-                                <div class="col-sm-3">
-                                    <h6><a href="#">${item.TenBN}</a></h6>
+                    <div class="col-sm-3">
+                                    <h6><a href="#">${item.MaBNNavigation.HoTen}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.SDT}</a></h6>
+                                    <h6><a href="#">${item.MaBNNavigation.SDT}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#" id="demo">${ngayKham}</a></h6>
+                                    <h6><a href="#">${ngayKham}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.MaPhieu}</a></h6>
+                                    <h6><a href="#" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
                                 </div>
-                                
                     `)
-                    
                 });
                 console.log(response);
 
@@ -149,8 +150,22 @@
         });
     }
 
-    
+    function OpenChiTietKham(_MaPK) {
+        $.ajax({
+            url: "/Home/ChiTietLichSuKham/",
+            type: 'GET',
+            data: {
+                MaPK:  _MaPK
+            },
+            success: function (response) {
+                $("#myModalContent").html(response);
+                $('#myModal').modal('show');
+                $('#btSave').show();
+                $('#btupdate').hide();
 
+            }
+        });
+    }
 </script>
 
 
