@@ -21,13 +21,22 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IThuoc _thuocRep;
         private readonly UserManager<NhanVienYte> _userManager;
         private readonly IHubContext<SignalServer> _hubContext;
-       
-        public BacSiController (IKhamBenh khambenhRep,IThuoc thuocRep, UserManager<NhanVienYte> userManager, IHubContext<SignalServer> hubContext)
+        private readonly ITienIch _tienichRep;
+
+        public BacSiController(
+            IKhamBenh khambenhRep,
+            IThuoc thuocRep,
+            UserManager<NhanVienYte> userManager,
+            IHubContext<SignalServer> hubContext,
+            ITienIch tienichRep
+            )
+            
         {
             _khambenhRep = khambenhRep;
             _thuocRep = thuocRep;
             _userManager = userManager;
             _hubContext = hubContext;
+            _tienichRep = tienichRep;
             
         }
        
