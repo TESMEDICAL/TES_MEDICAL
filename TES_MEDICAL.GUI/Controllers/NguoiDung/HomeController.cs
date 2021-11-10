@@ -23,16 +23,21 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ICustomer _service;
         private readonly IValidate _valid;
         private readonly ITinTuc _tintucService;
-        
+        private readonly IDuocSi _duocSiService;
+        private readonly IDichVu _dichVuService;
+
+
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService)
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService, IDuocSi duocSiService,IDichVu dichvuService)
         {
             _logger = logger;
             _service = service;
             _valid = valid;
             _hubContext = hubContext;
             _tintucService = tintucService;
+            _duocSiService = duocSiService;
+            _dichVuService = dichvuService;
 
         }
 
@@ -147,6 +152,57 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(baiViet);
         }
 
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT)
+        {
+            var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
+            if (listPhieuKham.Count() > 0)
+            {
 
+                return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+        }
+
+        public IActionResult LichSuKham()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
+        {
+            ViewBag.CTLichSuDichVu = await _dichVuService.GetDichVu(MaPK);
+            ViewBag.CTLichSuThuoc = await _duocSiService.GetChiTiet(MaPK);
+            return PartialView("_PartialCT_LichSuKham", await _service.GetLichSuKhamById(MaPK));
+        }
+
+
+        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT)
+        {
+            var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
+            if (listPhieuDatLich.Count() > 0)
+            {
+
+                return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
+            }
+            else
+            {
+
+                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+        }
+
+        
     }
 }

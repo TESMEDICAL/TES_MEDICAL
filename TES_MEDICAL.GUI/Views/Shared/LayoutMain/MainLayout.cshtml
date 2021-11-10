@@ -534,20 +534,18 @@
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
                     <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
-                            <div class="row">
+                            <div style="display: flex;">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                                <div style="width: 60%" @*class="hidden-xs hidden-sm"*@>
                                     <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div class="col-3  ms-auto">
-
+                                <div style="width: 38%; text-align: right;">
                                     <h2 class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
-
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
