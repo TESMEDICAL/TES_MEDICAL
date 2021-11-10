@@ -50,6 +50,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                 {
                     HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
                     HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
+                    HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
                     HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
                         JsonConvert.SerializeObject(nguoidung));
 

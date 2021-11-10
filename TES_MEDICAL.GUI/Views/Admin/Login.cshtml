@@ -1,6 +1,5 @@
 ﻿@model TES_MEDICAL.ENTITIES.Models.ViewModel.AdminLoginViewModel
 @{
-    ViewData["Title"] = "Đăng nhập";
     Layout = null;
 }
 
@@ -12,7 +11,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>ProUI - Responsive Bootstrap Admin Template</title>
+    <title>Đăng nhập Admin</title>
 
     <meta name="description" content="ProUI is a Responsive Bootstrap Admin Template created by pixelcave and published on Themeforest.">
     <meta name="author" content="pixelcave">
@@ -66,7 +65,7 @@
                 <div id="login-alt-container">
                     <!-- Title -->
                     <h1 class="push-top-bottom">
-                        <img src="~/MainElement/img/LogoVuongPNG.png" style="width: 70px;"/>
+                        
                         @*<i class="gi gi-flash" style="color: #1b4332;"></i>*@ <strong style="color: #1b4332; ">TES MEDICAL</strong><br>
                         <small style="color: #6b705c; ">Chào mừng bạn đến trang Admin !</small>
                     </h1>
@@ -91,7 +90,8 @@
                 <div id="login-container">
                     <!-- Login Title -->
                     <div class="login-title2  text-center">
-                        <h1><strong>TES MEDICAL</strong></h1>
+                        <h1><img src="~/MainElement/img/LogoVuongPNG.png" style="width: 90px;" />
+                        <strong> MEDICAL - ADMIN</strong></h1>
                     </div>
                     <!-- END Login Title -->
                     <!-- Login Block -->
@@ -125,9 +125,7 @@
                                     <p class="col-sm-9" style="margin-left: -35px; color: rgb(119, 213, 203);"><strong>Ghi nhớ đăng nhập</strong></p>
                                 </div>
                             </div>
-                            <div class="col-xs-6 text-right">
-                                <a href="javascript:void(0)" id="link-reminder-login" style="color: rgb(119, 213, 203);"><strong>Quên mật khẩu ?</strong></a>
-                            </div>
+                            
                             <div class="form-group">
                                 <div class="col-xs-12 text-center" style="margin-bottom: 10px;">
                                     <button type="submit" class="btn" style="width: 250px; background-color: rgb(119, 213, 203); color: white;">Đăng nhập</button>

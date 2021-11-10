@@ -1,4 +1,11 @@
-﻿ <!-- Brand Logo -->
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions
+@using TES_MEDICAL.GUI.Constant
+
+@{ string chucVu = Context.Session.GetString(SessionKey.Nguoidung.ChucVu);}
+
+
+<!-- Brand Logo -->
 <a href="index3.html" class="brand-link">
     <img src="~/AminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Admin Management</span>
@@ -6,7 +13,7 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <partial name="~/Views/Shared/LayoutAdmin/_LoginPartial.cshtml"/>
+    <partial name="~/Views/Shared/LayoutAdmin/_LoginPartial.cshtml" />
 
     <!-- SidebarSearch Form -->
     <div class="form-inline">
@@ -63,15 +70,18 @@
                     </li>
                 </ul>
             </li>
+            @if (chucVu == "1")
+            {
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","NguoiDung")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "NguoiDung")">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>
+                            Quản lý người dùng
+                        </p>
+                    </a>
+                </li>
+            }
 
-            <li class="nav-item">
-                <a href="@Url.Action("Index","NguoiDung")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "NguoiDung")">
-                    <i class="nav-icon fas fa-users-cog"></i>
-                    <p>
-                        Quản lý người dùng
-                    </p>
-                </a>
-            </li>
             <li class="nav-item">
                 <a href="@Url.Action("Index","NhanVienYTe")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "NhanVienYTe")">
                     <i class="nav-icon fas fa-user-md"></i>
