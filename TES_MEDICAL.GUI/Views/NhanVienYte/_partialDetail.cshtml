@@ -109,7 +109,7 @@
                     </div>
                     <div class="col-sm-8">
                         <h6 style="font-weight: 600">
-                            @Model.ChuyenKhoaNavigation.TenCK
+                            @(Model.ChucVu==2?Model.ChuyenKhoaNavigation.TenCK:"Không có")
                         </h6>
 
                         <!-- @Html.DisplayFor(model => model.ChuyenKhoa) -->
@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-sm-8">
                         <h6 style="font-weight: 600">
-                            @Model.TrangThai
+                            @(Model.TrangThai?"Hoạt động":"Không hoạt động")
                         </h6>
                         <!-- @Html.DisplayFor(model => model.TrangThai) -->
                     </div>
