@@ -78,6 +78,7 @@
         <br /><br />
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmKhamBenh", id = "frmKhamBenh", enctype = "multipart/form-data", @class = "needs-validation" }))
         {
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.MaPK);
             <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
                 <div class="block-title">
@@ -397,6 +398,43 @@
                         }
                     },
 
+                });
+                $("#ChanDoan").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '/api/benh/search',
+                            headers: {
+                                "RequestVerificationToken":
+                                    $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            data: { "term": request.term },
+                            dataType: "json",
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return item;
+                                }))
+                            },
+                            error: function (xhr, textStatus, error) {
+                                alert(xhr.statusText);
+                            },
+                            failure: function (response) {
+                                alert("failure " + response.responseText);
+                            }
+                        });
+                    },
+                    select: function (e, i) {
+                        $.get("/BacSi/GetAutoFill", { TenBenh: i.item.value }, function (data) {
+                            oldPK = data;
+
+
+                        });
+
+                        UseOld();
+
+
+                       
+                    },
+                    minLength: 3
                 });
 
 
