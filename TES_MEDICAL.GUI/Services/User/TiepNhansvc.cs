@@ -244,6 +244,14 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
+        }
+
+        public async Task<PhieuKham> GetPhieuKhamById(Guid id)
+        {
+            return await _context.PhieuKham.Include(x=>x.STTPhieuKham).Include(x=>x.MaBSNavigation).Include(x => x.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPK == id);
+
+        }
+
                             };
                     var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
                     await _context.SaveChangesAsync();
