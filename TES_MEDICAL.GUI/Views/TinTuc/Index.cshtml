@@ -161,7 +161,7 @@
 
 
 @section scripts{
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
 
         var $id = "";
@@ -298,35 +298,7 @@
             $.print("#" + id);
         }
 
-        //function Edit(id_) {
-        //    /*$myModalContent.html("");*/
-
-        //    $.ajax({
-        //        url: '/TinTuc/Edit/',
-
-        //        type: "Get",
-        //        timeout: 20000,
-
-        //        async: true,
-        //        data: {
-        //            id: id_
-        //        },
-
-        //        success: function (result) {
-        //            $myModalContent.html(result);
-        //            //$('#btSave').hide();
-        //            //$('#btupdate').show();
-        //            //$('#btPrint').hide();
-        //            //$modal.modal('show');
-
-
-        //            $('#preloader-wrapper').toggleClass('hide');
-        //        },
-        //        failure: function (message) {
-        //            $('#preloader-wrapper').toggleClass('hide');
-        //        }
-        //    });
-        //}
+        
 
 
         function Create() {
@@ -436,32 +408,43 @@
 
 
         function _restore(id) {
-            var cf = confirm('Bạn muốn Khôi phục tin này?');
-            if (cf) {
-                $.ajax({
-                    type: "POST",
-                    url: "/TinTuc/Restore",
-                    data: { "id": id },
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
-                            toastr.success(result.text);
+            /*var cf = confirm('Bạn muốn Khôi phục tin này?');*/
+            Swal.fire({
+                title: 'Bạn muốn Khôi phục tin này ?',
+                text: "Thao tác không thể thay đổi !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Huỷ bỏ',
+                confirmButtonText: 'Xác nhận'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //Ajax
+                    $.ajax({
+                        type: "POST",
+                        url: "/TinTuc/Restore",
+                        data: { "id": id },
+                        success: function (result) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                            if (result.status >= 1) {
+                                toastr.success(result.text);
 
-                            reloadpage();
+                                reloadpage();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            toastr.warning(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
                         }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                    },
-                    error: function (errormessage) {
-                        toastr.warning(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-            }
-
+                    });
+                }
+            }) 
         }
 
         function Timkiem() {
