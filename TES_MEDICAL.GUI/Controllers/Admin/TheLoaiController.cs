@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
    
-    public class TheLoaiController : Controller
+    public class TheLoaiController : BaseController
     {
         private readonly ITheLoai _service;
         public TheLoaiController(ITheLoai service)
@@ -75,8 +74,8 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task <ActionResult> Add( TheLoai model)
         {
          
-                             model.MaTL = Guid.NewGuid();
-                             if (await _service.Add(model) != null)
+            model.MaTL = Guid.NewGuid();
+            if (await _service.Add(model) != null)
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

@@ -9,20 +9,22 @@
 
 
 <style>
-    .wrapper {
+    .box {
         background-color: white;
         font-family: Arial
     }
 
-    .main-title {
-        background-color: lightgray;
+    .box-title {
+        background-color: rgb(233, 236, 239);
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
 
-        .main-title h6 {
+        .box-title h6 {
             padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
         }
 
     .header-left {
@@ -82,8 +84,8 @@
 
 
 
-<div class="wrapper m-3">
-    <div class="main-title mb-4">
+<div class="box m-3">
+    <div class="box-title mb-4">
         <h6>Quản lý nhân viên y tế</h6>
     </div>
     <div class="header row">
@@ -92,8 +94,8 @@
         {
             @Html.AntiForgeryToken()
             <div class="header-left col-sm-8 row">
-                <div class="header-input-1 col-3">
-                    <input type="text" class="form-control" asp-for="KeyWordSearch" placeholder="Nhập họ tên..." aria-label="Username" aria-describedby="basic-addon1">
+                <div class="header-input-1 col-7">
+                    <input type="text" class="form-control" asp-for="KeyWordSearch" placeholder="Nhập thông tin cần tìm ..." aria-label="Username" aria-describedby="basic-addon1">
                     @*@Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên" } })*@
                 </div>
             
@@ -192,7 +194,7 @@
                         contentType: false,
                         data: formData,
                         success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
+                            $('#preloader-box').toggleClass('hide');
                             if (result.status != null) {
                                 if (result.status >= 1) {
 
@@ -211,7 +213,7 @@
                             alert(errormessage.responseText);
                         },
                         failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
+                            $('#preloader-box').toggleClass('hide');
                         }
                     });
 
@@ -245,7 +247,7 @@
                         contentType: false,
                         data: formData,
                         success: function (result) {
-                            $('#preloader-wrapper').toggleClass('hide');
+                            $('#preloader-box').toggleClass('hide');
                             if (result.status >= 1) {
                                 toastr.success(result.text);
                                 reloadpage(1);
@@ -258,7 +260,7 @@
                             alert(errormessage.responseText);
                         },
                         failure: function (message) {
-                            $('#preloader-wrapper').toggleClass('hide');
+                            $('#preloader-box').toggleClass('hide');
                         }
                     });
 
@@ -320,7 +322,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -334,7 +336,7 @@
                     url: "/NhanVienYTe/Delete",
                     data: { "id": id },
                     success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                         if (result.status >= 1) {
                             toastr.success(result.text);
 
@@ -348,7 +350,7 @@
                         toastr.warning(errormessage.responseText);
                     },
                     failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                     }
                 });
             }
@@ -365,7 +367,7 @@
                     url: "/NhanVienYTe/Restore",
                     data: { "id": id },
                     success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                         if (result.status >= 1) {
                             toastr.success(result.text);
 
@@ -379,7 +381,7 @@
                         toastr.warning(errormessage.responseText);
                     },
                     failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                     }
                 });
             }
@@ -413,10 +415,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -443,10 +445,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
@@ -474,10 +476,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -492,7 +494,7 @@
                     url: "/NhanVienYte/Delete",
                     data: { "id": id },
                     success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                         if (result.status >= 1) {
                             toastr.success(result.text);
 
@@ -506,7 +508,7 @@
                         toastr.warning(errormessage.responseText);
                     },
                     failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                     }
                 });
             }
@@ -544,7 +546,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
