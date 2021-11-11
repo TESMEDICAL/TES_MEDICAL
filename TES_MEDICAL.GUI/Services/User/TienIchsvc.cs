@@ -29,8 +29,12 @@ namespace TES_MEDICAL.GUI.Services
         }
         public async Task<PhieuKham> GetAuToFill(string TenBenh)
         {
-            var item = await _context.PhieuKham.Include(x=>x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => string.Compare(x.MaBenhNavigation.TenBenh,TenBenh,false)==0);
-            return item;
+            return await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+                    join b in _context.Benh
+                    on pk.MaBenh equals (b.MaBenh)
+                    where b.TenBenh.Equals(TenBenh)
+                    select pk).FirstOrDefaultAsync();
+           
         }
        
     }
