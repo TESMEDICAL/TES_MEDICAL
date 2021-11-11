@@ -113,7 +113,7 @@ namespace TES_MEDICAL.GUI.Services
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item.TenTrieuChung },
                                  
                             };
-                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
+                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
 
 
                         }
