@@ -172,7 +172,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.MaHD)
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
+                entity.Property(e => e.DonGiaDV).HasColumnType("money");
                 entity.HasOne(d => d.MaDVNavigation)
                     .WithMany(p => p.ChiTietDV)
                     .HasForeignKey(d => d.MaDV)
@@ -213,7 +213,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasName("PK__ChiTietT__339EF89FCA764F6C");
 
                 entity.Property(e => e.GhiChu);
-
+                entity.Property(e => e.DonGiaThuoc).HasColumnType("money");
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.ChiTietToaThuoc)
                     .HasForeignKey(d => d.MaPK)
@@ -443,6 +443,10 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
                     .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
+                entity.HasOne(d => d.MaBenhNavigation)
+                      .WithMany(p => p.PhieuKham)
+                      .HasForeignKey(d => d.MaBenh)
+                      .HasConstraintName("FK_PhieuKham_MaBenh");
             });
 
 

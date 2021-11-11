@@ -222,8 +222,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
         {
            
-                decimal tongTien = 0;
-
+               
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var list = new List<string>();
                 foreach (var item in chiTietDVs)

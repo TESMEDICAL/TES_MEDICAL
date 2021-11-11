@@ -10,6 +10,7 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaPK { get; set; }
         public Guid MaThuoc { get; set; }
         public int SoLuong { get; set; }
+        public decimal? DonGiaThuoc { get; set; }
         public int LanTrongNgay { get; set; }
         public int VienMoiLan { get; set; }
         public bool TruocKhian { get; set; }

@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-    public class NhanVienYTeController : Controller
+    public class NhanVienYTeController : BaseController
     {
         private readonly INhanVienYte _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
