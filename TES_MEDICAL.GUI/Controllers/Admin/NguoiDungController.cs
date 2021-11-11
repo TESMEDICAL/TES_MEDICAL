@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
    
-    public class NguoiDungController : Controller
+    public class NguoiDungController : BaseController
     {
         private readonly INguoiDung _service;
         public NguoiDungController(INguoiDung service)

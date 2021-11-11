@@ -12,42 +12,53 @@
         background-color: white;
         font-family: Arial
     }
+
     .box-title {
         background-color: rgb(233, 236, 239);
+
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
+
         .box-title h6 {
+
             padding: 10px;
             font-weight: 600;
             color: rgb(108, 117, 125);
         }
-    .header-left{
+
+    .header-left {
         left: 0 auto;
     }
-    .header-right{
+
+    .header-right {
         padding-right: 25px;
         margin-inline-start: auto;
         text-align: right;
     }
-    .form-select{
+
+    .form-select {
         color: gray;
     }
+
     .header-btn a {
         background-color: rgb(82, 183, 136);
         color: white;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     }
+
         .header-btn a:hover {
             background-color: rgb(118, 200, 147);
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             transform: scale(1.1)
         }
-    .form-check{
+
+    .form-check {
         margin-right: 25px;
     }
-    .name-list{
+
+    .name-list {
         padding-inline: 15px;
     }
 </style>
@@ -59,6 +70,7 @@
 <div class="box m-3">
     <div class="box-title mb-4">
          <h6>Quản lý trang chủ</h6>   
+
     </div>
 
     <div class="header row">
@@ -73,7 +85,7 @@
                     @*@Html.EditorFor(model => model.TieuDeSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tiêu đề" } })*@
                 </div>
 
-               
+
 
                 <div class="header-dropdown col-3">
 
@@ -98,13 +110,15 @@
                     Hiện tất cả
                 </label>
             </div>
-            
+
 
 
         }
 
     </div>
+
     <div id="nameListContainer" class="mt-2" style="margin-inline: 5px;">        
+
         <div class="name-list">
             <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TinTuc>" />
         </div>
@@ -147,6 +161,7 @@
 
 
 @section scripts{
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
         var $id = "";
@@ -376,32 +391,45 @@
 
 
 
-        function _delete(id) {
-            var cf = confirm('Bạn muốn vô hiệu hóa tin  này?');
-            if (cf) {
-                $.ajax({
-                    type: "POST",
-                    url: "/TinTuc/Delete",
-                    data: { "id": id },
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
-                            toastr.success(result.text);
 
-                            reloadpage();
+        function _delete(id) {
+
+            /*var cf = swal.fire('Bạn muốn vô hiệu hóa tin này?');*/
+            Swal.fire({
+                title: 'Bạn có muốn vô hiệu hoá tin này ?',
+                text: "Thao tác không thể thay đổi !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Huỷ bỏ',
+                confirmButtonText: 'Xác nhận'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/TinTuc/Delete",
+                        data: { "id": id },
+                        success: function (result) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                            if (result.status >= 1) {
+                                toastr.success(result.text);
+
+                                reloadpage();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            toastr.warning(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
                         }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                    },
-                    error: function (errormessage) {
-                        toastr.warning(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-            }
+                    });
+                }
+            })
 
         }
 

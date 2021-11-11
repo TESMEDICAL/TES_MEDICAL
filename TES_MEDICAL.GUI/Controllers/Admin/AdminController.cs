@@ -58,6 +58,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                 {
                     if (nguoidung != null)
                     {
+                        HttpContext.Session.SetString(SessionKey.Nguoidung.MaNguoiDung, nguoidung.MaNguoiDung.ToString());
                         HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
                         HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
                         HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());

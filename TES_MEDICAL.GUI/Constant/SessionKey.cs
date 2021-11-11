@@ -9,6 +9,7 @@ namespace TES_MEDICAL.GUI.Constant
     {
         public static class Nguoidung
         {
+            public const string MaNguoiDung = "MaNguoiDung";
             public const string UserName = "UserName";
             public const string FullName = "FullName";
             public const string ChucVu = "ChucVu";
