@@ -45,9 +45,9 @@ namespace TES_MEDICAL.GUI.Services
 
                                 new SqlParameter { ParameterName = "@Mabenh", Value= item.MaBenh },
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item.TenTrieuChung },
-                                new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
+                               
                             };
-                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
+                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
 
                         }
                     }
@@ -111,7 +111,7 @@ namespace TES_MEDICAL.GUI.Services
 
                                 new SqlParameter { ParameterName = "@Mabenh", Value= item.MaBenh },
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item.TenTrieuChung },
-                                 new SqlParameter { ParameterName = "@ChiTietTrieuChung", Value= item.ChiTietTrieuChung }
+                                 
                             };
                             var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung,@ChiTietTrieuChung", parms.ToArray());
 
