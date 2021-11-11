@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
         private readonly SignInManager<NhanVienYte> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<NhanVienYte> signInManager, 
+        public LoginModel(SignInManager<NhanVienYte> signInManager,
             ILogger<LoginModel> logger,
             UserManager<NhanVienYte> userManager)
         {
@@ -78,44 +78,55 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/TiepNhan/quanlydatlich");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var checkUser = await _userManager.FindByNameAsync(Input.Email);
+                if(checkUser.TrangThai == true)
                 {
-                    var user = await _userManager.FindByNameAsync(Input.Email);
-                    _logger.LogInformation("User logged in.");
-                    if (user.ChucVu == 1)
+                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                    if (result.Succeeded)
                     {
-                        return LocalRedirect("~/TiepNhan/ThemPhieuKham");
+                        var user = await _userManager.FindByNameAsync(Input.Email);
+                        _logger.LogInformation("User logged in.");
+                        if (user.ChucVu == 1)
+                        {
+                            return LocalRedirect("~/TiepNhan/ThemPhieuKham");
+                        }
+                        else if (user.ChucVu == 3)
+                        {
+                            return LocalRedirect("~/DuocSi/ToaThuoc");
+                        }
+                        else
+                        {
+                            return LocalRedirect("~/Bacsi/");
+                        }
                     }
-                    else if (user.ChucVu == 3)
+                    if (result.RequiresTwoFactor)
                     {
-                        return LocalRedirect("~/DuocSi/ToaThuoc");
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        return RedirectToPage("./Lockout");
                     }
                     else
                     {
-                        return LocalRedirect("~/Bacsi/");
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
                     }
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    return RedirectToAction("NoneUserNVYT", "Identity");
                 }
+                
+
+
             }
 
             // If we got this far, something failed, redisplay form

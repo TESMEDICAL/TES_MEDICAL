@@ -119,17 +119,25 @@
                 //$('#btSave').show();
                 //$('#btupdate').hide();r
                 $("#ShowLichSu").html("");
-                JSON.parse(response).forEach(function (item) {
-                    console.log(item);
-                    var stringDate = new Date(item.NgayKham);
-                    var dd = stringDate.getDate();
-                    var MM = stringDate.getMonth();
-                    var yyyy = stringDate.getFullYear();
-                    var hh = stringDate.getHours();
-                    var mm = stringDate.getMinutes();
-                    var ss = stringDate.getSeconds();
-                    var ngayKham = dd + "/" + MM + "/"+ yyyy  +", " + hh + ":" + mm + ":" + ss;
+                if (response.status == -2) {
                     $("#ShowLichSu").append(`
+                            <div class="col-sm-12 text-center text-danger">
+                                <h6 style="font-weight:bold"><a href="#">Không tìm thấy</a></h6>
+                            </div>
+                    `)
+                }
+                else {
+                    JSON.parse(response).forEach(function (item) {
+                        console.log(item);
+                        var stringDate = new Date(item.NgayKham);
+                        var dd = stringDate.getDate();
+                        var MM = stringDate.getMonth();
+                        var yyyy = stringDate.getFullYear();
+                        var hh = stringDate.getHours();
+                        var mm = stringDate.getMinutes();
+                        var ss = stringDate.getSeconds();
+                        var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                        $("#ShowLichSu").append(`
                     <div class="col-sm-3">
                                     <h6><a href="#">${item.MaBNNavigation.HoTen}</a></h6>
                                 </div>
@@ -143,7 +151,9 @@
                                     <h6><a href="#" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
                                 </div>
                     `)
-                });
+                    });
+                }
+                
                 console.log(response);
 
             }

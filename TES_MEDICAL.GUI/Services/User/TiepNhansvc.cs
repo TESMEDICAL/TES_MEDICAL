@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SelectPdf;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -218,19 +219,52 @@ namespace TES_MEDICAL.GUI.Services
                     where pk.MaPK == MaPK
                     select ctdv).ToListAsync();
         }
-       //public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
-       // {
-       //     var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
-       //     decimal tongTien = 0;
-       //     foreach(var item in chiTietDVs)
-       //     {
-       //         _context.ChiTietDV.Add(new ChiTietDV { MaDV = item.MaDV, MaPhieuKham = item.MaPhieuKham });
-                
-       //     }    
-            
-       //     var HD = new HoaDon { MaHoaDon = maHD, MaNV = MaNV, MaPK = MaPK, NgayHD = DateTime.Now, };
-       //     return HD;
-       // }
+        public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
+        {
+           
+               
+                var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+                var list = new List<string>();
+                foreach (var item in chiTietDVs)
+                {
+                    list.Add(item.MaDV.ToString());
+                }
+                var listContent = string.Join(",", list);
+                try
+                {
+                List<SqlParameter> parms = new List<SqlParameter>
+                            {
+
+                                         new SqlParameter { ParameterName = "@MaNV", Value= MaNV },
+                                          new SqlParameter { ParameterName = "@MaPK", Value= MaPK,SqlDbType = SqlDbType.UniqueIdentifier },
+                                           new SqlParameter { ParameterName = "@MaHD", Value= maHD },
+                                            new SqlParameter { ParameterName = "@listDetail", Value= listContent }
+
+
+
+
+     
+
+        };
+
+                    var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
+                    await _context.SaveChangesAsync();
+                   if(result.Count>0)
+                    return result.FirstOrDefault();
+                return null;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+
+
+            }
+
+
+          
+           
+        
 
 
 

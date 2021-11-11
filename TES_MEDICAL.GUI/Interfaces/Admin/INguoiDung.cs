@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using X.PagedList;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
+
 namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface INguoiDung
@@ -16,7 +18,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<Response<NguoiDung>> Edit(NguoiDung model);
         Task <bool> Delete(Guid Id);
         Task <IPagedList<NguoiDung>> SearchByCondition(NguoiDungSearchModel model);
-        
+        public NguoiDung Login(AdminLoginViewModel viewLogin);
     }
 }
 

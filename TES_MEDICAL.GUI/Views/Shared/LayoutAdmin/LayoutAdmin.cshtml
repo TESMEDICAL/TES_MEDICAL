@@ -163,14 +163,18 @@
                     </div>
                 </li>*@
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button" style="text-align:right;" title="Phóng to">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
+                    @*<a class="nav-link" asp-controller="Admin" asp-action="Logout" method="post">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>*@
+                    <form asp-area="" asp-controller="Admin" asp-action="Logout" method="post" id="logoutForm">
+                        <button title="Đăng xuất" id="logout" type="submit" class="nav-link btn btn-link text-secondary"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+
                 </li>
             </ul>
         </nav>

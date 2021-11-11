@@ -22,6 +22,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
 
     
     
@@ -59,7 +60,7 @@
 
 
     <!-- Related styles of various icon packs and plugins -->
-    <link rel="stylesheet" href="~/MainElement/css/plugins.css">
+    @*<link rel="stylesheet" href="~/MainElement/css/plugins.css">*@
 
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
     <link rel="stylesheet" href="~/MainElement/css/main.css">
@@ -71,7 +72,7 @@
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
 
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    @*<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />*@
 
     <style>
         .active:hover {
@@ -339,9 +340,9 @@
                         <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
                         <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
                             @*You can also add the default color theme
-        <li class="active">
-            <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
-        </li>*@
+                                <li class="active">
+                                    <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
+                                </li>*@
 
                             <!--<li>-->
                             @*<a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="/MainElement/css/themes/night.css" data-toggle="tooltip" title="Night"></a>*@
@@ -353,11 +354,11 @@
                                 <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
                             </li>
                             @*<li>
-                                <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="/MainElement/css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
-                            </li>*@
+                                    <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="/MainElement/css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
+                                </li>*@
                             @*<li>
-                                <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="/MainElement/css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
-                            </li>*@
+                                    <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="/MainElement/css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
+                                </li>*@
 
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
@@ -376,17 +377,17 @@
                                 <a href="javascript:void(0)" class="themed-background-dark-lake themed-border-lake" data-theme="/MainElement/css/themes/lake.css" data-toggle="tooltip" title="Lake"></a>
                             </li>
                             @*<li>
-            <a href="javascript:void(0)" class="themed-background-dark-forest themed-border-forest" data-theme="/MainElement/css/themes/forest.css" data-toggle="tooltip" title="Forest"></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="themed-background-dark-waterlily themed-border-waterlily" data-theme="/MainElement/css/themes/waterlily.css" data-toggle="tooltip" title="Waterlily"></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="themed-background-dark-emerald themed-border-emerald" data-theme="/MainElement/css/themes/emerald.css" data-toggle="tooltip" title="Emerald"></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)" class="themed-background-dark-blackberry themed-border-blackberry" data-theme="/MainElement/css/themes/blackberry.css" data-toggle="tooltip" title="Blackberry"></a>
-        </li>*@
+                                    <a href="javascript:void(0)" class="themed-background-dark-forest themed-border-forest" data-theme="/MainElement/css/themes/forest.css" data-toggle="tooltip" title="Forest"></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="themed-background-dark-waterlily themed-border-waterlily" data-theme="/MainElement/css/themes/waterlily.css" data-toggle="tooltip" title="Waterlily"></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="themed-background-dark-emerald themed-border-emerald" data-theme="/MainElement/css/themes/emerald.css" data-toggle="tooltip" title="Emerald"></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="themed-background-dark-blackberry themed-border-blackberry" data-theme="/MainElement/css/themes/blackberry.css" data-toggle="tooltip" title="Blackberry"></a>
+                                </li>*@
                         </ul>
 
 
@@ -534,20 +535,18 @@
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
                     <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
-                            <div class="row">
+                            <div style="display: flex;">
                                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+                                <div style="width: 60%" @*class="hidden-xs hidden-sm"*@>
                                     <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div class="col-3  ms-auto">
-
+                                <div style="width: 38%; text-align: right;">
                                     <h2 class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
-
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
@@ -683,6 +682,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
 

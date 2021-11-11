@@ -52,6 +52,8 @@ namespace TES_MEDICAL.GUI.Controllers
             _hubContext = hubContext;
             _userManager = userManager;
             
+          
+            
         }
        
      
@@ -147,11 +149,23 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Vui lòng chọn it nhất một dịch vụ", obj = "" }, new JsonSerializerSettings());
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateCheckOut(Guid MaPK, ChiTietDV[] dichVus)
-        //{
-        //    string MaNVHD = (await _userManager.GetUserAsync(User)).Id;
-        //}
+        [HttpPost]
+        public async Task<IActionResult> UpdateCheckOut(Guid MaPK, ChiTietDV[] dichVus)
+        {
+            string MaNVHD = (await _userManager.GetUserAsync(User)).Id;
+            var result = await _service.UpDateDichVu(MaNVHD,MaPK,dichVus.ToList());
+
+            if (result != null)
+            {
+               
+
+
+                return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+            }
+
+            else
+                return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
+        }
 
 
 
