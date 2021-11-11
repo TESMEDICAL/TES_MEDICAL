@@ -30,25 +30,21 @@
     <div class="block-title">
         <h2><strong>Danh sách thuốc</strong></h2>
     </div>
-    <div class="m-3">
-        <div class="row">
-            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap" }))
-            {
-                @Html.AntiForgeryToken()
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex justify-content-between" }))
+        {
+            @Html.AntiForgeryToken()
 
-                <div class="col-10">
-                    @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control w-50", @placeholder = "Lọc theo tên thuốc" } })
-                </div>
-                <div class="button-reload col-2 text-xl-end">
+            <div class="w-50">
+                @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Lọc theo tên thuốc" } })
+            </div>
+            <div class="button-reload">
 
-                    @*<button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>*@
-                    <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-                </div>
-            }
-        </div>
+                @*<button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>*@
+                <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+            </div>
+        }
 
-    </div>
-    <div id="nameListContainer" class="mt-2">
+    <div id="nameListContainer" class="mt-3">
         <partial name="_NameListThuoc" model="ViewBag.Names as IPagedList<Thuoc>" />
 
     </div>

@@ -64,6 +64,13 @@ header.navbar-inverse.navbar-fixed-top,
     background: rgb(105, 48, 195);
     border: none;
 }
+#title-history {
+    color: rgb(105, 48, 195);
+}
+
+#title-border {
+    border: 1px solid rgb(105, 48, 195);
+}
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,

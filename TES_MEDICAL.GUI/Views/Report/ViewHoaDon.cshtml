@@ -39,7 +39,7 @@
         background-color: rgb(82, 183, 136);
         color: white;
     }
-    .btn-infomation {
+/*    .btn-infomation {
         background-color: rgb(17, 138, 178);
     }
     .table-btn a:hover {
@@ -47,13 +47,13 @@
     }
     .table-btn a i {
         color: white;
-    }
+    }*/
 </style>
 
   
     <div class="box m-3">
         <div class="box-title mb-4">
-            <h6>Quản lý người dùng</h6>
+            <h6>Thống kê hóa đơn dịch vụ</h6>
         </div>
         <div class="list">
             <div class="list-tale">
@@ -82,8 +82,8 @@
                                 <td class="col-3">@item.MaNVNavigation.HoTen</td>
 
                                 <td class="col-3">@item.MaPKNavigation.MaBSNavigation.HoTen</td>
-                                <td class="table-btn text-center col-2">
-                                    <a class="btn btn-infomation btn-sm active" onclick="OpenDetail('@item.MaHoaDon')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <td class="text-center col-2">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" onclick="OpenDetail('@item.MaHoaDon')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                 </td>
                             </tr>
                         }
