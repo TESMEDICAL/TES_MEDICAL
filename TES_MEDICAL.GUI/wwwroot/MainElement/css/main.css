@@ -144,7 +144,7 @@ body {
 
 #page-content {
     padding: 10px 5px 1px;
-    background-color: #eaedf1;
+    background-color: #f8f9fa;
 }
 
 #page-content + footer {
@@ -1961,7 +1961,8 @@ a[data-toggle="lightbox-image"]:hover img {
 
 /* Navbar */
 .navbar.navbar-default {
-    background-color: #f9fafc;
+    background-color: white;
+    border-bottom: 1px solid #ced4da;
 }
 
 .navbar.navbar-inverse {

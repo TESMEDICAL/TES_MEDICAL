@@ -106,23 +106,39 @@ new JsonSerializerSettings
             return PartialView("_XacNhanKetQua", item);
         }
 
-        public async Task<JsonResult> GetJsonPK(string MaPK)
+        public async Task<IActionResult> GetJsonPK(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
 
-            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
-new JsonSerializerSettings
-{
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-}));
-
+            return Ok(item);
           
         }
+
+
+        [Produces("application/json")]
+        [HttpGet("search")]
+        [Route("api/Benh/search")]
+        public async Task<IActionResult> Search()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var benh = (await _tienichRep.SearchBenh(term)).Select(x=>x.TenBenh);
+                return Ok(benh);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> ThemToa(PhieuKham model)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
+                item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }    
             var result = await _khambenhRep.AddToaThuoc(model);
@@ -139,7 +155,21 @@ new JsonSerializerSettings
                 return Json(new { status = -2, title = "", text = "Gửi không thành công", obj = "" }, new JsonSerializerSettings());
         }
 
-      
+
+        public async Task<JsonResult> GetAutoFill(string TenBenh)
+        {
+            var item = await _tienichRep.GetAuToFill(TenBenh);
+
+            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
+new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+}));
+
+
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> XacNhanKetQua(PhieuKham model)
         {
@@ -152,6 +182,8 @@ new JsonSerializerSettings
          
             return PartialView("_XacNhanKetQua",model);
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> ReLoadThuoc(PhieuKham model)

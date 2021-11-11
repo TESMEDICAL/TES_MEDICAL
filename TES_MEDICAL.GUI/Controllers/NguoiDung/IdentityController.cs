@@ -36,6 +36,11 @@ namespace TES_MEDICAL.GUI.Controllers
             
         }
 
+        public IActionResult NoneUserNVYT()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> ChangeInfo(NhanVienModel model, [FromForm] IFormFile file)
         {
