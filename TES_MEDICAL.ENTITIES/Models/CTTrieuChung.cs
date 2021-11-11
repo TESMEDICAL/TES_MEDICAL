@@ -9,7 +9,7 @@ namespace TES_MEDICAL.GUI.Models
     {
         public Guid MaBenh { get; set; }
         public Guid MaTrieuChung { get; set; }
-        public string ChiTietTrieuChung { get; set; }
+      
 
         public virtual Benh MaBenhNavigation { get; set; }
         public virtual TrieuChung MaTrieuChungNavigation { get; set; }

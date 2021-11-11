@@ -121,7 +121,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 foreach(var trieuchung in item.CTTrieuChung)
                 {
-                    listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung, ChiTietTrieuChung = trieuchung.ChiTietTrieuChung });
+                    listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung });
                 }
                 ViewBag.ListTC = listTC;
                 return PartialView("_partialedit", await _service.Get(id));

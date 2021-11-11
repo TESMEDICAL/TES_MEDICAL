@@ -119,19 +119,7 @@ namespace TES_MEDICAL.GUI.Services
                         }
 
 
-                        else
-                        {
-                            var exist = await _context.CTTrieuChung.FindAsync(item.MaBenh,item.MaTrieuChung);
-
-
-                           
-
-
-
-                            exist.ChiTietTrieuChung = item.ChiTietTrieuChung;
-
-
-                        }
+                      
                     }
 
                     var existingBenh = await _context.Benh.FindAsync(model.MaBenh);
