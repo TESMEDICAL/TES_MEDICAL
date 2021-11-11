@@ -106,16 +106,11 @@ new JsonSerializerSettings
             return PartialView("_XacNhanKetQua", item);
         }
 
-        public async Task<JsonResult> GetJsonPK(string MaPK)
+        public async Task<IActionResult> GetJsonPK(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
 
-            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
-new JsonSerializerSettings
-{
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-}));
-
+            return Ok(item);
           
         }
 

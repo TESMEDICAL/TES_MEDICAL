@@ -122,10 +122,13 @@ namespace TES_MEDICAL.GUI.Services
                         
                         
                     };
+                    var existingThuoc = await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).FirstOrDefaultAsync(x=>x.MaPhieuKham==maPK);
+                    hoadon.TongTien = (decimal)existingThuoc.ChiTietToaThuoc.Sum(x => x.SoLuong * x.DonGiaThuoc);
+
                     await _context.HoaDonThuoc.AddAsync(hoadon);
 
                     var stt = await _context.STTTOATHUOC.FindAsync(maPK);
-                    var existingThuoc = await _context.ToaThuoc.FindAsync(maPK);
+                    
                     existingThuoc.TrangThai = 1;
                     stt.UuTien = "B";
                     if(_context.ToaThuoc.Where(x => x.TrangThai == 1).Count() > 0)
@@ -141,7 +144,7 @@ namespace TES_MEDICAL.GUI.Services
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     var phieuKham = await _context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.ToaThuoc).ThenInclude(x => x.HoaDonThuoc).ThenInclude(x => x.MaNVNavigation).Include(x => x.ToaThuoc.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == maPK);
-                    //CreateHD(phieuKham);
+
                     return existingThuoc;
                 }
 
