@@ -151,18 +151,23 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _service.Edit(model, Trieuchungs.ToList());
-                if (result.errorCode == -1)
+                if (Trieuchungs.Count() >= 1)
                 {
-                    ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
-                    ViewBag.ListTC = Trieuchungs.ToList();
-                    ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
-                    return PartialView("_partialedit", model);
+                    var result = await _service.Edit(model, Trieuchungs.ToList());
+                    if (result.errorCode == -1)
+                    {
+                        ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+                        ViewBag.ListTC = Trieuchungs.ToList();
+                        ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
+                        return PartialView("_partialedit", model);
+                    }
+                    if (result.errorCode == 0)
+                        return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    else
+                        return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }
-                if (result.errorCode == 0)
-                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
-                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    return Json(new { status = -3, title = "", text = "Vui lòng thêm ít nhất một triệu chứng", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
             ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
             ViewBag.ListTC = Trieuchungs.ToList();
