@@ -9,20 +9,22 @@
 }
 
 <style>
-    .wrapper {
+    .box {
         background-color: white;
         font-family: Arial
     }
 
-    .main-title {
-        background-color: lightgray;
+    .box-title {
+        background-color: rgb(233, 236, 239);
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
 
-        .main-title h6 {
+        .box-title h6 {
             padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
         }
 
     .header-modal-left {
@@ -83,8 +85,8 @@
     }
 </style>
 
-<div class="wrapper m-3">
-    <div class="main-title mb-4">
+<div class="box m-3">
+    <div class="box-title mb-4">
         <h6>Quản lý dịch vụ</h6>
     </div>
     <div class="header row">
@@ -93,7 +95,7 @@
         {
                 @Html.AntiForgeryToken()
                 <div class="header-modal-left col-sm-8 row">
-                    <div class="header-input-1 col-3">
+                    <div class="header-input-1 col-7">
                         @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr -2 mb-2 form-control", @placeholder = "Nhập tên dịch vụ..." } })
                     </div>
                    
@@ -182,7 +184,7 @@
                             url: "/DichVu/Add",
                             data: obj,
                             success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                                 if (result.status != null) {
                                     if (result.status >= 1) {
 
@@ -201,7 +203,7 @@
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
                     }
@@ -216,7 +218,7 @@
                             url: "/DichVu/Edit",
                             data: obj,
                             success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                                 if (result.status != null) {
                                     if (result.status >= 1) {
 
@@ -235,7 +237,7 @@
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
                     }
@@ -282,7 +284,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -314,10 +316,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -344,10 +346,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
@@ -375,10 +377,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -393,7 +395,7 @@
                     url: "/DichVu/Delete",
                     data: { "id": id },
                     success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                         if (result.status >= 1) {
                             toastr.success(result.text);
 
@@ -407,7 +409,7 @@
                         toastr.warning(errormessage.responseText);
                     },
                     failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
+                        $('#preloader-box').toggleClass('hide');
                     }
                 });
             }
@@ -472,7 +474,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
