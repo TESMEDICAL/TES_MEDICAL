@@ -41,7 +41,7 @@
         color: white;
     }
 
-    .btn-infomation {
+/*    .btn-infomation {
         background-color: rgb(17, 138, 178);
     }
 
@@ -51,13 +51,13 @@
 
     .table-btn a i {
         color: white;
-    }
+    }*/
 </style>
 
 
 <div class="box m-3">
     <div class="box-title mb-4">
-        <h6>Quản lý người dùng</h6>
+        <h6>Thống kê hóa đơn thuốc</h6>
     </div>
     <div class="list">
         <div class="list-table">
@@ -75,8 +75,8 @@
                         <td class="col-3">@item.MaNVNavigation.HoTen</td>
 
                         <td class="col-3">@item.MaPKNavigation.MaPhieuKhamNavigation.MaBSNavigation.HoTen</td>
-                        <td class="table-btn col-2 text-center">
-                            <a class="btn-infomation btn btn-sm active" onclick="OpenDetail('@item.MaHD')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        <td class="col-2 text-center">
+                            <a class="btn btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" onclick="OpenDetail('@item.MaHD')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 }
