@@ -1,0 +1,164 @@
+﻿
+@using X.PagedList;
+
+
+@{
+    ViewData["Title"] = "Lịch sử khám";
+    Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+}
+
+<div class="block m-3">
+    <div class="block-title">
+        <h2><strong>Lịch sử khám</strong></h2>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <input class="mr-2 mb-2 form-control w-50" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
+
+        </div>
+
+        <div class="button-reload col-2 text-end">
+            <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+        </div>
+    </div>
+    <div id="nameListContainer" class="mt-3">
+        <partial name="_LichSuKham" model="ViewBag.Names as IPagedList<PhieuKham>" />
+
+    </div>
+</div>
+
+
+
+<!--Model chính-->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+
+            </div>
+            <div class="modal-body">
+
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@section Scripts{
+    <script>
+
+       
+
+
+        var $id = "";
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
+        var $modalins = $('#myModalins');
+        var $myModalContentins = $("#myModalContentins");
+        var $myModalTitle = $("#myModalTitle");
+        var $myModalTitleins = $("#myModalTitleins");
+
+        function reloadpage(page) {
+            obj = {};
+
+            obj.Page = page;
+            $("#TimKiem").val("");
+            $.ajax({
+                url: '/BacSi/PagePhieuKham/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: false,
+
+                data: obj,
+
+                success: function (result) {
+
+
+                    $('#nameListContainer').html(result);
+                },
+
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+        $("#TimKiem").keyup(function () {
+            if ($(this).val().length >= 2) {
+                obj = {};
+
+                obj.KeyWordSearch = $(this).val()
+
+                obj.page = 1;
+                $.ajax({
+                    url: '/BacSi/PagePhieuKham/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+
+
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+
+           
+
+        });
+
+
+        function Clear() {
+
+
+            reloadpage(1);
+        }
+
+        function _Detail(id_) {
+            $myModalContent.html("");
+
+            $.ajax({
+                url: "/BacSi/GetToaThuoc/",
+                type: 'GET',
+                data: {
+                    MaPK: id_
+
+                },
+                success: function (response) {
+
+                    $("#myModalContent").html(response);
+                    $("#Title").html("Lịch sử khám");
+                    $('#myModal').modal('show');
+                   
+
+
+                }
+            });
+        }
+    </script>
+
+}
+
+
+

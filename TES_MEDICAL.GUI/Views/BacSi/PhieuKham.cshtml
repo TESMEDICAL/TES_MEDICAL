@@ -1,81 +1,194 @@
 ﻿
+@inject UserManager<NhanVienYte> UserManager;
+@using X.PagedList;
 
-<div class="col-12">
-    <div class="block">
-        <div class="block-title">
-            <h2><strong>Phiếu khám</strong></h2>
-        </div>
-        <div style="float:left;">
-            <input placeholder="Tìm kiếm theo tên">
-            <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-        </div>
 
-        <br />
+@{
+    ViewData["Title"] = "Lịch sử khám";
+    Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
+}
 
-        <div class="form-group">
-            <table class=" table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">STT</th>
-                        <th></th>
-                        <th scope="col">Họ tên</th>
-                        <th scope="col">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th></th>
-                        <th>1</th>
-                        <th></th>
-                        <td>Đặng Quỳnh Di</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
+<div class="block m-3">
+    <div class="block-title">
+        <h2><strong>Phiếu khám bệnh</strong></h2>
+    </div>
+    <div class="row">
 
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <th></th>
-                        <th>2</th>
-                        <th></th>
-                        <td>Trần Ngọc Lụa</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
 
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <th>3</th>
-                        <th></th>
-                        <td>Bùi Ngọc Huyền</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th></th>
-                        <th>4</th>
-                        <th></th>
-                        <td>Nguyễn Diệu Linh</td>
-                        <td class="text-nowrap">
-                            <a class="btn btn-info btn-sm active" title="Khám bệnh"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-8 mr-2">
+            <input class="mr-2 mb-2 form-control w-50" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
 
         </div>
+
+
+        <div class="button-reload col-2 ms-auto">
+
+
+            <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+        </div>
+
+
+
+    </div>
+    <div id="nameListContainer" class="mt-3">
+        <partial name="_listSTTPhieuKham" model="ViewBag.Names as IPagedList<PhieuKham>" />
 
     </div>
 </div>
+
+
+
+@section scripts{
+    
+
+    <script>
+        var table;
+        var obj = {};
+        var Clienid;
+        $(document).ready(
+
+            function () {
+
+                reloadpage(1);
+                Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
+
+            });
+
+      
+       
+
+
+        function reloadpage(page) {
+            obj = {};
+
+            obj.Page = page;
+            $("#TimKiem").val("");
+            $.ajax({
+                url: '/BacSi/ReloadPageSTT/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: false,
+
+                data: obj,
+
+                success: function (result) {
+
+
+                    $('#nameListContainer').html(result);
+                },
+
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+        $("#TimKiem").keyup(function () {
+           
+                obj = {};
+
+                obj.KeyWordSearch = $(this).val()
+
+                obj.page = 1;
+                $.ajax({
+                    url: '/BacSi/ReloadPageSTT/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+                        
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            
+
+
+
+        });
+
+
+        function Clear() {
+
+
+            reloadpage(1);
+        }
+
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/PhieuKham")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        // Start the connection.
+        start();
+
+
+        connection.on("SentDocTor", (id) => {
+
+            if (Clienid == id) {
+
+                toastr.success("Có một bệnh nhân mới");
+                obj = {};
+
+                obj.page = $('#CurrentPage').val();
+                obj.KeyWordSearch = $('#TimKiem').val()
+
+
+                $.ajax({
+                    url: '/BacSi/ReloadPageSTT/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+
+
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+
+
+
+
+
+
+            }
+
+
+        });
+
+
+
+
+    </script>
+}
 

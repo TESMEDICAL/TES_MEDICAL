@@ -68,7 +68,7 @@ namespace TES_MEDICAL.GUI.Helpers
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -82,6 +82,56 @@ namespace TES_MEDICAL.GUI.Helpers
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
 
         }
+
+        //Hàm cắt chuỗi name
+        //public static string GetName(string FullName)
+        //{
+        //    string[] words = FullName.Split(' ');
+        //    return (words[words.Length - 2]) + " " + words[words.Length - 1];
+
+        //}
+        public static string GetName(string FullName)
+        {
+            string[] words = FullName.Split(' ');
+            if (words.Length >= 2)
+                return (words[words.Length - 2]) + " " + words[words.Length - 1];
+            return words[0];
+
+        }
+
+        //Hàm Gen mật khẩu 
+        public static string GetRandomPassword(int length)
+        {
+            const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            StringBuilder sb = new StringBuilder();
+            Random rnd = new Random();
+
+            for (int i = 0; i < length; i++)
+            {
+                int index = rnd.Next(chars.Length);
+                sb.Append(chars[index]);
+            }
+
+            return sb.ToString();
+        }
+        public static string ConvertToUnSign(string input)
+        {
+            input = input.Trim();
+            for (int i = 0x20; i < 0x30; i++)
+            {
+                input = input.Replace(((char)i).ToString(), " ");
+            }
+            Regex regex = new Regex(@"\p{IsCombiningDiacriticalMarks}+");
+            string str = input.Normalize(NormalizationForm.FormD);
+            string str2 = regex.Replace(str, string.Empty).Replace('đ', 'd').Replace('Đ', 'D');
+            while (str2.IndexOf("?") >= 0)
+            {
+                str2 = str2.Remove(str2.IndexOf("?"), 1);
+            }
+            return str2;
+        }
     }
+   
 }
 

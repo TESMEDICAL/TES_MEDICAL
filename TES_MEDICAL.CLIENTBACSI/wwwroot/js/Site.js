@@ -132,16 +132,18 @@ function loadDatatableThuoc(id, obj, dotNetO) {
 
 function AddPhieuKham(obj) {
     toastr.success("Có một bệnh nhân mới");
-    console.log(accents_supr(obj.hoTen))
+    console.log(obj);
+  
     table.row.add({
         'stt': obj.stt,
         'hoTen': obj.hoTen,
-        'Thao tác': `<a onclick =Edit('${obj.maPK}') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a> <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a> <a onclick = Detail('${obj.maPK}')  class='btn btn-info btn-sm active' title = 'Thông tin' > <i class='fa fa-info-circle' aria-hidden='true'></i></a>`,
+        'Thao tác': `<a class="btn btn-info btn-sm active" title="Khám bệnh" href="/KhamBenh/${data.maPK}"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
+                            <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>`,
         'uuTien': obj.uuTien,
 
         'Khongdau': accents_supr(obj.hoTen),
 
-    }).draw(false);
+    }).draw();
     //$("#ListTable > tbody").append(`<tr>
     //    <td>${obj.stt}</td>
     //    <td>${obj.hoTen}</td>

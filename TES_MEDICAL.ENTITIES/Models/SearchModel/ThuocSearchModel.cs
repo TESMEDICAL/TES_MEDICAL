@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 namespace TES_MEDICAL.GUI.Models
 {
     public class ThuocSearchModel
-    {   
-        public int? Page  { get; set; }
-        public String TenThuocSearch{ get; set; }
-        public  Decimal? 
-        DonGiaSearch{ get; set; }
-        public String ThongTinSearch{ get; set; }
-             }
+    {
+        public int? Page { get; set; }
+        public String KeyWordSearch { get; set; }
+        public bool TrangThai { get; set; }
+       
     }
+}
 
 
