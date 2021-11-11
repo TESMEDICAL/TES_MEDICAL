@@ -14,7 +14,7 @@
     <td style="display:none"><input name="MaTrieuChung" class="inputCTTrieuChung" data-val="true" data-val-required="The id field is required." id="MaTrieuChung" type="hidden" value="@Model.MaTrieuChung"></td>
     <td><input type="text" class="form-control inputCTTrieuChung" id="TenTrieuChung" name="TenTrieuChung" value="@Model.TenTrieuChung" @(Model.MaTrieuChung==Guid.Empty?"":"disabled") /> </td>
     
-    <td> @Html.EditorFor(model => Model.ChiTietTrieuChung, new { htmlAttributes = new { @Name = "ChiTietTrieuChung", @placeholder = "ChiTietTrieuChung", @class = "form-control inputCTTrieuChung" } })</td>
+   
 
 
 

@@ -44,9 +44,9 @@
     @*</a>*@
     </div>
 <div class="sidebar-user-name text-nowrap w-100"> @Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</div>
-<div class="sidebar-user-links" style="margin-left:11px">
-    <a class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#modal-user-settings').modal('show');"><i class="fa fa-user"></i></a>
-    <a class="enable-tooltip" data-placement="bottom" title="Đổi mật khẩu" @*onclick="$('#modal-user-changepass').modal('show');"*@ onclick="OpenChangePass()"><i class="fa fa-lock"></i></a>
-    <a title="Đăng xuất" href="@Url.ActionLink("Logout","Identity")"><i class="fa fa-sign-out"></i></a>
+<div class="sidebar-user-links ms-2">
+    <a class="enable-tooltip text-light me-2" data-placement="bottom" title="Hồ sơ" onclick="$('#modal-user-settings').modal('show');"><i class="fad fa-user"></i></a>
+    <a class="enable-tooltip text-light me-2" data-placement="bottom" title="Đổi mật khẩu" @*onclick="$('#modal-user-changepass').modal('show');"*@ onclick="OpenChangePass()"><i class="fad fa-lock-alt"></i></a>
+    <a title="Đăng xuất" href="@Url.ActionLink("Logout","Identity")" class="text-light"><i class="fad fa-sign-out-alt"></i></a>
 </div>
 }
