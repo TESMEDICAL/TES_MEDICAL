@@ -4,57 +4,105 @@
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "QUẢN LÝ CHUYÊN KHOA";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
+<style>
+    .box {
+        background-color: white;
+        font-family: Arial
+    }
+
+    .main-title {
+        background-color: rgb(233, 236, 239);
+        height: 40px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px
+    }
+
+        .main-title h6 {
+            padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
+        }
+
+    .header-modal-left {
+        left: 0 auto;
+    }
+
+    .header-modal-right {
+        padding-right: 25px;
+        margin-inline-start: auto;
+        text-align: right;
+    }
+
+    .form-select {
+        color: gray;
+    }
+
+    .header-btn button {
+        background-color: rgb(82, 183, 136);
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+        .header-btn button:hover {
+            background-color: rgb(118, 200, 147);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            transform: scale(1.1)
+        }
+
+    .form-check {
+        margin-right: 25px;
+    }
+
+    .name-list {
+        padding-inline: 15px;
+    }
+</style>
 
 
 
 
-
-<div class="m-3">
-
-
-    <div>
+<div class="box m-3">
+    <div class="main-title mb-4">
+        <h6>Quản lý chuyên khoa</h6>
+    </div>
+    <div class="header row">
 
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
             @Html.AntiForgeryToken()
-
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.TenCKSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo chuyên khoa" } })
+            <div class="header-modal-left col-sm-8 row">
+                <div class="header-input-1 col-7">
+                    @Html.EditorFor(model => model.TenCKSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập thông tin cần tìm ..." } })
+                </div>
+                @*<div class="header-btn col-3">
+                    <button type="button" class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
+                </div>*@
             </div>
-
-
-
-
-
-
-
-            <div class="col-4">
-
-                <button type="button" class="btn btn-success btn-sm mr-2 " onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-
-                <button type="button" class="btn btn-sm btn-success mr-2" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
-                <button type="button" class="btn btn-success mr-2 btn-sm" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-            </div>
-
-
-
+            <div class="header-modal-right col-sm-4 row">
+                <div class="header-btn col-7">
+                    <button type="button" class="btn" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
+                </div>
+                <div class="header-btn col-5">
+                    <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                </div>
+            </div>  
         }
+    </div>
+    <div id="nameListContainer" class="mt-4" style="margin-inline: 15px;">
+        <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<ChuyenKhoa>" />
 
     </div>
-
-
-
-
-
 </div>
-<div id="nameListContainer">
+
+<div id="nameListContainer" >
+
     <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<ChuyenKhoa>" />
-
 </div>
+
 
 
 
@@ -64,11 +112,6 @@
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
-
-            <div class="modal-header">
-
-
-            </div>
             <div class="modal-body">
 
                 <div id="myModalContent">
@@ -79,10 +122,10 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
-                    <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                    <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelChuyenKhoa')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btSave" class="btn" style="background-color: rgb(82, 183, 136); color: white;"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" id="btupdate" class="btn" style="background-color: rgb(82, 183, 136); color: white;"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" id="btPrint" class="btn" style="background-color: rgb(22, 138, 173); color: white;" onclick="PrintPreview('pannelChuyenKhoa')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                    <button type="button" class="btn" style="background-color: rgb(239, 71, 111); color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -116,7 +159,7 @@
                             url: "/ChuyenKhoa/Add",
                             data: obj,
                             success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                                 if (result.status != null) {
                                     if (result.status >= 1) {
 
@@ -136,7 +179,7 @@
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
                     }
@@ -152,7 +195,7 @@
                             url: "/ChuyenKhoa/Edit", 
                             data: obj,
                             success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                                 if (result.status != null) {
                                     if (result.status >= 1) {
                                         toastr.success(result.text);
@@ -170,7 +213,7 @@
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
 
@@ -213,7 +256,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -245,10 +288,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -275,16 +318,51 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
         }
 
 
+        $("#TenCKSearch").keyup(function () {
+          
+                obj = {};
+
+                obj.TenCKSearch = $(this).val()
+
+                obj.page = 1;
+                $.ajax({
+                    url: '/ChuyenKhoa/PageList/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+
+                        if (result.status != 2) {
+                           
+
+                            $('#nameListContainer').html(result);
+                        }
+
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-box').toggleClass('hide');
+                    }
+                });
+            
+
+
+
+        });
 
 
 
@@ -320,7 +398,7 @@
 
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }

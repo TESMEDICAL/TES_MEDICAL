@@ -1,112 +1,70 @@
-﻿<h4 style="text-align:center; font-weight:bold">CHI TIẾT LỊCH SỬ KHÁM</h4>
-<hr />
-<br />
+﻿@model IPagedList<PhieuKham>
 
-<div class="col-8 m-auto">
-    <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
-        <label>Ngày khám: 1/1/2021</label>
+@using X.PagedList.Mvc.Core;
+
+
+@using X.PagedList;
+@using X.PagedList.Web.Common
+<div id="list">
+
+    <div style="min-height:400px">
+        <table class="table table-bordered text-center" style="width:100%">
+            <tr id="table-header" class="text-light">
+                <th style="text-align: left;">Tên Bệnh nhân</th>
+                <th>Ngay Khám</th>
+                <th>Số điện thoại</th>
+                <th>Thao tác</th>
+            </tr>
+                @if ((ViewBag.Names as IEnumerable<PhieuKham>).Count() > 0)
+                {
+                    @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
+                    {
+                        <tr>
+                            <td style="text-align: left;">@item.MaBNNavigation.HoTen</td>
+                            <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                            <td>@item.MaBNNavigation.SDT</td>
+                            <td class=" text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin" style="width: 30px;"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">Không có dữ liệu</td>
+                    </tr>
+                }
+
+        </table>
     </div>
-    <table class="table table1 table-borderless">
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Tên bệnh nhân</td>
-                <th>Nguyễn Thanh Hoàng</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Số điện thoại</td>
-                <th>0939503204</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Ngày sinh</td>
-                <th>1/1/2001</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Địa chỉ</td>
-                <th>Quận 12</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Triệu chứng</td>
-                <th>Ho, khó thở, nhứt đầu, Ho, khó thở,</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Bác sĩ</td>
-                <th>Dr. Đinh Ngọc Huyền</th>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<hr>
-<div class="col-8 m-auto">
-    <table class="table table-borderless">
-        <tbody>
-            <tr>
-                <th>Tên thuốc</th>
-                <th>Số lượng</th>
-                <th>Ghi chú</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-            <tr>
-                <td>Thuốc A</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc B</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc C</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc D</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
-        <h4 style="color: seagreen; font-weight: bold; text-align: right;">Tổng tiền: 2.000.000 VNĐ</h4>
+
+
+    <div style="float:right">
+
+        @{
+            var pageRender = new PagedListRenderOptions
+            {
+                MaximumPageNumbersToDisplay = 5,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                DisplayPageCountAndCurrentLocation = false,
+                UlElementClasses = new[] { "pagination" },
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
+
+
+                ContainerDivClasses = new[] { "pagination-container" }
+
+
+            };
+        }
+        @{
+            var searchModel = ViewBag.Data as PhieuKhamSearchModel;
+        }
+
+
+        @Html.PagedListPager((IPagedList<PhieuKham>)ViewBag.Names, page => Url.Action("PagePhieuKham", new { page, MaBS = searchModel.MaBS, KeywordSearch = searchModel.KeywordSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
+
 </div>

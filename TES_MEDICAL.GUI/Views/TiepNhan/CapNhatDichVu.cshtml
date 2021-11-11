@@ -1,79 +1,113 @@
-﻿@{
-    ViewData["Title"] = "QuanLyDatLich";
+﻿
+@inject UserManager<NhanVienYte> UserManager;
+@using X.PagedList;
+
+
+@{
+    ViewData["Title"] = "Cập nhật dịch vụ";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
-
-<div class="col-12">
-    <div class="block">
-        <div class="block-title">
-            <h2><strong>Cập nhật dịch vụ</strong></h2>
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Cập nhật dịch vụ</strong></h2>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="w-50">
+            <input class="mr-2 mb-2 form-control" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
         </div>
-        
-        <div class="d-flex bd-highlight mb-3">
-            <div class="me-auto p-2 bd-highlight">
-                <input placeholder="Tìm kiếm theo tên">
-                <input style="margin-left:5px" placeholder="Tìm kiếm theo SĐT">
-                <button style="margin-left:5px; background-color:seagreen; color:white" type="button" class="btn btn-sm mr-2" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-            </div>
-            <div class="p-2 bd-highlight">
-                <button class="btn" style="background-color:seagreen; color:white;"><i class="fa fa-sync text-white"></i>  Làm mới</button><br />
-                <input type="checkbox" style="margin-top:25px" /> Hiển thị tất cả
-            </div>
+        <div class="button-reload">
+            <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
         </div>
-
-
-        <div class="form-group">
-            <table class=" table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Tên bênh nhân</th>
-                        <th scope="col">Ngày sinh</th>
-                        <th scope="col">Số điện thoại</th>
-                        <th scope="col">Bác sĩ</th>
-                        <th scope="col" class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Cao Tân Lộc</th>
-                        <td>09/04/2001</td>
-                        <td>09352545545</td>
-                        <td>Dr. Thanh Hoàng</td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active" title="Thêm mới"> <i class="fas fa-plus-circle" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-                        <th>Đinh Ngọc Thắng</th>
-                        <td>09/04/2001</td>
-                        <td>09352545545</td>
-                        <td>Dr. Thái Sơn</td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active" title="Thêm mới"> <i class="fas fa-plus-circle" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-                        <th>Bùi Ngọc Huyền</th>
-                        <td>09/04/2001</td>
-                        <td>09352545545</td>
-                        <td>Dr. Lộc</td>
-                        <td class="text-nowrap text-center">
-                            <a class="btn btn-info btn-sm active"  title="Thêm mới"> <i class="fas fa-plus-circle" aria-hidden="true"></i></a>
-                            <a class="btn btn-info btn-sm active" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-
-        </div>
-
+    </div>
+    <div id="nameListContainer" class="mt-4">
+        <partial name="_ListPhieuKham" model="ViewBag.Names as IPagedList<PhieuKham>" />
     </div>
 </div>
+@section scripts{
+    <script>
+        var table;
+        var obj = {};
+        var Clienid;
+        $(document).ready(
+
+            function () {
+
+                reloadpage(1);
+                Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
+
+            });
+
+
+
+
+
+        function reloadpage(page) {
+            obj = {};
+
+            obj.Page = page;
+            $("#TimKiem").val("");
+            $.ajax({
+                url: '/TiepNhan/ReLoadCapNhat/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: false,
+
+                data: obj,
+
+                success: function (result) {
+
+
+                    $('#nameListContainer').html(result);
+                },
+
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+        $("#TimKiem").keyup(function () {
+
+                obj = {};
+
+                obj.KeyWordSearch = $(this).val()
+
+                obj.page = 1;
+                $.ajax({
+                    url: '/TiepNhan/ReLoadCapNhat/',
+
+                    type: "Get",
+
+
+                    data: obj,
+
+                    success: function (result) {
+
+                        $('#nameListContainer').html(result);
+                    },
+
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+
+
+
+
+        });
+
+
+        function Clear() {
+
+
+            reloadpage(1);
+        }
+
+
+
+
+
+    </script>
+}
+

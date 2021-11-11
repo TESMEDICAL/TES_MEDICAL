@@ -1,0 +1,92 @@
+﻿@model TES_MEDICAL.GUI.Models.PhieuKham
+
+
+
+
+
+<div class="col-10 m-auto">
+    <h4 style="text-align:center; font-weight:bold">THÔNG TIN PHIẾU KHÁM</h4>
+    <hr />
+    <input style="display:none" />
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Tên bệnh nhân</td>
+                <th>@Model.MaBNNavigation.HoTen</th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Số điện thoại</td>
+                <th>@Model.MaBNNavigation.SDT</th>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Ngày lập hóa đơn</td>
+                <th>@Model.NgayKham</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3">Tên dịch vụ</th>
+                <th class="col-1 text-center">Đơn giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.CTLichSuDichVu as IEnumerable<DichVu>)
+            {
+                <tr>
+                    <td class="col-3">@item.TenDV</td>
+                    <td class="col-1 text-center">@item.DonGia.ToString("#,###")</td>
+
+                </tr>
+            }
+
+            
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3">Tên thuốc</th>
+                <th class="col-1 text-center">Số lượng</th>
+                @*<th class="col-2 text-center">Vị trí</th>
+                <th class="col-3">Ghi chú</th>
+                <th class="col-3 text-end">Đơn giá</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.CTLichSuThuoc as IEnumerable<ChiTietToaThuoc>)
+            {
+                <tr>
+                    <td class="col-8">
+                        <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                        @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                        <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
+                    </td>
+                    <td class="col-2 text-center">@item.SoLuong</td>
+
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+
+    <div>
+        @*<h4 style="color: seagreen; font-weight: bold; text-align: right;">Tổng tiền: @Model.HoaDonThuoc.TongTien</h4>*@
+    </div>
+</div>

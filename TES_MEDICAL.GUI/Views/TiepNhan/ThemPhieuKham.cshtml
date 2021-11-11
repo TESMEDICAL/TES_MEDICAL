@@ -1,15 +1,15 @@
 ﻿@model PhieuKhamViewModel
 @{
-    ViewData["Title"] = "ThemPhieuKham";
+    ViewData["Title"] = "THÊM PHIẾU KHÁM";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 
 
 
- @*<style>
-     .input-validation{
-         margin-top: 10px;
-     }
- </style>*@
+    @*<style>
+            .input-validation{
+                margin-top: 10px;
+            }
+        </style>*@
 
 
 }
@@ -23,9 +23,9 @@
             <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
-       <input style="display:none" name="MaBN" id="MaBN" />
-            @Html.HiddenFor(model=>model.UuTien)
-       
+            <input style="display:none" name="MaBN" id="MaBN" />
+            @Html.HiddenFor(model => model.UuTien)
+
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
             <div class="form-horizontal form-bordered">
@@ -35,8 +35,6 @@
                     </div>
                     <div class="col-sm-10">
                         <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
-                    </div>
-                    <div style="margin-left: 100px;">
                         <span asp-validation-for="SDT" class="text-danger"></span>
                     </div>
                 </div>
@@ -46,9 +44,6 @@
                     </div>
                     <div class="col-sm-10">
                         <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
-
-                    </div>
-                    <div style="margin-left: 100px;">
                         <span asp-validation-for="HoTen" class="text-danger"></span>
                     </div>
                 </div>
@@ -60,37 +55,39 @@
                     </div>
                     <div class="col-sm-10">
                         <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
-                    </div>
-                    <div style="margin-left: 100px;">
                         <span asp-validation-for="NgaySinh" class="text-danger"></span>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
+                    <div class="col-sm-2">
                         <label for="GioiTinh" class="col-form-label">Giới tính</label>
                     </div>
-                    <div class="col-10">
+                    <div class="col-sm-10">
                         <!-- <select id="example-select" name="example-select" class="form-control" size="1">
-                <option value="0">Nam</option>
-                <option value="1">Nữ</option>
-            </select> -->
+                            <option value="0">Nam</option>
+                            <option value="1">Nữ</option>
+                        </select> -->
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
 
                         </select>
                     </div>
-                   
+
                 </div>
 
                 <div class="row g-2 align-items-center m-1">
-                    <div class="col-2">
+                    @*<div class="col-sm-2">
                         <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
-                    <div class="input-validation col-10">
+                    <div class="col-sm-10">
                         <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                    </div>*@
+                    <div class="col-sm-2">
+                        <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
-                    <div style="margin-left: 100px;">
+                    <div class="input-validation col-sm-10">
+                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
                         <span asp-validation-for="DiaChi" class="text-danger"></span>
                     </div>
                 </div>
@@ -127,14 +124,15 @@
                             <option value="">Chọn bác sĩ</option>
 
                         </select>
-                        <div style="margin-left: 5px; margin-top: 5px;">
+                        <div style="margin-top: 5px;">
                             <span asp-validation-for="MaBS" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="col-2">
+                        @*<div class="col-12">
                             <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
-                        </div>
+                        </div>*@
+                        <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         <div class="col-12">
                             <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
                         </div>
@@ -154,30 +152,39 @@
 
 <div class="col-12">
     <div class="block">
-
-        <div class="form-group" style="float:right">
-            <button class="btn me-1" style="background-color:seagreen; color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+        @*<div class="form-group" style="float:right">
             <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-
         </div>
-        <div class="form-group">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-
-                        <th scope="col">Dịch vụ</th>
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Thao tác</th>
+        <div class="button-reload form-group" style="float:right">
+            <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+        </div>*@
+        <div class="d-flex justify-content-end">
+            <div class="form-group">
+                <button id="btn-confirm" class="btn me-1" style="color:white;" onclick="OpenThemDichVu()">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Thêm dịch vụ
+                </button>
+            </div>
+            <div class="form-group">
+                <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Thêm lại
+                </button>
+            </div>
+        </div>
+            
+        <div class="form-group" style="margin-top: 20px;">
+            <table class="table table-bordered mt-3">
+                    <tr id="table-header" class="text-light">
+                        <th class="col-6">Dịch vụ</th>
+                        <th class="col-4">Đơn giá</th>
+                        <th class="col-2 text-center">Thao tác</th>
                     </tr>
-                </thead>
                 <tbody id="listDV">
                 </tbody>
             </table>
-            <div class="form-group" style="text-align:right">
+            <div class=" form-group mb-2 mt-5" style="text-align:right">
                 <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
-                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
-
             </div>
         </div>
 
@@ -237,8 +244,6 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-
-
                     <button type="button" class="btn btn-success btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
@@ -250,10 +255,8 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
         $("#SDT").keyup(function () {
@@ -262,7 +265,7 @@
 
 
             $.get("/tiepnhan/BenhNhan_bind", { SDT: $(this).val() }, function (data) {
-                
+
                 if (data != null) {
                     $("#HoTen").val(data.HoTen);
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
@@ -279,6 +282,15 @@
 
 
 
+                }
+                else {
+                    $("#HoTen").val("");
+                    $("#NgaySinh").val("");
+                    $("#DiaChi").val(data.DiaChi);
+                    
+                    $('#GioiTinh').val(0);
+                   
+                    $("#MaBN").val("");
                 }
             });
 
@@ -330,15 +342,15 @@
 
         //});
     });
- 
+
 </script>
 @section Scripts{
-    
+
 
     <script>
-       
 
-      
+
+
         function OpenThemDichVu() {
 
 
@@ -362,7 +374,7 @@
 
 
 
-                $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+                $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6" >${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2" style ="text-aline: center;" ><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
 
 
 
@@ -373,7 +385,7 @@
 
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
-           
+
             if ($("#frm").valid()) {
                 obj = {}
                 obj = $("#frm").serializeObject();
@@ -385,7 +397,7 @@
 
                 });
                 obj.dichVus = listdv
-              
+
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
                     type: 'POST',
@@ -405,7 +417,7 @@
                             $('#btSave').hide();
                             $('#btCheckOut').show();
                         }
-                      
+
                     }
                 });
             }
@@ -432,11 +444,11 @@
 
                     if (result.status >= 1) {
 
-                                toastr.success(result.text);
-                                window.location.href = result.redirectUrL;
-                            }
-                            else {
-                                toastr.warning(result.text);
+                        toastr.success(result.text);
+                        window.location.href = result.redirectUrL;
+                    }
+                    else {
+                        toastr.warning(result.text);
 
                     }
 
@@ -496,11 +508,11 @@
         });
 
 
-     
+
         $(document).on('click', '.remove', function () {
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
             $tr.remove();
 
         });
@@ -509,7 +521,7 @@
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
 
-            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
+            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
 

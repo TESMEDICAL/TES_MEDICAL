@@ -1,109 +1,138 @@
-﻿<h4 style="text-align:center; font-weight:bold">XÁC NHẬN THÔNG TIN</h4>
+﻿@model PhieuKham;
+
+<h4 style="text-align:center; font-weight:bold" id="Title">XÁC NHẬN THÔNG TIN</h4>
 <hr />
 <br />
+<div  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; margin-inline: 5px; margin-top: -5px;">
+    <div class="p-3" style="padding-inline: 40px">
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin bệnh nhân</h6>
+        </div>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 20px;">
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Tên bệnh nhân:
+                    </strong><br />
+                    @Model.MaBNNavigation.HoTen
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
 
-<div class="col-8 m-auto">
-    <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
-        <label>Ngày khám: 1/1/2021</label>
+                    <strong>Ngày khám:</strong><br />
+                    @Model.NgayKham.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>Ngày tái khám</strong><br />
+                    @Model.NgayTaiKham?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+        </div>
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin sinh hiệu</h6>
+        </div>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 22px;">
+            <div class="col-sm-4 mt-4">
+                <h6>                    
+                    <strong>Mạch:</strong>
+                    @Model.Mach
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>Huyết Áp:</strong>
+                    @Model.HuyetAp
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4 mb-4">
+                <h6>                    
+                    <strong>Nhiệt độ:</strong>
+                    @Model.NhietDo
+                </h6>
+            </div>
+            <div class="col-sm-4">
+                <h6>                    
+                    <strong>SPO2:</strong>
+                    12
+                </h6>
+            </div>
+        </div>
+        @*chi tiết sinh hiệu thêm*@
+        <!--<div class="row ms-2 mb-1">-->
+        @*vòng lập*@
+
+        <!--</div>-->
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Kết quả khám bệnh</h6>
+        </div>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 22px;">
+            <div class="mt-4" >
+                <div class="ms-3">
+                    <h6 style="margin-inline: 7px;"><strong class="mb-2">Chẩn đoán: </strong><br> @Model.ChanDoan</h6>
+                </div>
+            </div>
+            <div class="mt-2">
+                <div style="background-color: white; position: absolute;" class="ms-3"><h6 style="margin-inline: 7px"><strong>Kết quả khám:</strong></h6></div>
+                <div id="title-border" style="margin-top: 10px; margin-bottom: 10px; margin-inline: 10px;">
+                    @*@Model.KetQuaKham*@
+                    <div class="row mt-4 ms-4">
+                        <div class="col-sm-5">
+                            <h6>
+                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                Cảm cúm
+                            </h6>
+                        </div>
+                        <div class="col-sm-5">
+                            <h6>
+                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                Cảm cúm
+                            </h6>
+                        </div>
+                        <div class="col-sm-5">
+                            <h6>
+                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                Cảm cúm
+                            </h6>
+                        </div>
+                        <div class="col-sm-5">
+                            <h6>
+                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                Cảm cúm
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table table1 table-borderless">
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Tên bệnh nhân</td>
-                <th>Nguyễn Thanh Hoàng</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Số điện thoại</td>
-                <th>0939503204</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Ngày sinh</td>
-                <th>1/1/2001</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Địa chỉ</td>
-                <th>Quận 12</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Triệu chứng</td>
-                <th>Ho, khó thở, nhứt đầu, Ho, khó thở,</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Bác sĩ</td>
-                <th>Dr. Đinh Ngọc Huyền</th>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div  class="p-3" style="font-size: 17px">
+
+        <table class="table table-bordered">
+                <tr id="table-header" class="text-light">
+                    <th class="col-8">Tên thuốc</th>
+                    <th class="col-4 text-center">Số lượng</th>
+                </tr>
+            <tbody id="toathuocFinal">
+                @foreach (var item in Model.ToaThuoc.ChiTietToaThuoc)
+                {
+                    <tr>
+                        <td class="col-8">
+                            <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                            @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
+                            <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
+                        </td>
+                        <td class="col-2 text-center">@item.SoLuong</td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+    </div>
 </div>
-<hr>
-<div class="col-8 m-auto">
-    <table class="table table-borderless">
-        <tbody>
-            <tr>
-                <th>Tên thuốc</th>
-                <th>Số lượng</th>
-                <th>Ghi chú</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-            <tr>
-                <td>Thuốc A</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc B</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc C</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-            <tr>
-                <td>Thuốc D</td>
-                <td>20</td>
-                <td>Uống sau khi ăn</td>
-                <td>5.000</td>
-                <td>100.000</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+

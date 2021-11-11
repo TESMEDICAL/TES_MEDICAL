@@ -3,14 +3,13 @@
 @model TES_MEDICAL.GUI.Models.Benh
 
 <div class="container-fluid" id="pannelBenh">
-    <h1 style="font-weight:bold; text-align:center">THÔNG TIN BỆNH</h1>
+    <h4 style="font-weight:bold; text-align:center">THÔNG TIN BỆNH</h4>
     <hr />
 
-
-    <div class="row m-2">
+    <div class="row m-2" style="padding-left: 400px">
 
         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
+            <div class="col-8" style="font-weight:bold!important">
                 Tên bệnh
             </div>
             <div class="col-8">
@@ -18,19 +17,8 @@
             </div>
         </div>
 
-
         <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
-                Thông tin
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.ThongTin)
-            </div>
-        </div>
-
-
-        <div class="col-6 row">
-            <div class="col-4" style="font-weight:bold!important">
+            <div class="col-8" style="font-weight:bold!important">
                 Chuyên khoa
             </div>
             <div class="col-8">
@@ -38,6 +26,14 @@
             </div>
         </div>
 
+        <div class="col-12 row mt-3">
+            <div class="col-8" style="font-weight:bold!important">
+                Thông tin
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.ThongTin)
+            </div>
+        </div>
 
     </div>
 
@@ -76,7 +72,7 @@
                                             Tên triệu chứng
                                         </div>
                                         <div class="col-8">
-                                            @item.TenTrieuChung
+                                            @item.MaTrieuChung
                                         </div>
                                     </div>
                                     <div class="col-4 row">

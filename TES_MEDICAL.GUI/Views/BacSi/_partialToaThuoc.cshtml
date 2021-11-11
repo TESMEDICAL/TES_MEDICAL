@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Thuoc>
+
+<div class="pt-3">
+    <h4 style="text-align:center; font-weight:bold">Toa Thuốc</h4>
+    <hr />
+</div>
+<!--<div class="modal-header">-->
+@*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+
+<!--</div>-->
+<div class="modal-body">
+    <div class="col-8 m-auto">
+        <table class="table" id="danhSach" style="width:100%">
+            <thead>
+                <tr>
+
+                    <th class="col-8">Tên thuốc</th>
+                    <th class="col-4 text-center">Thao tác</th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                <tr>
+
+                    <td >@item.TenThuoc</td>
+                    <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                    <td class="d-none" >@item.MaThuoc</td>
+                </tr>
+                }
+
+               
+
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-5">
+        <table class="table table-striped">
+            <thead class="bg-success text-light">
+                <tr>
+                    <th class="col-8">Tên thuốc</th>
+                    <th class="col-2">Số lượng</th>
+                    <th class="col-2">Thao tác</th>
+
+                </tr>
+            </thead>
+            <tbody id="listToaThuoc">
+                
+                  
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+  
+    <button type="button" class="btn btn-success" style="margin-left: 5px;" data-bs-dismiss="modal" onclick="ConfirmToaThuoc()">OK</button>
+</div>
+
