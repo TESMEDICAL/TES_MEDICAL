@@ -23,21 +23,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/jquery-ui.css" />
-
-
-
-
-
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
     <link rel="stylesheet" href="~/MainElement/css/main.css">
     <link rel="stylesheet" href="~/css/toastr.css" />
-
-
-    <style>
-        a {
-            text-decoration: none !important
-        }
-    </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <!-- Icons -->
@@ -72,12 +60,15 @@
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
 
-    @*<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />*@
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
     <style>
         .active:hover {
             background-color: #666;
             color: white;
+        }
+        a {
+            text-decoration: none !important
         }
     </style>
 </head>
@@ -338,28 +329,13 @@
                         <!-- END User Info -->
                         <!-- Theme Colors -->
                         <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
-                        <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
-                            @*You can also add the default color theme
-                                <li class="active">
-                                    <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
-                                </li>*@
-
-                            <!--<li>-->
-                            @*<a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="/MainElement/css/themes/night.css" data-toggle="tooltip" title="Night"></a>*@
-                            <!--</li>-->
+                        <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">                           
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
-                            </li>
-                            @*<li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="/MainElement/css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
-                                </li>*@
-                            @*<li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="/MainElement/css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
-                                </li>*@
-
+                            </li>                            
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
                             </li>
@@ -375,19 +351,7 @@
                             </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-lake themed-border-lake" data-theme="/MainElement/css/themes/lake.css" data-toggle="tooltip" title="Lake"></a>
-                            </li>
-                            @*<li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-forest themed-border-forest" data-theme="/MainElement/css/themes/forest.css" data-toggle="tooltip" title="Forest"></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-waterlily themed-border-waterlily" data-theme="/MainElement/css/themes/waterlily.css" data-toggle="tooltip" title="Waterlily"></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-emerald themed-border-emerald" data-theme="/MainElement/css/themes/emerald.css" data-toggle="tooltip" title="Emerald"></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" class="themed-background-dark-blackberry themed-border-blackberry" data-theme="/MainElement/css/themes/blackberry.css" data-toggle="tooltip" title="Blackberry"></a>
-                                </li>*@
+                            </li>                            
                         </ul>
 
 
@@ -395,7 +359,7 @@
                         <!-- Sidebar Navigation -->
                         <ul class="sidebar-nav" onclick="myActive(e)">
                             <li>
-                                <a href="index.html"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
+                                <a href="index.html"><i class="fas fa-home me-3 ms-2"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
                             </li>
                             @if ((await UserManager.GetUserAsync(User)).ChucVu == 1)
                             {
@@ -405,14 +369,14 @@
                                     <span class="sidebar-header-title">Tiếp nhận</span>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "ThemPhieuKham", controllers: "TiepNhan")">
-                                    <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Thêm phiếu khám</span></a>
+                                    <a href="@Url.Action("ThemPhieuKham","TiepNhan")"><i class="fas fa-notes-medical sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Thêm phiếu khám</span></a>
 
                                 </li>
                                 <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
-                                    <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Quản lý đặt lịch</span></a>
+                                    <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="fas fa-calendar-week sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Quản lý đặt lịch</span></a>
                                 </li>
                                 <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
-                                    <a href="/tiepnhan/capnhatdichvu"><i class="gi gi-check sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cập nhật dịch vụ</span></a>
+                                    <a href="/tiepnhan/capnhatdichvu"><i class="fas fa-pen-alt sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Cập nhật dịch vụ</span></a>
                                 </li>
                             }
                             else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
@@ -424,33 +388,33 @@
                                 </li>
 
                                 <li class="@Html.IsSelected(actions: "ToaThuoc", controllers: "DuocSi")">
-                                    <a href="@Url.Action("ToaThuoc","DuocSi")"><i class="fas fa-file-medical sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc</span></a>
+                                    <a href="@Url.Action("ToaThuoc","DuocSi")"><i class="fas fa-file-medical sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Toa thuốc</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "ToaThuocDangPhat", controllers: "DuocSi")">
-                                    <a href="@Url.Action("ToaThuocDangPhat","DuocSi")"><i class="fab fa-algolia sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Toa thuốc đang phát</span></a>
+                                    <a href="@Url.Action("ToaThuocDangPhat","DuocSi")"><i class="fab fa-algolia sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Toa thuốc đang phát</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "LichSuThuoc", controllers: "DuocSi")">
-                                    <a href="@Url.Action("LichSuThuoc","DuocSi")"><i class="fas fa-history sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử</span></a>
+                                    <a href="@Url.Action("LichSuThuoc","DuocSi")"><i class="fas fa-history sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Lịch sử</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "DuocSi")">
-                                    <a href="@Url.Action("DanhSachThuoc","DuocSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                                    <a href="@Url.Action("DanhSachThuoc","DuocSi")"><i class="fas fa-capsules sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Danh sách thuốc</span></a>
                                 </li>
                             }
                             else
                             {
                                 <li class="sidebar-header">
-                                    <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="fas fa-notes-medical"></i></a></span>
+                                    <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="fas fa-user-md"></i></a></span>
                                     <span class="sidebar-header-title">Bác sĩ</span>
                                 </li>
 
                                 <li class="@Html.IsSelected(actions: "PhieuKham", controllers: "BacSi")">
-                                    <a href="@Url.Action("PhieuKham","BacSi")"><i class="gi gi-notes_2 sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Phiếu khám</span></a>
+                                    <a href="@Url.Action("PhieuKham","BacSi")"><i class="fas fa-notes-medical sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Phiếu khám</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "LichSuKham", controllers: "BacSi")">
-                                    <a href="@Url.Action("LichSuKham","BacSi")"><i class="fas fa-user-md sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Lịch sử khám</span></a>
+                                    <a href="@Url.Action("LichSuKham","BacSi")"><i class="fas fa-history sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Lịch sử khám</span></a>
                                 </li>
                                 <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
-                                    <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Danh sách thuốc</span></a>
+                                    <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Danh sách thuốc</span></a>
                                 </li>
 
                             }

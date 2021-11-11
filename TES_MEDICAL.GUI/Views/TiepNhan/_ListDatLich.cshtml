@@ -12,19 +12,19 @@
         <table class="table table-bordered text-center" style="width:100%">
                 <tr id="table-header" class="text-light">
 
-                    <th class="col-sm-4" style=" font-size: 2vmin; text-align: left;">
+                    <th style=" font-size: 2vmin; text-align: left;">
                         Tên bệnh nhân
                     </th>
-                    <th class="col-sm-2" style=" font-size: 2vmin;">
+                    <th style=" font-size: 2vmin;">
                         SĐT
                     </th>
-                    <th class="col-sm-2" style=" font-size: 2vmin;">
+                    <th style=" font-size: 2vmin;">
                         Ngày sinh
                     </th>
-                    <th class="col-sm-2" style=" font-size: 2vmin;">
+                    <th style=" font-size: 2vmin;">
                         Ngày khám
                     </th>
-                    <th class="col-sm-2" style=" font-size: 2vmin;">Thao tác</th>
+                    <th style=" font-size: 2vmin;">Thao tác</th>
                 </tr>
                 
                 @if ((ViewBag.Names as IEnumerable<PhieuDatLich>).Count() > 0)
@@ -32,11 +32,11 @@
                     @foreach (var item in ViewBag.Names as IEnumerable<PhieuDatLich>)
                     {
                         <tr>
-                            <td class="col-sm-4" style="text-align: left; font-size: 2vmin;">@item.TenBN</td>
-                            <td class="col-sm-2" style="font-size: 2vmin;">@item.SDT</td>
-                            <td class="col-sm-2" style="font-size: 2vmin;">@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
-                            <td class="col-sm-2" style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy")</td>
-                            <td class="col-sm-2 text-nowrap" >
+                            <td  style="text-align: left; font-size: 2vmin;">@item.TenBN</td>
+                            <td  style="font-size: 2vmin;">@item.SDT</td>
+                            <td  style="font-size: 2vmin;">@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
+                            <td  style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy")</td>
+                            <td  >
                                 <a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
                                 <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a>
                                 <a onclick=Detail('@item.MaPhieu') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a>
