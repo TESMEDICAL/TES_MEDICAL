@@ -89,8 +89,11 @@
                 <div class="box-label">
                     <label class="form-label">Chuyên khoa</label>
                 </div>
+
                 <div class="box-left-select mt-3 mb-3">
-                    @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-select" })
+                   <select class="form-select" asp-for="MaCK" asp-items="ViewBag.MaCK">
+                    </select>
+
                     @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
                 </div>
             </div>

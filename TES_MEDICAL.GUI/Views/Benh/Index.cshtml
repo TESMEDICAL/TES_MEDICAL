@@ -269,14 +269,26 @@
                                 Trieuchungs: $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung')
                             },
                             success: function (result) {
-                                $('#preloader-box').toggleClass('hide');
-                                if (result.status >= 1) {
 
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status == -3) {
+                                    toastr.warning(result.text);
+
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    if (result.status != null) {
+                                        if (result.status >= 1) {
+
+                                            toastr.success(result.text);
+                                            reloadpage(1);
+                                        }
+                                        else {
+                                            toastr.warning(result.text);
+                                        }
+                                    }
+                                    else {
+                                        $myModalContent.html(result);
+                                    }
                                 }
                             },
                             error: function (errormessage) {
@@ -297,20 +309,31 @@
                         $.ajax({
                             type: "POST",
                             url: "/Benh/Edit",
-                            dataType: "json",
                             data: {
                                 __RequestVerificationToken: gettoken(),
                                 model: obj,
                                 Trieuchungs: $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung')
                             },
                             success: function (result) {
-                                $('#preloader-box').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status == -3) {
+                                    toastr.warning(result.text);
+
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    if (result.status != null) {
+                                        if (result.status >= 1) {
+                                            toastr.success(result.text);
+                                            reloadpage(1);
+                                        }
+                                        else {
+                                            toastr.warning(result.text);
+                                        }
+                                    }
+                                    else {
+                                        $myModalContent.html(result);
+                                    }
                                 }
                             },
                             error: function (errormessage) {
