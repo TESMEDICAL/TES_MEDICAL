@@ -83,19 +83,24 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.MaBenh = Guid.NewGuid();
-                var result = await _service.Add(model, Trieuchungs.ToList());
-
-                if (result.errorCode == -1)
+                if (Trieuchungs.Count() >= 1)
                 {
-                    ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
-                    ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
-                    return PartialView("_partialAdd", model);
+                    model.MaBenh = Guid.NewGuid();
+                    var result = await _service.Add(model, Trieuchungs.ToList());
+                    if (result.errorCode == -1)
+                    {
+                        ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+                        ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
+                        return PartialView("_partialAdd", model);
+                    }
+                    if (result.errorCode == 0)
+                        return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    else
+                        return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }
-                if (result.errorCode == 0)
-                    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
-                    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    return Json(new { status = -3, title = "", text = "Vui lòng thêm ít nhất một triệu chứng", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
             }
             ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
             return PartialView("_partialAdd", model);
