@@ -6,38 +6,55 @@
     ViewData["Title"] = "DanhSachThuoc";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
+@*<style>
+    .box {
+        background-color: white;
+        font-family: Arial;
+        border: 1px solid #dee2e6;
+    }
 
-<div class="m-3">
+    .box-title {
+        background: #f8f9fa;
+        height: 40px;
+        border-bottom: 1px solid #dee2e6;
+    }
 
-    <div>
+    .box-title h6 {
+        padding: 10px;
+        font-weight: bold;
+        color: #6c757d;
+    }
+</style>*@
 
-        @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
-        {
-            @Html.AntiForgeryToken()
+<div class="block">
+    <div class="block-title">
+        <h2><strong>Danh sách thuốc</strong></h2>
+    </div>
+    <div class="m-3">
+        <div class="row">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap" }))
+            {
+                @Html.AntiForgeryToken()
 
-            <div class="col-2 mr-2">
-                @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên thuốc" } })
-            </div>
+                <div class="col-10">
+                    @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control w-50", @placeholder = "Lọc theo tên thuốc" } })
+                </div>
+                <div class="button-reload col-2 text-xl-end">
 
-          
+                    @*<button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>*@
+                    <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+                </div>
+            }
+        </div>
 
-            <div class="col-4">
-
-                <button type="button" class="btn btn-sm mr-2 " style="background-color:seagreen; color:white;" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Lọc</button>
-                <button type="button" class="btn mr-2 btn-sm" style="background-color:seagreen; color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-            </div>
-
-
-
-        }
+    </div>
+    <div id="nameListContainer" class="mt-2">
+        <partial name="_NameListThuoc" model="ViewBag.Names as IPagedList<Thuoc>" />
 
     </div>
 </div>
 
-<div id="nameListContainer">
-    <partial name="_NameListThuoc" model="ViewBag.Names as IPagedList<Thuoc>" />
 
-</div>
 
 <!--Model chính-->
 <div id="myModal" class="modal fade">

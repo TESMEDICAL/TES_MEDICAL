@@ -717,7 +717,7 @@
                                         <td class="col-3"><strong>@item.MaThuocNavigation.TenThuoc</strong></td>
                                         <td class="col-4"><strong>@item.GhiChu</strong></td>
                                         <td class="col-2 text-center"><strong>@item.SoLuong</strong></td>
-                                        <td class="col-3 text-end"><strong>@((item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.'))</strong></td>
+                                        <td class="col-3 text-end"><strong>@((item.DonGiaThuoc * item.SoLuong)?.ToString("n0").Replace(',', '.'))</strong></td>
                                     </tr>
                                 }
 
@@ -729,7 +729,7 @@
                                     <td class="col-4"></td>
                                     <td class="col-2 border-bottom-0 text-center"><strong>Tổng tiền</strong></td>
                                     <!--<td class="col-3 border-bottom-0 text-end"><strong>4.000.000 VND</strong></td>-->
-                                    <td class="col-6 border-bottom-0 text-end"><strong>520.000 VND</strong></td>
+                                    <td class="col-6 border-bottom-0 text-end"><strong>@Model.TongTien.ToString("n0").Replace(',', '.')</strong></td>
 
 
                                 </tr>

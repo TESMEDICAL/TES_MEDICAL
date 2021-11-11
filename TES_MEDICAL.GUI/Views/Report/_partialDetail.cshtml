@@ -716,7 +716,7 @@
                                 {
                                     <tr>
                                         <td class="col-6"><strong>@item.MaDVNavigation.TenDV</strong></td>
-                                        <td class="col-6 text-end ms-auto"><strong>@item.MaDVNavigation.DonGia.ToString("n0").Replace(',', '.')</strong></td>                                   
+                                        <td class="col-6 text-end ms-auto"><strong>@item.DonGiaDV?.ToString("n0").Replace(',', '.')</strong></td>                                   
                                     </tr>
                                 }
 
@@ -724,7 +724,7 @@
                             </tbody>
                             <tfoot class="card-footer">
                                 <tr>
-                                    <td colspan="2" class="text-right"><strong>Tổng tiền :</strong> 500.000 </td>
+                                    <td colspan="2" class="text-right"><strong>Tổng tiền :</strong> @Model.TongTien?.ToString("n0").Replace(',', '.') VNĐ </td>
                                 </tr>
                             </tfoot>
                         </table>

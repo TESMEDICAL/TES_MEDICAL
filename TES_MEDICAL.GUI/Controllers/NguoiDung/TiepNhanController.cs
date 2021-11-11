@@ -52,7 +52,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _hubContext = hubContext;
             _userManager = userManager;
             
-            _userManager = userManager;
+          
             
         }
        

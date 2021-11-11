@@ -39,7 +39,7 @@ namespace TES_MEDICAL.GUI.Controllers
             if (!model.Page.HasValue) model.Page = 1;
 
 
-
+            
 
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
@@ -64,7 +64,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-
+            model.TrangThaiPK = 2;
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
             ViewBag.Page = model.Page;
@@ -212,7 +212,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-
+               
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
