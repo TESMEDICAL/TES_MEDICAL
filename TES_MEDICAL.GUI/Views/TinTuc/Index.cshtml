@@ -265,10 +265,10 @@
         function reloadpage(page) {
             obj = {};
             if ($('#CheckAll').is(':checked')) {
-                obj.TrangThai = true;
+                obj.TrangThaiSearch = true;
             }
             else {
-                obj.TrangThai = false;
+                obj.TrangThaiSearch = false;
             }
             obj.Page = page;
             $.ajax({
@@ -470,10 +470,10 @@
             obj.TieuDeSearch = $('#TieuDeSearch').val();
             obj.MaTLSearch = $('#MaTLSearch').val();
             if ($('#CheckAll').is(':checked')) {
-                obj.TrangThai = true;
+                obj.TrangThaiSearch = true;
             }
             else {
-                obj.TrangThai = false;
+                obj.TrangThaiSearch = false;
             }
 
             $.ajax({

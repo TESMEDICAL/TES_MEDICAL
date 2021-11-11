@@ -553,7 +553,7 @@ namespace TES_MEDICAL.GUI.Models
 
                 entity.Property(e => e.TenTrieuChung).HasMaxLength(100);
 
-                entity.Property(e => e.TenTrieuChungKhongDau).HasMaxLength(100);
+              
             });
 
 

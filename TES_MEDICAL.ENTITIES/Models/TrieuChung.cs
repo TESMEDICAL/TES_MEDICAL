@@ -14,7 +14,7 @@ namespace TES_MEDICAL.GUI.Models
 
         public Guid MatrieuChung { get; set; }
         public string TenTrieuChung { get; set; }
-        public string TenTrieuChungKhongDau { get; set; }
+       
 
         public virtual ICollection<CTTrieuChung> CTTrieuChung { get; set; }
     }
