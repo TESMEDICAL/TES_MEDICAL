@@ -117,144 +117,167 @@
                 </div>
             </div>
             <br /><br />
-            <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+            <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
                 <div class="row">
                     <div class="col-sm-5" style="padding-inline: 38px;">
-                        <label class="col-sm-3 control-label" for="example-textarea-input">Kết quả khám</label>
-                        <div class="col-sm-12">
-                            <textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
+                        <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
+                        <input class="form-control" placeholder="Nhập triệu chứng ..." />
+                        <!--<div class="col-sm-12">-->
+                            @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
+                        <!--</div>-->
+                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 105px; ">
+                            <ul class="mt-2">
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                                <li>Cảm cúm</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-sm-7 row">
-                        <div class="col-sm-12" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col-sm-12" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
-                            <div class="col-md-10">
-                                <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                                <div class="col-md-10">
+                                    <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                                <div class="col-md-10">
+                                    <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="col-sm-6" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
-                            <div class="col-md-10">
-                                <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
-            <br /><br />
         }
-
-
-
-
-    </div>
-    <br><br />
-
-    <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-        <div class="block-title">
-            <h2><strong>Lịch sử khám</strong></h2>
-        </div>
-        <div class="form-group">
-            <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
+        <br /><br />
+        <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Lịch sử khám</strong></h2>
             </div>
-        </div>
-        <div class="form-group collapse" id="LichSuKham" style="margin-inline: 20px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày khám</th>
-                        <td></td>
-                        <td></td>
-                        <th scope="col">Chẩn đoán</th>
-                        <td></td>
-                        <td></td>
-                        <th scope="col" class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
-                        if (LichSu.Count() > 0)
-                        {
-                            foreach (var item in LichSu)
+            <div class="form-group">
+                <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
+                    <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
+                </div>
+            </div>
+            <div class="form-group collapse" id="LichSuKham" style="margin-inline: 20px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ngày khám</th>
+                            <td></td>
+                            <td></td>
+                            <th scope="col">Chẩn đoán</th>
+                            <td></td>
+                            <td></td>
+                            <th scope="col" class="text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
+                            if (LichSu.Count() > 0)
+                            {
+                                foreach (var item in LichSu)
+                                {
+                                    <tr>
+                                        <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>@item.ChanDoan</td>
+                                        <td>
+                                        <td>
+                                        </td></td>
+                                        <td class="text-nowrap text-center">
+                                            <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>@item.ChanDoan</td>
-                                    <td>
-                                    <td>
-                                    </td></td>
-                                    <td class="text-nowrap text-center">
-                                        <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                                    </td>
+                                    <td colspan="8" class="text-center">Chưa có lich sử khám</td>
                                 </tr>
+
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="8" class="text-center">Chưa có lich sử khám</td>
-                            </tr>
 
                         }
 
-                    }
 
 
+                    </tbody>
+                </table>
 
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    <br>
-    <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-        <div class="block-title">
-            <h2><strong>Toa thuốc</strong></h2>
-        </div>
-        <div class="form-group">
-            <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                <button style="background-color:seagreen;  color:white;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fa fa-plus text-white"></i>
-                    Thêm thuốc
-                </button>
-                @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
             </div>
         </div>
-        <div class="form-group" style="margin-inline: 20px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="col-8">Tên thuốc</th>
-                        <th class="col-2 text-center">Số lượng</th>
-                        <th class="col-2 text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="toathuocFinal">
-                </tbody>
-            </table>
+        <br /><br />
+        <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Toa thuốc</strong></h2>
+            </div>
+            <div class="form-group">
+                <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
+                    <button style="background-color:seagreen;  color:white;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-plus text-white"></i>
+                        Thêm thuốc
+                    </button>
+                    @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
+                </div>
+            </div>
+            <div class="form-group" style="margin-inline: 20px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-8">Tên thuốc</th>
+                            <th class="col-2 text-center">Số lượng</th>
+                            <th class="col-2 text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="toathuocFinal">
+                    </tbody>
+                </table>
+
+            </div>
 
         </div>
-
+        <!--Button-->
+        <div class="form-group" style="text-align: right; margin-right: 10px;">
+            <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
+            <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+        </div>
+        <br /><br />
     </div>
-    <div class="form-group" style="text-align: right; margin-right: 10px;">
-        <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
-        <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-    </div>
+    
 
     <br />
 </div>
@@ -271,7 +294,7 @@
 </div>
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
