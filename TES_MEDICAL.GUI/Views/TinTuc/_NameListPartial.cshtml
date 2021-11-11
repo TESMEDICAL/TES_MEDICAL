@@ -18,6 +18,12 @@
         background-color: rgb(82, 183, 136);
         color: white;
     }
+    .table-title-name p {
+        width: 500px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
     .table-btn a:hover{
         transform: scale(1.075)
     }
@@ -41,27 +47,27 @@
         <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
 
-                    <th>
+                    <th class="col-6">
                         Tiêu đề
                     </th>
 
-                    <th class="text-center">
+                    <th class="col-2 text-center">
                         Trạng thái
                     </th>
 
-                    <th class="text-center">
+                    <th class="col-2 text-center">
                         Thể loại
                     </th>
 
-                    <th class="text-center">Thao tác</th>
+                    <th class="col-2 text-center">Thao tác</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<TinTuc>)
                 {
                     <tr>
-                        <td>@item.TieuDe</td>
-                        <td class="text-center">@item.TrangThai</td>
-                        <td class="text-center">@item.MaTLNavigation.TenTL</td>
-                        <td class="table-btn text-nowrap text-center">
+                        <td class="table-title-name col-6"><p>@item.TieuDe</p></td>
+                        <td class="col-2 text-center">@item.TrangThai</td>
+                        <td class="col-2 text-center">@item.MaTLNavigation.TenTL</td>
+                        <td class="table-btn col-2 text-nowrap text-center">
                             <a class="btn-edit btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)
                             {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}

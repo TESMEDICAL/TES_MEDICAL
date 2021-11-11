@@ -21,92 +21,81 @@
     .table-btn a:hover {
         transform: scale(1.075)
     }
-
-    .btn-edit {
+    .table-btn .btn-status {
         background-color: rgb(17, 138, 178);
+        margin-top: 20%;
     }
-
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .table-btn a i {
-        color: white;
-    }
-    .listname-img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        object-position: center center;
-    }
+        .table-btn .btn-status i{
+            color: white;
+        }
+        .listname-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            object-position: center center;
+        }
 </style>
 
 <div id="list">
 
     <div class="list-table" style="min-height:400px">
-        <table class="table table table-striped table-bordered text-left w-100 " style="font-size:small">
+        <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
-                    <th class="col-2">
+                    <th class="col-3">
                         Họ tên
                     </th>
 
                     <th class="col-2">
                         Số điện thoại
                     </th>
-
+                    <th class="col-1 text-center">
+                        Chức vụ
+                    </th>
                     <th class="col-2 text-center">
                         Hình ảnh
                     </th>
-
-                    <th class="col-2 text-center">
-                        Chức vụ
-                    </th>
-
                     <th class="col-2 text-center">
                         Trạng thái
                     </th>
-
                     <th class="text-center">Hành động</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<NguoiDung>)
                 {
-        <tr>
-            <td class="col-2">@item.HoTen</td>
+                    <tr>
+                        <td class="col-3"><p style="margin-top: 16%;">@item.HoTen</p></td>
+                        <td class="col-2"><p style="margin-top: 25%;">@item.SDT</p></td>
+                        <td class="col-1 text-center">
+                            <p style="margin-top: 60%;">
+                                @if (item.ChucVu == 1)
+                                {
+                                    @("Admin")
+                                }
+                                else
+                                {
+                                    @("User")
+                                }
+                            </p>
+                            
+                        </td>
+                        <td class="col-2 text-center">
+                            <img class="listname-img" src="~/images/@item.HinhAnh" />
+                        </td>
 
-            <td class="col-2">@item.SDT</td>
+                        <td class="col-2 text-center"><p style="margin-top: 25%;">@(item.TrangThai?"Hoạt động":"Không hoạt động")</p></td>
 
-            <td class="col-2 text-center">
-                <img class="listname-img" src="~/images/@item.HinhAnh" />
-            </td>
-
-
-            <td class="col-2 text-center">
-                @if (item.ChucVu == 1)
-                {
-                    @("Admin")
-                }
-                else
-                {
-                    @("User")
-                }
-            </td>
-
-
-            <td class="col-2 text-center">@(item.TrangThai?"Hoạt động":"Không hoạt động")</td>
-
-            <td>
-                <a class="btn btn-info btn-sm btn-sm active" onclick="Edit('@item.MaNguoiDung')" title="Chỉnh sửa thông tin"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> | @if (item.TrangThai)
-                {<a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaNguoiDung')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
-                else
-                {
-        <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaNguoiDung')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-                | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin chi tiết"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-            </td>
-        </tr>
+                        <td class="table-btn col-2 text-center">
+                                <a class="btn-status btn btn-sm active" onclick="Edit('@item.MaNguoiDung')" title="Chỉnh sửa thông tin"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            @if (item.TrangThai)
+                            {
+                                <a class="btn-status btn btn-sm active" onclick="_delete('@item.MaNguoiDung')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>
+                            }
+                            else
+                            {
+                                <a class="btn-status btn btn-sm active" onclick="_restore('@item.MaNguoiDung')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>
+                            }
+                                <a class="btn-status btn btn-sm active" onclick="_Detail('@item.MaNguoiDung')" title="Thông tin chi tiết"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
                 }
         </table>
     </div>

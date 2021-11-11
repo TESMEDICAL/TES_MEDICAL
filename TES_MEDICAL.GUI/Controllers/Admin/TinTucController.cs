@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using TES_MEDICAL.GUI.Constant;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -81,11 +82,14 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
         {
-            NguoiDung nguoiDung = new NguoiDung();
-            nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+            //NguoiDung nguoiDung = new NguoiDung();
+            //nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+
+            string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
+
 
             model.MaBaiViet = Guid.NewGuid();
-            model.MaNguoiViet = nguoiDung.MaNguoiDung;
+            model.MaNguoiViet = Guid.Parse(maNguoiDung);
             if (await _service.Add(model) != null)
                 return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
                     RedirectToAction("index", "Tintuc");
