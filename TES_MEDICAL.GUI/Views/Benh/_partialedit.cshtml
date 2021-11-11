@@ -67,71 +67,73 @@
     <div class="wrapper-top">
         @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
         {
-        <div class="wrapper-left col-sm-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group col-md-4" style="display:none">
-                <label class="control-label col-md-6" for="MaBenh">MaBenh</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.MaBenh, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaBenh, "", new { @class = "text-danger" })
+            <div class="text-danger"></div>
+
+            <div class="wrapper-left col-sm-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-4" style="display:none">
+                    <label class="control-label col-md-6" for="MaBenh">MaBenh</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MaBenh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaBenh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="wrapper-left-title">
+                    <div class="wrapper-label">
+                        <label class="form-label">Tên bệnh</label>
+                    </div>
+                    <div class="wrapper-left-input mt-3 mb-3">
+                        @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenBenh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="wrapper-left-title">
+                    <div class="wrapper-label">
+                        <label class="form-label">Chuyên khoa</label>
+                    </div>
+                    <div class="wrapper-left-select mt-3 mb-3">
+                        @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-            <div class="wrapper-left-title">
-                <div class="wrapper-label">
-                    <label class="form-label">Tên bệnh</label>
-                </div>
-                <div class="wrapper-left-input mt-3 mb-3">
-                    @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TenBenh, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="wrapper-left-title">
-                <div class="wrapper-label">
-                    <label class="form-label">Chuyên khoa</label>
-                </div>
-                <div class="wrapper-left-select mt-3 mb-3">
-                    @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
+            <div class="wrapper-right col-sm-7">
+                <div class="wrapper-right-infomation">
+                    <div class="wrapper-label">
+                        <label class="form-label">Thông tin bệnh</label>
+                    </div>
+                    <div class="wrapper-right-textarea mt-3 mb-3">
+                        <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" rows="7" style="height: 150px">@Model.ThongTin</textarea>
+                        @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="wrapper-right col-sm-7">
-            <div class="wrapper-right-infomation">
-                <div class="wrapper-label">
-                    <label class="form-label">Thông tin bệnh</label>
-                </div>
-                <div class="wrapper-right-textarea mt-3 mb-3">
-                    <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" rows="7" style="height: 150px">@Model.ThongTin</textarea>
-                    @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-            
+
 
 
             <!--<div class="form-group col-md-7" style="margin-left: 100px">
-                @Html.LabelFor(model => model.TenBenh, "Tên Bệnh", htmlAttributes: new { @class = "control-label col-md-6" })
-                <div class="col-md-10">
-                    
-                </div>
-            </div>
-            <div class="form-group col-4" style="margin-left: -40px">
-                @Html.LabelFor(model => model.MaCK, "Chuyên khoa", htmlAttributes: new { @class = "control-label col-md-6" })
-                <div class="col-md-10">
-                   
-                </div>
-            </div>
-            <div class="form-group col-12" style="margin-left: 100px">
-                @Html.LabelFor(model => model.ThongTin, "Thông Tin", htmlAttributes: new { @class = "control-label col-md-6" })-->
-                @*<div class="col-md-10">
-                    @Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
-                </div>*@
+            @Html.LabelFor(model => model.TenBenh, "Tên Bệnh", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
 
-                <!--<div class="form-floating col-md-10">
-                    
-                </div>
-            </div>-->
+            </div>
+        </div>
+        <div class="form-group col-4" style="margin-left: -40px">
+            @Html.LabelFor(model => model.MaCK, "Chuyên khoa", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+
+            </div>
+        </div>
+        <div class="form-group col-12" style="margin-left: 100px">
+            @Html.LabelFor(model => model.ThongTin, "Thông Tin", htmlAttributes: new { @class = "control-label col-md-6" })-->
+            @*<div class="col-md-10">
+                @Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
+            </div>*@
+
+            <!--<div class="form-floating col-md-10">
+
+            </div>
+        </div>-->
         }
     </div>
     <div class="wrapper-bottom mt-5">

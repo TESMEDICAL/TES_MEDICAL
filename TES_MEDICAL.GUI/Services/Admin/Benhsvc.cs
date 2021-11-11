@@ -84,7 +84,7 @@ namespace TES_MEDICAL.GUI.Services
             return item;
         }
 
-        public async Task<Benh> Edit(Benh model,List<CTrieuChungModel> trieuchungs)
+        public async Task<Response<Benh>> Edit(Benh model,List<CTrieuChungModel> trieuchungs)
         {
             try
             {
@@ -134,21 +134,25 @@ namespace TES_MEDICAL.GUI.Services
                         }
                     }
 
-                    var existingBenh = _context.Benh.Find(model.MaBenh);
+                    var existingBenh = await _context.Benh.FindAsync(model.MaBenh);
                     existingBenh.TenBenh = model.TenBenh;
                     existingBenh.ThongTin = model.ThongTin;
                     existingBenh.MaCK = model.MaCK;
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<Benh> { errorCode = 0, Obj = model };
                 }
 
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<Benh> { errorCode = -1 };
+                }
+
+                return new Response<Benh> { errorCode = -2 };
             }
 
 

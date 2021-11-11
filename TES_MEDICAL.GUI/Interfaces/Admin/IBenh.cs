@@ -15,7 +15,7 @@ namespace TES_MEDICAL.GUI.Interfaces
     {
         Task<Response<Benh>> Add(Benh model,List<CTrieuChungModel> TrieuChungs);
         Task<Benh> Get(Guid id);
-        Task<Benh> Edit(Benh model,List<CTrieuChungModel> trieuchungs);
+        Task<Response<Benh>> Edit(Benh model,List<CTrieuChungModel> trieuchungs);
         Task<bool> Delete(Guid Id);
         Task<IPagedList<Benh>> SearchByCondition(BenhSearchModel model);
         Task<IEnumerable<ChuyenKhoa>> ChuyenKhoaNav();

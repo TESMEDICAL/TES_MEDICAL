@@ -314,7 +314,6 @@
                         $.ajax({
                             type: "POST",
                             url: "/Benh/Edit",
-                            dataType: "json",
                             data: {
                                 __RequestVerificationToken: gettoken(),
                                 model: obj,
@@ -322,12 +321,17 @@
                             },
                             success: function (result) {
                                 $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                if (result.status != null) {
+                                    if (result.status >= 1) {
+                                        toastr.success(result.text);
+                                        reloadpage(1);
+                                    }
+                                    else {
+                                        toastr.warning(result.text);
+                                    }
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    $myModalContent.html(result);
                                 }
                             },
                             error: function (errormessage) {
