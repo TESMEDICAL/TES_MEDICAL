@@ -9,6 +9,7 @@
     #danhSach_filter input {
         width: 100% !important;
     }
+
     .error {
         color: red !important;
     }
@@ -141,7 +142,7 @@
                         <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
                         <input class="form-control" placeholder="Nhập triệu chứng ..." />
                         <!--<div class="col-sm-12">-->
-                            @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
+                        @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
                         <!--</div>-->
                         <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 150px; ">
                             <ul class="symptom-list mt-2">
@@ -189,7 +190,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -292,7 +293,7 @@
         </div>
         <br /><br />
     </div>
-    
+
 
     <br />
 </div>
@@ -337,12 +338,16 @@
     </div>
 </div>
 
+
+<ul id="log"></ul>
+
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 <script>
     $(document).ready(
 
 
         function () {
+         
 
             $("#frmKhamBenh").validate({
                 // Specify validation rules
@@ -377,12 +382,20 @@
             });
 
 
-           
+
 
 
 
 
         });
+    function BindOld(item) {
+        $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
+            oldPK = data;
+            UseOld()
+
+        });
+
+    }
 </script>
 
 
@@ -437,44 +450,69 @@
                     },
 
                 });
-                $("#ChanDoan").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '/api/benh/search',
-                            headers: {
-                                "RequestVerificationToken":
-                                    $('input[name="__RequestVerificationToken"]').val()
-                            },
-                            data: { "term": request.term },
-                            dataType: "json",
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return item;
-                                }))
-                            },
-                            error: function (xhr, textStatus, error) {
-                                alert(xhr.statusText);
-                            },
-                            failure: function (response) {
-                                alert("failure " + response.responseText);
-                            }
-                        });
-                    },
-                    select: function (e, i) {
-                        $.get("/BacSi/GetAutoFill", { TenBenh: i.item.value }, function (data) {
+               
+            $("#ChanDoan").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/api/benh/search',
+                        headers: {
+                            "RequestVerificationToken":
+                                $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        data: { "term": request.term },
+                        dataType: "json",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (xhr, textStatus, error) {
+                            alert(xhr.statusText);
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $.ajax({
+                        url: "/BacSi/GetAutoFill/",
+                        type: 'GET',
+                        data: {
+                            TenBenh: ui.item.value
+
+                        },
+                        success: function (data) {
+
                             oldPK = data;
+                            UseOld()
 
 
-                        });
-                        console.log(oldPK);
-                        UseOld();
+                        }
+                    });
+                    var originalEvent = event,
+                        input__event_type = '',
+                        input__selection_type = '';
 
+                    while (originalEvent) {
+                        if (originalEvent.keyCode === 13) {
+                            originalEvent.stopPropagation();
+                        }
+                        if (originalEvent === event.originalEvent) {
+                            break;
+                        }
+                        originalEvent = event.originalEvent;
+                    }
 
-                       
-                    },
-                    minLength: 3
-                });
+                    input__event_type = originalEvent.type;
 
+                    if (input__event_type === 'menuselect') { // selected by keyboard instead of mouse/touch
+                        input__selection_type = 'menuselect'
+                    }
+
+                }
+            });
+           
 
                 $.get("GetListThuoc", function (data) {
                     $('#ThuocContent').html(data)
