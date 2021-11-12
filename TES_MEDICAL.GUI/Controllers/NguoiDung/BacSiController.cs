@@ -175,15 +175,11 @@ new JsonSerializerSettings
         }
 
 
-        public async Task<JsonResult> GetAutoFill(string TenBenh)
+        public async Task<IActionResult> GetAutoFill(string TenBenh)
         {
             var item = await _tienichRep.GetAuToFill(TenBenh);
 
-            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
-new JsonSerializerSettings
-{
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-}));
+            return Ok(item);
 
 
         }

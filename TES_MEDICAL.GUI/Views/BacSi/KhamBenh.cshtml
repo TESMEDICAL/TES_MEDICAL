@@ -649,6 +649,7 @@
                 }
             });
             $.get("/BacSi/GetJsonPK", { MaPK: MaPK }, function (data) {
+               
                 oldPK = data;
 
 
@@ -679,7 +680,7 @@
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
                 type: 'Post',
-                data: JSON.parse(oldPK),
+                data:oldPK,
                 success: function (response) {
 
                     if (response.status == -2) {
@@ -746,7 +747,7 @@
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
-            ListTrieuChung = [];
+            ListTrieuChung =[];
             if ($("#frmKhamBenh").valid()) {
                 $(".SinhHieu").each(function () {
                     var obj = {};
