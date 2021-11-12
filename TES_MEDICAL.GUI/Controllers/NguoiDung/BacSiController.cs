@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -230,40 +231,40 @@ new JsonSerializerSettings
 
 
 
-        public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
-        {
-            if (!model.Page.HasValue) model.Page = 1;
-            model.TrangThai = false;
-            var listPaged = await _thuocRep.SearchByCondition(model);
+        //public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
+        //{
+        //    if (!model.Page.HasValue) model.Page = 1;
+        //    model.TrangThai = false;
+        //    var listPaged = await _thuocRep.SearchByCondition(model);
 
-            ViewBag.Names = listPaged;
-            ViewBag.Data = model;
-            return View(new ThuocSearchModel());
-        }
+        //    ViewBag.Names = listPaged;
+        //    ViewBag.Data = model;
+        //    return View(new ThuocSearchModel());
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> PageList(ThuocSearchModel model)
-        {
-            model.TrangThai = false;
-            var listmodel = await _thuocRep.SearchByCondition(model);
-            if (listmodel.Count() > 0)
-            {
+        //[HttpGet]
+        //public async Task<IActionResult> PageList(ThuocSearchModel model)
+        //{
+        //    model.TrangThai = false;
+        //    var listmodel = await _thuocRep.SearchByCondition(model);
+        //    if (listmodel.Count() > 0)
+        //    {
 
-                if (!model.Page.HasValue) model.Page = 1;
+        //        if (!model.Page.HasValue) model.Page = 1;
 
-                ViewBag.Names = listmodel;
-                ViewBag.Data = model;
+        //        ViewBag.Names = listmodel;
+        //        ViewBag.Data = model;
 
-                return PartialView("_NameListThuoc", listmodel);
-            }
-            else
-            {
+        //        return PartialView("_NameListThuoc", listmodel);
+        //    }
+        //    else
+        //    {
 
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
+        //        return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //    }
 
 
-        }
+        //}
 
         public async Task<IActionResult> ChiTietThuoc(Guid id)
         {
