@@ -1,6 +1,7 @@
 ﻿@model PhieuKham;
 @{
-    ViewData["Title"] = "KhamBenh";
+    ViewData["Title"] = "Khám bệnh";
+    
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
@@ -413,7 +414,8 @@
         var Phieukham =@(Html.Raw(ViewBag.PhieuKham));
         var ToaThuoc = {};
         var oldPK = {};
-
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
         $(document).ready(
 
 
@@ -450,7 +452,7 @@
                     },
 
                 });
-               
+
             $("#ChanDoan").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -512,7 +514,7 @@
 
                 }
             });
-           
+
 
                 $.get("GetListThuoc", function (data) {
                     $('#ThuocContent').html(data)
@@ -763,7 +765,7 @@
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
 
-            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
 
 
             $(rowNode).find('td').eq(1).addClass('text-center');
@@ -855,6 +857,35 @@
 
 
         });
+        function _Detail(id_) {
+            $myModalContent.html("");
+
+            $.ajax({
+                url: '/BacSi/ChiTietThuoc/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: true,
+                data: {
+                    id: id_
+                },
+
+                success: function (result) {
+                    $myModalContent.html(result);
+                    $('#btSave').hide();
+                    $('#btupdate').hide();
+
+                    $modal.modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
 
     </script>
 }
