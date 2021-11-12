@@ -14,19 +14,27 @@
         color: red !important;
     }
     .symptom-list li{
-        line-height: 30px;
+        line-height: 40px;
     }
-    .button-delete-symptom {
-        width: 30px;
-        height: 30px;
+    .button-delete-symptom {   
+        height: 20px;
+        padding: 0;
         float: right;
         margin-right: 10px;
-        background-color: orangered;
+        background-color: white;
         border: none;
     }
-    .button-delete-symptom i{
-        font-size: 9px;
-    }
+        .button-delete-symptom i {
+            font-size: 18px;
+            color: #ff6b6b;
+            padding-inline: 10px;
+            margin-top: 10px;
+        }
+            .button-delete-symptom i:hover {
+                transform: scale(1.1);
+                color: #ff002b;
+            }
+           
 
 </style>
 
@@ -140,30 +148,23 @@
                 <div class="row">
                     <div class="col-sm-5" style="padding-inline: 38px;">
                         <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
-                        <input class="form-control" placeholder="Nhập triệu chứng ..." />
+                        <div class="row">
+                            <div class="col-sm-8 pe-0 me-0">
+                                <input class="form-control" placeholder="Nhập triệu chứng ..." />
+                            </div>
+                            <div class="button-reload col-sm-4 text-end">
+                                <a class="btn btn-success">Tìm kiếm</a>
+                            </div>
+                        </div>
                         <!--<div class="col-sm-12">-->
                         @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
                         <!--</div>-->
-                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 150px; ">
+                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
                             <ul class="symptom-list mt-2">
-                                <li><span>Cảm cúm</span><button class="button-delete-symptom text-light"><i class="fas fa-times"></i></button></li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
-                                <li>Cảm cúm</li>
+                                <li><span>Cảm cúm</span> <a class="button-delete-symptom btn"><i class="fas fa-trash-alt"></i></a></li>
+                                <li><span>Cảm cúm</span> <a class="button-delete-symptom btn"><i class="fas fa-trash-alt"></i></a></li>
+                                <li><span>Cảm cúm</span> <a class="button-delete-symptom btn"><i class="fas fa-trash-alt"></i></a></li>
+                                <li><span>Cảm cúm</span> <a class="button-delete-symptom btn"><i class="fas fa-trash-alt"></i></a></li>
                             </ul>
                         </div>
                     </div>
