@@ -59,6 +59,8 @@
     <!-- END Stylesheets -->
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
+    <!-- Sweet Alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
@@ -67,6 +69,7 @@
             background-color: #666;
             color: white;
         }
+
         a {
             text-decoration: none !important
         }
@@ -413,9 +416,7 @@
                                 <li class="@Html.IsSelected(actions: "LichSuKham", controllers: "BacSi")">
                                     <a href="@Url.Action("LichSuKham","BacSi")"><i class="fas fa-history sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Lịch sử khám</span></a>
                                 </li>
-                                <li class="@Html.IsSelected(actions: "DanhSachThuoc", controllers: "BacSi")">
-                                    <a href="@Url.Action("DanhSachThuoc","BacSi")"><i class="fas fa-capsules sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Danh sách thuốc</span></a>
-                                </li>
+                             
 
                             }
 

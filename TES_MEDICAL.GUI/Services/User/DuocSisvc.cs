@@ -52,26 +52,41 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<ToaThuoc> listUnpaged = null;
            if (model.TrangThaiPK ==1)
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null)
-                        return true;
-                    else
-                        return false;
-                })).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+          (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+           && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+                ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+
             }
             else
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2)
-                        return true;
-                    else
-                        return false;
-                })).OrderByDescending(x=>x.MaPhieuKhamNavigation.NgayKham));
-            } 
-                
-              
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+        (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+              ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+            }
+
+
 
 
 

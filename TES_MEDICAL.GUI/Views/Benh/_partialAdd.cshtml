@@ -70,7 +70,9 @@
                     <div class="box-label">
                         <label class="form-label">Tên bệnh</label>
                     </div>
+
                     <div class="box-left-input mt-3 mb-3">
+
                         @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TenBenh, "", new { @class = "text-danger" })
                     </div>
@@ -79,8 +81,13 @@
                     <div class="box-label">
                         <label class="form-label">Chuyên khoa</label>
                     </div>
+
                     <div class="box-left-select mt-3 mb-3">
-                        @Html.DropDownList("MaCK", null, htmlAttributes: new { @class = "form-select" })
+                       <select class="form-select" asp-for="MaCK" asp-items="ViewBag.MaCK">
+                            
+
+                        </select>
+
                         @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
                     </div>
                 </div>

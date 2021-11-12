@@ -11,6 +11,6 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
         public Guid MaBenh { get; set; }
        public Guid MaTrieuChung { get; set; }
         public string TenTrieuChung { get; set; }
-        public string ChiTietTrieuChung { get; set; }
+       
     }
 }
