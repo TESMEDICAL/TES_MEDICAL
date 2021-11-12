@@ -36,6 +36,14 @@ namespace TES_MEDICAL.GUI.Services
                     select pk).FirstOrDefaultAsync();
            
         }
-       
+        public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
+        {
+            return await _context.TrieuChung.Where(x =>
+         
+          EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
+          )
+              .OrderBy(x => x.TenTrieuChung).Take(5).ToListAsync();
+        }
+
     }
 }

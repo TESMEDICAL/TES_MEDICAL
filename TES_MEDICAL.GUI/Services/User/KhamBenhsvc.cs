@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
@@ -53,7 +54,7 @@ namespace TES_MEDICAL.GUI.Services
 
         
 
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<string> TrieuChungs)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace TES_MEDICAL.GUI.Services
                         }
                     }    
                 
-                    var phieuKham = _context.PhieuKham.Find(model.MaPK);
+                    var phieuKham = await _context.PhieuKham.Include(x=>x.MaBSNavigation).FirstOrDefaultAsync(x=>x.MaPK ==model.MaPK);
                     phieuKham.Mach = model.Mach;
                     phieuKham.NhietDo = model.NhietDo;
                     phieuKham.HuyetAp = model.HuyetAp;
@@ -79,6 +80,30 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
                     phieuKham.TrangThai = 1;
+                    var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == model.ChanDoan);
+                    if(benh==null)
+                  
+                    {
+                        benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
+                        await _context.AddAsync(benh);
+                      
+                        
+                    }
+                    phieuKham.MaBenh = benh.MaBenh;
+                    phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
+                    foreach(var item in TrieuChungs)
+                    {
+                        List<SqlParameter> parms = new List<SqlParameter>
+                            {
+
+                                new SqlParameter { ParameterName = "@Mabenh", Value= benh.MaBenh },
+                                new SqlParameter { ParameterName = "@TenTrieuChung", Value= item },
+
+                            };
+                        var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
+                    }    
+
+
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
                     var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };
@@ -161,6 +186,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
+
+       
 
     }
 }

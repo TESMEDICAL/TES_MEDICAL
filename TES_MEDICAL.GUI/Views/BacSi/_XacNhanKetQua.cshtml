@@ -79,30 +79,20 @@
                 <div id="title-border" style="margin-top: 10px; margin-bottom: 10px; margin-inline: 10px;">
                     @*@Model.KetQuaKham*@
                     <div class="row mt-4 ms-4">
-                        <div class="col-sm-5">
-                            <h6>
-                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
-                                Cảm cúm
-                            </h6>
-                        </div>
-                        <div class="col-sm-5">
-                            <h6>
-                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
-                                Cảm cúm
-                            </h6>
-                        </div>
-                        <div class="col-sm-5">
-                            <h6>
-                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
-                                Cảm cúm
-                            </h6>
-                        </div>
-                        <div class="col-sm-5">
-                            <h6>
-                                <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
-                                Cảm cúm
-                            </h6>
-                        </div>
+                        @if (ViewBag.ListTC != null)
+                        {
+                            foreach (var tc in ViewBag.ListTC as List<string>)
+                            {
+                                <div class="col-sm-5">
+                                    <h6>
+                                        <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                        @tc
+                                    </h6>
+                                </div>
+                            }
+                        }
+
+                       
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -133,16 +133,34 @@ new JsonSerializerSettings
             }
         }
 
+        [Produces("application/json")]
+        [HttpGet("searchtrieuchung")]
+        [Route("api/Benh/searchtrieuchung")]
+        public async Task<IActionResult> SearchTrieuChung()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                return Ok(trieuchung);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
 
         [HttpPost]
-        public async Task<IActionResult> ThemToa(PhieuKham model)
+        public async Task<IActionResult> ThemToa(PhieuKham model, List<string> ListTrieuChung)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
                 item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }    
-            var result = await _khambenhRep.AddToaThuoc(model);
+            var result = await _khambenhRep.AddToaThuoc(model,ListTrieuChung);
 
             if (result != null)
             {
@@ -172,16 +190,25 @@ new JsonSerializerSettings
 
 
         [HttpPost]
-        public async Task<IActionResult> XacNhanKetQua(PhieuKham model)
+        public async Task<IActionResult> XacNhanKetQua(PhieuKham model,List<string> ListTrieuChung)
         {
-              foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
-            {
-                item.MaThuocNavigation = new Thuoc();
-                item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
-            }
+            if (ListTrieuChung != null && ListTrieuChung.Count > 0)
 
+            {
+                foreach (var item in model.ToaThuoc.ChiTietToaThuoc)
+                {
+                    item.MaThuocNavigation = new Thuoc();
+                    item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
+                }
+                ViewBag.LisTTC = ListTrieuChung;
+
+
+            return PartialView("_XacNhanKetQua", model);
+            }
          
-            return PartialView("_XacNhanKetQua",model);
+            else
+                return Json(new { status = -2, title = "", text = "Vui lòng nhập ít nhất một triệu chứng", obj = "" }, new JsonSerializerSettings());
+
         }
 
         
@@ -212,6 +239,7 @@ new JsonSerializerSettings
 
         public async Task<IActionResult> PagePhieuKham(PhieuKhamSearchModel model)
         {
+            
             model.MaBS = (await _userManager.GetUserAsync(User)).Id;
             model.TrangThai = 1;
             var listmodel = await _khambenhRep.SearchByCondition(model);
