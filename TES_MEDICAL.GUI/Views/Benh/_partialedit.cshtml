@@ -145,37 +145,26 @@
             <div class="box-button mt-2">
                 <button type="button" class="btn" id="AddCTTrieuChung" onclick="AddView('CTTrieuChung')"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Chi tiết triệu chứng</button>            </div>
         </div>
-        <table class="table table table-striped text-left w-100 mb-3" id="tableCTTrieuChung">
-            <thead class="align-middle">
-                <tr>
-                    <th class="col-5">
-
+        <div class="ms-3 me-3 pb-3">
+            <table class="table table-bordered text-left w-100" id="tableCTTrieuChung">
+                <tr id="thead">
+                    <th class="col-8 ms-4">
                         Tên triệu chứng
                     </th>
-                    <th class="col-5">
-                        Chi tiết triệu chứng
-                    </th>
-                    <th class="text-center col-2">Thao tác   </th>
+                    <th class="text-center col-3">Thao tác</th>
                 </tr>
-            </thead>
 
-            <tbody class="tbody" id="partialCTTrieuChung">
+                <tbody class="tbody" id="partialCTTrieuChung">
 
-                @foreach (var item in ViewBag.ListTC as List<CTrieuChungModel>)
-                {
-                    <partial name="_CTTrieuChungView" model="item" />
+                    @foreach (var item in ViewBag.ListTC as List<CTrieuChungModel>)
+                    {
+                        <partial name="_CTTrieuChungView" model="item" />
 
-                }
-            </tbody>
-        </table>
-
-
-
-
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-
 </div>
 
 
