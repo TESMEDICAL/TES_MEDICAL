@@ -45,9 +45,9 @@ namespace TES_MEDICAL.GUI.Services
             return item;
         }
 
-        public async Task<IEnumerable<PhieuKham>>GetLichSu(Guid MaBN)
+        public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBN==MaBN&&x.TrangThai>=1).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1).ToListAsync();
         }
 
         

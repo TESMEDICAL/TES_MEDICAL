@@ -84,7 +84,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
-            ViewBag.LichSuKham = item.MaBNNavigation.PhieuKham.Where(x => x.TrangThai >=1&&x.ToaThuoc!=null).ToList()??new List<PhieuKham>();
+            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,(DateTime)item.MaBNNavigation.NgaySinh);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
 new JsonSerializerSettings
 {
@@ -103,7 +103,7 @@ new JsonSerializerSettings
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-
+            ViewBag.LisTTC = item.KetQuaKham.Split(',').ToList();
             return PartialView("_XacNhanKetQua", item);
         }
 
@@ -216,12 +216,19 @@ new JsonSerializerSettings
         [HttpPost]
         public async Task<IActionResult> ReLoadThuoc(PhieuKham model)
         {
-
-            var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
-            var listNew = await _khambenhRep.GetAllThuoc();
-            var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
-            ViewBag.Thuoc = listThuoc;
-            return PartialView("_partialToaThuocOld", model.ToaThuoc);
+            if(model.MaPK==Guid.Empty)
+            {
+               return Json(new { status = -2, title = "", text = "Chưa có toa thuốc nào cho bệnh này", obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
+                var listNew = await _khambenhRep.GetAllThuoc();
+                var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
+                ViewBag.Thuoc = listThuoc;
+                return PartialView("_partialToaThuocOld", model.ToaThuoc);
+            }
+          
         }
 
         [HttpGet]

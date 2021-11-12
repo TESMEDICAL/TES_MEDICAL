@@ -69,6 +69,7 @@ namespace TES_MEDICAL.GUI.Controllers
            
             if (!string.IsNullOrWhiteSpace(MaPhieu))
             {
+                
                 var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
                 return View(phieuKham);
             }
