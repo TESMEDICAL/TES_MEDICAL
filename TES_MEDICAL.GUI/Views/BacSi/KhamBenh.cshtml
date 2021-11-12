@@ -12,6 +12,21 @@
     .error {
         color: red !important;
     }
+    .symptom-list li{
+        line-height: 30px;
+    }
+    .button-delete-symptom {
+        width: 30px;
+        height: 30px;
+        float: right;
+        margin-right: 10px;
+        background-color: orangered;
+        border: none;
+    }
+    .button-delete-symptom i{
+        font-size: 9px;
+    }
+
 </style>
 
 <div class="col-12">
@@ -128,9 +143,9 @@
                         <!--<div class="col-sm-12">-->
                             @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
                         <!--</div>-->
-                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 105px; ">
-                            <ul class="mt-2">
-                                <li>Cảm cúm</li>
+                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 150px; ">
+                            <ul class="symptom-list mt-2">
+                                <li><span>Cảm cúm</span><button class="button-delete-symptom text-light"><i class="fas fa-times"></i></button></li>
                                 <li>Cảm cúm</li>
                                 <li>Cảm cúm</li>
                                 <li>Cảm cúm</li>
@@ -216,7 +231,7 @@
                                         <td>@item.ChanDoan</td>
                                         <td>
                                         <td>
-                                        </td></td>
+                                        </td>
                                         <td class="text-nowrap text-center">
                                             <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                         </td>
