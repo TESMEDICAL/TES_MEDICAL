@@ -15,7 +15,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuKham> AddToaThuoc(PhieuKham model,List<string> TrieuChungs);
         Task<PhieuKham> GetPK(Guid MaPK);
         Task<IEnumerable<Thuoc>> GetAllThuoc();
-        Task<IEnumerable<PhieuKham>> GetLichSu(Guid MaBN);
+        Task<IEnumerable<PhieuKham>> GetLichSu(string Hoten, DateTime NgaySinh);
       
         Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model);
 

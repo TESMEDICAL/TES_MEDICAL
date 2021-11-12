@@ -681,44 +681,51 @@
                 type: 'Post',
                 data: JSON.parse(oldPK),
                 success: function (response) {
-                    $("#ThuocContent").html(response);
 
-                    ConfirmToaThuoc();
-                    table = $('#danhSach').DataTable(
-                        {
+                    if (response.status == -2) {
+                        toastr.warning(response.text)
+                    }
+                    else {
+                        $("#ThuocContent").html(response);
+
+                        ConfirmToaThuoc();
+                        table = $('#danhSach').DataTable(
+                            {
 
 
 
-                            "order": [0, "asc"],
-                            "language": {
-                                "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
-                                "zeroRecords": "Không có kết quả",
-                                "info": "Trang: _PAGE_ / _PAGES_",
-                                "infoEmpty": "Không có yêu cầu nào",
-                                "infoFiltered": "(filtered from _MAX_ total records)",
-                                "search": "Tìm: ",
-                                "paginate": {
-                                    "first": "Trang đầu",
-                                    "last": "Trang cuối",
-                                    "next": ">",
-                                    "previous": "<"
-                                },
+                                "order": [0, "asc"],
+                                "language": {
+                                    "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                                    "zeroRecords": "Không có kết quả",
+                                    "info": "Trang: _PAGE_ / _PAGES_",
+                                    "infoEmpty": "Không có yêu cầu nào",
+                                    "infoFiltered": "(filtered from _MAX_ total records)",
+                                    "search": "Tìm: ",
+                                    "paginate": {
+                                        "first": "Trang đầu",
+                                        "last": "Trang cuối",
+                                        "next": ">",
+                                        "previous": "<"
+                                    },
+                                }
+                                //"columnDefs": [
+                                //    {
+                                //        "targets": [2],
+                                //        "visible": false
+                                //    }
+
+                                //]
+
+
+
+
+
+
                             }
-                            //"columnDefs": [
-                            //    {
-                            //        "targets": [2],
-                            //        "visible": false
-                            //    }
-
-                            //]
-
-
-
-
-
-
-                        }
-                    )
+                        )
+                    }
+                   
 
                 }
             });
@@ -739,6 +746,7 @@
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
+            ListTrieuChung = [];
             if ($("#frmKhamBenh").valid()) {
                 $(".SinhHieu").each(function () {
                     var obj = {};
