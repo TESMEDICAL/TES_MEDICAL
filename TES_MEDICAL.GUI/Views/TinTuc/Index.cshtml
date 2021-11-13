@@ -10,12 +10,11 @@
 <style>
     .box {
         background-color: white;
-        font-family: Arial
+        font-family: Source Sans Pro;
     }
 
     .box-title {
         background-color: rgb(233, 236, 239);
-
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
@@ -46,12 +45,14 @@
         background-color: rgb(82, 183, 136);
         color: white;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        transition: 0.15s all;
     }
 
         .header-btn a:hover {
             background-color: rgb(118, 200, 147);
+            color: white;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transform: scale(1.1)
+            transform: scale(1.075)
         }
 
     .form-check {
@@ -90,9 +91,9 @@
                 <div class="header-dropdown col-3">
 
                     @*@Html.EditorFor(model => model.MaTLSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo mã thể loại" } })*@
-                    @Html.DropDownListFor(model => model.MaTLSearch, new SelectList(@ViewBag.MaTL, "MaTL", "TenTL"), "Lọc theo thể loại", new { @class = "mr-2 mb-2 form-select" })
+                    @Html.DropDownListFor(model => model.MaTLSearch, new SelectList(@ViewBag.MaTL, "MaTL", "TenTL"), "Lọc theo thể loại", new { @class = "mr-2 mb-2 form-select text-secondary" })
                 </div>
-                <div class="header-btn col-3">
+                <div class="header-btn col-3 ">
                     <a class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</a>
                 </div>
             </div>

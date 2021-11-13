@@ -27,16 +27,9 @@
         transform: scale(1.075)
     }
 
-    .btn-edit {
+    .btn-stutus {
         background-color: rgb(17, 138, 178);
-    }
-
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
+        width: 30px;
     }
     .table-btn a{
         margin-top: 20%;
@@ -119,11 +112,11 @@
 
                         <td class="table-btn text-nowrap col-2 text-center">
                             @if (item.TrangThai)
-                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.Id')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            {<a class="btn-stutus btn btn-sm active" onclick="_delete('@item.Id')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
                             else
                             {
-                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.Id')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-                            <a class="btn-infomation btn btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <a class="btn-stutus btn btn-sm active" onclick="_restore('@item.Id')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                            <a class="btn-stutus btn btn-sm active" onclick="_Detail('@item.Id')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
 
                     </tr>
