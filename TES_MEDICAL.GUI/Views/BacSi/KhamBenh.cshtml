@@ -156,7 +156,7 @@
                                 <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
                             </div>
                             <div class="button-reload col-sm-2 text-end">
-                                <a class="btn btn-success text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
                         <!--<div class="col-sm-12">-->
@@ -205,19 +205,13 @@
                     <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
                 </div>
             </div>
-            <div class="form-group collapse" id="LichSuKham" style="margin-inline: 20px;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ngày khám</th>
-                            <td></td>
-                            <td></td>
-                            <th scope="col">Chẩn đoán</th>
-                            <td></td>
-                            <td></td>
-                            <th scope="col" class="text-center">Thao tác</th>
+            <div class="form-group collapse mt-3 table-bordered" id="LichSuKham" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
+                            <th class="col-4 text-center">Ngày khám</th>
+                            <th class="col-4 text-center">Chẩn đoán</th>
+                            <th class="col-4 text-center">Thao tác</th>
                         </tr>
-                    </thead>
                     <tbody>
                         @{
                             var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
@@ -226,14 +220,9 @@
                                 foreach (var item in LichSu)
                                 {
                                     <tr>
-                                        <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>@item.ChanDoan</td>
-                                        <td>
-                                        <td>
-                                        </td>
-                                        <td class="text-nowrap text-center">
+                                        <td class="col-4 text-center">@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                                        <td class="col-4 text-center">@item.ChanDoan</td>
+                                        <td class="col-4 text-nowrap text-center">
                                             <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -270,15 +259,12 @@
                     @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
                 </div>
             </div>
-            <div class="form-group" style="margin-inline: 20px;">
-                <table class="table">
-                    <thead>
-                        <tr>
+            <div class="form-group mt-3" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
                             <th class="col-8">Tên thuốc</th>
-                            <th class="col-2 text-center">Số lượng</th>
-                            <th class="col-2 text-center">Thao tác</th>
+                            <th class="col-4 text-center">Số lượng</th>
                         </tr>
-                    </thead>
                     <tbody id="toathuocFinal">
                     </tbody>
                 </table>

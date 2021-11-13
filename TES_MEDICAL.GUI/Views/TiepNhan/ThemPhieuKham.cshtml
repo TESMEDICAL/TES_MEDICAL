@@ -134,7 +134,7 @@
                         </div>*@
                         <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         <div class="col-12">
-                            <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 128px;"></textarea>
+                            <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 115px;"></textarea>
                         </div>
                         @*span validate Triệu chứng*@
                         <div style="margin-left: 5px; margin-top: 5px;">
@@ -217,9 +217,9 @@
             <div class="modal-footer">
                 <div class="text-right">
 
-                    <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
+                    <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
 
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79)" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -244,7 +244,7 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" class="btn btn-success btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>

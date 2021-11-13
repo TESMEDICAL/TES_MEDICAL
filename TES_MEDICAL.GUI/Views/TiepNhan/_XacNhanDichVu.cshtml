@@ -6,82 +6,84 @@
 </style>*@
 
 <h4 style="text-align:center; font-weight:bold">XÁC NHẬN THÔNG TIN</h4>
-
 <hr />
 <br />
-
-<div class="ms-2 me-2">
-    @*<table class="table table-borderless" id="table1">
-        <tbody>
-            <tr style="width: 50px;">
-                <td style="font-weight:bold;">Tên bệnh nhân</td>
-                <td>@Model.HoTen</td>
-                <td style="font-weight:bold;">Số điện thoại</td>
-                <td>@Model.SDT</td>
+<div style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; margin-inline: 5px; margin-top: -5px;">
+    <div class="p-3" style="padding-inline: 40px">
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin cá nhân</h6>
+        </div>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 20px;">
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Tên bệnh nhân:
+                    </strong><br />
+                    @Model.HoTen
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Số điện thoại
+                    </strong><br />
+                    @Model.SDT
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Ngày sinh
+                    </strong><br />
+                    @Model.NgaySinh?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Địa chỉ
+                    </strong><br />
+                    @Model.DiaChi
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Bác sĩ
+                    </strong><br />
+                    @ViewBag.BacSi.HoTen
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Triệu chứng
+                    </strong><br />
+                    @Model.TrieuChung
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="p-3" style="font-size: 17px">
+        <table class="table table-bordered">
+            <tr id="table-header" class="text-white">
+                <th class="col-3">STT</th>
+                <th class="col-6">Dịch vụ</th>
+                <th class="col-3">Đơn giá</th>
             </tr>
-            <tr>
-                <td style="font-weight:bold;">Ngày sinh</td>
-                <td>@Model.NgaySinh?.ToString("dd/MM/yyyy")</td>
-                <td style="font-weight:bold;">Địa chỉ</td>
-                <td>@Model.DiaChi</td>
-            </tr>
+            @for (int i = 0; i < Model.dichVus.Count; i++)
+            {
+                <tr>
+                    <td class="col-3">@(i+1)</td>
+                    <td class="col-6">@Model.dichVus.ElementAt(i).TenDV</td>
+                    <td class="col-3">@Model.dichVus.ElementAt(i).DonGia.ToString("n0").Replace(",", ".") VNĐ</td>
+                </tr>
+            }
+        </table>
+        <div id="TongTien" style="text-align:right">
+            <h4 style="color:seagreen; font-weight:bold">Tổng tiền : @Model.dichVus.Sum(x => x.DonGia).ToString("n0").Replace(",", ".") VNĐ</h4>
+        </div>
+    </div>
+        
+    </div>
 
-            <tr>
-                <td style="font-weight:bold;">Triệu chứng</td>
-                <td>@Model.TrieuChung</td>
-                <td style="font-weight:bold;">Bác sĩ</td>
-                <td>@ViewBag.BacSi.HoTen</td>
-            </tr>
-        </tbody>
-    </table>*@
-    <table class="table table-borderless" id="table1">
-        <tr>
-            <td class="col-sm-4" style="font-weight: bold;">Tên bệnh nhân</td>
-            <td class="col-sm-4" style="font-weight: 600;">Số điện thoại</td>
-            <td class="col-sm-4" style="font-weight: 600;">Ngày sinh</td>
-        </tr>
-        <tr style="margin-top: -5%">
-            <td class="col-sm-4"><p class="">@Model.HoTen</p></td>
-            <td class="col-sm-4"><p class="">@Model.SDT</p></td>
-            <td class="col-sm-4"><p class="">@Model.NgaySinh?.ToString("dd/MM/yyyy")</p></td>
-        </tr>
-        <tr>
-            <td class="col-sm-4" style="font-weight: 600;">Địa chỉ</td>
-            <td class="col-sm-4" style="font-weight: 600;">Bác sĩ</td>
-            <td class="col-sm-4" style="font-weight: 600;">Triệu chứng</td>
-        </tr>
-        <tr style="margin-top: -5%">
-            <td class="col-sm-4"><p class="">@Model.DiaChi</p></td>
-            <td class="col-sm-4"><p class="">@ViewBag.BacSi.HoTen</p></td>
-            <td class="col-sm-4"><p class="">@Model.TrieuChung</p></td>
-        </tr>
-    </table>
-</div>
-
-<table class="table table-bordered">
-        <tr style="background-color: #2e8b57; color: white;">
-            <th class="col-3">STT</th>
-            <th class="col-6">Dịch vụ</th>
-            <th class="col-3">Đơn giá</th>          
-        </tr>
-        @for(int i =0;i<Model.dichVus.Count;i++)
-        {
-        <tr>
-            <td class="col-3">@(i+1)</td>
-            <td class="col-6">@Model.dichVus.ElementAt(i).TenDV</td>
-            <td class="col-3">@Model.dichVus.ElementAt(i).DonGia.ToString("n0").Replace(",", ".") VNĐ</td>
-        </tr>
-        }
-</table>
-@*<div class="row">
-    <table class="table table-borderless" id="table1">
-        <tbody>
-          
-
-
-        </tbody>
-    </table>
-</div>*@
-<div id="TongTien" style="text-align:right">
-    <h4 style="color:seagreen; font-weight:bold">Tổng tiền : @Model.dichVus.Sum(x => x.DonGia).ToString("n0").Replace(",", ".") VNĐ</h4>
-</div>
