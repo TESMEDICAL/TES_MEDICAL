@@ -85,9 +85,10 @@ namespace TES_MEDICAL.GUI.Services
                   
                     {
                         benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
-                        await _context.AddAsync(benh);
-                      
-                        
+                        _context.Entry(benh).State = EntityState.Added;
+                        await _context.SaveChangesAsync();
+
+
                     }
                     phieuKham.MaBenh = benh.MaBenh;
                     phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
