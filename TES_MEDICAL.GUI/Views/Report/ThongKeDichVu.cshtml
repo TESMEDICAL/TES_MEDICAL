@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "dark1", "dark2"
+	exportEnabled: true,
+	title: {
+		text: "Medals Won by Few Countries - 2016 Summer Olympics"
+	},
+	data: [{
+		type: "column",
+		dataPoints:  @Html.Raw(ViewBag.DataPoints)
+	}]
+});
+chart.render();
+
+}
+    </script>
+
+    
+</head>
+<body>
+    <input id="ngayBatDau" data-format="dd/MM/yyyy hh:mm:ss" type="date" />
+    <input id="ngayKetThuc" data-format="dd/MM/yyyy hh:mm:ss" type="date" />
+
+    <input type="button" onclick="ReportDichVu()" value="Show">
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+</body>
+</html>
+
+<script>
+    function ReportDichVu() {
+        $.ajax({
+            url: "/Report/ThongKeDichVuAction/",
+            type: 'GET',
+            data: {
+                ngayBatDau: $('#ngayBatDau').val(),
+                ngayKetThuc: $('#ngayKetThuc').val()
+            },
+
+            success: function (response) {
+
+                console.log(response);
+            }
+
+        });
+    }
+</script>
