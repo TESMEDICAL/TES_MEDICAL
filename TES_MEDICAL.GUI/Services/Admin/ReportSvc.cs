@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Services
             List<SqlParameter> parms = new List<SqlParameter>
                             {
                                 new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
-                                new SqlParameter { ParameterName = "@ngayketthuc", Value= ngayKetThuc },
+                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
 
                             };
             var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeHDV @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();

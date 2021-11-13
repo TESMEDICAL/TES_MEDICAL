@@ -135,7 +135,8 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
                 }
-                return Ok(dataPoints);
+                return Ok(new { dataPoints = dataPoints , dataTable = listmodel});
+                
                 
             }
             else
