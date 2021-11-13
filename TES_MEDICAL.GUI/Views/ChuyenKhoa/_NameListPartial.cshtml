@@ -27,16 +27,9 @@
         transform: scale(1.075)
     }
 
-    .btn-edit {
+    .btn-status {
         background-color: rgb(17, 138, 178);
-    }
-
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
+        width: 30px;
     }
 
     .table-btn a i {
@@ -51,40 +44,26 @@
     }
 </style>
 
-
 <div id="list">
-
     <div class="list-table" style="min-height:400px">
         <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
-
                     <th class="col-7">
-
                         Tên chuyên khoa
                     </th>
-
                     <th class="col-5 text-center">Thao tác</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<ChuyenKhoa>)
                 {
                     <tr>
-
-
-
-
                         <td class="col-7">@item.TenCK</td>
-
-
-
-
                         <td class="table-btn col-5 text-center text-nowrap">
-                            <a class="btn btn-edit btn-sm active" onclick="Edit('@item.MaCK')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> @*| <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaCK')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaCK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>*@</td>
-
+                            <a class="btn btn-status btn-sm active" onclick="Edit('@item.MaCK')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> @*| <a class="btn btn-danger btn-sm active" onclick="_delete('@item.MaCK')"> <i class="fa fa-trash"></i></a> | <a class="btn btn-dark btn-sm active" onclick="_Detail('@item.MaCK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>*@
+                        </td>
                     </tr>
                 }
         </table>
     </div>
-
 
     <div class="text-right">
 

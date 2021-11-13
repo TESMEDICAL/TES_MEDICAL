@@ -163,11 +163,11 @@
                     @*@Html.EditorFor(model => model.Hinh, new { htmlAttributes = new { @class = "form-control" } })*@
                     @Html.ValidationMessageFor(model => model.Hinh, "", new { @class = "text-danger" })
                     <div id="image-holder2">
-                        <img class="add-img" src="~/images/final.png" style="width:250px;">
+                        <img class="add-img" src="~/images/final.png" style="width: 250px; border-radius: 3%; ">
                     </div>
-                    <h6 class="btn btn-img mt-4">
+                    <label class="btn btn-img mt-4">
                         <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
-                    </h6>
+                    </label>
             </div>
 
         </div>
@@ -205,7 +205,7 @@
         const reader = new FileReader();
         reader.onloadend = () => {
 
-            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;'/>"
+            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius:3%;'/>"
             $('#image-holder2').html(img);
         };
         reader.readAsDataURL(file);

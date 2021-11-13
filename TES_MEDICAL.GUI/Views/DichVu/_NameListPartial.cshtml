@@ -27,16 +27,9 @@
         transform: scale(1.075)
     }
 
-    .btn-edit {
+    .btn-status {
         background-color: rgb(17, 138, 178);
-    }
-
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
+        width: 30px;
     }
 
     .table-btn a i {
@@ -56,53 +49,32 @@
     <div class="list-table" style="min-height:400px">
         <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
-
                     <th class="col-6">
-
                         Tên dịch vụ
                     </th>
-
                     <th class="col-3">
-
                         Đơn giá
                     </th>
-
                     <th class="col-3 text-center">Thao tác</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<DichVu>)
                 {
                     <tr>
-
-
-
-
                         <td class="col-6">@item.TenDV</td>
-
-
-
-
-
                         <td class="col-3">@item.DonGia</td>
-
-
-
-
                         <td class="table-btn col-3 text-center text-nowrap">
-                            <a class="btn btn-edit btn-sm btn-sm active" onclick="Edit('@item.MaDV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn btn-status btn-sm btn-sm active" onclick="Edit('@item.MaDV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)
-                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaDV')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            {<a class="btn-status btn  btn-sm active" onclick="_delete('@item.MaDV')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
                             else
                             {
-                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaDV')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-
-</tr>
+                                <a class="btn btn-status btn-sm active" onclick="_restore('@item.MaDV')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                    </tr>
                 }
         </table>
     </div>
 
-
     <div class="text-right">
-
         @{
             var pageRender = new PagedListRenderOptions
             {
@@ -116,23 +88,14 @@
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" },
 
-
                 ContainerDivClasses = new[] { "pagination-container" }
-
-
             };
         }
         @{
             var searchModel = ViewBag.Data as DichVuSearchModel;
         }
-
-
         @Html.PagedListPager((IPagedList<DichVu>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch,TranThai = searchModel.TrangThai }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

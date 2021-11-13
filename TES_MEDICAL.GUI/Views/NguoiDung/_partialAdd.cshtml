@@ -145,7 +145,7 @@
 
 
                 <div id="image-holder2">
-                    <img class="user-img" src="~/images/final.png" style="width:250px;">
+                    <img class="user-img" src="~/images/final.png" style="width:250px; border-radius: 3%;">
                 </div>
                 <label class="btn-img btn mt-4">
                     <i class="fa fa-image"></i>&nbsp; &nbsp; Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
@@ -179,7 +179,7 @@
         reader.onloadend = () => {
             
             //var img = "<img src='" + reader.result + "' style='width: 100%'/>"
-            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;'/>"
+            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius: 3%;'/>"
 
             $('#image-holder2').html(img);
         };

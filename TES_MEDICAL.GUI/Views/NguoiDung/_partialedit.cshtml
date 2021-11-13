@@ -64,6 +64,7 @@
         height: 250px;
         object-fit: cover;
         object-position: center center;
+        border-radius: 3%;
     }
 </style>
 <div class="box-title-1 mb-4">
@@ -201,7 +202,7 @@
         var file = e.target.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
-            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;'/>"
+            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius: 3%;'/>"
             //var img = "<img src='" + reader.result + "' style='width: 250px; height: 300px; object - fit: cover; object - position: center center;'/>"
             $('#image-holder2').html(img);
         };
