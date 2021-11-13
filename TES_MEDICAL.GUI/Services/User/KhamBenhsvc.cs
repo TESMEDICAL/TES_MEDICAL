@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
@@ -44,16 +45,16 @@ namespace TES_MEDICAL.GUI.Services
             return item;
         }
 
-        public async Task<IEnumerable<PhieuKham>>GetLichSu(Guid MaBN)
+        public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBN==MaBN&&x.TrangThai>=1).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1).ToListAsync();
         }
 
         
 
         
 
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<string> TrieuChungs)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace TES_MEDICAL.GUI.Services
                         }
                     }    
                 
-                    var phieuKham = _context.PhieuKham.Find(model.MaPK);
+                    var phieuKham = await _context.PhieuKham.Include(x=>x.MaBSNavigation).FirstOrDefaultAsync(x=>x.MaPK ==model.MaPK);
                     phieuKham.Mach = model.Mach;
                     phieuKham.NhietDo = model.NhietDo;
                     phieuKham.HuyetAp = model.HuyetAp;
@@ -79,6 +80,30 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
                     phieuKham.TrangThai = 1;
+                    var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == model.ChanDoan);
+                    if(benh==null)
+                  
+                    {
+                        benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
+                        await _context.AddAsync(benh);
+                      
+                        
+                    }
+                    phieuKham.MaBenh = benh.MaBenh;
+                    phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
+                    foreach(var item in TrieuChungs)
+                    {
+                        List<SqlParameter> parms = new List<SqlParameter>
+                            {
+
+                                new SqlParameter { ParameterName = "@Mabenh", Value= benh.MaBenh },
+                                new SqlParameter { ParameterName = "@TenTrieuChung", Value= item },
+
+                            };
+                        var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
+                    }    
+
+
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
                     var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };
@@ -120,31 +145,41 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<PhieuKham> listUnpaged = null;
             if (model.TrangThai == 0)
             {
-                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where((delegate (PhieuKham x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai == 0 && x.STTPhieuKham != null)
-                        return true;
-                    else
-                        return false;
-                })).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
+
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where(x =>
+             (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+             EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+             EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+             && x.MaBS == model.MaBS && x.TrangThai == 0
+
+
+
+
+
+
+
+                 ).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
 
             }
             else
             {
+                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where(x =>
+           (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+           EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+           EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+           && x.MaBS == model.MaBS && x.TrangThai >= 1
 
-                listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Where((delegate (PhieuKham x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.MaBS == model.MaBS && x.TrangThai >= 1)
-                        return true;
-                    else
-                        return false;
-                })).OrderByDescending(x => x.NgayKham));
+
+
+               ).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
             }
 
 
 
 
 
+
+          
 
 
 
@@ -161,6 +196,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
+
+       
 
     }
 }
