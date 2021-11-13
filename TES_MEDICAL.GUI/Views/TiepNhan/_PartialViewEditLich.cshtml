@@ -1,7 +1,7 @@
 ﻿@model TES_MEDICAL.GUI.Models.PhieuDatLich
 
 
-<h4 style="text-align:center; font-weight:bold">Thông tin đặt lịch</h4>
+<h4 class="mt-5" style="text-align:center; font-weight:bold">Cập nhật đặt lịch</h4>
 <hr />
 <br />
 <div>
@@ -9,50 +9,117 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.MaPhieu)
-        <div class="col-8 m-auto">
-            <table class="table table-borderless">
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Tên bệnh nhân</td>
-                        <th>@Model.TenBN</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Số điện thoại</td>
-                        <th>@Model.SDT</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Ngày sinh</td>
-                        <th>@Model.NgaySinh?.ToString("dd/MM/yyyy")</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Ngày khám</td>
-                        <th>
-                            <input  class="textbox-n"  type="text" onfocus="(this.type='datetime-local')" value="@Model.NgayKham?.ToString("MM/dd/yyyy HH:mm")" asp-for="@Model.NgayKham">
-                        </th>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr>
+    <div class="col-8 m-auto">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tên bệnh nhân</td>
+                    <th>@Model.TenBN</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Số điện thoại</td>
+                    <th>@Model.SDT</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Ngày sinh</td>
+                    <th>@Model.NgaySinh?.ToString("dd/MM/yyyy")</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Ngày khám</td>
+                    <th>
+                        <input class="textbox-n" type="datetime-local" asp-for="@Model.NgayKham">
+                    </th>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
 
+        <div class="modal-footer">
+            <div class="text-right">
+                <a class="btn btn-sm btn-success" onclick="UpdateDatLich()"><i class="far fa-save"></i>&nbsp;Cập nhật</a>
+                <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            </div>
         </div>
+
+    </div>
     }
 </div>
+
+<script>
+    function UpdateDatLich() {
+        if ($("#frm").valid()) {
+            var obj = $("#frm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/TiepNhan/Edit",
+                dataType: "json",
+                data: obj,
+                success: function (result) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                    if (result.status >= 1) {
+                        toastr.success(result.text);
+                        ReloadPage()
+
+                    }
+                    else {
+                        toastr.warning(result.text);
+                    }
+                    ReloadPage();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+
+        }
+    }
+
+    function ReloadPage(Page) {
+        obj = {};
+
+        obj.Page = page;
+        $("#TimKiem").val("");
+        $.ajax({
+            url: '/TiepNhan/ReloadPage/',
+
+            type: "Get",
+            timeout: 20000,
+
+            async: false,
+
+            data: obj,
+
+            success: function (result) {
+
+
+                $('#nameListContainer').html(result);
+            },
+
+            failure: function (message) {
+                $('#preloader-wrapper').toggleClass('hide');
+            }
+        });
+    }
+</script>
 
 
 
