@@ -60,7 +60,7 @@
 
             function () {
 
-              /*  ReloadPage();*/
+                ReloadPage();
 
             });
 
@@ -105,39 +105,8 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
-        $("#btSave").click(function () {
 
-            if ($("#frm").valid()) {
-
-                var obj = $("#frm").serialize();
-               
-                $.ajax({
-                    type: "POST",
-                    url: "/TiepNhan/Edit",
-                    dataType: "json",
-                    data: obj,
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
-                            toastr.success(result.text);
-                            ReloadPage()
-
-                        }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                        ReloadPage();
-                    },
-                    error: function (errormessage) {
-                        alert(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-
-            }
-        });
+        
         $("#TimKiem").keyup(function () {
            
             obj = {};
