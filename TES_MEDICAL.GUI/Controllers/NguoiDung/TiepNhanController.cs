@@ -261,6 +261,9 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_ChiTietDatLich", chiTietDatLich);
         }
 
+
+
+
         public async Task<IActionResult> Edit(string id)
         {
             var result = await _service.GetPhieuDatLichById(id);
