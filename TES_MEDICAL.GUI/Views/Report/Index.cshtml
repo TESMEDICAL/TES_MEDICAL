@@ -29,7 +29,7 @@
         width: calc(50% - 10px);
         background-color: white;
         font-family: Arial;
-        height: 270px;
+        height: 350px;
         margin-left: 10px;
         margin-bottom: 10px;
     }
@@ -66,19 +66,22 @@
             margin-left: 30px;
         }
 </style>
-
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <body>
     <div class="box">
         <div class="box-item">
             <div class="box-item-title mb-4">
                 <h6>Biểu đồ tròn</h6>
-                <img class="text-center" src="https://d2mvzyuse3lwjc.cloudfront.net/doc/en/UserGuide/images/2D_B_and_W_Pie_Chart/2D_B_W_Pie_Chart_1.png?v=83139" width="250px;" style="margin-left: 30%; margin-top: 10px;" />
             </div>
+            <div id="chartContainer1" style="height: 270px; width: auto"></div>
+
         </div>
         <div class="box-item">
             <div class="box-item-title mb-4">
                 <h6>Biểu đồ cột</h6>
             </div>
+            <div id="chartContainer" style="height: 270px; width: auto"></div>
         </div>
         <div class="box-item">
             <div class="box-item-title mb-4">
@@ -87,11 +90,11 @@
             <div class="input-group mb-3">
                 <div class="input-group-item">
                     <p>Ngày bắt đầu:</p>
-                    <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group-item ms-3">
                     <p>Ngày kết thúc:</p>
-                    <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
             <div class="box-option">
@@ -109,8 +112,8 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="dichVu" checked>
+                    <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
                         Dich vụ
                     </label>
                 </div>
@@ -120,9 +123,104 @@
             <div class="box-item-title mb-4">
                 <h6>Thông tin</h6>
             </div>
+            <div >
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Năm</th>
+                            <th scope="col">Tháng</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="BieuDoCot">
+                        @*<tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>1</td>
+                </tr>*@
+                    </tbody>
+                </table>
+            </div>
+
+
         </div>
     </div>
 </body>
 
+@section scripts{
+    <script>
+        $(".table").hide();
+        $('input[type=radio][name=flexRadioDefault]').change(function () {
 
+            if (this.value == 'dichVu') {
+                $.ajax({
+                    url: "/Report/ThongKeDichVuAction/",
+                    type: 'GET',
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+
+                    success:
+                        /*Biểu đồ cột*/
+                        function (response) {
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                theme: "light2",
+                                exportEnabled: true,
+                                data: [{
+                                    type: "column",
+                                    dataPoints: response.dataPoints
+                                }]
+                            });
+                            chart.render();
+
+                            /*Biểu đồ tròn*/
+                            var chart = new CanvasJS.Chart("chartContainer1", {
+                                theme: "light1", // "light1", "light2", "dark1", "dark2"
+                                exportEnabled: true,
+                                animationEnabled: true,
+                                data: [{
+                                    type: "pie",
+                                    startAngle: 180,
+                                    toolTipContent: "<b>{label}</b>: {y}%",
+                                    showInLegend: "true",
+                                    legendText: "{label}",
+                                    indexLabel: "{label} - {y}%",
+                                    dataPoints: response.dataPoints
+                                        }]
+                                    });
+                                    chart.render();
+
+
+
+$("#BieuDoCot").html("");
+$(".table").show();
+(response.dataTable.obj).forEach(function (item) {
+
+    $("#BieuDoCot").append(`
+    <tr>
+        <td>${item.nam}</td>
+        <td>${item.thang}</td>
+        <td>${item.tongTien}</td>
+    </tr>
+`)
+        ;
+
+});
+
+console.log(response.dataTable.obj);
+
+}
+
+});
+}
+
+else if (this.value == 'transfer') {
+alert("Transfer Thai Gayo");
+}
+});
+    </script>
+}
 
