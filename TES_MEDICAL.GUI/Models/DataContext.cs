@@ -89,6 +89,9 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.TieuDe)
                     .IsRequired()
                     .HasMaxLength(250);
+                entity.Property(e => e.ThoiGian)
+                   
+                   .HasColumnType("DateTime");
 
                 entity.HasOne(d => d.MaNguoiVietNavigation)
                     .WithMany(p => p.TinTuc)
