@@ -47,7 +47,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
 
         
@@ -85,9 +85,10 @@ namespace TES_MEDICAL.GUI.Services
                   
                     {
                         benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
-                        await _context.AddAsync(benh);
-                      
-                        
+                        _context.Entry(benh).State = EntityState.Added;
+                        await _context.SaveChangesAsync();
+
+
                     }
                     phieuKham.MaBenh = benh.MaBenh;
                     phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
@@ -167,7 +168,7 @@ namespace TES_MEDICAL.GUI.Services
            (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
            EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
            EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-           && x.MaBS == model.MaBS && x.TrangThai >= 1
+           && x.MaBS == model.MaBS && x.TrangThai >= 1 &&x.TrangThai<=2
 
 
 
