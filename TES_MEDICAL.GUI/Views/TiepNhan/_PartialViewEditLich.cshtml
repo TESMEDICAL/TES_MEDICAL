@@ -73,14 +73,12 @@
                 success: function (result) {
                     $('#preloader-wrapper').toggleClass('hide');
                     if (result.status >= 1) {
-                        toastr.success(result.text);
-                        ReloadPage(1)
-
+                        toastr.success(result.text);                     
                     }
                     else {
                         toastr.warning(result.text);
                     }
-                    ReloadPage();
+                    Clear();
                 },
                 error: function (errormessage) {
                     alert(errormessage.responseText);
@@ -93,32 +91,7 @@
         }
     }
 
-    function ReloadPage(Page) {
-        obj = {};
 
-        obj.Page = page;
-        $("#TimKiem").val("");
-        $.ajax({
-            url: '/TiepNhan/ReloadPage/',
-
-            type: "Get",
-            timeout: 20000,
-
-            async: false,
-
-            data: obj,
-
-            success: function (result) {
-
-
-                $('#nameListContainer').html(result);
-            },
-
-            failure: function (message) {
-                $('#preloader-wrapper').toggleClass('hide');
-            }
-        });
-    }
 </script>
 
 
