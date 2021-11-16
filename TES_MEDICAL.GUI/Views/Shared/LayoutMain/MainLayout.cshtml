@@ -83,6 +83,22 @@
             object-fit: cover;
             object-position: center center;
         }
+        .header-text-title{
+            display: flex;
+        }
+        .header-text-left {
+            width: 60%;
+        }
+            .header-text-left h1 {
+                font-size: 5vmin;
+            }
+        .header-text-right {
+            width: 40%;
+            text-align: right;
+        }
+            .header-text-right h2 {
+                font-size: 5vmin;
+            }
     </style>
 </head>
 <body>
@@ -479,7 +495,7 @@
                         <!-- Main Sidebar Toggle Button -->
                         <li>
                             <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
-                                <i class="fas fa-expand"></i>
+                                <i class="fas fa-bars"></i>
                             </a>
                         </li>
                         <!-- END Main Sidebar Toggle Button -->
@@ -526,15 +542,14 @@
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
                     <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
-                            <div style="display: flex;">
-                                <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div style="width: 60%; " @*class="hidden-xs hidden-sm"*@>
-                                    <h1 style="font-size: 5vmin;">Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
+                            <div class="header-text-title">
+                                <div class="header-text-left">
+                                    <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div style="width: 38%;  text-align: right;">
-                                    <h2 style="font-size: 5vmin;" class="animation-hatch">
+                                <div class="header-text-right">
+                                    <h2 class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
