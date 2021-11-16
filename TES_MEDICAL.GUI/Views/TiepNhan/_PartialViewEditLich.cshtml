@@ -1,65 +1,138 @@
 ﻿@model TES_MEDICAL.GUI.Models.PhieuDatLich
 
+<style>
+    .box-modal {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin: 30px 20px 30px 30px;
+    }
+    .modal-header h2{
+        margin-top: 10px;
+        font-weight: 500;
+    }
+    .box-content {
+        padding-inline: 20px;        
+    }
 
-<h4 class="mt-5" style="text-align:center; font-weight:bold">Cập nhật đặt lịch</h4>
-<hr />
-<br />
+    .box-title {
+        background-color: white;
+        position: absolute;
+        margin-top: -18px;
+    }
+
+        .box-title h6 {
+            font-weight: 600;
+        }
+
+    #title-border {
+        margin-top: 20px;
+        padding-inline: 20px;
+    }
+</style>
 <div>
+    <div class="modal-header">
+        <h2>Cập nhật đặt lịch</h2>        
+    </div>
     @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.MaPhieu)
-    <div class="col-8 m-auto">
-        <table class="table table-borderless">
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Tên bệnh nhân</td>
-                    <th>@Model.TenBN</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Số điện thoại</td>
-                    <th>@Model.SDT</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Ngày sinh</td>
-                    <th>@Model.NgaySinh?.ToString("dd/MM/yyyy")</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Ngày khám</td>
-                    <th>
-                        <input class="textbox-n" type="datetime-local" asp-for="@Model.NgayKham">
-                    </th>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <hr>
+        <div class="box-modal" name="frm" id="frm" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.MaPhieu)
+            <div class="box-content mb-4">
+                <div class="box-title ms-3">
+                    <h6 id="title-history" class="p-2">Thông tin bệnh nhân</h6>
+                </div>
+                <div class="row ms-1 me-1 mb-1" id="title-border">  
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.MaPhieu)
+                    <div class="col-sm-6 mt-4 mb-3">
+                        <h6>
+                            <strong>
+                                Tên bệnh nhân:
+                            </strong><br />
+                            @Model.TenBN
+                        </h6>
+                    </div>
+                    <div class="col-sm-6 mt-4 mb-3">
+                        <h6>
 
-        <div class="modal-footer">
-            <div class="text-right">
-                <a class="btn btn-sm btn-success" onclick="UpdateDatLich()"><i class="far fa-save"></i>&nbsp;Cập nhật</a>
-                <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                            <strong>Ngày khám:</strong><br />
+                            @Model.SDT
+                        </h6>
+                    </div>
+                    <div class="col-sm-6 mt-4 mb-3">
+                        <h6>
+                            <strong>Ngày tái khám</strong><br />
+                            @Model.NgaySinh?.ToString("dd/MM/yyyy")
+                        </h6>
+                    </div>
+                    <div class="col-sm-6 mt-4 mb-3">
+                        <h6>
+                            <strong>Ngày tái khám</strong><br />
+                            <input class="textbox-n form-control" type="datetime-local" asp-for="@Model.NgayKham">
+                        </h6>
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
     }
+    <div class="modal-footer">
+        <div class="text-right">
+            <a class="btn" id="btnUpdate" onclick="UpdateDatLich()"><i class="far fa-save"></i>&nbsp;Cập nhật</a>
+            <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+        </div>
+    </div>
 </div>
+
+
+
+@*
+<div class="box-modal" name="frm" id="frm" enctype="multipart/form-data">
+    <div class="box-content">
+        <div class="box-title ms-3">
+            <h6 id="title-history" class="p-2">Thông tin bệnh nhân</h6>
+        </div>        
+        <div class="row ms-1 me-1 mb-1" id="title-border">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.MaPhieu)
+            <div class="col-sm-6 mt-4 mb-3">
+                <h6>
+                    <strong>
+                        Tên bệnh nhân:
+                    </strong><br />
+                    @Model.TenBN
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4 mb-3">
+                <h6>
+
+                    <strong>Ngày khám:</strong><br />
+                    @Model.SDT
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4 mb-3">
+                <h6>
+                    <strong>Ngày tái khám</strong><br />
+                    @Model.NgaySinh?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4 mb-3">
+                <h6>
+                    <strong>Ngày tái khám</strong><br />
+                    <input class="textbox-n form-control" type="datetime-local" asp-for="@Model.NgayKham">
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <a class="btn" onclick="UpdateDatLich()" id="btnUpdate">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật
+            </a>
+            <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+        </div>
+    </div>
+</div>*@
+
 
 <script>
     function UpdateDatLich() {
