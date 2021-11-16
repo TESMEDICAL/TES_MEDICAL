@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -83,7 +84,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
-            ViewBag.LichSuKham = item.MaBNNavigation.PhieuKham.Where(x => x.TrangThai >=1&&x.ToaThuoc!=null).ToList()??new List<PhieuKham>();
+            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,(DateTime)item.MaBNNavigation.NgaySinh);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
 new JsonSerializerSettings
 {
@@ -102,30 +103,64 @@ new JsonSerializerSettings
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-
+            ViewBag.LisTTC = item.KetQuaKham.Split(',').ToList();
             return PartialView("_XacNhanKetQua", item);
         }
 
-        public async Task<JsonResult> GetJsonPK(string MaPK)
+        public async Task<IActionResult> GetJsonPK(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
 
-            return Json(JsonConvert.SerializeObject(item, Formatting.Indented,
-new JsonSerializerSettings
-{
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-}));
-
+            return Ok(item);
           
         }
+
+
+        [Produces("application/json")]
+        [HttpGet("search")]
+        [Route("api/Benh/search")]
+        public async Task<IActionResult> Search()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var benh = (await _tienichRep.SearchBenh(term)).Select(x=>x.TenBenh);
+                return Ok(benh);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("searchtrieuchung")]
+        [Route("api/Benh/searchtrieuchung")]
+        public async Task<IActionResult> SearchTrieuChung()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                return Ok(trieuchung);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+
         [HttpPost]
-        public async Task<IActionResult> ThemToa(PhieuKham model)
+        public async Task<IActionResult> ThemToa(PhieuKham model, List<string> ListTrieuChung)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
+                item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }    
-            var result = await _khambenhRep.AddToaThuoc(model);
+            var result = await _khambenhRep.AddToaThuoc(model,ListTrieuChung);
 
             if (result != null)
             {
@@ -139,29 +174,57 @@ new JsonSerializerSettings
                 return Json(new { status = -2, title = "", text = "Gửi không thành công", obj = "" }, new JsonSerializerSettings());
         }
 
-      
-        [HttpPost]
-        public async Task<IActionResult> XacNhanKetQua(PhieuKham model)
-        {
-              foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
-            {
-                item.MaThuocNavigation = new Thuoc();
-                item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
-            }
 
-         
-            return PartialView("_XacNhanKetQua",model);
+        public async Task<IActionResult> GetAutoFill(string TenBenh)
+        {
+            var item = await _tienichRep.GetAuToFill(TenBenh);
+
+            return Ok(item);
+
+
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> XacNhanKetQua(PhieuKham model,List<string> ListTrieuChung)
+        {
+            if (ListTrieuChung != null && ListTrieuChung.Count > 0)
+
+            {
+                foreach (var item in model.ToaThuoc.ChiTietToaThuoc)
+                {
+                    item.MaThuocNavigation = new Thuoc();
+                    item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
+                }
+                ViewBag.LisTTC = ListTrieuChung;
+
+
+            return PartialView("_XacNhanKetQua", model);
+            }
+         
+            else
+                return Json(new { status = -2, title = "", text = "Vui lòng nhập ít nhất một triệu chứng", obj = "" }, new JsonSerializerSettings());
+
+        }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> ReLoadThuoc(PhieuKham model)
         {
-
-            var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
-            var listNew = await _khambenhRep.GetAllThuoc();
-            var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
-            ViewBag.Thuoc = listThuoc;
-            return PartialView("_partialToaThuocOld", model.ToaThuoc);
+            if(model.MaPK==Guid.Empty)
+            {
+               return Json(new { status = -2, title = "", text = "Chưa có toa thuốc nào cho bệnh này", obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
+                var listNew = await _khambenhRep.GetAllThuoc();
+                var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
+                ViewBag.Thuoc = listThuoc;
+                return PartialView("_partialToaThuocOld", model.ToaThuoc);
+            }
+          
         }
 
         [HttpGet]
@@ -179,6 +242,7 @@ new JsonSerializerSettings
 
         public async Task<IActionResult> PagePhieuKham(PhieuKhamSearchModel model)
         {
+            
             model.MaBS = (await _userManager.GetUserAsync(User)).Id;
             model.TrangThai = 1;
             var listmodel = await _khambenhRep.SearchByCondition(model);
@@ -198,40 +262,40 @@ new JsonSerializerSettings
 
 
 
-        public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
-        {
-            if (!model.Page.HasValue) model.Page = 1;
-            model.TrangThai = false;
-            var listPaged = await _thuocRep.SearchByCondition(model);
+        //public async Task<IActionResult> DanhSachThuoc(ThuocSearchModel model)
+        //{
+        //    if (!model.Page.HasValue) model.Page = 1;
+        //    model.TrangThai = false;
+        //    var listPaged = await _thuocRep.SearchByCondition(model);
 
-            ViewBag.Names = listPaged;
-            ViewBag.Data = model;
-            return View(new ThuocSearchModel());
-        }
+        //    ViewBag.Names = listPaged;
+        //    ViewBag.Data = model;
+        //    return View(new ThuocSearchModel());
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> PageList(ThuocSearchModel model)
-        {
-            model.TrangThai = false;
-            var listmodel = await _thuocRep.SearchByCondition(model);
-            if (listmodel.Count() > 0)
-            {
+        //[HttpGet]
+        //public async Task<IActionResult> PageList(ThuocSearchModel model)
+        //{
+        //    model.TrangThai = false;
+        //    var listmodel = await _thuocRep.SearchByCondition(model);
+        //    if (listmodel.Count() > 0)
+        //    {
 
-                if (!model.Page.HasValue) model.Page = 1;
+        //        if (!model.Page.HasValue) model.Page = 1;
 
-                ViewBag.Names = listmodel;
-                ViewBag.Data = model;
+        //        ViewBag.Names = listmodel;
+        //        ViewBag.Data = model;
 
-                return PartialView("_NameListThuoc", listmodel);
-            }
-            else
-            {
+        //        return PartialView("_NameListThuoc", listmodel);
+        //    }
+        //    else
+        //    {
 
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            }
+        //        return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        //    }
 
 
-        }
+        //}
 
         public async Task<IActionResult> ChiTietThuoc(Guid id)
         {

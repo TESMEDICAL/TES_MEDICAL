@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Department</title>
+    <title>@ViewData["Title"]</title>
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />*@
     <!-- Google Font: Source Sans Pro -->
     <style>
-        
+
         .modal-fullscreen {
             width: 100vw !important;
             max-width: none !important;
@@ -22,12 +22,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/AminLTE/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/font-awesome-4.7/font-awesome-4.7/css/font-awesome.min.css">
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="~/AminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/AminLTE/dist/css/adminlte.min.css">
-    
+    <!-- Sweet Alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -163,14 +167,18 @@
                     </div>
                 </li>*@
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button" style="text-align:right;" title="Phóng to">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
+                    @*<a class="nav-link" asp-controller="Admin" asp-action="Logout" method="post">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>*@
+                    <form asp-area="" asp-controller="Admin" asp-action="Logout" method="post" id="logoutForm">
+                        <button title="Đăng xuất" id="logout" type="submit" class="nav-link btn btn-link text-secondary"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+
                 </li>
             </ul>
         </nav>

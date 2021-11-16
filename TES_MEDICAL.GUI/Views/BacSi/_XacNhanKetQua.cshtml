@@ -3,112 +3,108 @@
 <h4 style="text-align:center; font-weight:bold" id="Title">XÁC NHẬN THÔNG TIN</h4>
 <hr />
 <br />
-
-@*<div class="col-12">
-    <table class="table table-borderless">
-        <tr>
-            <td colspan="3"><h6><strong>Tên bệnh nhân:</strong> @Model.MaBNNavigation.HoTen</h6></td>
-            <td><h6><strong>Ngày khám:</strong> @Model.NgayKham.ToString("dd/MM/yyyy")</h6></td>
-            <td><h6><strong>Ngày tái khám:</strong> 1/1/2021</h6></td>
-        </tr>
-        <tr>
-            <td><h6><strong>Mạch:</strong> @Model.Mach</h6></td>
-            <td><h6><strong>Huyết Áp:</strong> @Model.HuyetAp</h6></td>
-            <td><h6><strong>Nhiệt độ:</strong> @Model.NhietDo</h6></td>
-        </tr>
-        <tr>
-
-        </tr>
-        <tr>
-            <td colspan="2">
-                <h6><strong>Chẩn đoán:</strong><br />
-                    @Model.ChanDoan
-                </h6>
-            </td>
-            <td colspan="3">
-                <h6 class="text-wrap">
-                    <strong>Kết quả khám bệnh:</strong><br />
-                    @Model.KetQuaKham
-                </h6>
-            </td>
-        </tr>
-    </table>
-</div>*@
-<div class="col-12" style="padding-inline: 40px">
-    <div class="row mb-3">
-        <div class="col-sm-6">
-            <h6>
-                Tên bệnh nhân: 
-                <strong>
+<div  style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; margin-inline: 5px; margin-top: -5px;">
+    <div class="p-3" style="padding-inline: 40px">
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin bệnh nhân</h6>
+        </div>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 20px;">
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>
+                        Tên bệnh nhân:
+                    </strong><br />
                     @Model.MaBNNavigation.HoTen
-                </strong> 
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
 
-            </h6>
+                    <strong>Ngày khám:</strong><br />
+                    @Model.NgayKham.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>Ngày tái khám</strong><br />
+                    @Model.NgayTaiKham?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
         </div>
-        <div class="col-sm-3">
-            <h6>Ngày khám: 
-                <strong>@Model.NgayKham.ToString("dd/MM/yyyy")</strong> 
-            </h6>
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin sinh hiệu</h6>
         </div>
-        <div class="col-sm-3">
-            <h6>Ngày tái khám
-                <strong>@Model.NgayTaiKham?.ToString("dd/MM/yyyy")</strong>
-            </h6>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 22px;">
+            <div class="col-sm-4 mt-4">
+                <h6>                    
+                    <strong>Mạch:</strong>
+                    @Model.Mach
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <h6>
+                    <strong>Huyết Áp:</strong>
+                    @Model.HuyetAp
+                </h6>
+            </div>
+            <div class="col-sm-4 mt-4 mb-4">
+                <h6>                    
+                    <strong>Nhiệt độ:</strong>
+                    @Model.NhietDo
+                </h6>
+            </div>
+            <div class="col-sm-4">
+                <h6>                    
+                    <strong>SPO2:</strong>
+                    12
+                </h6>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-sm-3">
-            <h6>Mạch: 
-                <strong>@Model.Mach</strong>
-            </h6>
-        </div>
-        <div class="col-sm-3">
-            <h6>Huyết Áp:
-                <strong>@Model.HuyetAp</strong> 
-            </h6>
-        </div>
-        <div class="col-sm-3">
-            <h6>Nhiệt độ:
-                <strong> @Model.NhietDo</strong> 
-            </h6>
-        </div>
-    </div>
-    @*chi tiết sinh hiệu thêm*@
-    <div class="row mb-3">
-        @*vòng lập*@ 
-        <div class="col-sm-3">
-            <h6>SPO2: 
-                <strong>12</strong>
-            </h6>
-        </div>
+        @*chi tiết sinh hiệu thêm*@
+        <!--<div class="row ms-2 mb-1">-->
+        @*vòng lập*@
 
-    </div>
-    <div class="row mb-3">
-        <div class="col-sm-3">
-            <h6><strong>Chẩn đoán: </strong><br> @Model.ChanDoan</h6>
+        <!--</div>-->
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Kết quả khám bệnh</h6>
         </div>
-        <div class="col-sm-9">
-            <h6>
-                <strong>Kết quả khám:</strong><br>
-                @Model.KetQuaKham
-                @*cảm sốt, cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
-                cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
-                cảm sốt, cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt
-                cảm sốt cảm sốt cảm sốt cảm sốt cảm sốt*@
-            </h6>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 22px;">
+            <div class="mt-4" >
+                <div class="ms-3">
+                    <h6 style="margin-inline: 7px;"><strong class="mb-2">Chẩn đoán: </strong><br> @Model.ChanDoan</h6>
+                </div>
+            </div>
+            <div class="mt-2">
+                <div style="background-color: white; position: absolute;" class="ms-3"><h6 style="margin-inline: 7px"><strong>Kết quả khám:</strong></h6></div>
+                <div id="title-border" style="margin-top: 10px; margin-bottom: 10px; margin-inline: 10px;">
+                    @*@Model.KetQuaKham*@
+                    <div class="row mt-4 ms-4">
+                        @if (ViewBag.ListTC != null)
+                        {
+                            foreach (var tc in ViewBag.ListTC as List<string>)
+                            {
+                                <div class="col-sm-5">
+                                    <h6>
+                                        <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2" />
+                                        @tc
+                                    </h6>
+                                </div>
+                            }
+                        }
+
+                       
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<hr>
-<div class="col-12" style="font-size: 17px">
-    
-        <table class="table">
-            <thead>
-                <tr>
+    <div  class="p-3" style="font-size: 17px">
+
+        <table class="table table-bordered">
+                <tr id="table-header" class="text-light">
                     <th class="col-8">Tên thuốc</th>
-                    <th class="col-4 text-center">Số lượng</th>                
+                    <th class="col-4 text-center">Số lượng</th>
                 </tr>
-            </thead>
             <tbody id="toathuocFinal">
                 @foreach (var item in Model.ToaThuoc.ChiTietToaThuoc)
                 {
@@ -126,5 +122,7 @@
             </tbody>
         </table>
 
-    
+
+    </div>
 </div>
+

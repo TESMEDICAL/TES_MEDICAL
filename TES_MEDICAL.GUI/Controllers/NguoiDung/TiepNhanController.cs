@@ -52,7 +52,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _hubContext = hubContext;
             _userManager = userManager;
             
-            _userManager = userManager;
+          
             
         }
        
@@ -69,6 +69,7 @@ namespace TES_MEDICAL.GUI.Controllers
            
             if (!string.IsNullOrWhiteSpace(MaPhieu))
             {
+                
                 var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
                 return View(phieuKham);
             }
@@ -259,6 +260,9 @@ namespace TES_MEDICAL.GUI.Controllers
             var chiTietDatLich = await _service.GetPhieuDatLichById(id);
             return PartialView("_ChiTietDatLich", chiTietDatLich);
         }
+
+
+
 
         public async Task<IActionResult> Edit(string id)
         {

@@ -8,68 +8,22 @@
 <div id="list">
 
     <div style="min-height:400px">
-        <table class="table table-striped table-bordered text-center" style="width:100%">
-            <thead style="border-bottom: 1px solid black;">
-                <tr>
-
-                    <th>
-
-                        Ngay Khám
-                    </th>
-
-                    <th>
-
-                        Tên Bệnh nhân
-                    </th>
-
-                    <th>
-
-                        Số điện thoại
-                    </th>
-
-
-
-
-
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
+        <table class="table table-bordered text-center" style="width:100%">
+            <tr id="table-header" class="text-light">
+                <th style="text-align: left;">Tên Bệnh nhân</th>
+                <th>Ngay Khám</th>
+                <th>Số điện thoại</th>
+                <th>Thao tác</th>
+            </tr>
                 @if ((ViewBag.Names as IEnumerable<PhieuKham>).Count() > 0)
                 {
                     @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
                     {
                         <tr>
-
-
-
-
+                            <td style="text-align: left;">@item.MaBNNavigation.HoTen</td>
                             <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-
-
-
-
-
-                            <td>@item.MaBNNavigation.HoTen</td>
-
-
-
-
-
                             <td>@item.MaBNNavigation.SDT</td>
-
-
-
-
-
-
-
-
-
-
-
-                            <td class=" text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Chi tiết</a></td>
-
+                            <td class=" text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaPK')" title="Thông tin" style="width: 30px;"> <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;</a></td>
                         </tr>
                     }
                 }
@@ -80,7 +34,6 @@
                     </tr>
                 }
 
-            </tbody>
         </table>
     </div>
 

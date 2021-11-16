@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 
 #nullable disable
@@ -41,17 +42,20 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
         public virtual DbSet<TheLoai> TheLoai { get; set; }
+        public virtual DbSet<ThongKeDichVuViewModel> ThongKeViewModel { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+                
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ThongKeDichVuViewModel>(entiy => entiy.HasNoKey().ToView(null));
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
@@ -85,6 +89,9 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.TieuDe)
                     .IsRequired()
                     .HasMaxLength(250);
+                entity.Property(e => e.ThoiGian)
+                   
+                   .HasColumnType("DateTime");
 
                 entity.HasOne(d => d.MaNguoiVietNavigation)
                     .WithMany(p => p.TinTuc)
@@ -172,7 +179,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.MaHD)
                     .HasMaxLength(20)
                     .IsUnicode(false);
-
+                entity.Property(e => e.DonGiaDV).HasColumnType("money");
                 entity.HasOne(d => d.MaDVNavigation)
                     .WithMany(p => p.ChiTietDV)
                     .HasForeignKey(d => d.MaDV)
@@ -213,7 +220,7 @@ namespace TES_MEDICAL.GUI.Models
                     .HasName("PK__ChiTietT__339EF89FCA764F6C");
 
                 entity.Property(e => e.GhiChu);
-
+                entity.Property(e => e.DonGiaThuoc).HasColumnType("money");
                 entity.HasOne(d => d.MaPKNavigation)
                     .WithMany(p => p.ChiTietToaThuoc)
                     .HasForeignKey(d => d.MaPK)
@@ -443,6 +450,10 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
                     .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
+                entity.HasOne(d => d.MaBenhNavigation)
+                      .WithMany(p => p.PhieuKham)
+                      .HasForeignKey(d => d.MaBenh)
+                      .HasConstraintName("FK_PhieuKham_MaBenh");
             });
 
 
@@ -549,7 +560,7 @@ namespace TES_MEDICAL.GUI.Models
 
                 entity.Property(e => e.TenTrieuChung).HasMaxLength(100);
 
-                entity.Property(e => e.TenTrieuChungKhongDau).HasMaxLength(100);
+              
             });
 
 

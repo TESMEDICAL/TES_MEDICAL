@@ -61,6 +61,12 @@ header.navbar-inverse.navbar-fixed-top,
     background: #af64cc;
     border: none;
 }
+#title-history {
+    color: #af64cc;
+}
+#title-border {
+    border: 1px solid #c77dff;
+}
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,

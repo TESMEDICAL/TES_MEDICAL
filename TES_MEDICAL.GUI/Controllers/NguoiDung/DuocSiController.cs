@@ -39,7 +39,7 @@ namespace TES_MEDICAL.GUI.Controllers
             if (!model.Page.HasValue) model.Page = 1;
 
 
-
+            
 
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
@@ -64,7 +64,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-
+            model.TrangThaiPK = 2;
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
             ViewBag.Page = model.Page;
@@ -91,7 +91,7 @@ namespace TES_MEDICAL.GUI.Controllers
             var result = await _service.ThanhToanThuoc(maPK,MaNV);
             if (result != null)
             {
-                return Json(new { status = 1, title = "", text = "Thanh toán thành công.", redirectUrL = Url.Action("ToaThuocDangPhat", "DuocSi"), obj = "" }, new JsonSerializerSettings());
+                return Json(new { status = 1, title = "", text = "Thanh toán thành công.", redirectUrL = Url.Action("ToaThuoc", "DuocSi"), obj = "" }, new JsonSerializerSettings());
             }
             else
             {
@@ -107,7 +107,7 @@ namespace TES_MEDICAL.GUI.Controllers
             var result = await _service.XacNhanThuocDangCho(maPK);
             if (result != null)
             {
-                return Json(new { status = 1, title = "", text = "Xác nhận thành công", redirectUrL = Url.Action("LichSuThuoc", "DuocSi"), obj = "" }, new JsonSerializerSettings());
+                return Json(new { status = 1, title = "", text = "Xác nhận thành công", redirectUrL = Url.Action("ToaThuocDangPhat", "DuocSi"), obj = "" }, new JsonSerializerSettings());
             }
             else
             {
@@ -212,7 +212,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
-
+               
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 

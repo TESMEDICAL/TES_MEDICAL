@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
 
-    public class ThuocController : Controller
+    public class ThuocController : BaseController
     {
         private readonly IThuoc _service;
         public ThuocController(IThuoc service)
@@ -84,9 +85,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 else
                 {
-                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
+                    //model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
+                    model.HinhAnh = fileName;
                     filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
 

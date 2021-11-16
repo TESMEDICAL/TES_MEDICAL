@@ -52,26 +52,41 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<ToaThuoc> listUnpaged = null;
            if (model.TrangThaiPK ==1)
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null)
-                        return true;
-                    else
-                        return false;
-                })).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+          (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+           && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+                ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+
             }
             else
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2)
-                        return true;
-                    else
-                        return false;
-                })).OrderByDescending(x=>x.MaPhieuKhamNavigation.NgayKham));
-            } 
-                
-              
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+        (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+              ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+            }
+
+
 
 
 
@@ -122,10 +137,13 @@ namespace TES_MEDICAL.GUI.Services
                         
                         
                     };
+                    var existingThuoc = await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).FirstOrDefaultAsync(x=>x.MaPhieuKham==maPK);
+                    hoadon.TongTien = (decimal)existingThuoc.ChiTietToaThuoc.Sum(x => x.SoLuong * x.DonGiaThuoc);
+
                     await _context.HoaDonThuoc.AddAsync(hoadon);
 
                     var stt = await _context.STTTOATHUOC.FindAsync(maPK);
-                    var existingThuoc = await _context.ToaThuoc.FindAsync(maPK);
+                    
                     existingThuoc.TrangThai = 1;
                     stt.UuTien = "B";
                     if(_context.ToaThuoc.Where(x => x.TrangThai == 1).Count() > 0)
@@ -141,7 +159,7 @@ namespace TES_MEDICAL.GUI.Services
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     var phieuKham = await _context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.ToaThuoc).ThenInclude(x => x.HoaDonThuoc).ThenInclude(x => x.MaNVNavigation).Include(x => x.ToaThuoc.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == maPK);
-                    CreateHD(phieuKham);
+
                     return existingThuoc;
                 }
 

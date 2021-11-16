@@ -21,8 +21,9 @@
 
 
 
-<!-- Related styles of various icon packs and plugins -->
-<link rel="stylesheet" href="~/MainElement/css/plugins.css">
+
+<!-- Related styles of various icon packs and pluginsgg -->
+@*<link rel="stylesheet" href="~/MainElement/css/plugins.css">*@
 
 <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
 <link rel="stylesheet" href="~/MainElement/css/main.css">
@@ -63,7 +64,9 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="input-group">
-                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-envelope-open-text"></i></span>
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);">
+                                <i class="fad fa-envelope-open-text"></i>
+                            </span>
                             <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email">
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
@@ -72,7 +75,9 @@
                 <div class="form-group" >
                     <div class="col-xs-12">
                         <div class="input-group">
-                            <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-lock-alt"></i></span>
+                            <span class="input-group-addon" style="color: rgb(54, 172, 105);">
+                                <i class="fad fa-lock-alt"></i>
+                            </span>
                             <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>

@@ -136,14 +136,28 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<IPagedList<PhieuDatLich>> SearchByCondition(PhieuDatLichSearchModel model)
         {
 
+           
 
-            var listUnpaged = (_context.PhieuDatLich.Where((delegate (PhieuDatLich x)
-            {
-                if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.TenBN).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0))) 
-                    return true;
-                else
-                    return false;
-            })).OrderByDescending(x => x.NgayKham));
+              var   listUnpaged = (_context.PhieuDatLich.Where(x =>
+             (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+             EF.Functions.Collate(x.TenBN, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+             EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+             
+
+
+
+
+
+
+
+                 ).OrderByDescending(x=>x.NgayKham));
+
+            
+          
+
+
+
+
 
 
 
@@ -222,8 +236,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
         {
            
-                decimal tongTien = 0;
-
+               
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var list = new List<string>();
                 foreach (var item in chiTietDVs)

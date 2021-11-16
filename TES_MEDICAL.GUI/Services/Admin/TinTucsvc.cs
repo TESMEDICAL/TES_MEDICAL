@@ -206,11 +206,11 @@ namespace TES_MEDICAL.GUI.Services
         {
             if (MaTL != Guid.Empty)
             {
-                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL).ToListAsync();
+                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL && x.TrangThai == true).ToListAsync();
             }
             else
             {
-                return await _context.TinTuc.Include(x => x.MaTLNavigation).ToListAsync();
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x =>x.TrangThai == true).ToListAsync();
             }
             
         }
@@ -220,11 +220,11 @@ namespace TES_MEDICAL.GUI.Services
             int numberOfrecords = 4;
             if (MaTL != Guid.Empty)
             {
-                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x => x.MaTL == MaTL).Take(numberOfrecords).ToListAsync();
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x => x.MaTL == MaTL && x.TrangThai == true).Take(numberOfrecords).ToListAsync();
             }
             else
             {
-                return await _context.TinTuc.Include(x => x.MaTLNavigation).Take(numberOfrecords).ToListAsync();
+                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x=>x.TrangThai == true).Take(numberOfrecords).ToListAsync();
             }
 
         }

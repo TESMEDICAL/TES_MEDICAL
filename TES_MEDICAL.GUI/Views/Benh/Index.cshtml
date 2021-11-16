@@ -9,20 +9,22 @@
 }
 
 <style>
-    .wrapper {
+    .box {
         background-color: white;
         font-family: Arial
     }
 
-    .wrapper-title {
-        background-color: lightgray;
+    .box-title {
+        background-color: rgb(233, 236, 239);
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
 
-        .wrapper-title h6 {
+        .box-title h6 {
             padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
         }
 
     .header-left {
@@ -84,8 +86,8 @@
     }
 </style>
 
-<div class="wrapper m-3">
-    <div class="wrapper-title mb-4">
+<div class="box m-3">
+    <div class="box-title mb-4">
         <h6>Quản lý thông tin bệnh</h6>
     </div>
     <div class="header row">
@@ -94,10 +96,10 @@
         {
             @Html.AntiForgeryToken()
             <div class="header-left col-sm-8 row">
-                <div class="header-input-1 col-3">
+                <div class="header-input-1 col-4">
                     @Html.EditorFor(model => model.TenBenhSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập tên bệnh ...." } })
                 </div>
-                <div class="header-input-2 col-3">
+                <div class="header-input-2 col-4">
                     @Html.EditorFor(model => model.ThongTinSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập thông tin ..." } })
                 </div>
                 <div class="header-btn col-3">
@@ -111,20 +113,11 @@
                 <div class="header-btn col-5">
                     <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
                 </div>
-            </div>
-
-
-
-            <div class="form-check ms-auto mb-2 text-right mt-3">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                    Hiện tất cả
-                </label>
-            </div>
-        }
+            </div>            
+        } 
 
     </div>
-    <div id="nameListContainer" class="mt-2" style="margin-inline: 15px;">
+    <div id="nameListContainer" class="mt-4" style="margin-inline: 15px;">
         <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Benh>" />
 
     </div>
@@ -276,21 +269,33 @@
                                 Trieuchungs: $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung')
                             },
                             success: function (result) {
-                                $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
 
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                $('#preloader-wrapper').toggleClass('hide');
+                                if (result.status == -3) {
+                                    toastr.warning(result.text);
+
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    if (result.status != null) {
+                                        if (result.status >= 1) {
+
+                                            toastr.success(result.text);
+                                            reloadpage(1);
+                                        }
+                                        else {
+                                            toastr.warning(result.text);
+                                        }
+                                    }
+                                    else {
+                                        $myModalContent.html(result);
+                                    }
                                 }
                             },
                             error: function (errormessage) {
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
                     }
@@ -304,27 +309,38 @@
                         $.ajax({
                             type: "POST",
                             url: "/Benh/Edit",
-                            dataType: "json",
                             data: {
                                 __RequestVerificationToken: gettoken(),
                                 model: obj,
                                 Trieuchungs: $("#partialCTTrieuChung tr").getData('.inputCTTrieuChung')
                             },
                             success: function (result) {
+
                                 $('#preloader-wrapper').toggleClass('hide');
-                                if (result.status >= 1) {
-                                    toastr.success(result.text);
-                                    reloadpage(1);
+                                if (result.status == -3) {
+                                    toastr.warning(result.text);
+
                                 }
                                 else {
-                                    toastr.warning(result.text);
+                                    if (result.status != null) {
+                                        if (result.status >= 1) {
+                                            toastr.success(result.text);
+                                            reloadpage(1);
+                                        }
+                                        else {
+                                            toastr.warning(result.text);
+                                        }
+                                    }
+                                    else {
+                                        $myModalContent.html(result);
+                                    }
                                 }
                             },
                             error: function (errormessage) {
                                 alert(errormessage.responseText);
                             },
                             failure: function (message) {
-                                $('#preloader-wrapper').toggleClass('hide');
+                                $('#preloader-box').toggleClass('hide');
                             }
                         });
                     }
@@ -381,7 +397,7 @@
                 },
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -413,10 +429,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
@@ -443,10 +459,10 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
 
@@ -474,17 +490,44 @@
                     $modal.modal('show');
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }
 
 
 
-       
+        function _delete(id) {
+            var cf = confirm('Bạn muốn xoá bản ghi này?');
+            if (cf) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Benh/Delete",
+                    data: { "id": id },
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+                            toastr.success(result.text);
+
+                            reloadpage();
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+
+        }
 
         function Timkiem() {
 
@@ -518,7 +561,7 @@
 
 
                 failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                    $('#preloader-box').toggleClass('hide');
                 }
             });
         }

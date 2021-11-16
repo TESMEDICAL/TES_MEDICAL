@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using TES_MEDICAL.GUI.Controllers.Admin;
+using TES_MEDICAL.GUI.Constant;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-
-    public class TinTucController : Controller
+    public class TinTucController : BaseController
     {
         private readonly ITinTuc _service;
         private readonly ITheLoai _theLoaiRep;
@@ -24,6 +25,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _theLoaiRep = theLoaiRep;
         }
 
+        
         public async Task<ActionResult> Index(TinTucSearchModel model)
         {
 
@@ -69,22 +71,24 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        //public async Task<ActionResult> Add()
-        //{
-        //    ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
+        public async Task<ActionResult> ThemTinTuc()
+        {
+            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
+            return View(new TinTuc { TrangThai = true });
+        }
 
-        //    return PartialView("_partialAdd", new TinTuc());
-
-        //}
 
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
         {
-            NguoiDung nguoiDung = new NguoiDung();
-            nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+            //NguoiDung nguoiDung = new NguoiDung();
+            //nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+
+            string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
+
 
             model.MaBaiViet = Guid.NewGuid();
-            model.MaNguoiViet = nguoiDung.MaNguoiDung;
+            model.MaNguoiViet = Guid.Parse(maNguoiDung);
             if (await _service.Add(model) != null)
                 return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
                     RedirectToAction("index", "Tintuc");
@@ -94,8 +98,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         }
-        [HttpGet]
 
+        [HttpGet]
         public async Task<ActionResult> Edit(Guid id)
         {
             ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
@@ -127,6 +131,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 return PartialView("_partialDetail", await _service.Get(id));
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Preview(TinTuc model)
+        {
+            string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
+
+
+            model.MaBaiViet = Guid.NewGuid();
+            model.MaNguoiViet = Guid.Parse(maNguoiDung);
+            ViewBag.TenTL = (await _theLoaiRep.Get(Guid.Parse(model.MaTL.ToString()))).TenTL;
+            return PartialView("_partialPreview",model);
         }
 
 
@@ -166,11 +182,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<ActionResult> ThemTinTuc()
-        {
-            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(),"MaTL","TenTL");
-            return View();
-        }
+       
 
         //[AcceptVerbs(HttpVerbs.Post)]
         public JsonResult UploadFile(IFormFile aUploadedFile)

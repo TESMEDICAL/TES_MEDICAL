@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
 
-    public class DichVuController : Controller
+    public class DichVuController : BaseController
     {
         private readonly IDichVu _service;
         public DichVuController(IDichVu service)

@@ -27,5 +27,23 @@ namespace TES_MEDICAL.GUI.Services
                .OrderBy(x => x.TenBenh).ToListAsync();
 
         }
+        public async Task<PhieuKham> GetAuToFill(string TenBenh)
+        {
+            return await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+                    join b in _context.Benh
+                    on pk.MaBenh equals (b.MaBenh)
+                    where b.TenBenh.Equals(TenBenh)&&pk.TrangThai>=1&&pk.TrangThai<=2
+                    select pk).FirstOrDefaultAsync();
+           
+        }
+        public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
+        {
+            return await _context.TrieuChung.Where(x =>
+         
+          EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
+          )
+              .OrderBy(x => x.TenTrieuChung).Take(5).ToListAsync();
+        }
+
     }
 }
