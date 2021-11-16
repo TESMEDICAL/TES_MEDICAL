@@ -89,6 +89,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
             model.MaBaiViet = Guid.NewGuid();
             model.MaNguoiViet = Guid.Parse(maNguoiDung);
+            model.ThoiGian = DateTime.Now;
             if (await _service.Add(model) != null)
                 return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
                     RedirectToAction("index", "Tintuc");
