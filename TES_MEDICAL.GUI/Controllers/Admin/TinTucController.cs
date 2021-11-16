@@ -71,13 +71,12 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        //public async Task<ActionResult> Add()
-        //{
-        //    ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
+        public async Task<ActionResult> ThemTinTuc()
+        {
+            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
+            return View(new TinTuc { TrangThai = true });
+        }
 
-        //    return PartialView("_partialAdd", new TinTuc());
-
-        //}
 
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
@@ -137,11 +136,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Preview(TinTuc model)
         {
-            NguoiDung nguoiDung = new NguoiDung();
-            nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
+            string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
+
 
             model.MaBaiViet = Guid.NewGuid();
-            model.MaNguoiViet = nguoiDung.MaNguoiDung;
+            model.MaNguoiViet = Guid.Parse(maNguoiDung);
+            ViewBag.TenTL = (await _theLoaiRep.Get(Guid.Parse(model.MaTL.ToString()))).TenTL;
             return PartialView("_partialPreview",model);
         }
 
@@ -182,11 +182,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<ActionResult> ThemTinTuc()
-        {
-            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(),"MaTL","TenTL");
-            return View();
-        }
+       
 
         //[AcceptVerbs(HttpVerbs.Post)]
         public JsonResult UploadFile(IFormFile aUploadedFile)
