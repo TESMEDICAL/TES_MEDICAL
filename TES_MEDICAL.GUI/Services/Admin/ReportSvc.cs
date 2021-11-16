@@ -58,6 +58,19 @@ namespace TES_MEDICAL.GUI.Services
             return item;
         }
 
+        public async Task<Response<List<ThongKeBenhViewModel>>> ThongKeBenh(DateTime ngayBatDau, DateTime ngayKetThuc)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+                            {
+                                new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
+                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
+
+                            };
+            var result = await _context.ThongKeBenhViewModel.FromSqlRaw("EXEC dbo.ThongKeBenh @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
+            return new Response<List<ThongKeBenhViewModel>> { errorCode = 0, Obj = result };
+        }
+
+
         public async Task<Response<List<ThongKeDichVuViewModel>>> ThongKeDichVu(DateTime ngayBatDau, DateTime ngayKetThuc)
         {
             List<SqlParameter> parms = new List<SqlParameter>
@@ -68,6 +81,30 @@ namespace TES_MEDICAL.GUI.Services
                             };
             var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeHDV @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
             return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj  = result};
+        }
+
+        public async Task<Response<List<ThongKeDichVuViewModel>>> ThongKeHDThuoc(DateTime ngayBatDau, DateTime ngayKetThuc)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+                            {
+                                new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
+                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
+
+                            };
+            var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeHDThuoc @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
+            return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj = result };
+        }
+
+        public async Task<Response<List<ThongKeDichVuViewModel>>> ThongKeTongDoanhThu(DateTime ngayBatDau, DateTime ngayKetThuc)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+                            {
+                                new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
+                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
+
+                            };
+            var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeTongDoanhThu @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
+            return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj = result };
         }
     }
 }

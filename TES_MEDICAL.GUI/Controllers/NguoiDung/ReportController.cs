@@ -34,6 +34,13 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
+        public IActionResult ReportBenh()
+        {
+            return View();
+        }
+
+
+
         //Xem và tải hoá đơn dịch vụ
         public async Task<IActionResult> ViewHoaDon()
         {
@@ -87,8 +94,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
-
                 return PartialView("_partialDetailThuoc", await _service.GetTTHDThuoc(MaHD));
             }
         }
@@ -144,6 +149,69 @@ namespace TES_MEDICAL.GUI.Controllers
                 return BadRequest();
             }
         }
+
+        public async Task<IActionResult> ThongKeHDThuoc(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            var listmodel = await _service.ThongKeHDThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeHDThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+        public async Task<IActionResult> ThongKeTongDoanhThu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            var listmodel = await _service.ThongKeTongDoanhThu((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeTongDoanhThu((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> ThongKeBenh(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            var listmodel = await _service.ThongKeBenh((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeBenh((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint(item.tenBenh, item.soLuong));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
 
 
     }

@@ -100,13 +100,13 @@
             <div class="box-option">
                 <p>Chọn mục thống kê:</p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="tongDoanhThu" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Tổng doanh thu
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="thuoc" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Thuốc
                     </label>
@@ -114,18 +114,18 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="dichVu" checked>
                     <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
-                        Dich vụ
+                        Dịch vụ
                     </label>
                 </div>
             </div>
         </div>
-        <div class="box-item">
+        <div class="box-item" style="overflow: scroll; overflow-x: hidden">
             <div class="box-item-title mb-4">
                 <h6>Thông tin</h6>
             </div>
             <div >
                 <table class="table">
-                    <thead class="thead-dark">
+                    <thead class="table-head-fixed">
                         <tr>
                             <th scope="col">Năm</th>
                             <th scope="col">Tháng</th>
@@ -187,40 +187,171 @@
                                     toolTipContent: "<b>{label}</b>: {y}%",
                                     showInLegend: "true",
                                     legendText: "{label}",
-                                    indexLabel: "{label} - {y}%",
+                                    indexLabel: "{label} - {y} VNĐ",
                                     dataPoints: response.dataPoints
-                                        }]
-                                    });
-                                    chart.render();
+                                }]
+                            });
+                            chart.render();
 
 
 
-$("#BieuDoCot").html("");
-$(".table").show();
-(response.dataTable.obj).forEach(function (item) {
+                            $("#BieuDoCot").html("");
+                            $(".table").show();
+                            (response.dataTable.obj).forEach(function (item) {
 
-    $("#BieuDoCot").append(`
-    <tr>
-        <td>${item.nam}</td>
-        <td>${item.thang}</td>
-        <td>${item.tongTien}</td>
-    </tr>
-`)
-        ;
+                                $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.nam}</td>
+                                <td>${item.thang}</td>
+                                <td>${item.tongTien}</td>
+                            </tr>
+                        `)
+                                    ;
 
-});
+                            });
 
-console.log(response.dataTable.obj);
+                            console.log(response.dataTable.obj);
 
-}
+                        }
 
-});
-}
+                });
+            }
 
-else if (this.value == 'transfer') {
-alert("Transfer Thai Gayo");
-}
-});
+            
+        /*-----------------------*/
+
+        else if (this.value == 'thuoc') {
+                $.ajax({
+                    url: "/Report/ThongKeHDThuoc/",
+                    type: 'GET',
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+
+                    success:
+                        /*Biểu đồ cột*/
+                        function (response) {
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                theme: "light2",
+                                exportEnabled: true,
+                                data: [{
+                                    type: "column",
+                                    dataPoints: response.dataPoints
+                                }]
+                            });
+                            chart.render();
+
+                            /*Biểu đồ tròn*/
+                            var chart = new CanvasJS.Chart("chartContainer1", {
+                                theme: "light1", // "light1", "light2", "dark1", "dark2"
+                                exportEnabled: true,
+                                animationEnabled: true,
+                                data: [{
+                                    type: "pie",
+                                    startAngle: 180,
+                                    toolTipContent: "<b>{label}</b>: {y}%",
+                                    showInLegend: "true",
+                                    legendText: "{label}",
+                                    indexLabel: "{label} - {y} VNĐ",
+                                    dataPoints: response.dataPoints
+                                }]
+                            });
+                            chart.render();
+
+
+
+                            $("#BieuDoCot").html("");
+                            $(".table").show();
+                            (response.dataTable.obj).forEach(function (item) {
+
+                                $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.nam}</td>
+                                <td>${item.thang}</td>
+                                <td>${item.tongTien}</td>
+                            </tr>
+                        `)
+                                    ;
+
+                            });
+
+                            console.log(response.dataTable.obj);
+
+                        }
+
+                });
+        }
+
+        /*-----------------------*/
+            else if (this.value == 'tongDoanhThu') {
+                $.ajax({
+                    url: "/Report/ThongKeTongDoanhThu/",
+                    type: 'GET',
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+
+                    success:
+                        /*Biểu đồ cột*/
+                        function (response) {
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                theme: "light2",
+                                exportEnabled: true,
+                                data: [{
+                                    type: "column",
+                                    dataPoints: response.dataPoints
+                                }]
+                            });
+                            chart.render();
+
+                            /*Biểu đồ tròn*/
+                            var chart = new CanvasJS.Chart("chartContainer1", {
+                                theme: "light1", // "light1", "light2", "dark1", "dark2"
+                                exportEnabled: true,
+                                animationEnabled: true,
+                                data: [{
+                                    type: "pie",
+                                    startAngle: 180,
+                                    toolTipContent: "<b>{label}</b>: {y}%",
+                                    showInLegend: "true",
+                                    legendText: "{label}",
+                                    indexLabel: "{label} - {y} VNĐ",
+                                    dataPoints: response.dataPoints
+                                }]
+                            });
+                            chart.render();
+
+
+
+                            $("#BieuDoCot").html("");
+                            $(".table").show();
+                            (response.dataTable.obj).forEach(function (item) {
+
+                                $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.nam}</td>
+                                <td>${item.thang}</td>
+                                <td>${item.tongTien}</td>
+                            </tr>
+                        `)
+                                    ;
+
+                            });
+
+                            console.log(response.dataTable.obj);
+
+                        }
+
+                });
+        }
+
+        });
+
+        
     </script>
 }
 
