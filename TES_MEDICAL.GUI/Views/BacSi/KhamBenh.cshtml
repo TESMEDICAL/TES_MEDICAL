@@ -82,7 +82,7 @@
                 <div class="col-sm-8">
                     <label class="col-md-5 control-label" for="example-email-input">Địa chỉ</label>
                     <div class="col-md-10">
-                        <h6><strong>341/8 tổ 34-khu phố 2, phường Tân Chánh Hiệp, Quận 12, Tp. Hồ Chí Minh</strong></h6>
+                        <h6><strong>@Model.MaBNNavigation.DiaChi</strong></h6>
                     </div>
                 </div>
             </div>
@@ -134,8 +134,8 @@
                 </div>
                 <br /><br />
                 <div class="form-group row">
-                    <div class=".button-reload col-sm-4">
-                        <a class="btn" onclick="AddCtSinhHieu()" style="background-color:seagreen; color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</a>
+                    <div class="button-reload col-sm-4">
+                        <a class="btn" onclick="AddCtSinhHieu()" style="color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</a>
                     </div>
                     <div class="col-sm-8 row" id="TableSinhHieu">
 
@@ -156,7 +156,7 @@
                                 <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
                             </div>
                             <div class="button-reload col-sm-2 text-end">
-                                <a class="btn btn-success text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
                         <!--<div class="col-sm-12">-->
@@ -205,19 +205,13 @@
                     <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
                 </div>
             </div>
-            <div class="form-group collapse" id="LichSuKham" style="margin-inline: 20px;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ngày khám</th>
-                            <td></td>
-                            <td></td>
-                            <th scope="col">Chẩn đoán</th>
-                            <td></td>
-                            <td></td>
-                            <th scope="col" class="text-center">Thao tác</th>
+            <div class="form-group collapse mt-3 table-bordered" id="LichSuKham" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
+                            <th class="col-4 text-center">Ngày khám</th>
+                            <th class="col-4 text-center">Chẩn đoán</th>
+                            <th class="col-4 text-center">Thao tác</th>
                         </tr>
-                    </thead>
                     <tbody>
                         @{
                             var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
@@ -226,14 +220,9 @@
                                 foreach (var item in LichSu)
                                 {
                                     <tr>
-                                        <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>@item.ChanDoan</td>
-                                        <td>
-                                        <td>
-                                        </td>
-                                        <td class="text-nowrap text-center">
+                                        <td class="col-4 text-center">@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                                        <td class="col-4 text-center">@item.ChanDoan</td>
+                                        <td class="col-4 text-nowrap text-center">
                                             <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -263,22 +252,19 @@
             </div>
             <div class="form-group">
                 <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                    <button style="background-color:seagreen;  color:white;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button style="color:white; border: none" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="fa fa-plus text-white"></i>
                         Thêm thuốc
                     </button>
                     @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
                 </div>
             </div>
-            <div class="form-group" style="margin-inline: 20px;">
-                <table class="table">
-                    <thead>
-                        <tr>
+            <div class="form-group mt-3" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
                             <th class="col-8">Tên thuốc</th>
-                            <th class="col-2 text-center">Số lượng</th>
-                            <th class="col-2 text-center">Thao tác</th>
+                            <th class="col-4 text-center">Số lượng</th>
                         </tr>
-                    </thead>
                     <tbody id="toathuocFinal">
                     </tbody>
                 </table>
@@ -328,9 +314,9 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btUse" class="btn btn-sm btn-success" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
-                    <button type="button" id="btSend" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btUse" class="btn btn-primary" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
+                    <button type="button" id="btSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
+                    <button type="button" class="btn btn-danger" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -618,6 +604,7 @@
                 $('#trieuchungauto').on("keyup", function (e) {
                     if (e.keyCode == 13) {
                         addTrieuChung($(this).val());
+                        $(this).val("");
                     }
                 });
 
@@ -627,6 +614,7 @@
 
         function addTrieuChung(name) {
             $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+            $('#trieuchungauto').val("");
         }
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {

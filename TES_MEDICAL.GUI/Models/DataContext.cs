@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 
 #nullable disable
@@ -41,17 +42,20 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
         public virtual DbSet<TheLoai> TheLoai { get; set; }
+        public virtual DbSet<ThongKeDichVuViewModel> ThongKeViewModel { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+                
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ThongKeDichVuViewModel>(entiy => entiy.HasNoKey().ToView(null));
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
@@ -85,6 +89,9 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.TieuDe)
                     .IsRequired()
                     .HasMaxLength(250);
+                entity.Property(e => e.ThoiGian)
+                   
+                   .HasColumnType("DateTime");
 
                 entity.HasOne(d => d.MaNguoiVietNavigation)
                     .WithMany(p => p.TinTuc)

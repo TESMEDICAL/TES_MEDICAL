@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
@@ -81,7 +83,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             if (await _service.GetTTHDThuoc(MaHD) == null)
             {
-                return NotFound(); ;
+                return NotFound();
             }
             else
             {
@@ -118,7 +120,30 @@ namespace TES_MEDICAL.GUI.Controllers
         //    return File(bytes, "application/octet-stream", fileName);
         //}
 
+        public async Task<IActionResult> ThongKeDichVu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            return View();
+        }
 
+        public async Task<IActionResult> ThongKeDichVuAction(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            var listmodel = await _service.ThongKeDichVu((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeDichVu((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
+                }
+                return Ok(new { dataPoints = dataPoints , dataTable = listmodel});
+                
+                
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
 
     }
