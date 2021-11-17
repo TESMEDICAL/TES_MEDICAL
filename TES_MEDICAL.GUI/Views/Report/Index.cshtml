@@ -100,19 +100,19 @@
             <div class="box-option">
                 <p>Chọn mục thống kê:</p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="tongDoanhThu" checked>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonTongDoanhThu" value="tongDoanhThu" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Tổng doanh thu
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="thuoc" checked>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuThuoc" value="thuoc" checked>
                     <label class="form-check-label" for="flexRadioDefault2">
                         Thuốc
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="dichVu" checked>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuDichVu" value="dichVu" checked>
                     <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
                         Dịch vụ
                     </label>
@@ -151,6 +151,16 @@
 @section scripts{
     <script>
         $(".table").hide();
+
+        /*Select button*/
+        $("#buttonTongDoanhThu").prop("checked", true);
+
+        /*Auto display thống kế*/
+        $(document).ready(function () {
+            $("#buttonTongDoanhThu").trigger('change');
+        });
+
+
         $('input[type=radio][name=flexRadioDefault]').change(function () {
 
             if (this.value == 'dichVu') {
@@ -203,7 +213,7 @@
                             <tr>
                                 <td>${item.nam}</td>
                                 <td>${item.thang}</td>
-                                <td>${item.tongTien}</td>
+                                <td>${item.tongTien.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                             </tr>
                         `)
                                     ;
@@ -270,7 +280,7 @@
                             <tr>
                                 <td>${item.nam}</td>
                                 <td>${item.thang}</td>
-                                <td>${item.tongTien}</td>
+                                <td>${item.tongTien.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                             </tr>
                         `)
                                     ;
@@ -335,7 +345,7 @@
                             <tr>
                                 <td>${item.nam}</td>
                                 <td>${item.thang}</td>
-                                <td>${item.tongTien}</td>
+                                <td>${item.tongTien.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                             </tr>
                         `)
                                     ;

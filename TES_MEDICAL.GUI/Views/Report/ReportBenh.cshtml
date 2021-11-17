@@ -89,7 +89,7 @@
             <div class="input-group mb-3">
                 <div class="input-group-item">
                     <p>Ngày bắt đầu:</p>
-                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" >
                 </div>
                 <div class="input-group-item ms-3">
                     <p>Ngày kết thúc:</p>
@@ -97,20 +97,19 @@
                 </div>
             </div>
             <div class="box-option">
-                <div class="form-check ">
+                    <p>Chọn mục thống kê:</p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ReportBenh" checked>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonBenh" value="ReportBenh">
                         <label class="form-check-label" for="flexRadioDefault2">
                             Bệnh
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ReportThuoc" checked>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonThuoc" value="ReportThuoc">
                         <label class="form-check-label" for="flexRadioDefault2">
                             Thuốc
                         </label>
                     </div>
-                </div>
                 
             </div>
         </div>
@@ -129,7 +128,7 @@
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
-                        @*<tr>
+                            @*<tr>
                                 <th scope="row">1</th>
                                 <td>Mark</td>
                                 <td>Otto</td>
@@ -152,8 +151,16 @@
         $("#tenBenhId").hide();
         $("#tenThuocId").hide();
 
-        $('input[type=radio][name=flexRadioDefault]').change(function () {
+        /*Checked button bệnh*/
+        $("#buttonBenh").prop("checked", true);
 
+        /*Auto display thống kế*/
+        $(document).ready(function () {
+            $("#buttonBenh").trigger('change');
+        });
+
+
+        $('input[type=radio][name=flexRadioDefault]').change(function () {
             if (this.value == 'ReportBenh') {
                 $.ajax({
                     url: "/Report/ThongKeBenh",
@@ -165,7 +172,6 @@
                     success: function (response) {
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
-
                             data: [{
                                 type: "bar",
                                 indexLabel: "{y} ca",

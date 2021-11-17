@@ -118,5 +118,17 @@ namespace TES_MEDICAL.GUI.Services
             var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeTongDoanhThu @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
             return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj = result };
         }
+
+        public async Task<Response<List<ThongKeLuotKhamViewModel>>> ThongKeLuotKham(DateTime ngayBatDau, DateTime ngayKetThuc)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+                            {
+                                new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
+                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
+
+                            };
+            var result = await _context.ThongKeLuotKhamViewModel.FromSqlRaw("EXEC dbo.ThongKeLuotKham @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
+            return new Response<List<ThongKeLuotKhamViewModel>> { errorCode = 0, Obj = result };
+        }
     }
 }
