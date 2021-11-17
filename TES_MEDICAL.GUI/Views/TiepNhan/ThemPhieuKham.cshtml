@@ -33,9 +33,14 @@
                     <div class="col-sm-2">
                         <label for="Hoten" class="col-form-label">SĐT</label>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-7">
                         <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
                         <span asp-validation-for="SDT" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-3">
+                        <a id="btn-confirm" class="btn me-1 border-0" style="color:white;" onclick="OpenScanner()">
+                            <i class="fa fa-qrcode" aria-hidden="true"></i>&nbsp;Quét mã QR
+                        </a>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
@@ -56,7 +61,7 @@
                     <div class="col-sm-10">
                         <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
                         <span asp-validation-for="NgaySinh" class="text-danger"></span>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-sm-2">
@@ -78,11 +83,11 @@
 
                 <div class="row g-2 align-items-center m-1">
                     @*<div class="col-sm-2">
-                        <label for="DiaChi" class="col-form-label">Địa chỉ</label>
-                    </div>
-                    <div class="col-sm-10">
-                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
-                    </div>*@
+                            <label for="DiaChi" class="col-form-label">Địa chỉ</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        </div>*@
                     <div class="col-sm-2">
                         <label for="DiaChi" class="col-form-label">Địa chỉ</label>
                     </div>
@@ -130,8 +135,8 @@
                     </div>
                     <div class="col-12">
                         @*<div class="col-12">
-                            <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
-                        </div>*@
+                                <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
+                            </div>*@
                         <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         <div class="col-12">
                             <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 115px;"></textarea>
@@ -153,11 +158,11 @@
 <div class="col-12">
     <div class="block">
         @*<div class="form-group" style="float:right">
-            <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-        </div>
-        <div class="button-reload form-group" style="float:right">
-            <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
-        </div>*@
+                <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
+            </div>
+            <div class="button-reload form-group" style="float:right">
+                <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+            </div>*@
         <div class="d-flex justify-content-end">
             <div class="form-group">
                 <button id="btn-confirm" class="btn me-1" style="color:white;" onclick="OpenThemDichVu()">
@@ -170,14 +175,14 @@
                 </button>
             </div>
         </div>
-            
+
         <div class="form-group" style="margin-top: 20px;">
             <table class="table table-bordered mt-3">
-                    <tr id="table-header" class="text-light">
-                        <th class="col-6">Dịch vụ</th>
-                        <th class="col-4">Đơn giá</th>
-                        <th class="col-2 text-center">Thao tác</th>
-                    </tr>
+                <tr id="table-header" class="text-light">
+                    <th class="col-6">Dịch vụ</th>
+                    <th class="col-4">Đơn giá</th>
+                    <th class="col-2 text-center">Thao tác</th>
+                </tr>
                 <tbody id="listDV">
                 </tbody>
             </table>
@@ -197,15 +202,15 @@
 
 
 <!--Model chính-->
-<div id="myModal" class="modal fade"  style="overflow-x: hidden;">
+<div id="myModal" class="modal fade" style="overflow-x: hidden;">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
             @*<div class="modal-header">
 
-                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-            </div>*@
+                    <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+                </div>*@
             <div class="modal-body">
 
                 <div id="myModalContent">
@@ -232,8 +237,8 @@
         <div class="modal-content">
             @*<div class="modal-header">
 
-                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-            </div>*@
+                    <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+                </div>*@
             <div class="modal-body">
 
                 <div id="myModalContent">
@@ -255,7 +260,22 @@
 
 </div>
 
+<!--Model QRCODE-->
+<div id="myModalQrCode" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content" id="myModalContentQrCode" style="padding: 50px 0;">
+
+
+        </div>
+    </div>
+</div>
+
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -287,60 +307,15 @@
                     $("#HoTen").val("");
                     $("#NgaySinh").val("");
                     $("#DiaChi").val(data.DiaChi);
-                    
+
                     $('#GioiTinh').val(0);
-                   
+
                     $("#MaBN").val("");
                 }
             });
 
         });
-        //$("#frm").validate({
-        //    // Specify validation rules
-        //    rules: {
-        //        HoTen: "required",
 
-        //        SDT: {
-        //            required: true,
-        //            digits: true,
-        //            minlength: 10,
-        //            maxlength: 10,
-        //        },
-
-        //        NgaySinh: "required",
-
-        //        DiaChi: {
-        //            required: true,
-        //        },
-
-        //        MaBS: "required"
-        //    },
-        //    messages: {
-        //        HoTen: {
-        //            required: "Bạn cần nhập họ tên bệnh nhân",
-        //        },
-
-        //        SDT: {
-        //            required: "Bạn cần nhập số điện thoại",
-        //            digits: "Số điện thoại không hợp lệ",
-        //            minlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
-        //            maxlength: "Số điện thoại chỉ chấp nhận 10 chữ số",
-        //        },
-
-        //        NgaySinh: {
-        //            required: "Bạn cần chọn ngày sinh",
-        //        },
-
-        //        DiaChi: {
-        //            required: "Bạn cần nhập địa chỉ",
-        //        },
-
-        //        MaBS: {
-        //            required: "Bạn cần chọn bác sĩ",
-        //        }
-        //    },
-
-        //});
     });
 
 </script>
@@ -359,6 +334,21 @@
 
 
 
+        }
+
+        ////Hàm mở modal của Partial ScanQR
+        function OpenScanner() {
+            $.ajax({
+                url: "/TiepNhan/ScanPhieuDatLich/",
+                type: 'GET',
+                success: function (response) {
+                    $("#myModalContentQrCode").html(response);
+                    $('#myModalQrCode').modal('show');
+                    $('#btSave').show();
+                    $('#btupdate').hide();
+
+                }
+            });
         }
 
         function Refresh() {

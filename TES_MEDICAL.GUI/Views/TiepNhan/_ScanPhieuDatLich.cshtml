@@ -1,0 +1,47 @@
+﻿
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <video id="preview" width="100%"></video>
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-center">Thông tin đặt lịch</h4>
+            <label>Mã đặt lịch:</label>
+            <input type="text" name="text" id="text" readonly="" placeholder="Mã đặt lịch" class="form-control" />
+            <label>Họ tên:</label>
+            <input type="text" name="text" id="HoTen" class="form-control" />
+            <label>Số điện thoại:</label>
+            <input type="text" name="text" id="SDT" class="form-control" />
+            <label>Ngày sinh:</label>
+            <input type="text" name="text" id="NgaySinh" class="form-control" />
+
+
+        </div>
+        <div class="mt-4 text-end">
+            <a class="btn btn-primary me-1" id="btn-XacNhan"><i class="fa fa-check"></i> Xác nhận</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        }
+        else {
+            alert('No Camera Found');
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+    scanner.addListener('scan', function (c) {
+        document.getElementById('text').value = c;
+    });
+
+</script>
