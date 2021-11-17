@@ -604,6 +604,7 @@
                 $('#trieuchungauto').on("keyup", function (e) {
                     if (e.keyCode == 13) {
                         addTrieuChung($(this).val());
+                        $(this).val("");
                     }
                 });
 
@@ -613,6 +614,7 @@
 
         function addTrieuChung(name) {
             $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+            $('#trieuchungauto').val("");
         }
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
