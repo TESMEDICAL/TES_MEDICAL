@@ -23,6 +23,8 @@ namespace TES_MEDICAL.GUI.Interfaces
 
         Task<List<ChiTietDV>> GetListDVByPK(Guid MaPK);
 
+        Task<bool> DeletePhieuDatLichById(string id); 
+
 
 
     }
