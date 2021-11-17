@@ -310,5 +310,11 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_ListDatLich", listmodel);
         }
 
+        //Phần QR CODE
+        public IActionResult ViewQRCode()
+        {
+            return View("QRCodeSample");
+        }
+
     }
 }
