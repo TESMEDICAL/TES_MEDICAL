@@ -21,6 +21,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<Response<List<ThongKeDichVuViewModel>>> ThongKeTongDoanhThu(DateTime ngayBatDau, DateTime ngayKetThuc);
 
         Task<Response<List<ThongKeBenhViewModel>>> ThongKeBenh(DateTime ngayBatDau, DateTime ngayKetThuc);
+        Task<Response<List<ThongKeSoLuongThuoc>>> ThongKeSoLuongThuoc(DateTime ngayBatDau, DateTime ngayKetThuc);
 
     }
 }

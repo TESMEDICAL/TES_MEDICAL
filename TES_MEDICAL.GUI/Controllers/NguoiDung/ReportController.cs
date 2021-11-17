@@ -211,6 +211,25 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
+        public async Task<IActionResult> ThongKeSoLuongThuoc(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            var listmodel = await _service.ThongKeSoLuongThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeSoLuongThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint(item.tenThuoc, item.soLuong));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
 
 

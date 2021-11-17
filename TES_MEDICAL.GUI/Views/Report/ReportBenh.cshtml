@@ -98,8 +98,18 @@
             </div>
             <div class="box-option">
                 <div class="form-check ">
-                    <button class="btn btn-primary" style="margin-left: -35px;"  onclick="ReportBenh()">Thống kê</button>
-                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ReportBenh" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Bệnh
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ReportThuoc" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Thuốc
+                        </label>
+                    </div>
                 </div>
                 
             </div>
@@ -112,9 +122,10 @@
                 <table class="table">
                     <thead class="table-head-fixed">
                         <tr>
-                            <th scope="col">Tên bệnh</th>
+                            <th scope="col" id="tenBenhId">Tên bệnh</th>
+                            <th scope="col" id="tenThuocId">Tên thuốc</th>
                             <th scope="col">Số lượng</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
@@ -134,70 +145,150 @@
 </body>
 
 
-<script>
-        function ReportBenh() {
-            $.ajax({
+@section scripts{
 
-                url: "/Report/ThongKeBenh",
-                type: "GET",
-                data: {
-                    ngayBatDau: $('#ngayBatDau').val(),
-                    ngayKetThuc: $('#ngayKetThuc').val()
-                },
-                success: function (response) {
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
+    <script>
+        $(".table").hide();
+        $("#tenBenhId").hide();
+        $("#tenThuocId").hide();
 
-                        data: [{
-                            type: "bar",
-                            indexLabel: "{y} ca",
-                            dataPoints: response.dataPoints
-                        }]
-                    });
-                    chart.render();
+        $('input[type=radio][name=flexRadioDefault]').change(function () {
 
+            if (this.value == 'ReportBenh') {
+                $.ajax({
+                    url: "/Report/ThongKeBenh",
+                    type: "GET",
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+                    success: function (response) {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
 
-                    /*Biểu đồ tròn*/
-                    var chart = new CanvasJS.Chart("chartContainer1", {
-                        theme: "light1", // "light1", "light2", "dark1", "dark2"
-                        exportEnabled: true,
-                        animationEnabled: true,
-                        data: [{
-                            type: "pie",
-                            startAngle: 180,
-                            toolTipContent: "<b>{label}</b>: {y}%",
-                            showInLegend: "true",
-                            legendText: "{label}",
-                            indexLabel: "{label} - {y} ca",
-                            dataPoints: response.dataPoints
-                        }]
-                    });
-                    chart.render();
+                            data: [{
+                                type: "bar",
+                                indexLabel: "{y} ca",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
 
 
-                    $("#BieuDoCot").html("");
-                    $(".table").show();
-                    (response.dataTable.obj).forEach(function (item) {
-                        $("#BieuDoCot").append(`
+                        /*Biểu đồ tròn*/
+                        var chart = new CanvasJS.Chart("chartContainer1", {
+                            theme: "light1", // "light1", "light2", "dark1", "dark2"
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            data: [{
+                                type: "pie",
+                                startAngle: 180,
+                                toolTipContent: "<b>{label}</b>: {y}%",
+                                showInLegend: "true",
+                                legendText: "{label}",
+                                indexLabel: "{label} - {y} ca",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        $("#BieuDoCot").html("");
+                        $("#tenBenhId").show();
+                        $("#tenThuocId").hide();
+                        $(".table").show();
+                        (response.dataTable.obj).forEach(function (item) {
+                            $("#BieuDoCot").append(`
                             <tr>
                                 <td>${item.tenBenh}</td>
                                 <td>${item.soLuong}</td>
                             </tr>
                         `)
-                            ;
+                                ;
 
-                    });
+                        });
 
 
-                },
-                error: function (errormessage) {
-                    toastr.warning(errormessage.responseText);
-                },
-                failure: function (message) {
-                    $('#preloader-box').toggleClass('hide');
-                }
-            });
-        }
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-box').toggleClass('hide');
+                    }
+                });
+            }
 
-</script>
+
+            /*-----------------------*/
+
+            else if (this.value == 'ReportThuoc') {
+                $.ajax({
+                    url: "/Report/ThongKeSoLuongThuoc",
+                    type: "GET",
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+                    success: function (response) {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+
+                            data: [{
+                                type: "bar",
+                                indexLabel: "{y}",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        /*Biểu đồ tròn*/
+                        var chart = new CanvasJS.Chart("chartContainer1", {
+                            theme: "light1", // "light1", "light2", "dark1", "dark2"
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            data: [{
+                                type: "pie",
+                                startAngle: 180,
+                                toolTipContent: "<b>{label}</b>: {y}%",
+                                showInLegend: "true",
+                                legendText: "{label}",
+                                indexLabel: "{label} - {y}",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        $("#BieuDoCot").html("");
+                        $(".table").show();
+                        $("#tenThuocId").show();
+                        $("#tenBenhId").hide();
+
+                        (response.dataTable.obj).forEach(function (item) {
+                            $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.tenThuoc}</td>
+                                <td>${item.soLuong}</td>
+                            </tr>
+                        `)
+                                ;
+
+                        });
+
+
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-box').toggleClass('hide');
+                    }
+                });
+            }
+
+        });
+    </script>                
+}
 
