@@ -60,7 +60,11 @@
         <div class="block push-bit" style="height: 330px;">
             <!-- Login Form -->
             <form id="account" method="post" class="form-horizontal form-control-borderless m-auto">
-                <div asp-validation-summary="All" class="text-danger"></div>
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                
+                <div class="text-danger">
+                   @(string.IsNullOrWhiteSpace(Model.Error)?"":Model.Error) 
+                </div>
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="input-group">
