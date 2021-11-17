@@ -71,25 +71,6 @@ header.navbar-inverse.navbar-fixed-top,
 #title-border {
     border: 1px solid rgb(105, 48, 195);
 }
-#tab1:hover {
-    background-color: #480ca8;
-    color: white;
-}
-
-#tab2:hover {
-    background-color: #480ca8;
-    color: white;
-}
-
-#tab1.active {
-    background-color: #613dc1;
-    color: white;
-}
-
-#tab2.active {
-    background-color: #613dc1;
-    color: white;
-}
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,

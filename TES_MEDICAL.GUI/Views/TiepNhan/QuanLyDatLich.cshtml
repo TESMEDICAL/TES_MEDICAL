@@ -43,7 +43,11 @@
             <div class="modal-content" id="myModalContent">
 
 
+
+
+
             </div>
+
         </div>
     </div>
 </div>
@@ -60,7 +64,7 @@
 
             function () {
 
-                ReloadPage();
+              /*  ReloadPage();*/
 
             });
 
@@ -105,8 +109,39 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+        $("#btSave").click(function () {
 
-        
+            if ($("#frm").valid()) {
+
+                var obj = $("#frm").serialize();
+               
+                $.ajax({
+                    type: "POST",
+                    url: "/TiepNhan/Edit",
+                    dataType: "json",
+                    data: obj,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status >= 1) {
+                            toastr.success(result.text);
+                            ReloadPage()
+
+                        }
+                        else {
+                            toastr.warning(result.text);
+                        }
+                        ReloadPage();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+
+            }
+        });
         $("#TimKiem").keyup(function () {
            
             obj = {};
@@ -143,7 +178,7 @@
         function ReloadPage(Page) {
             obj = {};
 
-            obj.Page = Page;
+            obj.Page = page;
             $("#TimKiem").val("");
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
@@ -168,7 +203,7 @@
         }
 
         function Clear() {
-            ReloadPage(1);
+            reloadpage(1);
         }
 
         const connection = new signalR.HubConnectionBuilder()

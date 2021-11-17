@@ -71,12 +71,13 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<ActionResult> ThemTinTuc()
-        {
-            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
-            return View(new TinTuc { TrangThai = true });
-        }
+        //public async Task<ActionResult> Add()
+        //{
+        //    ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
 
+        //    return PartialView("_partialAdd", new TinTuc());
+
+        //}
 
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
@@ -89,7 +90,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
             model.MaBaiViet = Guid.NewGuid();
             model.MaNguoiViet = Guid.Parse(maNguoiDung);
-            model.ThoiGian = DateTime.Now;
             if (await _service.Add(model) != null)
                 return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
                     RedirectToAction("index", "Tintuc");
@@ -137,12 +137,11 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Preview(TinTuc model)
         {
-            string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
-
+            NguoiDung nguoiDung = new NguoiDung();
+            nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
 
             model.MaBaiViet = Guid.NewGuid();
-            model.MaNguoiViet = Guid.Parse(maNguoiDung);
-            ViewBag.TenTL = (await _theLoaiRep.Get(Guid.Parse(model.MaTL.ToString()))).TenTL;
+            model.MaNguoiViet = nguoiDung.MaNguoiDung;
             return PartialView("_partialPreview",model);
         }
 
@@ -183,7 +182,11 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-       
+        public async Task<ActionResult> ThemTinTuc()
+        {
+            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(),"MaTL","TenTL");
+            return View();
+        }
 
         //[AcceptVerbs(HttpVerbs.Post)]
         public JsonResult UploadFile(IFormFile aUploadedFile)

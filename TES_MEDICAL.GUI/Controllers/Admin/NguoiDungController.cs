@@ -169,9 +169,9 @@ namespace TES_MEDICAL.GUI.Controllers
                 string filePath = "";
                 if (file != null)
                 {
+                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    model.HinhAnh = fileName;
                     filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
                 }
 

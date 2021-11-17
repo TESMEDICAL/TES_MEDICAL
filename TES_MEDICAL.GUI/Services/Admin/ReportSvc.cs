@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
-using X.PagedList;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -56,18 +53,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
             }
             return item;
-        }
-
-        public async Task<Response<List<ThongKeDichVuViewModel>>> ThongKeDichVu(DateTime ngayBatDau, DateTime ngayKetThuc)
-        {
-            List<SqlParameter> parms = new List<SqlParameter>
-                            {
-                                new SqlParameter { ParameterName = "@ngaybatdau", Value= ngayBatDau },
-                                new SqlParameter { ParameterName = "@ngaykethuc", Value= ngayKetThuc },
-
-                            };
-            var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeHDV @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
-            return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj  = result};
         }
     }
 }

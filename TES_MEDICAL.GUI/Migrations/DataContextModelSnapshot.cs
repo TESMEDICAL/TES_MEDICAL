@@ -155,18 +155,6 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeDichVuViewModel", b =>
-                {
-                    b.Property<int>("Nam")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Thang")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("TongTien")
-                        .HasColumnType("decimal(18,2)");
-                });
-
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
                 {
                     b.Property<Guid>("MaBenh")
@@ -775,9 +763,6 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ThoiGian")
-                        .HasColumnType("DateTime");
 
                     b.Property<string>("TieuDe")
                         .IsRequired()

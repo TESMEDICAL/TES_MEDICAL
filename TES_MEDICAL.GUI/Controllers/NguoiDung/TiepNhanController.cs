@@ -59,6 +59,7 @@ namespace TES_MEDICAL.GUI.Controllers
      
         
         public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
+
         {
             ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
@@ -70,9 +71,7 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 
                 var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
-                await _service.DeletePhieuDatLichById(MaPhieu);
                 return View(phieuKham);
-
             }
             return View(new PhieuKhamViewModel());
              
@@ -262,9 +261,6 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_ChiTietDatLich", chiTietDatLich);
         }
 
-
-
-
         public async Task<IActionResult> Edit(string id)
         {
             var result = await _service.GetPhieuDatLichById(id);
@@ -308,12 +304,6 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.Data = model;
 
             return PartialView("_ListDatLich", listmodel);
-        }
-
-        //Phần QR CODE
-        public IActionResult ViewQRCode()
-        {
-            return View("QRCodeSample");
         }
 
     }

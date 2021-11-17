@@ -21,8 +21,6 @@ namespace TES_MEDICAL.GUI.Models
 
         [Required(ErrorMessage = "Bạn cần chọn thể loại")]
         public Guid? MaTL { get; set; }
-        public DateTime? ThoiGian { get; set; }
-
 
         public virtual NguoiDung MaNguoiVietNavigation { get; set; }
         public virtual TheLoai MaTLNavigation { get; set; }
