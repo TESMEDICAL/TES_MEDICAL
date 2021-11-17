@@ -288,5 +288,25 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.PhieuDatLich.FindAsync(id);
         }
+
+        public async Task<bool> DeletePhieuDatLichById(string id)
+        {
+            try
+            {
+
+                var find = await _context.PhieuDatLich.FindAsync(id);
+
+                _context.PhieuDatLich.Remove(find);
+                await _context.SaveChangesAsync();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
     }
 }

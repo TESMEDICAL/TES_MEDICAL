@@ -43,11 +43,7 @@
             <div class="modal-content" id="myModalContent">
 
 
-
-
-
             </div>
-
         </div>
     </div>
 </div>
@@ -147,7 +143,7 @@
         function ReloadPage(Page) {
             obj = {};
 
-            obj.Page = page;
+            obj.Page = Page;
             $("#TimKiem").val("");
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
@@ -172,7 +168,7 @@
         }
 
         function Clear() {
-            reloadpage(1);
+            ReloadPage(1);
         }
 
         const connection = new signalR.HubConnectionBuilder()
