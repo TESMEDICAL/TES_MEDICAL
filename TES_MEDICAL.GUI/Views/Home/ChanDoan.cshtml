@@ -76,16 +76,35 @@
     .modal-dialog{
         margin-top: 50px;
     }
-    .symptom-list li{
-        font-size: 20px;
+    .symptom-list .symptom-item{
+        display: flex;
+/*        border: 1px solid gray;
+*/
     }
-        .symptom-list li i {
-            font-size: 25px;
+    .symptom-list .symptom-item p {
+        width: 80%;
+        margin: 0 20px 0 0 ;
+        font-size: 20px;
+        flex-wrap: wrap;
+    }
+    .symptom-list .symptom-item img{
+        width: 7px; height: 7px; 
+        margin: 14px 10px 0 5px;
+    }
+    .symptom-item button{
+        padding-top: 2px;
+        float: right;
+        background: none;
+    }
+        .symptom-item button i {
+            font-size: 20px;
             color: #ff002b;
-            float: right;
         }
-            .symptom-list li i:hover {
+            .symptom-item button:hover {
                 transform: scale(1.075);
+                font-size: 20px;
+                color: #ff002b;
+                float: right;
             }
 
 </style>
@@ -119,13 +138,23 @@
                             </div>
                             <div class="test-body-right">
                                 <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
-                                    <ul class="symptom-list mt-2 ms-4 me-4" id="ListTrieuChung">
+                                    @*<ul class="symptom-list mt-2 ms-4 me-4" id="ListTrieuChung">
                                         <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
                                         <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
                                         <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
                                         <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
                                         <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
-                                    </ul>
+                                    </ul>*@
+                                    <div class="symptom-list row m-3">
+                                        <div class="symptom-item col-sm-4">    
+                                            <img src="~/GuestElement/img/circle_PNG17.png" />
+                                            <p>
+                                                Ho                                                
+                                            </p>  
+                                            <button ><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </div>
+
+                                    </div>
                                 </div> 
                             </div>
                         </div>
