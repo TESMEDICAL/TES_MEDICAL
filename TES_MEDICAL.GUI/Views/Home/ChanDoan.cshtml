@@ -196,13 +196,13 @@
                         </div>
                     </div>
                     <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingTCNew"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
-                    <div class="test-detail border"  id="ResultTCNew">
+                    <div class="test-detail border" id="ResultTCNew">
                         <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
                             <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng liên quan: </p></div>
                         </div>
                         <div class="test-body row" id="ListTrieuChungNew">
                             <!--Vòng lặp-->
-                                                     
+
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
@@ -215,49 +215,38 @@
                         </div>
                         <div class="result-body row" style="padding: 10px 90px 20px 90px;">
                             <div class="d-flex justify-content-start">
-                                <div class="bd-highlight" >
+                                <div class="bd-highlight">
                                     <p style="font-size: 20px;">
                                         Dựa theo các triệu chứng mà bạn cung cấp,
                                         chúng tôi đưa ra kết quả như sau:
                                     </p>
                                 </div>
                             </div>
-                            <div class="result-content col-sm-9 ">
+                            <div class="result-content col-sm-12">
                                 <div class="row">
-                                    <!--Tên bệnh-->
-                                    <p style="font-size: 30px; font-weight: 600;">Tên bệnh</p>
-
-                                    <!--Có thể xài thẻ <p> hoặc button để mở modal => modal chứa thông tin bệnh -->
-                                    <p style="font-size: 20px;">
-                                        Thông tin bệnh:
-                                        <!--Thông tin bệnh sẽ thêm ở đây-->
-                                    </p>
-                                    <!--Modal thông tin bệnh -->
-                                    <button type="button" class="btn-disease w-25" style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Thông tin bệnh
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- <div class="d-flex p-2 bd-highlight row"> -->
-                            <div class="result-btn col-sm-3">
-                                <div class="row p-4">
-                                    <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
-                                    <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Phần modal Thông tin bệnh-->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
-                                        <p style="font-size: 25px; margin: 10px 20px 10px 20px;">Thông tin bệnh</p>
+                                    <div class="col-sm-8" id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                    <div class="result-btn col-sm-4">
+                                        <div class="row p-4">
+                                            <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
+                                            <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
+                                        </div>
                                     </div>
-                                    <div class="modal-body" style="overflow: scroll; overflow-x: hidden; height: 400px;">
-                                        Nội dung
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" style="height: 40px; width: 100px; background-color: darkgray" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                                
+                            </div>
+                            <!--Phần modal Thông tin bệnh-->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+                                            <p style="font-size: 25px; margin: 10px 20px 10px 20px;">Thông tin bệnh</p>
+                                        </div>
+                                        <div class="modal-body" style="overflow: scroll; overflow-x: hidden; height: 400px;">
+                                            Nội dung
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" style="height: 40px; width: 100px; background-color: darkgray" data-bs-dismiss="modal">Đóng</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -266,148 +255,147 @@
                 </div>
             </div>
         </div>
+        <!-- LOGIN AREA END -->
+
+
     </div>
-    <!-- LOGIN AREA END -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    @section Scripts{
 
 
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-@section Scripts{
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" src="~/js/datetime.js"></script>
+
+        <script>
+            var ListTrieuChung = [];
+            $(document).ready(
 
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="text/javascript" src="~/js/datetime.js"></script>
+                function () {
 
-    <script>
-        var ListTrieuChung = [];
-        $(document).ready(
+                    $('#ResultTCNew').hide();
+                    $('#LoadingTCNew').hide();
 
 
-            function () {
+                    /* Need jquery to be extended with code snippet for selectrange i found somewhere, but forgot where...: */
 
-                $('#ResultTCNew').hide();
-                $('#LoadingTCNew').hide();
+                    $("#trieuchungauto").autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: '/api/chandoan/searchtrieuchung',
+                                headers: {
+                                    "RequestVerificationToken":
+                                        $('input[name="__RequestVerificationToken"]').val()
+                                },
+                                data: { "term": request.term },
+                                dataType: "json",
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        return item;
+                                    }))
+                                },
+                                error: function (xhr, textStatus, error) {
+                                    alert(xhr.statusText);
+                                },
+                                failure: function (response) {
+                                    alert("failure " + response.responseText);
+                                }
+                            });
+                        },
+                        /*   focus: function () { return false; },*/
+                        open: function (event, ui) {
+                            var firstElement = $(this).data("uiAutocomplete").menu.element[0].children[0]
+                                , inpt = $(this)
+                                , original = inpt.val()
+                                , firstElementText = $(firstElement).text();
 
+                            /*
+                               here we want to make sure that we're not matching something that doesn't start
+                               with what was typed in
+                            */
 
-                /* Need jquery to be extended with code snippet for selectrange i found somewhere, but forgot where...: */
+                            if (accents_supr(firstElementText).toLowerCase().indexOf(accents_supr(original).toLowerCase()) === 0) {
+                                inpt.val(firstElementText);//change the input to the first match
 
-                $("#trieuchungauto").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '/api/chandoan/searchtrieuchung',
-                            headers: {
-                                "RequestVerificationToken":
-                                    $('input[name="__RequestVerificationToken"]').val()
-                            },
-                            data: { "term": request.term },
-                            dataType: "json",
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return item;
-                                }))
-                            },
-                            error: function (xhr, textStatus, error) {
-                                alert(xhr.statusText);
-                            },
-                            failure: function (response) {
-                                alert("failure " + response.responseText);
+                                inpt[0].selectionStart = original.length; //highlight from end of input
+                                inpt[0].selectionEnd = firstElementText.length;//highlight to the end
                             }
-                        });
-                    },
-                 /*   focus: function () { return false; },*/
-                    open: function (event, ui) {
-                        var firstElement = $(this).data("uiAutocomplete").menu.element[0].children[0]
-                            , inpt = $(this)
-                            , original = inpt.val()
-                            , firstElementText = $(firstElement).text();
-
-                        /*
-                           here we want to make sure that we're not matching something that doesn't start
-                           with what was typed in
-                        */
-
-                        if (accents_supr(firstElementText).toLowerCase().indexOf(accents_supr(original).toLowerCase()) === 0) {
-                            inpt.val(firstElementText);//change the input to the first match
-
-                            inpt[0].selectionStart = original.length; //highlight from end of input
-                            inpt[0].selectionEnd = firstElementText.length;//highlight to the end
                         }
-                    }
+                    });
+
+                    $('#trieuchungauto').on("keyup", function (e) {
+                        if (e.keyCode == 13) {
+                            addTrieuChung($(this).val());
+                            $(this).val("");
+                        }
+                    });
+
+
+
                 });
 
-                $('#trieuchungauto').on("keyup", function (e) {
-                    if (e.keyCode == 13) {
-                        addTrieuChung($(this).val());
-                        $(this).val("");
-                    }
-                });
+            function addTrieuChung(name) {
+                $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
+                                                    <img src="~/GuestElement/img/circle_PNG17.png" />
+                                                    <p name="TenTrieuChung">${name}</p>
+                                                    <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
+                                                </div>`)
+                $('#trieuchungauto').val("");
+            }
 
+
+
+
+            $(document).on('click', '.remove', function () {
+                $(this).parent().remove();
 
 
             });
 
-        function addTrieuChung(name) {
-            $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
-                                            <img src="~/GuestElement/img/circle_PNG17.png" />
-                                            <p name="TenTrieuChung">${name}</p>
-                                            <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
-                                        </div>`)
-            $('#trieuchungauto').val("");
-        }
+            $(document).on('click', '.removeTC', function () {
+                $(this).parent().parent().remove();
+
+
+            });
+
+            //Hàm mở modal của Xác nhận kết quả
+            function GetTrieuChungNew() {
+                $('#ResultTCNew').hide();
+                $('#LoadingTCNew').fadeIn('slow');
+                ListTrieuChung = [];
+                $('#ListTrieuChungNew').val("");
+
+                $(".trieuChungOld").each(function () {
 
 
 
-
-        $(document).on('click', '.remove', function () {
-            $(this).parent().remove();
-
-
-        });
-
-        $(document).on('click', '.removeTC', function () {
-            $(this).parent().parent().remove();
-
-
-        });
-
-        //Hàm mở modal của Xác nhận kết quả
-        function GetTrieuChungNew() {
-            $('#ResultTCNew').hide();
-            $('#LoadingTCNew').fadeIn('slow');
-            ListTrieuChung = [];
-            $('#ListTrieuChungNew').val("");
-
-            $(".trieuChungOld").each(function () {
-
-
-
-                ListTrieuChung.push($(this).find("[name='TenTrieuChung']").html());
+                    ListTrieuChung.push($(this).find("[name='TenTrieuChung']").html());
 
                 });
 
 
-          
 
 
-            $.ajax({
-                url: "/api/ChanDoan/GetTrieuChungNew",
-                type: 'Post',
-                data: {
-                    ListTrieuChung : ListTrieuChung
 
-                }
+                $.ajax({
+                    url: "/api/ChanDoan/GetTrieuChungNew",
+                    type: 'Post',
+                    data: {
+                        ListTrieuChung: ListTrieuChung
 
-                       ,
+                    }
+
+                    ,
                     success: function (response) {
                         $('#ResultTCNew').fadeIn('slow');
                         $('#LoadingTCNew').hide();
-                    
+
                         response.forEach(function (item) {
                             $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
-                                <label class="checkbox-inline" style="font-size: 20px;">
-                                    <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
-                                </label>
-                            </div>`)
+                                        <label class="checkbox-inline" style="font-size: 20px;">
+                                            <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
+                                        </label>
+                                    </div>`)
                         });
 
                     }
@@ -415,122 +403,199 @@
             }
 
 
-       
-
-     
 
 
-        function FinalCheck() {
-            var listOld = ListTrieuChung;
-            var listTCNew = [];
-            $('input[name="TCNew"]:checked').each(function () {
-                listTCNew.push(this.value);
-            });
-            listOld.push.apply(listOld, listTCNew);
-            $.ajax({
-                url: "/api/ChanDoan/KetQuaChanDoan",
-                type: 'Post',
-                data: {
-                    ListTrieuChung: listOld
 
-                }
 
-                ,
-                success: function (response) {
-                    console.log(response);
-                    //$('#ResultTCNew').fadeIn('slow');
-                    //$('#LoadingTCNew').hide();
 
-                    //response.forEach(function (item) {
-                    //    $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
-                    //            <label class="checkbox-inline" style="font-size: 20px;">
-                    //                <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
-                    //            </label>
-                    //        </div>`)
-                    //});
+            function FinalCheck() {
+                var listOld = ListTrieuChung;
+                var listTCNew = [];
+                $('input[name="TCNew"]:checked').each(function () {
+                    listTCNew.push(this.value);
+                });
+                listOld.push.apply(listOld, listTCNew);
+                $.ajax({
+                    url: "/api/ChanDoan/KetQuaChanDoan",
+                    type: 'Post',
+                    data: {
+                        ListTrieuChung: listOld
 
-                }
-            });
-            
-
-        }
-
-        $("#btSend").click(function () {
-
-            $(this).prop("disabled", true);
-
-            $(this).html(
-                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
-            );
-            $.ajax({
-                type: "POST",
-                url: "/Bacsi/ThemToa/",
-                data: {
-                    model: Phieukham,
-                    ListTrieuChung: ListTrieuChung
-
-                },
-                success: function (result) {
-                    $('#preloader-wrapper').toggleClass('hide');
-
-                    if (result.status >= 1) {
-
-                        let timerInterval
-                        Swal.fire({
-                            title: 'Gửi toa  thành công',
-
-                            html: '<progress value="0" max="3" id="progressBar"></progress>',
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                timerInterval = setInterval(() => {
-                                    const content = Swal.getHtmlContainer()
-                                    if (content) {
-                                        const b = content.querySelector('#progressBar')
-                                        if (b) {
-                                            b.value = 3 - Math.floor(Swal.getTimerLeft() / 1000)
-                                        }
-                                    }
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                                window.location.href = result.redirectUrL;
-                            }
-                        }).then((cf) => {
-
-                            if (cf.dismiss === Swal.DismissReason.timer) {
-                                window.location.href = result.redirectUrL;
-                            }
-                        })
                     }
-                    else {
-                        toastr.warning(result.text);
+
+                    ,
+                    success: function (response) {
+                        console.log(response);
+                        var chart = new CanvasJS.Chart("chartContainer", {
+	                animationEnabled: true,
+	               
+	                axisY: {
+		                valueFormatString: "#,##",
+		                includeZero: true
+	                },
+	                toolTip: {
+		                shared: true
+	                },
+	                legend: {
+		                horizontalAlign: "center",
+		                verticalAlign: "top"
+	                },
+	                data: [{
+		                type: "stackedBar",
+		                name: "Đã chọn",
+		                showInLegend: true,
+		                color: "#4978B1",
+                        yValueFormatString: "#,##",
+                        indexLabel: "{y}",
+                        dataPoints: response.dataPoint1
+	                },
+	                {
+		                type: "stackedBar",
+		                name: "Còn lại",
+		                showInLegend: true,
+		                color: "#7E9BC8",
+                        yValueFormatString: "#,##",
+                        indexLabel: "{y}",
+                        dataPoints: response.dataPoint2
+	                }]
+                });
+                chart.render();
+
+                    }
+                });
+
+
+            }
+
+            $("#btSend").click(function () {
+
+                $(this).prop("disabled", true);
+
+                $(this).html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
+                );
+                $.ajax({
+                    type: "POST",
+                    url: "/Bacsi/ThemToa/",
+                    data: {
+                        model: Phieukham,
+                        ListTrieuChung: ListTrieuChung
+
+                    },
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+
+                        if (result.status >= 1) {
+
+                            let timerInterval
+                            Swal.fire({
+                                title: 'Gửi toa  thành công',
+
+                                html: '<progress value="0" max="3" id="progressBar"></progress>',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                    timerInterval = setInterval(() => {
+                                        const content = Swal.getHtmlContainer()
+                                        if (content) {
+                                            const b = content.querySelector('#progressBar')
+                                            if (b) {
+                                                b.value = 3 - Math.floor(Swal.getTimerLeft() / 1000)
+                                            }
+                                        }
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                    window.location.href = result.redirectUrL;
+                                }
+                            }).then((cf) => {
+
+                                if (cf.dismiss === Swal.DismissReason.timer) {
+                                    window.location.href = result.redirectUrL;
+                                }
+                            })
+                        }
+                        else {
+                            toastr.warning(result.text);
+                            $(this).prop("disabled", false);
+
+                            $(this).html(
+                                'Retry');
+                        }
+
+                    },
+                    error: function (errormessage) {
+                        //alert(errormessage.responseText);
                         $(this).prop("disabled", false);
 
                         $(this).html(
                             'Retry');
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
                     }
+                });
 
-                },
-                error: function (errormessage) {
-                    //alert(errormessage.responseText);
-                    $(this).prop("disabled", false);
 
-                    $(this).html(
-                        'Retry');
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                }
             });
 
 
+        </script>
+    }
+
+   @*Thư viện biểu đồ*@
+   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+   <script>
+    /*Biểu đồ chuẩn đoán*/
+    function BieuDoChuanDoan() {
+        $.ajax({
+            url: "/Home/KetQuaChanDoan/",
+            type: 'GET',
+            success:
+                /*Biểu đồ cột*/
+                function (response) {
+                    var chart = new CanvasJS.Chart("chartContainer", {
+	                animationEnabled: true,
+	                title: {
+		                text: "Quarterly Sales - 2016",
+		                fontColor: "#2C4B5D"
+	                },
+	                axisY: {
+		                valueFormatString: "$#,##0K",
+		                includeZero: true
+	                },
+	                toolTip: {
+		                shared: true
+	                },
+	                legend: {
+		                horizontalAlign: "center",
+		                verticalAlign: "top"
+	                },
+	                data: [{
+		                type: "stackedBar",
+		                name: "East",
+		                showInLegend: true,
+		                color: "#4978B1",
+		                yValueFormatString: "$#,##0K",
+		                dataPoints: @Html.Raw(ViewBag.DataPoints1)
+	                },
+	                {
+		                type: "stackedBar",
+		                name: "West",
+		                showInLegend: true,
+		                color: "#7E9BC8",
+		                yValueFormatString: "$#,##0K",
+		                dataPoints: @Html.Raw(ViewBag.DataPoints2)
+	                }]
+                });
+                chart.render();
+
+                }
+                }
+
         });
-
-
-    </script>
-}
-
-
+    }
+   </script>
