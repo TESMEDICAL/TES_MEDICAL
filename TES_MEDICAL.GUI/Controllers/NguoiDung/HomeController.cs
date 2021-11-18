@@ -25,11 +25,21 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ITinTuc _tintucService;
         private readonly IDuocSi _duocSiService;
         private readonly IDichVu _dichVuService;
+        private readonly ITienIch _tienichRep;
+        
 
 
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService, IDuocSi duocSiService,IDichVu dichvuService)
+        public HomeController(ILogger<HomeController> logger,
+                                ICustomer service,
+                                IValidate valid,
+                                IHubContext<SignalServer> hubContext,
+                                ITinTuc tintucService,
+                                IDuocSi duocSiService,
+                                IDichVu dichvuService,
+                                ITienIch tienichRep
+            )
         {
             _logger = logger;
             _service = service;
@@ -38,6 +48,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _tintucService = tintucService;
             _duocSiService = duocSiService;
             _dichVuService = dichvuService;
+            _tienichRep = tienichRep;
 
         }
 
@@ -92,6 +103,57 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(model);
 
         }
+
+        [Produces("application/json")]
+        [HttpGet("searchtrieuchung")]
+        [Route("api/ChanDoan/searchtrieuchung")]
+        public async Task<IActionResult> SearchTrieuChung()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                return Ok(trieuchung);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [Produces("application/json")]
+        [HttpPost("GetTrieuChungNew")]
+        [Route("api/ChanDoan/GetTrieuChungNew")]
+        public IActionResult GetTrieuChungNew(string[] ListTrieuChung)
+        {
+            try
+            {
+               
+                var trieuchungs = _tienichRep.GetListChanDoan(ListTrieuChung.ToList());
+                return Ok(trieuchungs);
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpPost("KetQuaChanDoan")]
+        [Route("api/ChanDoan/KetQuaChanDoan")]
+        public IActionResult KetQuaChanDoan(string[] ListTrieuChung)
+        {
+            try
+            {
+
+                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList());
+                return Ok(result);
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
 
 
 

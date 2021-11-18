@@ -34,6 +34,13 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
+        public IActionResult ReportBenh()
+        {
+            return View();
+        }
+
+
+
         //Xem và tải hoá đơn dịch vụ
         public async Task<IActionResult> ViewHoaDon()
         {
@@ -87,8 +94,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
-
                 return PartialView("_partialDetailThuoc", await _service.GetTTHDThuoc(MaHD));
             }
         }
@@ -127,6 +132,11 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> ThongKeDichVuAction(DateTime? ngayBatDau, DateTime? ngayKetThuc)
         {
+            if (ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
             var listmodel = await _service.ThongKeDichVu((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
             if (listmodel.errorCode == 0)
             {
@@ -138,6 +148,129 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Ok(new { dataPoints = dataPoints , dataTable = listmodel});
                 
                 
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> ThongKeHDThuoc(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            if (ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
+            var listmodel = await _service.ThongKeHDThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeHDThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+        public async Task<IActionResult> ThongKeTongDoanhThu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            if (ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
+            var listmodel = await _service.ThongKeTongDoanhThu((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeTongDoanhThu((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> ThongKeBenh(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            if(ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
+            var listmodel = await _service.ThongKeBenh((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeBenh((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint(item.tenBenh, item.soLuong));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> ThongKeSoLuongThuoc(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            if (ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
+            var listmodel = await _service.ThongKeSoLuongThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeSoLuongThuoc((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint(item.tenThuoc, item.soLuong));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> ThongKeLuotKham(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        {
+            if (ngayBatDau == null && ngayKetThuc == null)
+            {
+                ngayBatDau = DateTime.Now.AddMonths(-4);
+                ngayKetThuc = DateTime.Now;
+            }
+
+            var listmodel = await _service.ThongKeLuotKham((DateTime)ngayBatDau, (DateTime)ngayKetThuc);
+            if (listmodel.errorCode == 0)
+            {
+                List<DataPoint> dataPoints = new List<DataPoint>();
+                foreach (var item in (await _service.ThongKeLuotKham((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                {
+                    dataPoints.Add(new DataPoint("Tháng " + item.luotKham.ToString(), item.thang));
+                }
+                return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
             }
             else
             {
