@@ -7,7 +7,7 @@
             <video id="preview" width="100%"></video>
         </div>
         <div class="col-md-6">
-            <h4 class="text-center">Thông tin đặt lịch</h4>
+            <h4 class="text-center"><strong>Thông tin đặt lịch</strong></h4>
             <label>Mã đặt lịch:</label>
             <input type="text" name="text" id="TextMaDatLich" readonly="" placeholder="Mã đặt lịch" class="form-control" />
             <label>Họ tên:</label>
@@ -18,9 +18,6 @@
             <input type="date" name="text" id="NgaySinhDatLich" class="form-control" />
 
 
-        </div>
-        <div class="mt-4 text-end">
-            <a class="btn btn-primary me-1" id="btnXacNhan"><i class="fa fa-check"></i> Xác nhận</a>
         </div>
     </div>
 </div>
@@ -61,32 +58,31 @@
         });
     });
 
-    $("#btnXacNhan").click(function () {
+    function XacNhanQRCode() {
+
+        $('#HoTen').val($('#HoTenDatLich').val());
+        $('#SDT').val($('#SDTDatLich').val());
+        $('#NgaySinh').val($('#NgaySinhDatLich').val());
+        $('#UuTien').val(1);
         $.ajax({
             type: "POST",
             url: "/TiepNhan/DeletePhieuDatLich/",
             data: {
                 MaPhieu: $('#TextMaDatLich').val()
             },
+            async: true,
             success: function (result) {
-                console.log(result);
-                //$('#HoTenDatLich').val(HoTen);
-                //$('#SDTDatLich').val(SDT)
-                //$('#NgaySinhDatLich').val(NgaySinh)
-            },
-            error: function (errormessage) {
-                //alert(errormessage.responseText);
-                $(this).prop("disabled", false);
+                $('body').removeAttr("style")
+                $('body').removeClass("modal-open")
 
-                $(this).html(
-                    'Retry');
-            },
-            failure: function (message) {
-                $('#preloader-wrapper').toggleClass('hide');
+                $(".modal-backdrop").remove()
+                $('#myModalQrCode').modal('hide');
             }
         });
 
 
-    });
+    }
+
+   
 
 </script>

@@ -262,14 +262,25 @@
 
 <!--Model QRCODE-->
 <div id="myModalQrCode" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content" id="myModalContentQrCode" style="padding: 50px 0;">
+    <div class="modal-dialog modal-lg">       
+            <!-- Modal content-->
+        <div class="modal-content" style="padding: 50px 0;">
+
+            <div class="modal-body" id="myModalContentQrCode">
+
+            </div>
 
 
+            <div class="modal-footer">
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" onclick="XacNhanQRCode()"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Xác nhận</button>
+                </div>
+            </div>
+        </div>
+        
+            
         </div>
     </div>
-</div>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
@@ -312,8 +323,11 @@
 
         });
 
+        
+
     });
 
+    
 </script>
 @section Scripts{
 
