@@ -137,6 +137,23 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
+        [Produces("application/json")]
+        [HttpPost("KetQuaChanDoan")]
+        [Route("api/ChanDoan/KetQuaChanDoan")]
+        public IActionResult KetQuaChanDoan(string[] ListTrieuChung)
+        {
+            try
+            {
+
+                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList());
+                return Ok(result);
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
 
 
 

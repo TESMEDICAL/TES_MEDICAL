@@ -13,6 +13,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuKham> GetAuToFill(string TenBenh);
         Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung);
         List<ListResponse> GetListChanDoan(List<string> ListTrieuChung);
+        List<ResponseChanDoan> KetQuaChanDoan(List<string> ListTrieuChung);
 
 
     }
