@@ -43,6 +43,9 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
         public virtual DbSet<TheLoai> TheLoai { get; set; }
         public virtual DbSet<ThongKeDichVuViewModel> ThongKeViewModel { get; set; }
+        public virtual DbSet<ThongKeBenhViewModel> ThongKeBenhViewModel { get; set; }
+        public virtual DbSet<ThongKeSoLuongThuoc> ThongKeSLThuocViewModel { get; set; }
+        public virtual DbSet<ThongKeLuotKhamViewModel> ThongKeLuotKhamViewModel { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -55,6 +58,9 @@ namespace TES_MEDICAL.GUI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ThongKeDichVuViewModel>(entiy => entiy.HasNoKey().ToView(null));
+            modelBuilder.Entity<ThongKeBenhViewModel>(entiy => entiy.HasNoKey().ToView(null));
+            modelBuilder.Entity<ThongKeSoLuongThuoc>(entiy => entiy.HasNoKey().ToView(null));
+            modelBuilder.Entity<ThongKeLuotKhamViewModel>(entiy => entiy.HasNoKey().ToView(null));
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
