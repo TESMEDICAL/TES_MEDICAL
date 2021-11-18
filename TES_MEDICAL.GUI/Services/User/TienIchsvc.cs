@@ -63,5 +63,20 @@ namespace TES_MEDICAL.GUI.Services
            
         }
 
+        public List<ResponseChanDoan> KetQuaChanDoan(List<string> ListTrieuChung)
+        {
+            try
+            {
+                var listContent = string.Join(",", ListTrieuChung);
+                var result = _context.ResponseChanDoans.FromSqlRaw("EXEC dbo.GoiYBenh @listTrieuChung", new SqlParameter { ParameterName = "@listTrieuChung", Value = listContent }).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
     }
 }

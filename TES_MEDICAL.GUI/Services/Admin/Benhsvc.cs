@@ -93,7 +93,8 @@ namespace TES_MEDICAL.GUI.Services
                     var listCTTrieuChung = _context.CTTrieuChung.Where(p => p.MaBenh == model.MaBenh);
                     foreach (var existingCTTrieuChung in listCTTrieuChung)
                     {
-                        if (!trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh))
+                        var boole = !trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh);
+                        if (!trieuchungs.Any(c => c.MaTrieuChung == existingCTTrieuChung.MaTrieuChung))
 
                             _context.Entry(existingCTTrieuChung).State = EntityState.Deleted;
                     }

@@ -193,22 +193,18 @@
                             <div class="test-foot-btn p-2 bd-highlight"><button onclick="GetTrieuChungNew()">Tiếp theo</button></div>
                         </div>
                     </div>
-                    <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
-                    <div class="test-detail border">
+                    <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingTCNew"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
+                    <div class="test-detail border"  id="ResultTCNew">
                         <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
                             <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng liên quan: </p></div>
                         </div>
-                        <div class="test-body row">
+                        <div class="test-body row" id="ListTrieuChungNew">
                             <!--Vòng lặp-->
-                            <div class="test-body-item col-sm-4 row">
-                                <label class="checkbox-inline" style="font-size: 20px;">
-                                    <input type="checkbox" value=""> Ho
-                                </label>
-                            </div>                            
+                                                     
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button>Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button onclick="FinalCheck()">Hoàn tất</button></div>
                         </div>
                     </div>
                     <div class="test-result border">
@@ -287,15 +283,8 @@
 
             function () {
 
-                $('#yellow-trigger').click(function () {
-                    $('#red-box').hide();
-                    $('#yellow-box').fadeIn('slow');
-                });
-
-                $('#red-trigger').click(function () {
-                    $('#yellow-box').hide();
-                    $('#red-box').fadeIn('slow');
-                });
+                $('#ResultTCNew').hide();
+                $('#LoadingTCNew').hide();
 
 
                 /* Need jquery to be extended with code snippet for selectrange i found somewhere, but forgot where...: */
@@ -381,7 +370,10 @@
 
         //Hàm mở modal của Xác nhận kết quả
         function GetTrieuChungNew() {
-            ListTrieuChung =[];
+            $('#ResultTCNew').hide();
+            $('#LoadingTCNew').fadeIn('slow');
+            ListTrieuChung = [];
+            $('#ListTrieuChungNew').val("");
 
             $(".trieuChungOld").each(function () {
 
@@ -392,7 +384,7 @@
                 });
 
 
-            console.log(ListTrieuChung);
+          
 
 
             $.ajax({
@@ -405,124 +397,59 @@
 
                        ,
                     success: function (response) {
-                        console.log(response)
-
-
+                        $('#ResultTCNew').fadeIn('slow');
+                        $('#LoadingTCNew').hide();
+                    
+                        response.forEach(function (item) {
+                            $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
+                                </label>
+                            </div>`)
+                        });
 
                     }
                 });
             }
 
 
-        $(document).on('click', '.addThuoc', function () {
+       
 
-            $tr = $(this).parent().parent();
-            var $td = $tr.find("td");
-            console.log($td.eq(2).text());
-            $("#listToaThuoc").append(`<tr>
-                        <th class="col-8">
-                              <input style="display:none" name="MaThuoc" value="${$td.eq(2).text()}"  />
-                            <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${$td.eq(0).text()}</h6>
-                            <div class="row" style="margin-inline: 20px;">
-                                <div class="mb-2 col-sm-4">
-                                    <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;" name="LanTrongNgay" > lần.</label>
-                                </div>
-                                <div class="mb-2 col-sm-4">
-                                    <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;" name="VienMoiLan"> viên.</label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống trước khi ăn
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Sang" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống sáng
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Trua" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống trưa
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Chieu" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống tối
-                                    </label>
-                                </div>
-                            </div>
-                        </th>
-                        <th class="col-2">
-                            <div class="input-group mb-3">
-                                <input type="number"  placeholder="Số lượng..." class="form-control" name ="SoLuong">
-                            </div>
-                        </th>
-                        <th class="col-2 text-center"><button class="btn btn-danger deleteThuoc"><i class="fa fa-trash"></i></button></th>
-                    </tr>
-              `);
-            table
-                .row($(this).parents('tr'))
-                .remove()
-                .draw();
-        });
-
-        $(document).on('click', '.deleteThuoc', function () {
-            $tr = $(this).parent().parent();
-
-            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+     
 
 
-            $(rowNode).find('td').eq(1).addClass('text-center');
-            $(rowNode).find('td').eq(2).addClass('d-none');
-
-            $tr.remove();
-
-        });
-
-
-        function ConfirmToaThuoc() {
-            listCTThuoc = [];
-            $('#toathuocFinal').html("");
-            $("#listToaThuoc > tr").each(function () {
-                var thuoc = {};
-                thuoc.MaPK = $('#MaPK').val();
-                thuoc.MaThuoc = $(this).find("[name='MaThuoc']").val();
-                thuoc.TenThuoc = $(this).find("[name='TenThuoc']").html();
-                thuoc.SoLuong = $(this).find("[name='SoLuong']").val();
-                thuoc.LanTrongNgay = $(this).find("[name='LanTrongNgay']").val();
-                thuoc.VienMoiLan = $(this).find("[name='VienMoiLan']").val();
-                if ($(this).find("[name='TruocKhian']").is(":checked")) {
-                    thuoc.TruocKhian = true
-                } else { thuoc.TruocKhian = false; }
-                if ($(this).find("[name='Sang']").is(":checked")) {
-                    thuoc.Sang = true
-                } else { thuoc.Sang = false; }
-                if ($(this).find("[name='Trua']").is(":checked")) {
-                    thuoc.Trua = true
-                } else { thuoc.Trua = false; }
-                if ($(this).find("[name='Chieu']").is(":checked")) {
-                    thuoc.Chieu = true
-                } else { thuoc.Chieu = false; }
-
-                listCTThuoc.push(thuoc)
-
-                $("#toathuocFinal").append(` <tr>
-                            <td class="col-8">
-                                <h6 style="font-weight: bold">${thuoc.TenThuoc}</h6>
-                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
-                                <p style="font-style: italic"> Ngày uống ${thuoc.LanTrongNgay} lần, mỗi lần ${thuoc.VienMoiLan} viên, uống ${thuoc.TruocKhian?"trước khi ăn":"sau khi ăn"}, uống ${thuoc.Sang ? "sáng" : ""} ${thuoc.Trua ? ", trưa" : ""} ${thuoc.Chieu ? ", chiều" : ""}.</p>
-                            </td>
-                            <td class="col-2 text-center">${thuoc.SoLuong}</td>
-
-                        </tr>`);
-
-
-
+        function FinalCheck() {
+            var listOld = ListTrieuChung;
+            var listTCNew = [];
+            $('input[name="TCNew"]:checked').each(function () {
+                listTCNew.push(this.value);
             });
+            listOld.push.apply(listOld, listTCNew);
+            $.ajax({
+                url: "/api/ChanDoan/KetQuaChanDoan",
+                type: 'Post',
+                data: {
+                    ListTrieuChung: listOld
+
+                }
+
+                ,
+                success: function (response) {
+                    console.log(response);
+                    //$('#ResultTCNew').fadeIn('slow');
+                    //$('#LoadingTCNew').hide();
+
+                    //response.forEach(function (item) {
+                    //    $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
+                    //            <label class="checkbox-inline" style="font-size: 20px;">
+                    //                <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
+                    //            </label>
+                    //        </div>`)
+                    //});
+
+                }
+            });
+            
 
         }
 
