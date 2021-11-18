@@ -9,7 +9,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
     <!-- Place favicon.png in the root directory -->
     <link rel="shortcut icon" href="~/GuestElement/img/favicon.png" type="image/x-icon" />
     <!-- Font Icons css -->
@@ -112,10 +112,10 @@
                                     <div class="ltn__main-menu">
                                         <ul>
                                             <li>
-                                                <a href="@Url.ActionLink("Index","Home")">Trang chủ</a>                                               
+                                                <a href="@Url.ActionLink("Index","Home")">Trang chủ</a>
                                             </li>
                                             <li>
-                                                <a href="#">Chẩn đoán</a>                                                
+                                                <a href="#">Chẩn đoán</a>
                                             </li>
                                             <li>
                                                 <a href="@Url.ActionLink("DatLich","Home")">Đặt lịch</a>
@@ -125,19 +125,19 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="@Url.ActionLink("LichSuKham","Home")">Lịch sử khám</a>                                                
+                                                <a href="@Url.ActionLink("LichSuKham","Home")">Lịch sử khám</a>
                                             </li>
                                             <li>
-                                                <a href="@Url.ActionLink("GioiThieu","Home")">Giới thiệu</a>                                                
-                                            </li>                                           
+                                                <a href="@Url.ActionLink("GioiThieu","Home")">Giới thiệu</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </nav>
                             </div>
                         </div>
                         <div class="col--- ltn__header-options ltn__header-options-2 mb-sm-20">
-                          
-                            
+
+
                             <!-- Mobile Menu Button -->
                             <div class="mobile-menu-toggle d-xl-none">
                                 <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
@@ -696,7 +696,10 @@
     <!-- Main JS -->
     <script src="~/GuestElement/js/main.js"></script>
 
-
+   
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/js/datatableExt.js"></script>
     <!-- Messenger Plugin chat Code -->
     <div id="fb-root"></div>
 
@@ -722,13 +725,13 @@
 
 
                 $('.slick-arrow').each(function () {
-                   
+
                     $(this).addClass('d-none');
                 });
 
             });
 
-          
+
 
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -737,8 +740,8 @@
             js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-       
-            
+
+
         setInterval(function () { $(".slick-next").trigger("click"); }, 7000);
     </script>
     @RenderSection("Scripts", required: false)
