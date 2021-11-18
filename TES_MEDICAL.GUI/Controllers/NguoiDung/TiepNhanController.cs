@@ -79,6 +79,16 @@ namespace TES_MEDICAL.GUI.Controllers
              
         }
 
+        public async Task<IActionResult> DeletePhieuDatLich(string MaPhieu)
+        {
+            await _service.DeletePhieuDatLichById(MaPhieu);
+            return Ok();
+        }
+
+
+
+
+
 
         public async Task<JsonResult> DocTor_Bind(Guid MaCK)
         {
@@ -315,6 +325,22 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View("QRCodeSample");
         }
+
+        public async Task<IActionResult> ScanPhieuDatLich()
+        {       
+            return PartialView("_ScanPhieuDatLich");
+        }
+
+        public async Task<IActionResult> LoadThongTinByMaDatLich(string id)
+        {
+            var chiTietDatLich = await _service.GetPhieuDatLichById(id);
+            return Ok(chiTietDatLich);
+        }
+
+
+
+
+
 
     }
 }

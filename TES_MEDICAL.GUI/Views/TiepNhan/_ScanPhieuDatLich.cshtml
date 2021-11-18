@@ -1,0 +1,88 @@
+﻿
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <video id="preview" width="100%"></video>
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-center"><strong>Thông tin đặt lịch</strong></h4>
+            <label>Mã đặt lịch:</label>
+            <input type="text" name="text" id="TextMaDatLich" readonly="" placeholder="Mã đặt lịch" class="form-control" />
+            <label>Họ tên:</label>
+            <input type="text" name="text" id="HoTenDatLich" class="form-control" />
+            <label>Số điện thoại:</label>
+            <input type="text" name="text" id="SDTDatLich" class="form-control" />
+            <label>Ngày sinh:</label>
+            <input type="date" name="text" id="NgaySinhDatLich" class="form-control" />
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        }
+        else {
+            alert('No Camera Found');
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+    scanner.addListener('scan', function (c) {
+        /*document.getElementById('text').value = c;*/
+        $.ajax({
+            url: "/TiepNhan/LoadThongTinByMaDatLich/",
+            type: 'POST',
+            data: {
+                id: c
+            },
+            async: true,
+            success: function (response) {
+
+                $('#TextMaDatLich').val(response.maPhieu);
+                $('#HoTenDatLich').val(response.tenBN);
+                $('#SDTDatLich').val(response.sdt);
+                $('#NgaySinhDatLich').val(response.ngaySinh.substring(0, 10));
+
+            }
+        });
+    });
+
+    function XacNhanQRCode() {
+
+        $('#HoTen').val($('#HoTenDatLich').val());
+        $('#SDT').val($('#SDTDatLich').val());
+        $('#NgaySinh').val($('#NgaySinhDatLich').val());
+        $('#UuTien').val(1);
+        $.ajax({
+            type: "POST",
+            url: "/TiepNhan/DeletePhieuDatLich/",
+            data: {
+                MaPhieu: $('#TextMaDatLich').val()
+            },
+            async: true,
+            success: function (result) {
+                $('body').removeAttr("style")
+                $('body').removeClass("modal-open")
+
+                $(".modal-backdrop").remove()
+                $('#myModalQrCode').modal('hide');
+            }
+        });
+
+
+    }
+
+   
+
+</script>
