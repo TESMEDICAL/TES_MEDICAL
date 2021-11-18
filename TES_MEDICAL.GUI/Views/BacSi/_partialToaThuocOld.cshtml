@@ -13,7 +13,7 @@
 <!--</div>-->
 <div class="modal-body">
     <div class="col-8 m-auto">
-        <table class="table" id="danhSach" style="width:100%">
+        <table class="table table-bordered" id="danhSach" style="width:100%">
             <thead>
                 <tr>
 
@@ -29,7 +29,7 @@
                     <tr>
 
                         <td>@item.TenThuoc</td>
-                        <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button></td>
+                        <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('@item.MaThuoc')" style="border-radius: 60px;"><i class="fa fa-info-circle"></i></button></td>
                         <td class="d-none">@item.MaThuoc</td>
                     </tr>
                 }

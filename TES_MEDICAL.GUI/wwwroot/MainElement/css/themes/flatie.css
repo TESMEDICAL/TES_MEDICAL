@@ -47,11 +47,11 @@ header.navbar-inverse.navbar-fixed-top,
 }
 
 .button-reload button {
-    background: #32323a;
+    background: #023e7d;
 }
 
 .button-reload a {
-    background: #32323a;
+    background: #023e7d;
 }
 .content-header-media .header-section {
     background: #32323a;
@@ -63,6 +63,33 @@ header.navbar-inverse.navbar-fixed-top,
 #btn-confirm, #btSeach {
     background: rgb(65, 90, 119);
     border: none;
+}
+#title-history {
+    color: rgb(65, 90, 119);
+}
+
+#title-border {
+    border: 1px solid rgb(65, 90, 119);
+}
+
+#tab1:hover {
+    background-color: #023e7d;
+    color: white;
+}
+
+#tab2:hover {
+    background-color: #023e7d;
+    color: white;
+}
+
+#tab1.active {
+    background-color: #0466c8;
+    color: white;
+}
+
+#tab2.active {
+    background-color: #0466c8;
+    color: white;
 }
 /* Main Light Colors */
 .sidebar-nav a,

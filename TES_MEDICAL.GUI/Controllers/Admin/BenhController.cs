@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.GUI.Controllers.Admin;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
 
-    public class BenhController : Controller
+    public class BenhController : BaseController
     {
         private readonly IBenh _service;
         public BenhController(IBenh service)
@@ -81,14 +82,29 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Benh model,CTrieuChungModel[] Trieuchungs)
         {
+            if (ModelState.IsValid)
+            {
+                if (Trieuchungs.Count() >= 1)
+                {
+                    model.MaBenh = Guid.NewGuid();
+                    var result = await _service.Add(model, Trieuchungs.ToList());
+                    if (result.errorCode == -1)
+                    {
+                        ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+                        ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
+                        return PartialView("_partialAdd", model);
+                    }
+                    if (result.errorCode == 0)
+                        return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    else
+                        return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                    return Json(new { status = -3, title = "", text = "Vui lòng thêm ít nhất một triệu chứng", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
 
-            model.MaBenh = Guid.NewGuid();
-            if (await _service.Add(model,Trieuchungs.ToList()) != null)
-                return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
+            }
+            ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+            return PartialView("_partialAdd", model);
         }
         [HttpGet]
 
@@ -106,7 +122,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 foreach(var trieuchung in item.CTTrieuChung)
                 {
-                    listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung, ChiTietTrieuChung = trieuchung.ChiTietTrieuChung });
+                    listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung });
                 }
                 ViewBag.ListTC = listTC;
                 return PartialView("_partialedit", await _service.Get(id));
@@ -134,12 +150,29 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Benh model, CTrieuChungModel[] Trieuchungs)
         {
-
-            if (await _service.Edit(model,Trieuchungs.ToList()) != null)
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            else
-                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
+            if (ModelState.IsValid)
+            {
+                if (Trieuchungs.Count() >= 1)
+                {
+                    var result = await _service.Edit(model, Trieuchungs.ToList());
+                    if (result.errorCode == -1)
+                    {
+                        ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+                        ViewBag.ListTC = Trieuchungs.ToList();
+                        ModelState.AddModelError("TenBenh", "Tên bệnh đã tồn tại");
+                        return PartialView("_partialedit", model);
+                    }
+                    if (result.errorCode == 0)
+                        return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    else
+                        return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+                else
+                    return Json(new { status = -3, title = "", text = "Vui lòng thêm ít nhất một triệu chứng", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
+            ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
+            ViewBag.ListTC = Trieuchungs.ToList();
+            return PartialView("_partialedit", model);
 
         }
 

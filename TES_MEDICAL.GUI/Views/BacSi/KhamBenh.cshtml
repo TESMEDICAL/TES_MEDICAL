@@ -1,6 +1,7 @@
 ﻿@model PhieuKham;
 @{
-    ViewData["Title"] = "KhamBenh";
+    ViewData["Title"] = "Khám bệnh";
+
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
@@ -9,9 +10,35 @@
     #danhSach_filter input {
         width: 100% !important;
     }
+
     .error {
         color: red !important;
     }
+
+    .symptom-list li {
+        line-height: 40px;
+    }
+
+    .button-delete-symptom {
+        height: 20px;
+        padding: 0;
+        float: right;
+        margin-right: 10px;
+        background-color: white;
+        border: none;
+    }
+
+        .button-delete-symptom i {
+            font-size: 18px;
+            color: #ff6b6b;
+            padding-inline: 10px;
+            margin-top: 10px;
+        }
+
+            .button-delete-symptom i:hover {
+                transform: scale(1.1);
+                color: #ff002b;
+            }
 </style>
 
 <div class="col-12">
@@ -55,7 +82,7 @@
                 <div class="col-sm-8">
                     <label class="col-md-5 control-label" for="example-email-input">Địa chỉ</label>
                     <div class="col-md-10">
-                        <h6><strong>341/8 tổ 34-khu phố 2, phường Tân Chánh Hiệp, Quận 12, Tp. Hồ Chí Minh</strong></h6>
+                        <h6><strong>@Model.MaBNNavigation.DiaChi</strong></h6>
                     </div>
                 </div>
             </div>
@@ -107,8 +134,8 @@
                 </div>
                 <br /><br />
                 <div class="form-group row">
-                    <div class=".button-reload col-sm-4">
-                        <a class="btn" onclick="AddCtSinhHieu()" style="background-color:seagreen; color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</a>
+                    <div class="button-reload col-sm-4">
+                        <a class="btn" onclick="AddCtSinhHieu()" style="color: white"><i class="fa fa-plus text-white"></i>  Thêm sinh hiệu</a>
                     </div>
                     <div class="col-sm-8 row" id="TableSinhHieu">
 
@@ -117,144 +144,142 @@
                 </div>
             </div>
             <br /><br />
-            <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+            <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
                 <div class="row">
                     <div class="col-sm-5" style="padding-inline: 38px;">
-                        <label class="col-sm-3 control-label" for="example-textarea-input">Kết quả khám</label>
-                        <div class="col-sm-12">
-                            <textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>
+                        <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
+                        <div class="row">
+                            <div class="col-sm-10 pe-0 me-0">
+                                <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                            </div>
+                            <div class="button-reload col-sm-2 text-end">
+                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <!--<div class="col-sm-12">-->
+                        @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
+                        <!--</div>-->
+                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
+                            <ul class="symptom-list mt-2" id="ListTrieuChung">
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-sm-7 row">
-                        <div class="col-sm-12" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col-sm-12" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                                <div class="col-md-10">
+                                    <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                                <div class="col-md-10">
+                                    <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
-                            <div class="col-md-10">
-                                <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-6" style="padding-inline: 38px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
-                            <div class="col-md-10">
-                                <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-            <br /><br />
         }
-
-
-
-
-    </div>
-    <br><br />
-
-    <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-        <div class="block-title">
-            <h2><strong>Lịch sử khám</strong></h2>
-        </div>
-        <div class="form-group">
-            <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
+        <br /><br />
+        <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Lịch sử khám</strong></h2>
             </div>
-        </div>
-        <div class="form-group collapse" id="LichSuKham" style="margin-inline: 20px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày khám</th>
-                        <td></td>
-                        <td></td>
-                        <th scope="col">Chẩn đoán</th>
-                        <td></td>
-                        <td></td>
-                        <th scope="col" class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
-                        if (LichSu.Count() > 0)
-                        {
-                            foreach (var item in LichSu)
+            <div class="form-group">
+                <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
+                    <button class="btn" style="width: 150px; color:white;" data-bs-toggle="collapse" data-bs-target="#LichSuKham" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye text-white"></i>  Lịch sử khám</button>
+                </div>
+            </div>
+            <div class="form-group collapse mt-3 table-bordered" id="LichSuKham" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
+                            <th class="col-4 text-center">Ngày khám</th>
+                            <th class="col-4 text-center">Chẩn đoán</th>
+                            <th class="col-4 text-center">Thao tác</th>
+                        </tr>
+                    <tbody>
+                        @{
+                            var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
+                            if (LichSu.Count() > 0)
+                            {
+                                foreach (var item in LichSu)
+                                {
+                                    <tr>
+                                        <td class="col-4 text-center">@item.NgayKham.ToString("dd/MM/yyyy")</td>
+                                        <td class="col-4 text-center">@item.ChanDoan</td>
+                                        <td class="col-4 text-nowrap text-center">
+                                            <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@item.NgayKham.ToString("dd/MM/yyyy")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>@item.ChanDoan</td>
-                                    <td>
-                                    <td>
-                                    </td></td>
-                                    <td class="text-nowrap text-center">
-                                        <a class="btn btn-info btn-sm active" title="Thông tin" onclick="OpenLichSuKham('@item.MaPK')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                                    </td>
+                                    <td colspan="8" class="text-center">Chưa có lich sử khám</td>
                                 </tr>
+
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="8" class="text-center">Chưa có lich sử khám</td>
-                            </tr>
 
                         }
 
-                    }
 
 
+                    </tbody>
+                </table>
 
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    <br>
-    <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
-        <div class="block-title">
-            <h2><strong>Toa thuốc</strong></h2>
-        </div>
-        <div class="form-group">
-            <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                <button style="background-color:seagreen;  color:white;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fa fa-plus text-white"></i>
-                    Thêm thuốc
-                </button>
-                @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
             </div>
         </div>
-        <div class="form-group" style="margin-inline: 20px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="col-8">Tên thuốc</th>
-                        <th class="col-2 text-center">Số lượng</th>
-                        <th class="col-2 text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="toathuocFinal">
-                </tbody>
-            </table>
+        <br /><br />
+        <div enctype="multipart/form-data" class="form-horizontal p-0 " onsubmit="return false;">
+            <div class="block-title">
+                <h2><strong>Toa thuốc</strong></h2>
+            </div>
+            <div class="form-group">
+                <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
+                    <button style="color:white; border: none" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-plus text-white"></i>
+                        Thêm thuốc
+                    </button>
+                    @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
+                </div>
+            </div>
+            <div class="form-group mt-3" style="margin-inline: 20px;">
+                <table class="table table-bordered">
+                        <tr id="table-header" class="text-light">
+                            <th class="col-8">Tên thuốc</th>
+                            <th class="col-4 text-center">Số lượng</th>
+                        </tr>
+                    <tbody id="toathuocFinal">
+                    </tbody>
+                </table>
+
+            </div>
 
         </div>
+        <!--Button-->
+        <div class="form-group" style="text-align: right; margin-right: 10px;">
+            <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
+            <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+        </div>
+        <br /><br />
+    </div>
 
-    </div>
-    <div class="form-group" style="text-align: right; margin-right: 10px;">
-        <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
-        <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-    </div>
 
     <br />
 </div>
@@ -271,7 +296,7 @@
 </div>
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -289,9 +314,9 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btUse" class="btn btn-sm btn-success" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
-                    <button type="button" id="btSend" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btUse" class="btn btn-primary" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
+                    <button type="button" id="btSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
+                    <button type="button" class="btn btn-danger" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -299,12 +324,16 @@
     </div>
 </div>
 
+
+
+
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 <script>
     $(document).ready(
 
 
         function () {
+
 
             $("#frmKhamBenh").validate({
                 // Specify validation rules
@@ -339,12 +368,20 @@
             });
 
 
-           
+
 
 
 
 
         });
+    function BindOld(item) {
+        $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
+            oldPK = data;
+            UseOld()
+
+        });
+
+    }
 </script>
 
 
@@ -352,7 +389,7 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
     <script>
@@ -363,6 +400,9 @@
         var ToaThuoc = {};
         var oldPK = {};
 
+        var ListTrieuChung = [];
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
         $(document).ready(
 
 
@@ -399,43 +439,83 @@
                     },
 
                 });
-                $("#ChanDoan").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '/api/benh/search',
-                            headers: {
-                                "RequestVerificationToken":
-                                    $('input[name="__RequestVerificationToken"]').val()
-                            },
-                            data: { "term": request.term },
-                            dataType: "json",
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return item;
-                                }))
-                            },
-                            error: function (xhr, textStatus, error) {
-                                alert(xhr.statusText);
-                            },
-                            failure: function (response) {
-                                alert("failure " + response.responseText);
-                            }
-                        });
-                    },
-                    select: function (e, i) {
-                        $.get("/BacSi/GetAutoFill", { TenBenh: i.item.value }, function (data) {
-                            oldPK = data;
+
+            $("#ChanDoan").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/api/benh/search',
+                        headers: {
+                            "RequestVerificationToken":
+                                $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        data: { "term": request.term },
+                        dataType: "json",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (xhr, textStatus, error) {
+                            alert(xhr.statusText);
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+
+                    Swal.fire({
+                        title: `Sủ dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
+
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Huỷ bỏ',
+                        confirmButtonText: 'Xác nhận'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "/BacSi/GetAutoFill/",
+                                type: 'GET',
+                                data: {
+                                    TenBenh: ui.item.value
+
+                                },
+                                success: function (data) {
+
+                                    oldPK = data;
+                                    UseOld()
 
 
-                        });
+                                }
+                            });
+                        }
+                    })
 
-                        UseOld();
+                    var originalEvent = event,
+                        input__event_type = '',
+                        input__selection_type = '';
 
+                    while (originalEvent) {
+                        if (originalEvent.keyCode === 13) {
+                            originalEvent.stopPropagation();
+                        }
+                        if (originalEvent === event.originalEvent) {
+                            break;
+                        }
+                        originalEvent = event.originalEvent;
+                    }
 
-                       
-                    },
-                    minLength: 3
-                });
+                    input__event_type = originalEvent.type;
+
+                    if (input__event_type === 'menuselect') { // selected by keyboard instead of mouse/touch
+                        input__selection_type = 'menuselect'
+                    }
+
+                }
+            });
 
 
                 $.get("GetListThuoc", function (data) {
@@ -477,11 +557,65 @@
                     )
                 });
 
+                $("#trieuchungauto").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '/api/benh/searchtrieuchung',
+                            headers: {
+                                "RequestVerificationToken":
+                                    $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            data: { "term": request.term },
+                            dataType: "json",
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return item;
+                                }))
+                            },
+                            error: function (xhr, textStatus, error) {
+                                alert(xhr.statusText);
+                            },
+                            failure: function (response) {
+                                alert("failure " + response.responseText);
+                            }
+                        });
+                    },
+                    focus: function () { return false; },
+                    open: function (event, ui) {
+                        var firstElement = $(this).data("uiAutocomplete").menu.element[0].children[0]
+                            , inpt = $(this)
+                            , original = inpt.val()
+                            , firstElementText = $(firstElement).text();
 
+                        /*
+                           here we want to make sure that we're not matching something that doesn't start
+                           with what was typed in
+                        */
+
+                        if (accents_supr(firstElementText).toLowerCase().indexOf(accents_supr(original).toLowerCase()) === 0) {
+                            inpt.val(firstElementText);//change the input to the first match
+
+                            inpt[0].selectionStart = original.length; //highlight from end of input
+                            inpt[0].selectionEnd = firstElementText.length;//highlight to the end
+                        }
+                    }
+                });
+
+                $('#trieuchungauto').on("keyup", function (e) {
+                    if (e.keyCode == 13) {
+                        addTrieuChung($(this).val());
+                        $(this).val("");
+                    }
+                });
 
 
 
             });
+
+        function addTrieuChung(name) {
+            $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+            $('#trieuchungauto').val("");
+        }
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
             $.ajax({
@@ -503,6 +637,7 @@
                 }
             });
             $.get("/BacSi/GetJsonPK", { MaPK: MaPK }, function (data) {
+               
                 oldPK = data;
 
 
@@ -533,46 +668,53 @@
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
                 type: 'Post',
-                data: JSON.parse(oldPK),
+                data:oldPK,
                 success: function (response) {
-                    $("#ThuocContent").html(response);
 
-                    ConfirmToaThuoc();
-                    table = $('#danhSach').DataTable(
-                        {
+                    if (response.status == -2) {
+                        toastr.warning(response.text)
+                    }
+                    else {
+                        $("#ThuocContent").html(response);
+
+                        ConfirmToaThuoc();
+                        table = $('#danhSach').DataTable(
+                            {
 
 
 
-                            "order": [0, "asc"],
-                            "language": {
-                                "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
-                                "zeroRecords": "Không có kết quả",
-                                "info": "Trang: _PAGE_ / _PAGES_",
-                                "infoEmpty": "Không có yêu cầu nào",
-                                "infoFiltered": "(filtered from _MAX_ total records)",
-                                "search": "Tìm: ",
-                                "paginate": {
-                                    "first": "Trang đầu",
-                                    "last": "Trang cuối",
-                                    "next": ">",
-                                    "previous": "<"
-                                },
+                                "order": [0, "asc"],
+                                "language": {
+                                    "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
+                                    "zeroRecords": "Không có kết quả",
+                                    "info": "Trang: _PAGE_ / _PAGES_",
+                                    "infoEmpty": "Không có yêu cầu nào",
+                                    "infoFiltered": "(filtered from _MAX_ total records)",
+                                    "search": "Tìm: ",
+                                    "paginate": {
+                                        "first": "Trang đầu",
+                                        "last": "Trang cuối",
+                                        "next": ">",
+                                        "previous": "<"
+                                    },
+                                }
+                                //"columnDefs": [
+                                //    {
+                                //        "targets": [2],
+                                //        "visible": false
+                                //    }
+
+                                //]
+
+
+
+
+
+
                             }
-                            //"columnDefs": [
-                            //    {
-                            //        "targets": [2],
-                            //        "visible": false
-                            //    }
-
-                            //]
-
-
-
-
-
-
-                        }
-                    )
+                        )
+                    }
+                   
 
                 }
             });
@@ -585,8 +727,15 @@
 
         });
 
+        $(document).on('click', '.removeTC', function () {
+            $(this).parent().remove();
+
+
+        });
+
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
+            ListTrieuChung =[];
             if ($("#frmKhamBenh").valid()) {
                 $(".SinhHieu").each(function () {
                     var obj = {};
@@ -597,6 +746,15 @@
                     ctSH.push(obj);
 
                 });
+
+                $(".trieuchungPK").each(function () {
+
+
+
+                    ListTrieuChung.push($(this).find("[name='trieuChung']").html());
+
+                });
+
                 ToaThuoc.MaPhieuKham = Phieukham.MaPK;
                 ToaThuoc.TrangThai = 0;
                 ToaThuoc.ChiTietToaThuoc = listCTThuoc;
@@ -613,14 +771,27 @@
                 $.ajax({
                     url: "/BacSi/XacNhanKetQua/",
                     type: 'Post',
-                    data: Phieukham,
+                    data:
+                    {
+                        model: Phieukham,
+                        ListTrieuChung: ListTrieuChung
+
+                    }
+                       ,
                     success: function (response) {
-                        $("#myModalContent").html(response);
-                        $("#Title").html("Xác nhận thông tin");
-                        $('#myModal').modal('show');
-                        $('#btSend').show();
-                        $('#btUse').hide();
-                        $('#danhSach_filter').addClass("col-sm-12");
+                        if (response.status == -2) {
+                            toastr.warning(response.text)
+                        }
+                        else {
+
+                            $("#myModalContent").html(response);
+                            $("#Title").html("Xác nhận thông tin");
+                            $('#myModal').modal('show');
+                            $('#btSend').show();
+                            $('#btUse').hide();
+                            $('#danhSach_filter').addClass("col-sm-12");
+                        }
+                      
 
 
                     }
@@ -687,7 +858,7 @@
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
 
-            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
 
 
             $(rowNode).find('td').eq(1).addClass('text-center');
@@ -750,18 +921,52 @@
             $.ajax({
                 type: "POST",
                 url: "/Bacsi/ThemToa/",
-                data: Phieukham,
+                data: {
+                    model: Phieukham,
+                    ListTrieuChung: ListTrieuChung
+
+                },
                 success: function (result) {
                     $('#preloader-wrapper').toggleClass('hide');
-
+                   
                     if (result.status >= 1) {
 
-                        toastr.success(result.text);
-                        window.location.href = result.redirectUrL;
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Gửi toa  thành công',
+
+                            html: '<progress value="0" max="3" id="progressBar"></progress>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    const content = Swal.getHtmlContainer()
+                                    if (content) {
+                                        const b = content.querySelector('#progressBar')
+                                        if (b) {
+                                            b.value = 3 - Math.floor(Swal.getTimerLeft() / 1000)
+                                        }
+                                    }
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                window.location.href = result.redirectUrL;
+                            }
+                        }).then((cf) => {
+
+                            if (cf.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = result.redirectUrL;
+                            }
+                        })
                     }
                     else {
                         toastr.warning(result.text);
+                        $(this).prop("disabled", false);
 
+                        $(this).html(
+                            'Retry');
                     }
 
                 },
@@ -779,6 +984,34 @@
 
 
         });
+        function _Detail(id_) {
+            $myModalContent.html("");
+
+            $.ajax({
+                url: '/BacSi/ChiTietThuoc/',
+
+                type: "Get",
+                timeout: 20000,
+
+                async: true,
+                data: {
+                    id: id_
+                },
+
+                success: function (result) {
+                    $myModalContent.html(result);
+                    $('#btSend').hide();
+                    $('#btUse').hide();
+                    $modal.modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
 
     </script>
 }

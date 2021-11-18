@@ -1,0 +1,279 @@
+﻿
+@{
+    ViewData["Title"] = "CHẨN ĐOÁN";
+    Layout = "~/Views/Shared/GuestLayout.cshtml";
+}
+<style>
+    .title {
+        margin-top: 20px;
+    }
+
+    .test .test-detail {
+        margin-bottom: 2%;
+    }
+
+        .test .test-detail .test-head {
+            background-color: rgb(228, 228, 228);
+        }
+
+        .test .test-detail .test-body {
+            padding-left: 10%;
+        }
+        .test .test-detail .test-body-1 {
+            padding-inline:10%;
+        }
+
+    .test-body .test-body-item {
+        margin-top: 5%;
+    }
+    .btn-select {
+        width: 180px;
+        height: 50px;
+        background-color: rgb(10, 154, 115);
+        color: white;
+    }
+    .test-foot {
+        margin-top: 10px;
+    }
+
+        .test-foot .test-foot-btn button {
+            width: 150px;
+            height: 40px;
+            background-color: rgb(10, 154, 115);
+            color: white;
+        }
+
+    .test .test-result {
+        margin-top: 2%;
+    }
+
+        .test .test-result .test-head {
+            background-color: rgb(228, 228, 228);
+        }
+
+    .btn-contact {
+        width: 230px;
+        height: 50px;
+        background-color: rgb(245, 249, 250);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        position: relative;
+    }
+    .result-btn .btn-booking {
+        width: 230px;
+        height: 50px;
+        background-color: rgb(10, 154, 115);
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    .btn-disease {
+        width: 230px;
+        height: 50px;
+        background-color: rgb(10, 154, 115);
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    .modal-dialog{
+        margin-top: 50px;
+    }
+    .symptom-list .symptom-item{
+        display: flex;
+/*        border: 1px solid gray;
+*/
+    }
+    .symptom-list .symptom-item p {
+        width: 80%;
+        margin: 0 20px 0 0 ;
+        font-size: 20px;
+        flex-wrap: wrap;
+    }
+    .symptom-list .symptom-item img{
+        width: 7px; height: 7px; 
+        margin: 14px 10px 0 5px;
+    }
+    .symptom-item button{
+        padding-top: 2px;
+        float: right;
+        background: none;
+    }
+        .symptom-item button i {
+            font-size: 20px;
+            color: #ff002b;
+        }
+            .symptom-item button:hover {
+                transform: scale(1.075);
+                font-size: 20px;
+                color: #ff002b;
+                float: right;
+            }
+
+</style>
+<!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+<!-- Add your site or application content here -->
+<!-- Body main wrapper start -->
+<div class="body-wrapper">
+    <!-- LOGIN AREA START (Register) -->
+    <div class="ltn__login-area pb-110">
+        <div class="container">
+            <div class="col-12">
+                <div class="title text-center">
+                    <h2>CHẨN ĐOÁN</h2>
+                </div>
+                <br>
+                <div class="test">
+                    <div class="test-detail border">
+                        <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
+                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng cơ bản bạn đang mắc phải: </p></div>
+                        </div>
+                        <div class="test-body-1 row">
+                            <div class="test-body-left d-flex">
+                                <div class="w-100">
+                                    <input type="text" style="height: 50px;" placeholder="Nhập triệu chứng đang mắc phải ..." class="form-control mt-4" />
+                                </div>
+                                <div class="text-end">
+                                    <button class="btn-select mt-4 ms-5 float-end">Thêm vào danh sách</button>
+                                </div>
+                            </div>
+                            <div class="test-body-right">
+                                <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
+                                    @*<ul class="symptom-list mt-2 ms-4 me-4" id="ListTrieuChung">
+                                        <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
+                                        <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
+                                        <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
+                                        <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
+                                        <li>Ho <i class="fa fa-trash" aria-hidden="true"></i></li>
+                                    </ul>*@
+                                    <div class="symptom-list row m-3">
+                                        <div class="symptom-item col-sm-4">    
+                                            <img src="~/GuestElement/img/circle_PNG17.png" />
+                                            <p>
+                                                Ho                                                
+                                            </p>  
+                                            <button ><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </div>
+
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="test-foot d-flex justify-content-end">
+                            <!-- <div class="p-2 bd-highlight">C</div> -->
+                            <div class="test-foot-btn p-2 bd-highlight"><button>Tiếp theo</button></div>
+                        </div>
+                    </div>
+                    <div class="test-detail border">
+                        <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
+                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng liên quan: </p></div>
+                        </div>
+                        <div class="test-body row">
+                            <div class="test-body-item col-sm-4 row">
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Ho
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Sốt
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Tê mỏi tay chân
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Đau đầu
+                                </label>
+                            </div>
+                            <div class="test-body-item col-sm-4 row">
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Ho
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Sốt
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Tê mỏi tay chân
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Đau đầu
+                                </label>
+                            </div>
+                            <div class="test-body-item col-sm-4 row">
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Ho
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Sốt
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Tê mỏi tay chân
+                                </label>
+                                <label class="checkbox-inline" style="font-size: 20px;">
+                                    <input type="checkbox" value=""> Đau đầu
+                                </label>
+                            </div>
+                        </div>
+                        <div class="test-foot d-flex justify-content-end">
+                            <!-- <div class="p-2 bd-highlight">C</div> -->
+                            <div class="test-foot-btn p-2 bd-highlight"><button>Hoàn tất</button></div>
+                        </div>
+                    </div>
+                    <div class="test-result border">
+                        <div class="test-head d-flex justify-content-start" style="height: 50px;">
+                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả trả về: </p></div>
+                        </div>
+                        <div class="result-body row" >
+                            <div class="d-flex justify-content-start">
+                                <div class="bd-highlight" style="padding: 10px 20px 10px 30px;">
+                                    <p style="font-size: 20px;">
+                                        Dựa theo các triệu chứng mà bạn cung cấp,
+                                        chúng tôi đưa ra kết quả như sau:
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="result-content col-sm-9 ">
+                                <div class="row" style="padding: 10px 20px 10px 30px;">
+                                    <!--Tên bệnh-->
+                                    <p style="font-size: 30px; font-weight: 600;">Tên bệnh</p>
+
+                                    <!--Có thể xài thẻ <p> hoặc button để mở modal => modal chứa thông tin bệnh -->
+                                    <p style="font-size: 20px;">
+                                        Thông tin bệnh:
+                                        <!--Thông tin bệnh sẽ thêm ở đây-->
+                                    </p>
+                                    <!--Modal thông tin bệnh -->
+                                    <button type="button" class="btn-disease w-25" style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Thông tin bệnh
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- <div class="d-flex p-2 bd-highlight row"> -->
+                            <div class="result-btn col-sm-3">
+                                <div class="row p-4">
+                                    <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
+                                    <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Phần modal Thông tin bệnh-->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="border-bottom: 1px solid lightgray;">
+                                        <p style="font-size: 25px; margin: 10px 20px 10px 20px;">Thông tin bệnh</p>
+                                    </div>                          
+                                    <div class="modal-body" style="overflow: scroll; overflow-x: hidden; height: 400px;">
+                                       Nội dung
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" style="height: 40px; width: 100px; background-color: darkgray" data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN AREA END -->
+
+</div>

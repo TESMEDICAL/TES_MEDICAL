@@ -4,36 +4,24 @@
 
 
 @{
-    ViewData["Title"] = "Lịch sử khám";
+    ViewData["Title"] = "Danh sách chờ";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-<div class="block m-3">
+<div class="block">
     <div class="block-title">
         <h2><strong>Phiếu khám bệnh</strong></h2>
     </div>
-    <div class="row">
-
-
-
-        <div class="col-8 mr-2">
-            <input class="mr-2 mb-2 form-control w-50" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
-
+    <div class="d-flex justify-content-between">
+        <div class="w-50">
+            <input class="mr-2 mb-2 form-control" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
         </div>
-
-
-        <div class="button-reload col-2 ms-auto">
-
-
+        <div class="button-reload">
             <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
         </div>
-
-
-
     </div>
     <div id="nameListContainer" class="mt-3">
         <partial name="_listSTTPhieuKham" model="ViewBag.Names as IPagedList<PhieuKham>" />
-
     </div>
 </div>
 

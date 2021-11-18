@@ -155,6 +155,18 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeDichVuViewModel", b =>
+                {
+                    b.Property<int>("Nam")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Thang")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
                 {
                     b.Property<Guid>("MaBenh")
@@ -225,9 +237,6 @@ namespace TES_MEDICAL.GUI.Migrations
 
                     b.Property<Guid>("MaTrieuChung")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ChiTietTrieuChung")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaBenh", "MaTrieuChung")
                         .HasName("PK__CTTrieuC__E45FC2F731FF98AB");
@@ -767,6 +776,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("ThoiGian")
+                        .HasColumnType("DateTime");
+
                     b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -805,10 +817,6 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TenTrieuChung")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TenTrieuChungKhongDau")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

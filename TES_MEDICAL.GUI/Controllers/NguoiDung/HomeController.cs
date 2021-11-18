@@ -202,6 +202,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
         }
+        public IActionResult ChanDoan()
+        {
+            return View();
+        }
 
         
     }

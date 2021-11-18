@@ -10,6 +10,7 @@ namespace TES_MEDICAL.GUI.Interfaces
     {
        Task<List<Benh>> SearchBenh(string KeyWord);
         Task<PhieuKham> GetAuToFill(string TenBenh);
+        Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung);
 
 
     }

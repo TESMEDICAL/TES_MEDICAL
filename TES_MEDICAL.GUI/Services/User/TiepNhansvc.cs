@@ -160,10 +160,44 @@ namespace TES_MEDICAL.GUI.Services
         //        html = html.Replace("{listDichVu}", listDichVu);
         //        html = html.Replace("{tongtien}", tongTien.ToString("n0").Replace(',', '.'));
 
-        //        HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-        //        PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-        //        byte[] pdf = opdfDocument.Save();
-        //        opdfDocument.Close();
+           
+
+              var   listUnpaged = (_context.PhieuDatLich.Where(x =>
+             (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+             EF.Functions.Collate(x.TenBN, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+             EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+             
+
+
+
+
+
+
+
+                 ).OrderByDescending(x=>x.NgayKham));
+
+            
+          
+
+
+
+
+
+
+
+
+
+
+
+            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+
+
+            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                return null;
+
+            return listPaged;
+
+
 
         //        string filePath = "";
         //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", HD.MaHoaDon + ".pdf");
@@ -281,6 +315,26 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<PhieuDatLich> GetPhieuDatLichById(string id)
         {
             return await _context.PhieuDatLich.FindAsync(id);
+        }
+
+        public async Task<bool> DeletePhieuDatLichById(string id)
+        {
+            try
+            {
+
+                var find = await _context.PhieuDatLich.FindAsync(id);
+
+                _context.PhieuDatLich.Remove(find);
+                await _context.SaveChangesAsync();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
         }
     }
 }

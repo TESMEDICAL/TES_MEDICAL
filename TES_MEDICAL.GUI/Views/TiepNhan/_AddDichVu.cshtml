@@ -5,35 +5,38 @@
        font-size: 18px;
        font-family:'Segoe UI';
    }
+    .modal-header h2 {        
+        font-weight: 500;
+    }
 </style>
-
-<h4 style="text-align:center; font-weight:bold">CHỌN DỊCH VỤ</h4>
-<br />
-        <table class="table m-auto col-8 px-5" id="table_dichvu" style="width:100%">
-            <tbody>
-                @if (Model != null)
-                {
-                    foreach (var item in Model)
-                    {
-                <tr>
-                    <td style="display:none">@item.MaDV</td>
-                    <td>@item.TenDV.</td>
-                    <td>@item.DonGia.ToString("n0").Replace(",",".") VNĐ</td>
-
-                    <td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
-                </tr>
-                    }
-                }
-                else
+<div>
+    <div class="modal-header">
+        <h2>Chọn dịch vụ</h2>
+        <hr />
+    </div>
+    <table class="table m-auto col-8 px-5" id="table_dichvu" style="width:100%">
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
                 {
                     <tr>
-                        
-                        <td>Không có dịch vụ nào</td>
+                        <td style="display:none">@item.MaDV</td>
+                        <td>@item.TenDV.</td>
+                        <td>@item.DonGia.ToString("n0").Replace(",", ".") VNĐ</td>
+
+                        <td><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
                     </tr>
                 }
-
-
-
-            </tbody>
-        </table>
+            }
+            else
+            {
+                <tr>
+                    <td>Không có dịch vụ nào</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+      
 
