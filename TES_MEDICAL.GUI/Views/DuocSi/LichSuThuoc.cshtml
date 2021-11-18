@@ -19,26 +19,23 @@
     <div class="block-title">
         <h2><strong>Toa thuốc đã phát</strong></h2>
     </div>
-    <div class="m-3">
-
-        <div class="row">
-
-
-
-            <div class="col-10 text-start">
+    <div class="d-flex justify-content-between">
+        <div class="w-50">
+            <input class="mr-2 mb-2 form-control" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
+        </div>
+        <div class="button-reload">
+            <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
+        </div>
+    </div>        
+            @*<div class="col-10 text-start">
                 <input class="mr-2 mb-2 form-control w-50" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
             </div>
 
 
             <div class="button-reload col-2 text-end">
                 <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-            </div>
-
-
-
-        </div>
-    </div>
-    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 20px;">
+            </div>*@
+    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 15px;">
         <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
         <label class="form-check-label" for="flexCheckChecked">
             Hiện tất cả

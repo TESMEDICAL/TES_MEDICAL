@@ -61,7 +61,16 @@
                 {
                     <tr>
                         <td class="col-6">@item.TenDV</td>
-                        <td class="col-3">@item.DonGia</td>
+
+
+
+
+
+                        <td class="col-3">@item.DonGia.ToString("#,###")</td>
+
+
+
+
                         <td class="table-btn col-3 text-center text-nowrap">
                             <a class="btn btn-status btn-sm btn-sm active" onclick="Edit('@item.MaDV')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)

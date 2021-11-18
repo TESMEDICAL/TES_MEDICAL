@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
+using Microsoft.Data.SqlClient;
 
 namespace TES_MEDICAL.GUI.Services
 
@@ -43,6 +46,36 @@ namespace TES_MEDICAL.GUI.Services
           EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
           )
               .OrderBy(x => x.TenTrieuChung).Take(5).ToListAsync();
+        }
+
+        public List<ListResponse> GetListChanDoan(List<string> ListTrieuChung)
+        {
+            try
+            {
+                var listContent = string.Join(",", ListTrieuChung);
+                var result = _context.ListResponses.FromSqlRaw("EXEC dbo.ListrieuChungNew @listTrieuChung", new SqlParameter { ParameterName = "@listTrieuChung", Value = listContent }).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+           
+        }
+
+        public List<ResponseChanDoan> KetQuaChanDoan(List<string> ListTrieuChung)
+        {
+            try
+            {
+                var listContent = string.Join(",", ListTrieuChung);
+                var result = _context.ResponseChanDoans.FromSqlRaw("EXEC dbo.GoiYBenh @listTrieuChung", new SqlParameter { ParameterName = "@listTrieuChung", Value = listContent }).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
 
     }
