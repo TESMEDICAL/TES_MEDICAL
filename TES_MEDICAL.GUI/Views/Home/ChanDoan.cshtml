@@ -39,11 +39,11 @@
         }
 
         .test .test-detail .test-body {
-            padding-left: 10%;
+            padding-left: 8%;
         }
 
         .test .test-detail .test-body-1 {
-            padding-inline: 10%;
+            padding-inline: 8%;
         }
 
     .test-body .test-body-item {
@@ -190,7 +190,9 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button onclick="GetTrieuChungNew()">Tiếp theo</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight">
+                                <button style="margin-right: 80px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingTCNew"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
@@ -204,16 +206,16 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button onclick="FinalCheck()">Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 80px;" onclick="FinalCheck()">Hoàn tất</button></div>
                         </div>
                     </div>
                     <div class="test-result border">
                         <div class="test-head d-flex justify-content-start" style="height: 50px;">
                             <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả trả về: </p></div>
                         </div>
-                        <div class="result-body row">
+                        <div class="result-body row" style="padding: 10px 90px 20px 90px;">
                             <div class="d-flex justify-content-start">
-                                <div class="bd-highlight" style="padding: 10px 20px 10px 30px;">
+                                <div class="bd-highlight" >
                                     <p style="font-size: 20px;">
                                         Dựa theo các triệu chứng mà bạn cung cấp,
                                         chúng tôi đưa ra kết quả như sau:
@@ -221,7 +223,7 @@
                                 </div>
                             </div>
                             <div class="result-content col-sm-9 ">
-                                <div class="row" style="padding: 10px 20px 10px 30px;">
+                                <div class="row">
                                     <!--Tên bệnh-->
                                     <p style="font-size: 30px; font-weight: 600;">Tên bệnh</p>
 

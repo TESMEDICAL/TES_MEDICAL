@@ -29,6 +29,9 @@ namespace TES_MEDICAL.GUI.Models
         public string Hinh { get; set; }
         [PersonalData]
         public Guid? ChuyenKhoa { get; set; }
+        [PersonalData]
+        public string Theme { get; set; }
+       
 
         public virtual ChuyenKhoa ChuyenKhoaNavigation { get; set; }
         public virtual ICollection<HoaDon> HoaDon { get; set; }

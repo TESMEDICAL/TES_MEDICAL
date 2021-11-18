@@ -43,11 +43,11 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage ="Vui lòng nhập Email.")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -55,11 +55,16 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        [BindProperty]
+        public string Error { get; set; } = null;
+
+        
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                Error = "Đăng nhập thất bại.";
             }
 
             returnUrl ??= Url.Content("~/");
@@ -116,7 +121,8 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                        Error = "Đăng nhập thất bại.";
                         return Page();
                     }
                 }
