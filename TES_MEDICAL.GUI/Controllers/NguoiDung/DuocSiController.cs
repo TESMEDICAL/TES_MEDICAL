@@ -33,7 +33,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
             //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
             
-
+            
             var listmodel = await _service.SearchToaThuoc(model);
 
             if (!model.Page.HasValue) model.Page = 1;
