@@ -66,12 +66,12 @@
                     <!-- Title -->
                     <h1 class="push-top-bottom">
                         
-                        @*<i class="gi gi-flash" style="color: #1b4332;"></i>*@ <strong style="color: #1b4332; ">TES MEDICAL</strong><br>
-                        <small style="color: #6b705c; ">Chào mừng bạn đến trang Admin !</small>
+                        @*<i class="gi gi-flash" style="color: #1b4332;"></i>*@ <strong style="color: #1b4332; text-shadow: 2px 4px 3px rgba(0,0,0,0.3); ">TES MEDICAL</strong><br>
+                        <small style="color: #6b705c; text-shadow: 2px 4px 3px rgba(0,0,0,0.3); ">Chào mừng bạn đến trang Admin !</small>
                     </h1>
                     <!-- END Title -->
                     <!-- Key Features -->
-                    <ul class="fa-ul text-muted" style="color: #ffba08; font-size: 20px; ">
+                    <ul class="fa-ul text-muted" style="color: #000; text-shadow: 2px 4px 3px rgba(0,0,0,0.3); font-size: 17px; ">
                         <li><i class="fa fa-check fa-li text-success"></i> Tiện dụng: Không cần cài đặt.</li>
                         <li><i class="fa fa-check fa-li text-success"></i> Nhanh chóng: Kê toa thuốc nhanh và thông minh.</li>
                         <li><i class="fa fa-check fa-li text-success"></i> Hiệu quả: In toa thuốc đẹp và chuyên nghiệp, thống kê báo cáo đầy đủ</li>
@@ -80,7 +80,7 @@
                     <!-- END Key Features -->
                     <!-- Footer -->
                     <footer class="text-muted push-top-bottom">
-                        <small><span>2021</span> &copy; <a href="https://1.envato.market/x4R" target="_blank">TES MEDICAL</a></small>
+                        <small><span style="color:black">2021</span> &copy; <a href="https://1.envato.market/x4R" target="_blank">TES MEDICAL</a></small>
                     </footer>
                     <!-- END Footer -->
                 </div>
@@ -113,6 +113,10 @@
                                         <span class="input-group-addon" style="color: rgb(119, 213, 203);"><i class="fa fa-lock"></i></span>
                                         <input type="password" asp-for="Password" class="form-control input-lg" placeholder="Password">
                                     </div>
+                                    @if (ViewBag.Error != null)
+                                    {
+                                        <div class="text-danger" style="margin-left:50px;">@ViewBag.Error</div>
+                                    }
                                     <div class="text-danger" asp-validation-summary="All"></div>
                                 </div>
                             </div>

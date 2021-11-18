@@ -52,27 +52,35 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                
                 NguoiDung nguoidung = _nguoidungSvc.Login(viewLogin);
-                if(nguoidung.TrangThai == true)
+                if (nguoidung != null)
                 {
-                    if (nguoidung != null)
+                    if (nguoidung.TrangThai == true)
                     {
-                        HttpContext.Session.SetString(SessionKey.Nguoidung.MaNguoiDung, nguoidung.MaNguoiDung.ToString());
-                        HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
-                        HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
-                        HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
-                        HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
-                            JsonConvert.SerializeObject(nguoidung));
+                        if (nguoidung != null)
+                        {
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.MaNguoiDung, nguoidung.MaNguoiDung.ToString());
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.UserName, nguoidung.Email);
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
+                                JsonConvert.SerializeObject(nguoidung));
 
-                        return RedirectToAction("Index", "TinTuc");
+                            return RedirectToAction("Index", "TinTuc");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("NoneUser", "Admin");
+
                     }
                 }
                 else
                 {
-                    return RedirectToAction("NoneUser", "Admin");
-
+                    ViewBag.Error = "Đăng nhập thất bại.";
                 }
+               
+                
             }
             return View(viewLogin);
         }
