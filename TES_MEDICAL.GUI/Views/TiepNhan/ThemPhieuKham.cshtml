@@ -281,20 +281,16 @@
     $(document).ready(function () {
         $("#SDT").keyup(function () {
 
-
-
-
             $.get("/tiepnhan/BenhNhan_bind", { SDT: $(this).val() }, function (data) {
-
                 if (data != null) {
                     $("#HoTen").val(data.HoTen);
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
                     $("#DiaChi").val(data.DiaChi);
                     if (data.GioiTinh) {
-                        $('#GioiTinh').val(1)
+                        $('#GioiTinh').prop("selectedIndex",0)
                     }
                     else {
-                        $('#GioiTinh').val(0)
+                        $('#GioiTinh').prop("selectedIndex", 1)
                     }
                     $("#MaBN").val(data.MaBN);
 
