@@ -277,6 +277,48 @@ namespace TES_MEDICAL.GUI.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("LoadPagenation")]
+        public IActionResult LoadPagenation(int? currentPage, int PageTotal,DateTime? NgayBD,DateTime? NgayKT,byte Type)
+        {
+            if (NgayBD == null && NgayKT == null)
+            {
+                NgayBD = DateTime.Now.AddMonths(-4);
+                NgayKT = DateTime.Now;
+            }
+
+            ViewBag.currentPage = currentPage ?? 1;
+
+            ViewBag.countPages = PageTotal;
+            ViewBag.NgayBD = NgayBD;
+            ViewBag.NgayKT = NgayKT;
+            ViewBag.Type = Type;
+
+            return PartialView("_Paging");
+        }
+        [HttpGet("PageList")]
+
+        public IActionResult PageList(int? Page,string KeyWord,DateTime? NgayBatDau,DateTime? NgayKT,byte Type)
+        {
+
+            if (NgayBatDau == null && NgayKT == null)
+            {
+              NgayBatDau = DateTime.Now.AddMonths(-4);
+              NgayKT = DateTime.Now;
+            }
+
+            ViewBag.currentPage = Page ?? 1;    // trang hiện tại
+
+            var model = new HoaDonSearchModel { Page = Page, NgayBatDau = NgayBatDau, NgayKT = NgayKT, KeyWord = KeyWord, Type = Type };
+           
+            var listPaged = _service.SearchHDByCondition(model);
+
+
+
+            return Ok(listPaged);
+
+
+
+        }
 
 
     }

@@ -180,15 +180,15 @@ namespace TES_MEDICAL.GUI
                 app.UseHsts();
             }
             // Xử lý lỗi 404
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404)
-                {
-                    context.Request.Path = "/Error/Error400";
-                    await next();
-                }
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
+            //    if (context.Response.StatusCode == 404)
+            //    {
+            //        context.Request.Path = "/Error/Error400";
+            //        await next();
+            //    }
+            //});
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

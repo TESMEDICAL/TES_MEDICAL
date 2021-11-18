@@ -38,6 +38,66 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.HoaDon.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBSNavigation).OrderByDescending(x =>x.NgayHD).ToListAsync();
         }
+        public PageResponse<ResponseHoaDon> SearchHDByCondition(HoaDonSearchModel model)
+
+        {
+            var PageTotal = 0;
+            List<ResponseHoaDon> result = null;
+            model.Page = model.Page ?? 1;
+            List<SqlParameter> parms = new List<SqlParameter>
+                                 {
+
+                                     new SqlParameter { ParameterName = "@PageNumber", Value= model.Page,DbType = System.Data.DbType.Int32 },
+                                     new SqlParameter { ParameterName = "@KeyWord", Value= string.IsNullOrWhiteSpace(model.KeyWord)?DBNull.Value:model.KeyWord },
+                                        new SqlParameter { ParameterName = "@RowsPage", Value= 10 },
+                                         new SqlParameter { ParameterName = "@ngaybatdau", Value= model.NgayBatDau },
+                                         new SqlParameter { ParameterName = "@ngayketthuc", Value= model.NgayKT }
+
+
+
+                                 };
+            if(model.Type ==1)
+            {
+                PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHD @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
+
+
+
+                result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangHoaDonDV @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
+                
+
+            }
+            else if(model.Type ==2)
+            {
+                PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHDThuoc @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
+
+
+
+                result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangHoaDonThuoc @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
+            }
+            else if(model.Type ==0)
+            {
+                PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHDTong @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
+
+
+
+                result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangTong @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
+            }    
+
+            return new PageResponse<ResponseHoaDon> { PageTotal = PageTotal, result = result };
+
+            //    var list = _context.Hotel.Include(x=>x.city).Include(x=>x.country).OrderBy(x => x.hotel_name);
+            //var totalItems = list.Count();
+            //// Tính số trang hiện thị (mỗi trang hiện thị ITEMS_PER_PAGE mục do bạn cấu hình = 10, 20 ...)
+            //int totalPages = (int)Math.Ceiling((double)totalItems / 20);
+            //// Lấy phần tử trong  hang hiện tại (pageNumber là trang hiện tại - thường Binding từ route)
+            //var pros = await list.Skip(50 * (Page - 1)).Take(50).ToListAsync();
+            //    return pros;
+
+
+
+
+
+        }
 
         public async Task<IEnumerable<HoaDonThuoc>> GetAllHoaDonThuoc()
         {

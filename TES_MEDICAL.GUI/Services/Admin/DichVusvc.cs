@@ -192,7 +192,8 @@ namespace TES_MEDICAL.GUI.Services
         {
             if(MaPK!= Guid.Empty)
             {
-                return await _context.DichVu.Where(x => !_context.ChiTietDV.Any(y => y.MaDV == x.MaDV && y.MaHDNavigation.MaPK == MaPK)).ToListAsync();
+                
+                return await _context.DichVu.Where(x => _context.ChiTietDV.Any(y => y.MaDV == x.MaDV && y.MaHDNavigation.MaPK == MaPK)).ToListAsync();
             }
             return await _context.DichVu.ToListAsync();
            

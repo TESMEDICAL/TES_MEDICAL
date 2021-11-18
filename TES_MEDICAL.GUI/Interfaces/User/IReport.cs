@@ -24,5 +24,6 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<Response<List<ThongKeSoLuongThuoc>>> ThongKeSoLuongThuoc(DateTime ngayBatDau, DateTime ngayKetThuc);
         Task<Response<List<ThongKeLuotKhamViewModel>>> ThongKeLuotKham(DateTime ngayBatDau, DateTime ngayKetThuc);
 
+        PageResponse<ResponseHoaDon> SearchHDByCondition(HoaDonSearchModel model);
     }
 }
