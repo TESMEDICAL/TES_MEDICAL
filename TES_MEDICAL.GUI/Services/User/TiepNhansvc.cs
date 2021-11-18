@@ -64,7 +64,7 @@ namespace TES_MEDICAL.GUI.Services
             try
             {
 
-               
+
                 var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
                 var MaPK = Guid.NewGuid();
                 var list = new List<string>();
@@ -79,10 +79,8 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.MaPKNavigation.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
-                //Thread th_one = new Thread(() => CreateHD(hd));
+                var hd = await _context.HoaDon.Include(x => x.MaPKNavigation.MaBNNavigation).Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).Include(x => x.MaPKNavigation.STTPhieuKham).Include(x => x.ChiTietDV).ThenInclude(x => x.MaDVNavigation).FirstOrDefaultAsync(x => x.MaHoaDon == maHD);
 
-                //th_one.Start();
                 return hd;
 
             }
@@ -119,54 +117,31 @@ namespace TES_MEDICAL.GUI.Services
                             };
                 var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @MaBN, @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
             }
-          
+
         }
 
         public async Task<BenhNhan> GetBN(string SDT)
         {
-           return await _context.BenhNhan.FirstOrDefaultAsync(x => x.SDT == SDT);
+            return await _context.BenhNhan.FirstOrDefaultAsync(x => x.SDT == SDT);
         }
 
 
-        //public void CreateHD(HoaDon HD)
-        //{
 
-        //    var tongTien = HD.MaPKNavigation.ChiTietDV.Sum(x => x.MaDVNavigation.DonGia);
-        //    var listDichVu = "";
-        //    foreach (var item in HD.MaPKNavigation.ChiTietDV)
-        //    {
 
-        //        listDichVu += $"<tr><td class='col-6'><strong>{item.MaDVNavigation.TenDV}</strong></td><td class='col-6 text-end'><strong>{item.MaDVNavigation.DonGia.ToString("n0").Replace(',', '.')}</strong></td></tr>";
 
-        //    }
-        //    var bn = HD.MaPKNavigation.MaBNNavigation;
-        //    var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-        //    using (var reader = new System.IO.StreamReader(root + @"/Invoce.html"))
-        //    {
-        //        string readFile = reader.ReadToEnd();
-        //        string html = string.Empty;
-        //        html = readFile;
-        //        html = html.Replace("{MaHoaDon}", HD.MaPK.ToString());
-        //        html = html.Replace("{MaNhanVien}", HD.MaNVNavigation.HoTen);
-        //        html = html.Replace("{NgayKham}", HD.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-        //        html = html.Replace("{HoTen}", bn.HoTen);
-        //        html = html.Replace("{NgaySinh}", bn.NgaySinh?.ToString("dd/MM/yyyy"));
-        //        html = html.Replace("{SDT}", bn.SDT);
-        //        html = html.Replace("{DiaChi}", bn.DiaChi);
-        //        html = html.Replace("{listDichVu}", listDichVu);
-        //        html = html.Replace("{tongtien}", tongTien.ToString("n0").Replace(',', '.'));
+        public async Task<IPagedList<PhieuDatLich>> SearchByCondition(PhieuDatLichSearchModel model)
+        {
 
-           
 
-              var   listUnpaged = (_context.PhieuDatLich.Where(x =>
-             (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
-             EF.Functions.Collate(x.TenBN, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
-             EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-             
+
+            var listUnpaged = (_context.PhieuDatLich.Where(x =>
+         (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+         EF.Functions.Collate(x.TenBN, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+         EF.Functions.Collate(x.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
 
 
 
@@ -174,10 +149,11 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                 ).OrderByDescending(x=>x.NgayKham));
 
-            
-          
+               ).OrderByDescending(x => x.NgayKham));
+
+
+
 
 
 
@@ -199,13 +175,9 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        //        string filePath = "";
-        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon", HD.MaHoaDon + ".pdf");
-        //        System.IO.File.WriteAllBytes(filePath, pdf);
 
-        //    }
 
-        //}
+        }
 
 
 
@@ -213,12 +185,12 @@ namespace TES_MEDICAL.GUI.Services
         {
 
 
-            var listUnpaged = (_context.PhieuKham.Include(x=>x.MaBNNavigation).Where(x=>
-                (string.IsNullOrWhiteSpace(model.KeywordSearch)||
-                EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+            var listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>
+                  (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+                  EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
 
-                     EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) )
-                     && x.TrangThai ==0
+                       EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+                       && x.TrangThai == 0
 
 
 
@@ -247,33 +219,33 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<PhieuKham> GetPhieuKhamById(Guid id)
         {
-            return await _context.PhieuKham.Include(x=>x.STTPhieuKham).Include(x=>x.MaBSNavigation).Include(x => x.MaBNNavigation).FirstOrDefaultAsync(x=>x.MaPK == id);
+            return await _context.PhieuKham.Include(x => x.STTPhieuKham).Include(x => x.MaBSNavigation).Include(x => x.MaBNNavigation).FirstOrDefaultAsync(x => x.MaPK == id);
 
         }
 
         public async Task<List<ChiTietDV>> GetListDVByPK(Guid MaPK)
         {
             return await (from pk in _context.PhieuKham
-                    join hd in _context.HoaDon
-                    on pk.MaPK equals (hd.MaPK)
-                    join ctdv in _context.ChiTietDV
-                    on hd.MaHoaDon equals (ctdv.MaHD)
-                    where pk.MaPK == MaPK
-                    select ctdv).ToListAsync();
+                          join hd in _context.HoaDon
+                          on pk.MaPK equals (hd.MaPK)
+                          join ctdv in _context.ChiTietDV
+                          on hd.MaHoaDon equals (ctdv.MaHD)
+                          where pk.MaPK == MaPK
+                          select ctdv).ToListAsync();
         }
         public async Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs)
         {
-           
-               
-                var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
-                var list = new List<string>();
-                foreach (var item in chiTietDVs)
-                {
-                    list.Add(item.MaDV.ToString());
-                }
-                var listContent = string.Join(",", list);
-                try
-                {
+
+
+            var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
+            var list = new List<string>();
+            foreach (var item in chiTietDVs)
+            {
+                list.Add(item.MaDV.ToString());
+            }
+            var listContent = string.Join(",", list);
+            try
+            {
                 List<SqlParameter> parms = new List<SqlParameter>
                             {
 
@@ -285,28 +257,28 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-     
+
 
         };
 
-                    var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
-                    await _context.SaveChangesAsync();
-                   if(result.Count>0)
+                var result = (_context.HoaDon.FromSqlRaw("EXEC UPDATEDV @MaNV,@MaPK,@MaHD,@listDetail", parms.ToArray()).ToList());
+                await _context.SaveChangesAsync();
+                if (result.Count > 0)
                     return result.FirstOrDefault();
                 return null;
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-
-
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
 
 
-          
-           
-        
+        }
+
+
+
+
+
 
 
 
