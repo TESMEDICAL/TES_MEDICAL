@@ -61,7 +61,7 @@
     <!-- Login Alternative Row -->
     <div class="container" style="margin-top: -2%;">
         <div class="row">
-            <div class="col-md-5 col-md-offset-1">
+            <div class="col-md-5 me-5">
                 <div id="login-alt-container">
                     <!-- Title -->
                     <h1 class="push-top-bottom">
@@ -71,7 +71,7 @@
                     </h1>
                     <!-- END Title -->
                     <!-- Key Features -->
-                    <ul class="fa-ul text-muted">
+                    <ul class="fa-ul text-muted" style="color: #ffba08; font-size: 20px; ">
                         <li><i class="fa fa-check fa-li text-success"></i> Tiện dụng: Không cần cài đặt.</li>
                         <li><i class="fa fa-check fa-li text-success"></i> Nhanh chóng: Kê toa thuốc nhanh và thông minh.</li>
                         <li><i class="fa fa-check fa-li text-success"></i> Hiệu quả: In toa thuốc đẹp và chuyên nghiệp, thống kê báo cáo đầy đủ</li>
@@ -85,7 +85,7 @@
                     <!-- END Footer -->
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-7 float-end ms-5">
                 <!-- Login Container -->
                 <div id="login-container">
                     <!-- Login Title -->
@@ -95,8 +95,7 @@
                     </div>
                     <!-- END Login Title -->
                     <!-- Login Block -->
-                    <div class="block push-bit">
-                        <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="block push-bit">                        
                         <!-- Login Form -->
                         <form asp-action="Login" method="post" class="form-horizontal">
                             <input type="hidden" asp-for="ReturnUrl" />
@@ -105,7 +104,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon" style="color: rgb(119, 213, 203);"><i class="fa fa-envelope"></i></span>
                                         <input type="text" asp-for="UserName" class="form-control input-lg" placeholder="Email">
-                                    </div>
+                                    </div>                                   
                                 </div>
                             </div>
                             <div class="form-group">
@@ -114,6 +113,7 @@
                                         <span class="input-group-addon" style="color: rgb(119, 213, 203);"><i class="fa fa-lock"></i></span>
                                         <input type="password" asp-for="Password" class="form-control input-lg" placeholder="Password">
                                     </div>
+                                    <div class="text-danger" asp-validation-summary="All"></div>
                                 </div>
                             </div>
                             <div class="col-xs-6">
