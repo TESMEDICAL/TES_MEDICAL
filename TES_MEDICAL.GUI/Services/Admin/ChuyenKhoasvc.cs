@@ -182,6 +182,18 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
+        public async Task<IEnumerable<ChuyenKhoa>> GetChuyenKhoaHaveDoctor()
+        {
+            return await  (from Ck in _context.ChuyenKhoa join
+                    doctor in _context.NhanVienYte
+                    on Ck.MaCK equals doctor.ChuyenKhoa
+                    select Ck
+                   
+
+
+                    ).Distinct().ToListAsync();
+        }
+
 
 
         public async Task<IEnumerable<ChuyenKhoa>> GetAll()
