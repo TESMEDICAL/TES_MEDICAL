@@ -84,7 +84,7 @@ namespace TES_MEDICAL.GUI.Services
                 return hd;
 
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
@@ -117,7 +117,7 @@ namespace TES_MEDICAL.GUI.Services
                             };
                 var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @MaBN, @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
             }
-            catch (Exception ex)
+            catch 
             {
 
             }
@@ -267,7 +267,7 @@ namespace TES_MEDICAL.GUI.Services
                     return result.FirstOrDefault();
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

@@ -29,7 +29,7 @@ namespace TES_MEDICAL.GUI.Services
                 await _hubContext.Clients.All.SendAsync("displayNotification", "");
                 return model;
             }
-            catch(Exception ex)
+            catch
             {
                 
                 return null;

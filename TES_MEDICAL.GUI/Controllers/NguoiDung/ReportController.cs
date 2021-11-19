@@ -14,10 +14,10 @@ namespace TES_MEDICAL.GUI.Controllers
 {
     public class ReportController : Controller
     {
-        private IHostingEnvironment Environment;
+        private IWebHostEnvironment Environment;
         private readonly IReport _service;
         
-        public ReportController(IHostingEnvironment _environment, IReport service)
+        public ReportController(IWebHostEnvironment _environment, IReport service)
         {
             Environment = _environment;
             _service = service;
@@ -125,7 +125,7 @@ namespace TES_MEDICAL.GUI.Controllers
         //    return File(bytes, "application/octet-stream", fileName);
         //}
 
-        public async Task<IActionResult> ThongKeDichVu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+        public IActionResult ThongKeDichVu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
         {
             return View();
         }

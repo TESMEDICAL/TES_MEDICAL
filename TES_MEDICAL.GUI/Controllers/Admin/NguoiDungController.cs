@@ -63,7 +63,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
                 
         
-        public async Task<ActionResult> Add()
+        public IActionResult Add()
         {
                        
             return PartialView("_partialAdd",new NguoiDung() );

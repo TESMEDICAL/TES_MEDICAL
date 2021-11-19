@@ -56,7 +56,7 @@ namespace TES_MEDICAL.GUI.Services
                 var result = _context.ListResponses.FromSqlRaw("EXEC dbo.ListrieuChungNew @listTrieuChung", new SqlParameter { ParameterName = "@listTrieuChung", Value = listContent }).ToList();
                 return result;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
@@ -71,7 +71,7 @@ namespace TES_MEDICAL.GUI.Services
                 var result = _context.ResponseChanDoans.FromSqlRaw("EXEC dbo.GoiYBenh @listTrieuChung", new SqlParameter { ParameterName = "@listTrieuChung", Value = listContent }).ToList();
                 return result;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }

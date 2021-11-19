@@ -17,7 +17,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLoginModel userModel)
+        public IActionResult Login(UserLoginModel userModel)
         {
             return View();
         }
