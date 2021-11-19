@@ -39,11 +39,11 @@
         }
 
         .test .test-detail .test-body {
-            padding-left: 8%;
+            padding-left: 68px;
         }
 
         .test .test-detail .test-body-1 {
-            padding-inline: 8%;
+            padding-inline: 68px;
         }
 
     .test-body .test-body-item {
@@ -140,6 +140,25 @@
             color: #ff002b;
             float: right;
         }
+
+    .result-content{
+        display: flex;
+        padding: 10px;
+        margin-left: -20px;
+    }
+    .result-chart{
+        width: calc(80% - 20px);
+        margin-left: 20px;
+    }
+    .result-btn{
+        width: 19%;
+        margin: 20px 0 0 20px;
+        text-align: right;
+    }
+    .canvasjs-chart-credit{
+        display: none;
+
+    }
 </style>
 <!--[if lte IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
@@ -191,7 +210,7 @@
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
                             <div class="test-foot-btn p-2 bd-highlight">
-                                <button style="margin-right: 80px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
+                                <button style="margin-right: 68px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
                             </div>
                         </div>
                     </div>
@@ -206,7 +225,7 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 80px;" onclick="FinalCheck()">Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 68px;" onclick="FinalCheck()">Hoàn tất</button></div>
                         </div>
                     </div>
                     <div class="test-result border">
@@ -222,17 +241,12 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="result-content col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-8" id="chartContainer" style="height: 370px; width: 100%;"></div>
-                                    <div class="result-btn col-sm-4">
-                                        <div class="row p-4">
-                                            <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
-                                            <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
-                                        </div>
-                                    </div>
+                            <div class="result-content">
+                                <div class="result-chart" id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                <div class="result-btn">
+                                        <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
+                                        <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>   
                                 </div>
-                                
                             </div>
                             <!--Phần modal Thông tin bệnh-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
