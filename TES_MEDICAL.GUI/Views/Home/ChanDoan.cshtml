@@ -39,11 +39,11 @@
         }
 
         .test .test-detail .test-body {
-            padding-left: 8%;
+            padding-left: 68px;
         }
 
         .test .test-detail .test-body-1 {
-            padding-inline: 8%;
+            padding-inline: 68px;
         }
 
     .test-body .test-body-item {
@@ -140,6 +140,25 @@
             color: #ff002b;
             float: right;
         }
+
+    .result-content{
+        display: flex;
+        padding: 10px;
+        margin-left: -20px;
+    }
+    .result-chart{
+        width: calc(80% - 20px);
+        margin-left: 20px;
+    }
+    .result-btn{
+        width: 19%;
+        margin: 20px 0 0 20px;
+        text-align: right;
+    }
+    .canvasjs-chart-credit{
+        display: none;
+
+    }
 </style>
 <!--[if lte IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
@@ -172,17 +191,17 @@
                             <div class="test-body-right">
                                 <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
                                     @*<ul class="symptom-list mt-2 ms-4 me-4" id="ListTrieuChung">
-                                            <li><span name="trieuchungOld"></span> <i class="fa fa-trash" aria-hidden="true"></i></li>
+                            <li><span name="trieuchungOld"></span> <i class="fa fa-trash" aria-hidden="true"></i></li>
 
-                                        </ul>*@
+                        </ul>*@
                                     <div class="symptom-list row m-3" id="ListTrieuChung">
                                         @*<div class="symptom-item col-sm-4">
-                                                <img src="~/GuestElement/img/circle_PNG17.png" />
-                                                <p>
-                                                    Ho
-                                                </p>
-                                                <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
-                                            </div>*@
+                                <img src="~/GuestElement/img/circle_PNG17.png" />
+                                <p>
+                                    Ho
+                                </p>
+                                <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
+                            </div>*@
 
                                     </div>
                                 </div>
@@ -191,7 +210,7 @@
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
                             <div class="test-foot-btn p-2 bd-highlight">
-                                <button style="margin-right: 80px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
+                                <button style="margin-right: 68px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
                             </div>
                         </div>
                     </div>
@@ -206,12 +225,13 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 80px;" onclick="FinalCheck()">Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 68px;" onclick="FinalCheck()">Hoàn tất</button></div>
                         </div>
                     </div>
-                    <div class="test-result border">
+                    <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingResult"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
+                    <div class="test-result border" id="ResultContent">
                         <div class="test-head d-flex justify-content-start" style="height: 50px;">
-                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả trả về: </p></div>
+                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả: </p></div>
                         </div>
                         <div class="result-body row" style="padding: 10px 90px 20px 90px;">
                             <div class="d-flex justify-content-start">
@@ -222,17 +242,12 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="result-content col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-8" id="chartContainer" style="height: 370px; width: 100%;"></div>
-                                    <div class="result-btn col-sm-4">
-                                        <div class="row p-4">
-                                            <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
-                                            <button class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
-                                        </div>
-                                    </div>
+                            <div class="result-content">
+                                <div class="result-chart" id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                <div class="result-btn">
+                                    <button class="btn-contact mb-2"><i class="fa fa-phone" aria-hidden="true"></i> Liên hệ ngay</button>
+                                    <button onclick="location.href ='@Url.Action("DatLich", "Home")';"   class="btn-booking"><i class="fa fa-calendar" aria-hidden="true"></i> Đặt lịch khám</button>
                                 </div>
-                                
                             </div>
                             <!--Phần modal Thông tin bệnh-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -259,6 +274,7 @@
 
 
     </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     @section Scripts{
 
@@ -275,6 +291,9 @@
 
                     $('#ResultTCNew').hide();
                     $('#LoadingTCNew').hide();
+                    $('#LoadingResult').hide();
+                    $('#ResultContent').hide();
+                 
 
 
                     /* Need jquery to be extended with code snippet for selectrange i found somewhere, but forgot where...: */
@@ -409,6 +428,8 @@
 
 
             function FinalCheck() {
+                $('#LoadingResult').fadeIn('slow');
+                $('#ResultContent').hide();
                 var listOld = ListTrieuChung;
                 var listTCNew = [];
                 $('input[name="TCNew"]:checked').each(function () {
@@ -425,7 +446,7 @@
 
                     ,
                     success: function (response) {
-                        console.log(response);
+                       
                         var chart = new CanvasJS.Chart("chartContainer", {
 	                animationEnabled: true,
 	               
@@ -462,84 +483,15 @@
                 chart.render();
 
                     }
+                    
                 });
 
+                $('#LoadingResult').hide();
+                $('#ResultContent').fadeIn('slow');
 
             }
 
-            $("#btSend").click(function () {
-
-                $(this).prop("disabled", true);
-
-                $(this).html(
-                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Waiting</span>'
-                );
-                $.ajax({
-                    type: "POST",
-                    url: "/Bacsi/ThemToa/",
-                    data: {
-                        model: Phieukham,
-                        ListTrieuChung: ListTrieuChung
-
-                    },
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-
-                        if (result.status >= 1) {
-
-                            let timerInterval
-                            Swal.fire({
-                                title: 'Gửi toa  thành công',
-
-                                html: '<progress value="0" max="3" id="progressBar"></progress>',
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: () => {
-                                    Swal.showLoading()
-                                    timerInterval = setInterval(() => {
-                                        const content = Swal.getHtmlContainer()
-                                        if (content) {
-                                            const b = content.querySelector('#progressBar')
-                                            if (b) {
-                                                b.value = 3 - Math.floor(Swal.getTimerLeft() / 1000)
-                                            }
-                                        }
-                                    }, 100)
-                                },
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                    window.location.href = result.redirectUrL;
-                                }
-                            }).then((cf) => {
-
-                                if (cf.dismiss === Swal.DismissReason.timer) {
-                                    window.location.href = result.redirectUrL;
-                                }
-                            })
-                        }
-                        else {
-                            toastr.warning(result.text);
-                            $(this).prop("disabled", false);
-
-                            $(this).html(
-                                'Retry');
-                        }
-
-                    },
-                    error: function (errormessage) {
-                        //alert(errormessage.responseText);
-                        $(this).prop("disabled", false);
-
-                        $(this).html(
-                            'Retry');
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-
-
-            });
+          
 
 
         </script>
@@ -548,54 +500,4 @@
    @*Thư viện biểu đồ*@
    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-   <script>
-    /*Biểu đồ chuẩn đoán*/
-    function BieuDoChuanDoan() {
-        $.ajax({
-            url: "/Home/KetQuaChanDoan/",
-            type: 'GET',
-            success:
-                /*Biểu đồ cột*/
-                function (response) {
-                    var chart = new CanvasJS.Chart("chartContainer", {
-	                animationEnabled: true,
-	                title: {
-		                text: "Quarterly Sales - 2016",
-		                fontColor: "#2C4B5D"
-	                },
-	                axisY: {
-		                valueFormatString: "$#,##0K",
-		                includeZero: true
-	                },
-	                toolTip: {
-		                shared: true
-	                },
-	                legend: {
-		                horizontalAlign: "center",
-		                verticalAlign: "top"
-	                },
-	                data: [{
-		                type: "stackedBar",
-		                name: "East",
-		                showInLegend: true,
-		                color: "#4978B1",
-		                yValueFormatString: "$#,##0K",
-		                dataPoints: @Html.Raw(ViewBag.DataPoints1)
-	                },
-	                {
-		                type: "stackedBar",
-		                name: "West",
-		                showInLegend: true,
-		                color: "#7E9BC8",
-		                yValueFormatString: "$#,##0K",
-		                dataPoints: @Html.Raw(ViewBag.DataPoints2)
-	                }]
-                });
-                chart.render();
-
-                }
-                }
-
-        });
-    }
-   </script>
+  
