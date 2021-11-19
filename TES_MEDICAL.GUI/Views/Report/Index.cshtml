@@ -13,16 +13,23 @@
       href="../contrast-bootstrap-pro/css/bootstrap.min.css" />
 <link rel="stylesheet"
       href="../contrast-bootstrap-pro/css/cdb.css" />
+
 <script src="../contrast-bootstrap-pro/js/cdb.js"></script>
 <script src="../contrast-bootstrap-pro/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/9d1d9a82d2.js"
         crossorigin="anonymous"></script>
+<link rel="stylesheet" href="~/css/print.min.css" />
+<script src="~/js/print.min.js" ></script>
 
 <title>How to create bootstrap charts using bootstrap 5</title>
 <style>
     .box {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    a:hover{
+        cursor:pointer;
     }
 
     .box-item {
@@ -33,6 +40,16 @@
         margin-left: 10px;
         margin-bottom: 10px;
     }
+
+    .box-item-full {
+        background-color: white;
+        font-family: Arial;
+        height: 800px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+
 
     .box-item-title {
         background-color: rgb(233, 236, 239);
@@ -90,40 +107,50 @@
             <div class="input-group mb-3">
                 <div class="input-group-item">
                     <p>Ngày bắt đầu:</p>
-                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="ngayBatDau" type="date" value="@DateTime.Now.AddMonths(-4).ToString("yyyy-MM-dd")" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group-item ms-3">
                     <p>Ngày kết thúc:</p>
-                    <input id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="ngayKetThuc" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
-            <div class="box-option">
-                <p>Chọn mục thống kê:</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonTongDoanhThu" value="tongDoanhThu" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Tổng doanh thu
-                    </label>
+            <div class="box-option row">
+                <div class="col-5">
+                    <p>Chọn mục thống kê:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonTongDoanhThu" value="tongDoanhThu" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Tổng doanh thu
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuThuoc" value="thuoc" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Thuốc
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuDichVu" value="dichVu" checked>
+                        <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
+                            Dịch vụ
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuThuoc" value="thuoc" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Thuốc
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuDichVu" value="dichVu" checked>
-                    <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
-                        Dịch vụ
-                    </label>
+               
+
+                <div class="col-7 mt-3">
+                    <button class="btn btn-primary" onclick="ReloadPage()"><i class="fa fa-eye text-white"></i>&nbsp;Thống kê</button>
                 </div>
             </div>
+
+            
         </div>
+
         <div class="box-item" style="overflow: scroll; overflow-x: hidden">
             <div class="box-item-title mb-4">
                 <h6>Thông tin</h6>
             </div>
-            <div >
+            <div>
                 <table class="table">
                     <thead class="table-head-fixed">
                         <tr>
@@ -134,15 +161,189 @@
                     </thead>
                     <tbody id="BieuDoCot">
                         @*<tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>1</td>
-                </tr>*@
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>1</td>
+                            </tr>*@
                     </tbody>
                 </table>
             </div>
 
+
+        </div>
+
+        <!--List Thống Kê Hoá Đơn-->
+        <div class="col-12 box-item-full">
+            <div class="box-item-title mb-4">
+                <h6>Danh sách hoá đơn</h6>
+            </div>
+
+            <div class="col-4 mb-3">
+                <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm" id="KeySearch" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="list">
+                <div class="list-tale">
+                    <table class="table table-bordered">
+                        <tr id="thead">
+                            <th class="col-2">Ngày lập hóa đơn</th>
+                            <th class="col-3">Người lập hóa đơn</th>
+
+                            <th class="col-3">Bác sĩ khám</th>
+                            <th class="col-3">Tên bệnh nhân</th>
+                            <th class="col-1 text-center">Thao tác</th>
+                        </tr>
+                        <tbody id="List">
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col-2">18/11/2021</td>
+                                <td class="col-3">Đinh Ngọc Thắng</td>
+
+                                <td class="col-3">Đặng Thanh Duy</td>
+                                <th class="col-3">Anh Thư</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div id="Page"></div>
+    </div>
+
+    <!--Modal Detail-->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-fullscreen">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+
+                </div>
+                <div class="modal-body">
+
+                    <div id="myModalContent">
+
+                    </div>
+                </div>
+
+
+                @*<div class="modal-footer">
+                        <div class="text-right">
+                            <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                            <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                            <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
+                            <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                        </div>
+                    </div>*@
+            </div>
 
         </div>
     </div>
@@ -163,7 +364,146 @@
 
         $('input[type=radio][name=flexRadioDefault]').change(function () {
 
-            if (this.value == 'dichVu') {
+            ReloadPage();
+
+        });
+
+        function PageList(page,ngaybd,ngaykt,type) {
+            
+
+            $('#List').html(`<div class="spinner-border" role="status">
+   
+</div>   <span class="sr-only">Loading...</span>`)
+            $.get("/PageList", { Page: page, KeyWord : $('#KeySearch').val(),NgayBatDau : ngaybd,NgayKT : ngaykt,Type : type}, function (data) {
+                
+                $('#List').html("");
+                data.result.forEach(function (item) {
+
+                    var stringDate = new Date(item.ngayHD);
+                    var dd = stringDate.getDate();
+                    var MM = stringDate.getMonth();
+                    var yyyy = stringDate.getFullYear();
+                    var hh = stringDate.getHours();
+                    var mm = stringDate.getMinutes();
+                    var ss = stringDate.getSeconds();
+                    var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+
+                    $("#List").append(`
+                    <tr>
+                                <td class="col-2">${NgayKham}</td>
+                                <td class="col-3">${item.tenNV}</td>
+
+                                <td class="col-3">${item.tenBS}</td>
+                                <th class="col-3">${item.tenBN}</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin" onclick="_detail('${item.maHD}',${item.type})" > <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                    `)
+                });
+
+                $.get("/LoadPagenation", { currentPage: page, PageTotal: data.pageTotal, NgayBD: ngaybd, NgayKT: ngaykt, Type: type }, function (pagenation) {
+
+                    $('#Page').html(pagenation);
+                });
+
+            });
+
+
+
+        }
+        $("#KeySearch").keyup(function () {
+            var ngaybd = $('#ngayBatDau').val();
+            var ngaykt = $('#ngayKetThuc').val();
+            var type;
+            var $Radio = $('input[name=flexRadioDefault]:checked')
+
+            if ($Radio.val() == 'dichVu') {
+                type = 1;
+            } else if ($Radio.val() == 'thuoc') {
+                type = 2;
+            }
+            else if ($Radio.val() == 'tongDoanhThu') {
+                type = 0;
+            }
+
+            
+                $.get("/PageList", { Page: 1, KeyWord: $('#KeySearch').val(), NgayBatDau: ngaybd, NgayKT: ngaykt, Type: type }, function (data) {
+
+                    $('#List').html("");
+                    data.result.forEach(function (item) {
+
+                        var stringDate = new Date(item.ngayHD);
+                        var dd = stringDate.getDate();
+                        var MM = stringDate.getMonth();
+                        var yyyy = stringDate.getFullYear();
+                        var hh = stringDate.getHours();
+                        var mm = stringDate.getMinutes();
+                        var ss = stringDate.getSeconds();
+                        var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+
+                        $("#List").append(`
+                    <tr>
+                                <td class="col-2">${NgayKham}</td>
+                                <td class="col-3">${item.tenNV}</td>
+
+                                <td class="col-3">${item.tenBS}</td>
+                                <th class="col-3">${item.tenBN}</th>
+                                <td class="text-center col-1">
+                                    <a class="btn btn-infomation btn-sm active" style=" background-color: rgb(17, 138, 178); color: white;" title="Thông tin" onclick="_detail('${item.maHD}',${item.type})" > <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                    `)
+                    });
+
+                    $.get("/LoadPagenation", { currentPage: page, PageTotal: data.pageTotal, NgayBD: ngaybd, NgayKT: ngaykt, Type: type }, function (pagenation) {
+
+                        $('#Page').html(pagenation);
+                    });
+
+                });
+        });
+
+        //Hàm Detail
+        function _detail(_maHD, type) {
+            if (type == 1) {
+
+                $.ajax({
+                    url: "/Report/Detail/",
+                    type: 'GET',
+                    data: {
+                        MaHD: _maHD
+                    },
+                    success: function (response) {
+                        $("#myModalContent").html(response);
+                        $('#myModal').modal('show');
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/Report/DetailThuoc/",
+                    type: 'GET',
+                    data: {
+                        MaHD: _maHD
+                    },
+                    success: function (response) {
+                        $("#myModalContent").html(response);
+                        $('#myModal').modal('show');
+                    }
+                });
+            }
+        }
+
+
+
+
+
+        function ReloadPage()
+        {
+            var $Radio = $('input[name=flexRadioDefault]:checked')
+           
+            if ($Radio.val() == 'dichVu') {
                 $.ajax({
                     url: "/Report/ThongKeDichVuAction/",
                     type: 'GET',
@@ -219,18 +559,17 @@
                                     ;
 
                             });
-
-                            console.log(response.dataTable.obj);
+                            PageList(1, $('#ngayBatDau').val(), $('#ngayKetThuc').val(), 1)
 
                         }
 
                 });
             }
 
-            
-        /*-----------------------*/
 
-        else if (this.value == 'thuoc') {
+            /*-----------------------*/
+
+            else if ($Radio.val() == 'thuoc') {
                 $.ajax({
                     url: "/Report/ThongKeHDThuoc/",
                     type: 'GET',
@@ -287,15 +626,15 @@
 
                             });
 
-                            console.log(response.dataTable.obj);
+                            PageList(1, $('#ngayBatDau').val(), $('#ngayKetThuc').val(),2)
 
                         }
 
                 });
-        }
+            }
 
-        /*-----------------------*/
-            else if (this.value == 'tongDoanhThu') {
+            /*-----------------------*/
+            else if ($Radio.val() == 'tongDoanhThu') {
                 $.ajax({
                     url: "/Report/ThongKeTongDoanhThu/",
                     type: 'GET',
@@ -352,14 +691,37 @@
 
                             });
 
-                            console.log(response.dataTable.obj);
+                            PageList(1, $('#ngayBatDau').val(), $('#ngayKetThuc').val(),0)
 
                         }
 
                 });
+            }
         }
 
-        });
+        function PrintPreview() {
+            $.print("#myModalContent");
+        }
+
+        function PrintElem() {
+            var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+
+           
+            mywindow.document.write(document.getElementById('myModalContent').innerHTML);
+            
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
+        
+
+        
+          
 
         
     </script>

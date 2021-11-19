@@ -22,10 +22,11 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
 
     public partial class HoaDonSearchModel
     {
-        public int Page { get; set; }
+        public int? Page { get; set; }
         public string KeyWord { get; set; }
-        public DateTime NgayBatDau { get; set; }
-        public DateTime NgayKT { get; set; }
+        public DateTime? NgayBatDau { get; set; }
+        public DateTime? NgayKT { get; set; }
+        public byte Type { get; set; }
     }
 
     public partial class ResponseHoaDon
@@ -35,6 +36,7 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
         public string TenBS { get; set; }
         public string TenBN { get; set; }
         public DateTime NgayHD { get; set; }
+        public string Type { get; set; }
 
     }
 
@@ -47,4 +49,11 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
             return Value.ToString();
         }
     }
+
+    public class PageResponse<T> where T : class
+    {
+        public int PageTotal { get; set; }
+        public List<T> result { get; set; }
+    }
+
 }

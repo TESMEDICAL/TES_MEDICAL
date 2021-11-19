@@ -27,14 +27,9 @@
     .table-btn a:hover{
         transform: scale(1.075)
     }
-    .btn-edit {
+    .btn-stutus {
         background-color: rgb(17, 138, 178);
-    }
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
+        width:30px;
     }
     .table-btn a i{
         color: white;
@@ -68,13 +63,13 @@
                         <td class="col-2 text-center">@item.TrangThai</td>
                         <td class="col-2 text-center">@item.MaTLNavigation.TenTL</td>
                         <td class="table-btn col-2 text-nowrap text-center">
-                            <a class="btn-edit btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn-stutus btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)
-                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            {<a class="btn-stutus btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
                             else
                             {
-                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaBaiViet')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-                            <a class="btn-infomation btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <a class="btn-stutus btn btn-sm active" onclick="_restore('@item.MaBaiViet')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                            <a class="btn-stutus btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 }
