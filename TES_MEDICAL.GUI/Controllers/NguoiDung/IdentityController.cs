@@ -83,7 +83,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ChangePassword()
+        public IActionResult ChangePassword()
         {
             return PartialView("_ChangePassword");
         }

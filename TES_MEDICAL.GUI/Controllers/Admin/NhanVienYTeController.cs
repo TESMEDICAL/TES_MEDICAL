@@ -18,8 +18,8 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly INhanVienYte _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
         private readonly UserManager<NhanVienYte> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager, RoleManager<IdentityRole> roleManager)
+      
+        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager)
         {
             _service = service;
             _chuyenkhoaRep = chuyenkhoaRep;

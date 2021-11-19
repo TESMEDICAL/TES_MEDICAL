@@ -49,6 +49,48 @@
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>
+                        Báo cáo & Thống kê
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index","Report")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Report")">
+                            <i class="fas fa-hand-holding-usd nav-icon"></i>
+                            <p>Doanh Thu</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ReportBenh","Report")" class="nav-link @Html.IsSelected(actions: "ReportBenh", controllers: "Report")">
+                            <i class="fas fa-hospital-user nav-icon"></i>
+                            <p>Bệnh & Số lượng thuốc</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ReportBenhNhan","Report")" class="nav-link @Html.IsSelected(actions: "ReportBenhNhan", controllers: "Report")">
+                            <i class="fas fa-hospital-user nav-icon"></i>
+                            <p>Bệnh nhân</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ViewHoaDon","Report")" class="nav-link @Html.IsSelected(actions: "ViewHoaDon", controllers: "Report")">
+                            <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                            <p>Hoá đơn dịch vụ</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ViewHoaDonThuoc","Report")" class="nav-link @Html.IsSelected(actions: "ViewHoaDonThuoc", controllers: "Report")">
+                            <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                            <p>Hoá đơn thuốc</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-blog"></i>
                     <p>
                         Quản lý trang chủ
@@ -126,47 +168,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-chart-pie"></i>
-                    <p>
-                        Báo cáo & Thống kê
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index","Report")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Report")">
-                            <i class="fas fa-hand-holding-usd nav-icon"></i>
-                            <p>Doanh Thu</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("ReportBenh","Report")" class="nav-link @Html.IsSelected(actions: "ReportBenh", controllers: "Report")">
-                            <i class="fas fa-hospital-user nav-icon"></i>
-                            <p>Bệnh & Số lượng thuốc</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("ReportBenhNhan","Report")" class="nav-link @Html.IsSelected(actions: "ReportBenhNhan", controllers: "Report")">
-                            <i class="fas fa-hospital-user nav-icon"></i>
-                            <p>Bệnh nhân</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("ViewHoaDon","Report")" class="nav-link @Html.IsSelected(actions: "ViewHoaDon", controllers: "Report")">
-                            <i class="fas fa-file-invoice-dollar nav-icon"></i>
-                            <p>Hoá đơn dịch vụ</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.Action("ViewHoaDonThuoc","Report")" class="nav-link @Html.IsSelected(actions: "ViewHoaDonThuoc", controllers: "Report")">
-                            <i class="fas fa-file-invoice-dollar nav-icon"></i>
-                            <p>Hoá đơn thuốc</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+
 </nav>
     <!-- /.sidebar-menu -->
 </div>

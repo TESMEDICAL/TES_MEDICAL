@@ -3,50 +3,60 @@
 @model TES_MEDICAL.GUI.Models.NhanVienModel
 
 <style>
-        .box {
-            padding: 0;
-            margin: 0;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            /*        display: flex;
-    */
+    .box {
+        padding: 0;
+        margin: 0;
+        font-family: Source Sans Pro;
+    }
+
+    h6 {
+        margin-left: 10px;
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .box-title-1 {
+        background-color: white;
+        border-left: 8px solid rgb(82, 183, 136);
+    }
+
+        .box-title-1 h4 {
+            padding: 2%;
+            font-size: 35px;
+            font-weight: 400;
         }
 
-        label {
-            margin-left: 10px;
-            font-weight: 200;
+    .box-left {
+        margin-inline: 5%;
+    }
+    .form-check .form-label {
+        margin-left: -4px;
+    }
+
+    .form-check-label {
+        padding-left: 20px;
+        font-weight: 400;
+        color: gray;
+    }
+    .box-right {
+        text-align: center;
+    }
+
+        .box-right .form-group .btn-img {
+            width: 103%;
+            margin-left: -1%;
+            background-color: rgb(82, 183, 136);
+            color: white;
+            border: 2px solid rgb(82, 183, 136);
+            transition: 0.25s all;
+            padding: 10px 0 10px 0;
         }
 
-        .box-title-1 {
-            background-color: white;
-            border-left: 8px solid rgb(82, 183, 136);
-        }
-
-            .box-title-1 h4 {
-                padding: 2%;
-                font-size: 35px;
-                font-weight: 400;
+            .box-right .form-group .btn-img:hover {
+                background-color: white;
+                border: 2px solid rgb(82, 183, 136);
+                color: rgb(82, 183, 136);
             }
-
-        .box-left {
-            margin-inline: 5%;
-        }
-
-        .box-right {
-            text-align: center;
-        }
-
-            .box-right .form-group .btn-img {
-                width: 103%;
-                margin-left: -1%;
-                background-color: rgb(82, 183, 136);
-                color: white;
-            }
-
-                .box-right .form-group .btn-img:hover {
-                    background-color: white;
-                    border: 2px solid rgb(82, 183, 136);
-                    color: rgb(82, 183, 136);
-                }
 </style>
 
 
@@ -63,18 +73,18 @@
         <div class="box-left col-sm-7 row">
                 <div class="text-danger"></div>
                 <div class="form-group col-12">
-                    <label>
+                    <h6>
                         Họ tên
-                    </label>
-                    @*@Html.LabelFor(model => model.HoTen, "Họ tên", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                    </h6>
+                    @*@Html.h6For(model => model.HoTen, "Họ tên", htmlAttributes: new { @class = "control-h6 col-md-6" })*@
                     <div class="col-12">
                         @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Email</label>
-                    @*@Html.LabelFor(model => model.Email, "Email nhân viên", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                    <h6>Email</h6>
+                    @*@Html.h6For(model => model.Email, "Email nhân viên", htmlAttributes: new { @class = "control-h6 col-md-6" })*@
                     <div class="col-12">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -84,8 +94,8 @@
 
 
                 <div class="form-group col-md-6">
-                    <label>Số điện thoại</label>
-                    @*@Html.LabelFor(model => model.SDTNV, "Số điện thoại", htmlAttributes: new { @class = "control-label col-12" })*@
+                    <h6>Số điện thoại</h6>
+                    @*@Html.h6For(model => model.SDTNV, "Số điện thoại", htmlAttributes: new { @class = "control-h6 col-12" })*@
                     <div class="col-12">
                         @Html.EditorFor(model => model.SDTNV, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.SDTNV, "", new { @class = "text-danger" })
@@ -93,8 +103,8 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>Mật khẩu</label>
-                    @*@Html.LabelFor(model => model.MatKhau, "Mật khẩu", htmlAttributes: new { @class = "control-label col-12" })*@
+                    <h6>Mật khẩu</h6>
+                    @*@Html.h6For(model => model.MatKhau, "Mật khẩu", htmlAttributes: new { @class = "control-h6 col-12" })*@
                     <div class="col-12">
                         @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
@@ -102,8 +112,8 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>Xác nhận mật khẩu</label>
-                    @*@Html.LabelFor(model => model.ConfirmPassword, "Mật khẩu xác nhận", htmlAttributes: new { @class = "control-label col-12" })*@
+                    <h6>Xác nhận mật khẩu</h6>
+                    @*@Html.h6For(model => model.ConfirmPassword, "Mật khẩu xác nhận", htmlAttributes: new { @class = "control-h6 col-12" })*@
                     <div class="col-12">
                         @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -111,8 +121,8 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>Chức vụ</label>
-                    @*@Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                    <h6>Chức vụ</h6>
+                    @*@Html.h6For(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "control-h6 col-md-6" })*@
                     <div class="col-12">
                         @*@Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "form-control" } })*@
                         <select asp-for="ChucVu" class="form-select">
@@ -126,7 +136,7 @@
                 </div>
 
                 <div class="form-group col-md-5">
-                    @Html.LabelFor(model => model.ChuyenKhoa, "Chuyên khoa", htmlAttributes: new { @class = "control-label col-12" })
+                    <h6>Chuyên khoa</h6>
                     <div class="col-12">
                         <select asp-for="ChuyenKhoa" class="form-select" asp-items="@ViewBag.ChuyenKhoa" disabled>
                             <option value="">Chọn chuyên khoa</option>
@@ -136,7 +146,7 @@
                 </div>
 
                 <div class="form-group form-check col-md-4">
-                    <label class="form-label">Trạng thái</label>
+                    <h6 class="form-label">Trạng thái</h6>
                     <div>
                         <label class="form-check-label">
                             @Html.CheckBoxFor(model => model.TrangThai, new { @class = "form-check-input" }) Đang hoạt động
@@ -149,11 +159,11 @@
         <!--Phần hình-->
         <div class="box-right col-sm-3">
             <div class="form-group col-12">
-                @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                @*@Html.h6For(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-h6 col-md-6" })*@
                     @*@Html.EditorFor(model => model.Hinh, new { htmlAttributes = new { @class = "form-control" } })*@
                     @Html.ValidationMessageFor(model => model.Hinh, "", new { @class = "text-danger" })
                     <div id="image-holder2">
-                        <img class="add-img" src="~/images/final.png" style="width:250px;">
+                        <img class="add-img" src="~/images/final.png" style="width: 250px; border-radius: 3%; ">
                     </div>
                     <label class="btn btn-img mt-4">
                         <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
@@ -195,7 +205,7 @@
         const reader = new FileReader();
         reader.onloadend = () => {
 
-            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;'/>"
+            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius:3%;'/>"
             $('#image-holder2').html(img);
         };
         reader.readAsDataURL(file);

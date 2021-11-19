@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
@@ -140,13 +141,25 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpPost("KetQuaChanDoan")]
         [Route("api/ChanDoan/KetQuaChanDoan")]
-        public IActionResult KetQuaChanDoan(string[] ListTrieuChung)
+        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
         {
             try
             {
+                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList()).OrderBy(x => x.SoTrieuChung).ThenBy(x => x.TongCong);
+                List<DataPoint> dataPoints1 = new List<DataPoint>();
+                List<DataPoint> dataPoints2 = new List<DataPoint>();
 
-                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList());
-                return Ok(result);
+                foreach (var item in result)
+                {
+                    dataPoints1.Add(new DataPoint((item.TenBenh + "("+item.SoTrieuChung+"/"+item.TongCong+")").ToString(), item.SoTrieuChung));
+                }
+                foreach (var item in result)
+                {
+                    dataPoints2.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.TongCong - item.SoTrieuChung));
+                }
+                
+
+                return Ok(new { DataPoint1 = dataPoints1 , DataPoint2 = dataPoints2 });
             }
             catch
             {

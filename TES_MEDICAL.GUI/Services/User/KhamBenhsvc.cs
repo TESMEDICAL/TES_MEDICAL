@@ -120,7 +120,7 @@ namespace TES_MEDICAL.GUI.Services
                 }
                 
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
