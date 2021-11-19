@@ -13,10 +13,13 @@
       href="../contrast-bootstrap-pro/css/bootstrap.min.css" />
 <link rel="stylesheet"
       href="../contrast-bootstrap-pro/css/cdb.css" />
+
 <script src="../contrast-bootstrap-pro/js/cdb.js"></script>
 <script src="../contrast-bootstrap-pro/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/9d1d9a82d2.js"
         crossorigin="anonymous"></script>
+<link rel="stylesheet" href="~/css/print.min.css" />
+<script src="~/js/print.min.js" ></script>
 
 <title>How to create bootstrap charts using bootstrap 5</title>
 <style>
@@ -111,28 +114,38 @@
                     <input id="ngayKetThuc" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
-            <div class="box-option">
-                <p>Chọn mục thống kê:</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonTongDoanhThu" value="tongDoanhThu" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Tổng doanh thu
-                    </label>
+            <div class="box-option row">
+                <div class="col-5">
+                    <p>Chọn mục thống kê:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonTongDoanhThu" value="tongDoanhThu" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Tổng doanh thu
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuThuoc" value="thuoc" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Thuốc
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuDichVu" value="dichVu" checked>
+                        <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
+                            Dịch vụ
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuThuoc" value="thuoc" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Thuốc
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonDoanhThuDichVu" value="dichVu" checked>
-                    <label onchange="ReportDichVu" class="form-check-label" for="flexRadioDefault2">
-                        Dịch vụ
-                    </label>
+               
+
+                <div class="col-7 mt-3">
+                    <button class="btn btn-primary" onclick="ReloadPage()"><i class="fa fa-eye text-white"></i>&nbsp;Thống kê</button>
                 </div>
             </div>
+
+            
         </div>
+
         <div class="box-item" style="overflow: scroll; overflow-x: hidden">
             <div class="box-item-title mb-4">
                 <h6>Thông tin</h6>
@@ -686,7 +699,25 @@
             }
         }
 
-      
+        function PrintPreview() {
+            $.print("#myModalContent");
+        }
+
+        function PrintElem() {
+            var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+
+           
+            mywindow.document.write(document.getElementById('myModalContent').innerHTML);
+            
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
         
 
         

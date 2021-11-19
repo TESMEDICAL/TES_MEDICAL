@@ -30,7 +30,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             string userName = HttpContext.Session.GetString(SessionKey.Nguoidung.UserName);
             if (userName != null && userName != "")
             {
-                return RedirectToAction("Index", "TinTuc");
+                return RedirectToAction("Index", "Report");
             }
 
             #region Hiển thị Login
@@ -66,7 +66,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                             HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
                                 JsonConvert.SerializeObject(nguoidung));
 
-                            return RedirectToAction("Index", "TinTuc");
+                            return RedirectToAction("Index", "Report");
                         }
                     }
                     else
