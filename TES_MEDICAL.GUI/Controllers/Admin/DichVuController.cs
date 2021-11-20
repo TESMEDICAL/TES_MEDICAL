@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -34,18 +33,13 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpGet]
-
         public async Task<IActionResult> PageList(DichVuSearchModel model)
         {
-
             var listmodel = await _service.SearchByCondition(model);
             if (listmodel.Count() > 0)
             {
 
                 if (!model.Page.HasValue) model.Page = 1;
-
-
-
 
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
@@ -54,10 +48,8 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-
 
         }
 
@@ -68,10 +60,10 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_partialAdd", new DichVu());
 
         }
+
+
         [HttpPost]
-
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Add(DichVu model)
         {
             model.TrangThai = true;
@@ -91,8 +83,9 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             return PartialView("_partialAdd", model);
         }
-        [HttpGet]
 
+
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
@@ -106,6 +99,8 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid id)
         {
@@ -116,14 +111,13 @@ namespace TES_MEDICAL.GUI.Controllers
             else
             {
 
-
                 return PartialView("_partialDetail", await _service.Get(id));
             }
         }
 
 
         [HttpPost]
-        
+
         public async Task<IActionResult> Edit(DichVu model)
         {
             if (ModelState.IsValid)
@@ -147,7 +141,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var dv = await _service.Get(id);
             dv.TrangThai = false;
-            if (await _service.Edit(dv)!=null)
+            if (await _service.Edit(dv) != null)
                 return Json(new { status = 1, title = "", text = "Xoá thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());

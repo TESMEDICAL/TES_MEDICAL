@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -16,11 +15,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ChuyenKhoaController : BaseController
     {
         private readonly IChuyenKhoa _service;
-       
+
         public ChuyenKhoaController(IChuyenKhoa service)
         {
             _service = service;
-            
+
         }
 
         public async Task<IActionResult> Index(ChuyenKhoaSearchModel model)
@@ -36,7 +35,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpGet]
-
         public async Task<IActionResult> PageList(ChuyenKhoaSearchModel model)
         {
             var listmodel = await _service.SearchByCondition(model);
@@ -44,9 +42,6 @@ namespace TES_MEDICAL.GUI.Controllers
             {
 
                 if (!model.Page.HasValue) model.Page = 1;
-
-
-
 
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
@@ -64,39 +59,35 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult Add()
         {
-
             return PartialView("_partialAdd", new ChuyenKhoa());
-
         }
+
         [HttpPost]
-
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Add(ChuyenKhoa model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 model.MaCK = Guid.NewGuid();
                 var result = await _service.Add(model);
-                if(result.errorCode ==-1)
+                if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("TenCK", "Tên chuyên khoa đã tồn tại");
                     return PartialView("_partialAdd", model);
-                }    
-                if (result.errorCode ==0)
+                }
+                if (result.errorCode == 0)
                     return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
                     return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
             return PartialView("_partialAdd", model);
-           
+
         }
 
-       
+
 
 
         [HttpGet]
-
         public async Task<IActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
@@ -110,6 +101,8 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid id)
         {
@@ -131,14 +124,14 @@ namespace TES_MEDICAL.GUI.Controllers
 
             if (ModelState.IsValid)
             {
-              
+
                 var result = await _service.Edit(model);
                 if (result.errorCode == -1)
                 {
                     ModelState.AddModelError("TenCK", "Tên chuyên khoa đã tồn tại");
                     return PartialView("_partialedit", model);
                 }
-                if (result.errorCode==0)
+                if (result.errorCode == 0)
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 else
                     return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
@@ -146,7 +139,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_partialedit", model);
         }
 
-      
+
     }
 }
 

@@ -40,14 +40,17 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-
-        //Xem và tải hoá đơn dịch vụ
+        /// <summary>
+        /// Xem và tải hóa đơn dịch vụ
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> ViewHoaDon()
         {
 
             return View(await _service.GetAllHoaDon());
 
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Detail(string MaHD)
@@ -64,24 +67,13 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-
-
-        
-
-
-        //Xem và tải hoá đơn thuốc
+        /// <summary>
+        /// Xem và tải hóa đơn thuốc
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ViewHoaDonThuoc()
         {
-
-            //string[] filePaths = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/"));
-            //List<FileModel> files = new List<FileModel>();
-
-            //foreach (string filePath in filePaths)
-            //{
-            //    files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
-            //}
-
             return View(await _service.GetAllHoaDonThuoc());
         }
 
@@ -98,32 +90,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-
-
-
-        //public FileResult DownloadFile(string fileName)
-        //{
-        //    //Build the File Path.
-        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/") + fileName;
-
-        //    //Read the File data into Byte Array.
-        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-        //    //Send the File to Download.
-        //    return File(bytes, "application/octet-stream", fileName);
-        //}
-
-        //public FileResult DownloadFile1(string fileName)
-        //{
-        //    //Build the File Path.
-        //    string path = Path.Combine(this.Environment.WebRootPath, "HoaDon/HoaDonThuoc/") + fileName;
-
-        //    //Read the File data into Byte Array.
-        //    byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-        //    //Send the File to Download.
-        //    return File(bytes, "application/octet-stream", fileName);
-        //}
 
         public IActionResult ThongKeDichVu(DateTime? ngayBatDau, DateTime? ngayKetThuc)
         {
@@ -146,8 +112,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
                 }
                 return Ok(new { dataPoints = dataPoints , dataTable = listmodel});
-                
-                
+                                
             }
             else
             {
@@ -171,7 +136,6 @@ namespace TES_MEDICAL.GUI.Controllers
                     dataPoints.Add(new DataPoint("Tháng " + item.Thang, (decimal)item.TongTien));
                 }
                 return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
-
 
             }
             else
@@ -306,17 +270,14 @@ namespace TES_MEDICAL.GUI.Controllers
               NgayKT = DateTime.Now;
             }
 
-            ViewBag.currentPage = Page ?? 1;    // trang hiện tại
+            // Trang hiện tại
+            ViewBag.currentPage = Page ?? 1;
 
             var model = new HoaDonSearchModel { Page = Page, NgayBatDau = NgayBatDau, NgayKT = NgayKT, KeyWord = KeyWord, Type = Type };
            
             var listPaged = _service.SearchHDByCondition(model);
 
-
-
             return Ok(listPaged);
-
-
 
         }
 
