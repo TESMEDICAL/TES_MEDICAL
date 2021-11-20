@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,13 +23,6 @@ namespace TES_MEDICAL.GUI.Services
            
 
         }
-
-
-
-
-
-
-      
         public async Task<NhanVienYte> Get(string id)
         {
 
@@ -83,13 +74,6 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
-        //         public  IEnumerable<ChuyenKhoa> ChuyenKhoaNav()
-        //{
-        //    return _context.ChuyenKhoa.ToList();
-        //}
-
-
-
         public async Task<IPagedList<NhanVienYte>> SearchByCondition(NhanVienYteSearchModel model)
         {
 
@@ -118,15 +102,6 @@ namespace TES_MEDICAL.GUI.Services
                   ).OrderBy(x => x.HoTen);
             }
 
-
-
-
-
-
-
-
-
-
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
 
@@ -134,10 +109,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -151,7 +122,6 @@ namespace TES_MEDICAL.GUI.Services
             List<NhanVienYte> data = new List<NhanVienYte>();
 
             data = _context.NhanVienYte.ToList();
-
 
             return data;
 
