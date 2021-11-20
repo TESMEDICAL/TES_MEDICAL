@@ -171,9 +171,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
-        {
+        {           
             var model = await _service.GetPhieuDat(MaPhieu);
-            return View(model);
+            if (model != null)
+            {
+                return View(model);
+            }                        
+            return RedirectToAction("DatLichError", "Home");
+        }
+
+        public IActionResult DatLichError()
+        {
+            return View();
         }
 
         public IActionResult LichSuDatLich()
