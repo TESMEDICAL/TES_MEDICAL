@@ -61,6 +61,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
+                  
                 @*<div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>*@
             </div>
             <div class="modal-body">
@@ -102,19 +103,12 @@
                 else {
                     JSON.parse(response).forEach(function (item) {
                         console.log(item);
-                        var stringDate = new DateTime(item.NgayKham);
-                        var dd = stringDate.getDate();
-                        var MM = stringDate.getMonth();
-                        var yyyy = stringDate.getFullYear();
-                        var hh = stringDate.getHours();
-                        var mm = stringDate.getMinutes();
-                        var ss = stringDate.getSeconds();
-                        var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                        var stringDate = new Date(item.NgayKham);                                                
                         $("#ShowLichSu").append(`
                                 <tr class="table-body" style="background-color: white;">
                                     <td class="body-item"><a>${item.MaBNNavigation.HoTen}</a></td>
                                     <td class="body-item text-center"><a>${item.MaBNNavigation.SDT}</a></td>
-                                    <td class="body-item text-center"><a>${ngayKham}</a></td>
+                                    <td class="body-item text-center"><a>${stringDate.toLocaleString("es-CL")}</a></td>
                                     <td class="body-item text-center">
                                         <a id="ButtonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a>
                                     </td>
