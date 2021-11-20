@@ -12,7 +12,6 @@ namespace TES_MEDICAL.GUI.Models
         {
             ChiTietDV = new HashSet<ChiTietDV>();
         }
-
         public Guid MaDV { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập tên Dịch vụ")]
