@@ -47,14 +47,15 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public string Error { get; set; }
+
         public class InputModel
         {
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
-            
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]           
             public string PassWord { get; set; }
         }
 
@@ -163,6 +164,11 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                             return LocalRedirect("~/Bacsi/");
                         }
                     }
+                }
+                else
+                {
+                    Error = "Liên kết thất bại hoặc gmail không tồn tại !";
+                    return Page();
                 }
                
             }
