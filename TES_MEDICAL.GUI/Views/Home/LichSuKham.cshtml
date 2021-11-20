@@ -102,7 +102,7 @@
                 else {
                     JSON.parse(response).forEach(function (item) {
                         console.log(item);
-                        var stringDate = new Date(item.NgayKham);
+                        var stringDate = new DateTime(item.NgayKham);
                         var dd = stringDate.getDate();
                         var MM = stringDate.getMonth();
                         var yyyy = stringDate.getFullYear();
