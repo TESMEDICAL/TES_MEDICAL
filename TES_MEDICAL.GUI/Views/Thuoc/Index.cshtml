@@ -102,21 +102,7 @@
                 <div class="header-input-1 col-7">
                     @Html.EditorFor(model => model.KeyWordSearch, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thông tin cần tìm ..." } })
                 </div>
-             
-               
-                @*<div class="header-btn col-3">
-                    <button type="button" class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
-                </div>*@
             </div>
-
-
-            @*<div class="col-2 mr-2">
-                    @Html.EditorFor(model => model.DonGiaSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo đơn giá" } })
-                </div>*@
-
-
-
-
             <div class="header-right col-sm-4 row">
                 <div class="header-btn col-7">
                     <button type="button" class="btn" onclick="Create()" id="btCreateN"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Tạo mới</button>
@@ -131,20 +117,12 @@
                     Hiện tất cả
                 </label>
             </div>
-
-
         }
-
     </div>
     <div id="nameListContainer" class="mt-2" style="margin-inline: 15px;">
         <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<Thuoc>" />
-
     </div>
 </div>
-
-
-
-
 
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-xl">
@@ -156,8 +134,6 @@
 
                 </div>
             </div>
-
-
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" id="btSave" class="btn-save btn"><i class="fa fa-save"></i>&nbsp;Lưu</button>
@@ -191,8 +167,6 @@
                 $("#btSave").click(function () {
                     if ($("#frm").valid()) {
 
-
-                        //var obj = $("#frm").serialize();
                         var formData = new FormData();
                         var fileUpload = $("#upload-back").get(0);
                         var file = fileUpload.files[0];
@@ -235,14 +209,10 @@
                                 $('#preloader-box').toggleClass('hide');
                             }
                         });
-                    }
-
-                   
-
+                    }                  
                 });
                 $("#btupdate").click(function () {
                     if ($("#frm").valid()) {
-                        /*var obj = $("#frm").serialize();*/
                         var formData = new FormData();
                         var fileUpload = $("#upload-back").get(0);
                         var file = fileUpload.files[0];
@@ -436,7 +406,6 @@
 
 
         function _delete(id) {
-            /*var cf = confirm('Bạn muốn xoá thuốc này?');*/
             Swal.fire({
                 title: 'Bạn có muốn vô hiệu hoá thuốc này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -448,7 +417,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/Thuoc/Delete",
@@ -476,7 +444,6 @@
         }
 
         function _restore(id) {
-            /*var cf = confirm('Bạn muốn khôi phục thuốc này?');*/
             Swal.fire({
                 title: 'Bạn muốn khôi phục thuốc này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -488,7 +455,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/Thuoc/Restore",
@@ -529,39 +495,21 @@
             obj.page = 1;
             $.ajax({
                 url: '/Thuoc/PageList/',
-
                 type: "Get",
-
-
                 data: obj,
-
                 success: function (result) {
-
                     if (result.status != 2) {
-
-
                         $('#nameListContainer').html(result);
-                    }
-
-                  
+                    }                  
                 },
-
                 failure: function (message) {
                     $('#preloader-box').toggleClass('hide');
                 }
             });
-
-
-
-
         });
         function Clear() {
-
-
             reloadpage(1);
         }
-
-
     </script>
 }
 

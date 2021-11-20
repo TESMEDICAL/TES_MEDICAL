@@ -57,15 +57,9 @@
         var table;
         var obj = {};
         $(document).ready(
-
             function () {
-
                 ReloadPage();
-
             });
-
-        
-
         ////Hàm mở modal của Chi tiết đặt lịch
         function Detail(_id) {
             $.ajax({
@@ -109,39 +103,22 @@
         var $myModalTitleins = $("#myModalTitleins");
 
         
-        $("#TimKiem").keyup(function () {
-           
-            obj = {};
-           
-
+        $("#TimKiem").keyup(function () {           
+            obj = {};          
                 obj.KeyWordSearch = $(this).val()
-
                 obj.page = 1;
                 $.ajax({
                     url: '/TiepNhan/ReloadPage/',
-
                     type: "Get",
-
-
                     data: obj,
-
                     success: function (result) {
-
-
                         $('#nameListContainer').html(result);
                     },
-
                     failure: function (message) {
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
-            
-
-
-
         });
-
-
         function ReloadPage(Page) {
             obj = {};
 
@@ -149,20 +126,13 @@
             $("#TimKiem").val("");
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: false,
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
@@ -172,7 +142,6 @@
         function Clear() {
             ReloadPage(1);
         }
-
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/signalServer")
             .configureLogging(signalR.LogLevel.Information)
@@ -187,48 +156,28 @@
                 setTimeout(start, 5000);
             }
         };
-
         connection.onclose(async () => {
             await start();
         });
-
         // Start the connection.
         start();
-
-
         connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
-
             toastr.success("Có một lịch đặt mới");
-            obj = {};
-            
+            obj = {};            
             obj.page = $('#CurrentPage').val();
-            obj.KeyWordSearch = $('#TimKiem').val()
-
-           
+            obj.KeyWordSearch = $('#TimKiem').val()           
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
-
                 type: "Get",
-
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-
-
         });
-
-
-
     </script>
 }
 

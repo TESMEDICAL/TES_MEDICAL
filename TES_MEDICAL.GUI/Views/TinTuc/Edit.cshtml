@@ -165,7 +165,6 @@
                     <div class="box-title-label">
                         <label class="form-label">Tiêu đề</label>
                     </div>
-                    @*<input type="text" asp-for="TieuDe" class="form-control">*@
                     <div class="form-floating mt-3 mb-3">
                         <textarea class="form-control" asp-for="TieuDe" style="height: 130px"></textarea>
                     </div>
@@ -180,7 +179,6 @@
                         <select asp-for="MaTL" asp-items="@ViewBag.MaTL" class="form-select">
                             <option value="">Chọn thể loại</option>
                         </select>
-                        @*@Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })*@
                         @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
                     </div>
                 </div>

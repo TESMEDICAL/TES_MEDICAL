@@ -12,14 +12,12 @@
 
         background-color: rgb(233, 236, 239);
 
-  }
+    }
         .box-title h6 {
             padding: 10px;
             font-weight: 600;
             color: rgb(108, 117, 125);
-        }
-
-  
+        }  
     form{
         padding-inline: 30px;
     }
@@ -156,9 +154,7 @@
         </div>
         <br />
         <form class="row g-3" asp-action="ThemTinTuc" asp-controller="TinTuc" method="post">
-            <input asp-for="Hinh" hidden/>
-            
-
+            <input asp-for="Hinh" hidden/>           
             <div class="box-left form-group">
                 <div class="box-left-title">
                     <div class="box-title-label">
@@ -195,9 +191,7 @@
                         </label>
                     </div>
                 </div>
-            </div>
-            
-            
+            </div>                        
             <div class="box-content col-12">
 
                 <div class="d-flex justify-content-between">
@@ -267,9 +261,6 @@
                         }
                     }
                 });
-
-                
-
                 function UploadImage(file) {
                 var url = '@Url.Action("UploadFile", "TinTuc")';
                 formData = new FormData();
@@ -335,7 +326,5 @@
         function CloseModal() {
             $('#myModalContent').html("");
         }
-
-
     </script>
 }

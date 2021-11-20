@@ -118,12 +118,6 @@
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
-                        @*<tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>1</td>
-                            </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -135,17 +129,11 @@
 
 
 <script>
-        $(".table").hide();
-        
-
-        
-
+        $(".table").hide();              
         /*Auto display thống kế*/
         $(document).ready(function () {
             $("#reportLuotKham").trigger('click');
         });
-
-
     function ReportLuotKham() {
         $.ajax({
             url: "/Report/ThongKeLuotKham",
