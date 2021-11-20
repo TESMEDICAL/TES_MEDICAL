@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -28,14 +27,10 @@ namespace TES_MEDICAL.GUI.Controllers
         
         public async Task<ActionResult> Index(TinTucSearchModel model)
         {
-
             if (!model.Page.HasValue) model.Page = 1;
             var listPaged = await _service.SearchByCondition(model);
             ViewBag.MaNguoiViet = _service.NguoiDungNav();
-
             ViewBag.MaTL = await _theLoaiRep.GetAll();
-
-
             ViewBag.Names = listPaged;
             ViewBag.Data = model;
             return View(new TinTucSearchModel());
@@ -46,28 +41,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<ActionResult> PageList(TinTucSearchModel model)
         {
-
             var listmodel = await _service.SearchByCondition(model);
             if (listmodel.Count() > 0)
             {
-
                 if (!model.Page.HasValue) model.Page = 1;
-
-
-
-
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
-
                 return PartialView("_NameListPartial", listmodel);
             }
             else
             {
-
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-
-
         }
 
 
@@ -80,24 +65,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
-        {
-            //NguoiDung nguoiDung = new NguoiDung();
-            //nguoiDung.MaNguoiDung = Guid.Parse("6F89F268-4A53-4DEC-A44A-5DDF82F6C663");
-
+        {           
             string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
-
-
             model.MaBaiViet = Guid.NewGuid();
             model.MaNguoiViet = Guid.Parse(maNguoiDung);
             model.ThoiGian = DateTime.Now;
             if (await _service.Add(model) != null)
-                return /*Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
+                return 
                     RedirectToAction("index", "Tintuc");
             else
                 return View(model);
-            //    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
         }
 
         [HttpGet]
@@ -112,8 +89,6 @@ namespace TES_MEDICAL.GUI.Controllers
             else
             {
                 ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
-
-
                 return View(item);
             }
 
@@ -128,8 +103,6 @@ namespace TES_MEDICAL.GUI.Controllers
             else
             {
                 ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email", (await _service.Get(id)).MaNguoiViet);
-
-
                 return PartialView("_partialDetail", await _service.Get(id));
             }
         }
@@ -138,8 +111,6 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<ActionResult> Preview(TinTuc model)
         {
             string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
-
-
             model.MaBaiViet = Guid.NewGuid();
             model.MaNguoiViet = Guid.Parse(maNguoiDung);
             ViewBag.TenTL = (await _theLoaiRep.Get(Guid.Parse(model.MaTL.ToString()))).TenTL;
@@ -148,18 +119,14 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-
         public async Task<ActionResult> Edit(TinTuc model)
         {
-
             if (await _service.Edit(model) != null)
-                return RedirectToAction("index", "Tintuc"); /*Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());*/
+                return RedirectToAction("index", "Tintuc"); 
             else
                 return View(model);
-            //return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
-
         }
+
 
         [HttpPost]
         public async Task<ActionResult> Delete(Guid id)
@@ -171,6 +138,8 @@ namespace TES_MEDICAL.GUI.Controllers
             else
                 return Json(new { status = -2, title = "", text = "Xoá không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
+
+
         [HttpPost]
         public async Task<ActionResult> Restore(Guid id)
         {
@@ -185,7 +154,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
        
 
-        //[AcceptVerbs(HttpVerbs.Post)]
+        
         public JsonResult UploadFile(IFormFile aUploadedFile)
         {
             var vReturnImagePath = string.Empty;
@@ -208,8 +177,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 var vImageLength = new FileInfo(path).Length;
                 TempData["message"] = string.Format("Image was Added Successfully");
-            }
-            //return Json(Convert.ToString(vReturnImagePath), JsonRequestBehavior.AllowGet);
+            }           
             return Json(Convert.ToString(vReturnImagePath), new Newtonsoft.Json.JsonSerializerSettings());
         }
     }
