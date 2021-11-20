@@ -3,62 +3,50 @@
 @using TES_MEDICAL.GUI.Models;
 @{
     ViewData["Title"] = "QUẢN LÝ NHÂN VIÊN Y TẾ";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
-
-
 <style>
     .box {
         background-color: white;
         font-family: Source Sans Pro;
     }
-
     .box-title {
         background-color: rgb(233, 236, 239);
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
     }
-
         .box-title h6 {
             padding: 10px;
             font-weight: 600;
             color: rgb(108, 117, 125);
         }
-
     .header-left {
         left: 0 auto;
     }
-
     .header-right {
         padding-right: 25px;
         margin-inline-start: auto;
         text-align: right;
     }
-
     .form-select {
         color: gray;
     }
-
     .header-btn button {
         background-color: rgb(82, 183, 136);
         color: white;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
         transition: 0.15s all;
     }
-
         .header-btn button:hover {
             background-color: rgb(118, 200, 147);
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             transform: scale(1.075);
             color: white;
         }
-
     .form-check {
         margin-right: 25px;
     }
-
     .name-list {
         padding-inline: 15px;
     }
@@ -84,23 +72,18 @@
     }
 </style>
 
-
-
 <div class="box m-3">
     <div class="box-title mb-4">
         <h6>Quản lý nhân viên y tế</h6>
     </div>
     <div class="header row">
-
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
             @Html.AntiForgeryToken()
             <div class="header-left col-sm-8 row">
                 <div class="header-input-1 col-7">
                     <input type="text" class="form-control" asp-for="KeyWordSearch" placeholder="Nhập thông tin cần tìm ..." aria-label="Username" aria-describedby="basic-addon1">
-                    @*@Html.EditorFor(model => model.HoTenSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tên" } })*@
-                </div>
-            
+                </div>            
             </div>
             <div class="header-right col-sm-4 row">
                 <div class="header-btn col-7">
@@ -109,7 +92,6 @@
                 <div class="header-btn col-5">
                     <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
                 </div>
-
             </div>
             <div class="form-check ms-auto mb-2 text-right mt-3">
                 <input class="form-check-input" type="checkbox" value="" id="CheckAll" onchange="reloadpage(1)" >
@@ -117,32 +99,21 @@
                     Hiện tất cả
                 </label>
             </div>
-
-
         }
-
     </div>
     <div id="nameListContainer" class="mt-2" style="margin-inline: 15px;">
         <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<NhanVienYte>" />
-
     </div>
 </div>
-
-
-
 
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-xl">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
-
                 <div id="myModalContent">
-
                 </div>
             </div>
-
-
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" id="btSave" class="btn-save btn"><i class="fa fa-save"></i>&nbsp;Lưu</button>
@@ -152,10 +123,8 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 
 @section scripts{
     <script>
@@ -168,9 +137,7 @@
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
         $(document).ready(
-
             function () {
-
                 $("#btSave").click(function () {
                     /*var obj = $("#frm").serializeObject();*/
                     var formData = new FormData();
@@ -187,7 +154,6 @@
                     formData.append('ChucVu', $("#ChucVu").val());
                     formData.append('TrangThai', $("#TrangThai").val());
                     formData.append('ChuyenKhoa', $("#ChuyenKhoa").val());
-
 
                     $.ajax({
                         type: "POST",
@@ -218,17 +184,12 @@
                             $('#preloader-box').toggleClass('hide');
                         }
                     });
-
-
-
                 });
                 $("#btupdate").click(function () {
-                    /*var obj = $("#frm").serializeObject();*/
                     var formData = new FormData();
                     var fileUpload = $("#upload-back").get(0);
                     var file = fileUpload.files[0];
                     if ($('#TrangThai').is(':checked')) { formData.append('TrangThai', true) } else { formData.append('TrangThai', false) }
-
                     formData.append("file", file);
                     formData.append('MaNV', $("#MaNV").val());
                     formData.append('Email', $("#Email").val());
@@ -237,10 +198,8 @@
                     formData.append('HoTen', $("#HoTen").val());
                     formData.append('SDTNV', $("#SDTNV").val());
                     formData.append('ChucVu', $("#ChucVu").val());
-                    /*formData.append('TrangThai', $("#TrangThai").val());*/
                     formData.append('ChuyenKhoa', $("#ChuyenKhoa").val());
                     formData.append('Hinh', $("#Hinh").val());
-
                     $.ajax({
                         type: "POST",
                         url: "/NhanVienYte/Edit",
@@ -265,39 +224,25 @@
                             $('#preloader-box').toggleClass('hide');
                         }
                     });
-
-
                 });
                 $("#btclose").click(function () {
-
                     reloadpage(1);
                 });
                 $("#btcloseins").click(function () {
-
                     reloadpage(1);
                 });
-
-
-
             });
-
         $(document).on('click', '.remove', function () {
-
             $(this).parent().parent().remove();
-
         });
-
         function AddView(child) {
-
             $.ajax({
                 url: '/NhanVienYte/add' + child,
-
                 success: function (data) {
                     $("#partial" + child).append(data);
                 }
             })
         }
-
         function reloadpage(page) {
             obj = {};
             if ($('#CheckAll').is(':checked')) {
@@ -309,29 +254,19 @@
             obj.Page = page;
             $.ajax({
                 url: '/NhanVienYte/PageList/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: false,
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-box').toggleClass('hide');
                 }
             });
         }
-
-
         function _delete(id) {
-            /*var cf = confirm('Bạn muốn vô hiệu hóa người dùng  này?');*/
             Swal.fire({
                 title: 'Bạn có muốn vô hiệu hoá nhân viên này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -343,7 +278,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/NhanVienYTe/Delete",
@@ -370,10 +304,7 @@
             })
         }
 
-
-
         function _restore(id) {
-            /*var cf = confirm('Bạn muốn Khôi phục người dùng  này?');*/
             Swal.fire({
                 title: 'Bạn có muốn khôi phục nhân viên này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -385,7 +316,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/NhanVienYTe/Restore",
@@ -411,18 +341,13 @@
                 }
             })
         }
-
-
         function PrintPreview(id) {
             $.print("#" + id);
         }
-
         function Edit(id_) {
             $myModalContent.html("");
-
             $.ajax({
                 url: '/NhanVienYte/Edit/',
-
                 type: "Get",
                 timeout: 20000,
 

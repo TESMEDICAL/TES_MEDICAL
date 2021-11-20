@@ -8,7 +8,6 @@
         background-color: white;
         border-left: 8px solid rgb(82, 183, 136);
     }
-
         .box-title-1 h4 {
             padding: 2%;
             font-size: 35px;
@@ -36,7 +35,6 @@
         font-size: 20px;
         margin-left: 10px; 
     }
-
 </style>
 
 <div class="container-fluid" id="pannelNguoiDung">
@@ -47,68 +45,56 @@
         <!--Phần hình ảnh-->
         <div class="box-left col-sm-5">
             <img class="detail-img" src="~/images/@Model.HinhAnh" />
-            @*@Html.DisplayFor(model => model.HinhAnh)*@
-            @*<img src="/img/bs.png" style="width:200px" />*@
         </div>
         <div class="box-right col-sm-7">
-                <div class="box-right-top col-12 row mb-4">
-                    <h1 class="box-name">@Model.HoTen</h1>
-                    <h5 class="box-role">
-                        Chức vụ :
-                        @if (Model.ChucVu == 1)
-                        {
-                            @("Admin")
-                        }
-                        else
-                        {
-                            @("User")
-                        }
-                    </h5>
+            <div class="box-right-top col-12 row mb-4">
+                <h1 class="box-name">@Model.HoTen</h1>
+                <h5 class="box-role">
+                    Chức vụ :
+                    @if (Model.ChucVu == 1)
+                    {
+                        @("Admin")
+                    }
+                    else
+                    {
+                        @("User")
+                    }
+                </h5>
+            </div>
+            <div class="box-right-item row col-12">
+                <div class="col-sm-4">
+                    <h6>Email</h6>
                 </div>
-
-                <div class="box-right-item row col-12">
-                    <div class="col-sm-4" >
-                        <h6>Email</h6>                        
-                    </div>
-                    <div class="col-sm-8" >
-                        <h6 style="font-weight: 600">
-                            @*@Html.DisplayFor(model => model.Email)*@
-                            @Model.Email
-                        </h6>                        
-                    </div>
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
+                        @Model.Email
+                    </h6>
                 </div>
-
-
-                <div class="box-right-item col-12 row">
-                    <div class="col-sm-4">
-                        <h6>
-                            Số điện thoại
-                        </h6>
-                    </div>
-                    <div class="col-sm-8">
-                        <h6 style="font-weight: 600">
-                        @*@Html.DisplayFor(model => model.SDT)*@
+            </div>
+            <div class="box-right-item col-12 row">
+                <div class="col-sm-4">
+                    <h6>
+                        Số điện thoại
+                    </h6>
+                </div>
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
                         @Model.SDT
-                        </h6>                        
-                    </div>
+                    </h6>
                 </div>
-                <div class="box-right-item col-12 row">
-                    <div class="col-sm-4">
-                        <h6>
-                            Trạng thái
-                        </h6>
-                    </div>
-                    <div class="col-sm-8">
-                        <h6 style="font-weight: 600">
-                            @*@Html.DisplayFor(model => model.TrangThai)*@
-                            @Model.TrangThai
-                        </h6>                        
-                    </div>
+            </div>
+            <div class="box-right-item col-12 row">
+                <div class="col-sm-4">
+                    <h6>
+                        Trạng thái
+                    </h6>
                 </div>
-
-
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
+                        @Model.TrangThai
+                    </h6>
+                </div>
+            </div>
         </div>
-
-
     </div>
 </div>
