@@ -36,8 +36,10 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<IEnumerable<HoaDon>> GetAllHoaDon()
         {
-            return await _context.HoaDon.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBSNavigation).OrderByDescending(x =>x.NgayHD).ToListAsync();
+            return await _context.HoaDon.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaBSNavigation).OrderByDescending(x => x.NgayHD).ToListAsync();
         }
+
+
         public PageResponse<ResponseHoaDon> SearchHDByCondition(HoaDonSearchModel model)
 
         {
@@ -56,57 +58,42 @@ namespace TES_MEDICAL.GUI.Services
 
 
                                  };
-            if(model.Type ==1)
+            if (model.Type == 1)
             {
                 PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHD @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
 
-
-
                 result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangHoaDonDV @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
-                
 
             }
-            else if(model.Type ==2)
+            else if (model.Type == 2)
             {
                 PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHDThuoc @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
 
-
-
                 result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangHoaDonThuoc @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
             }
-            else if(model.Type ==0)
+            else if (model.Type == 0)
             {
                 PageTotal = _context.ScalarInt.FromSqlRaw("EXEC  dbo.CountHDTong @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).AsEnumerable().FirstOrDefault().Value / 10;
 
-
-
                 result = _context.ResponseHoaDons.FromSqlRaw("EXEC dbo.PhanTrangTong @PageNumber, @RowsPage, @KeyWord, @ngaybatdau, @ngayketthuc", parms.ToArray()).ToList();
-            }    
+            }
 
             return new PageResponse<ResponseHoaDon> { PageTotal = PageTotal, result = result };
 
-            //    var list = _context.Hotel.Include(x=>x.city).Include(x=>x.country).OrderBy(x => x.hotel_name);
-            //var totalItems = list.Count();
-            //// Tính số trang hiện thị (mỗi trang hiện thị ITEMS_PER_PAGE mục do bạn cấu hình = 10, 20 ...)
-            //int totalPages = (int)Math.Ceiling((double)totalItems / 20);
-            //// Lấy phần tử trong  hang hiện tại (pageNumber là trang hiện tại - thường Binding từ route)
-            //var pros = await list.Skip(50 * (Page - 1)).Take(50).ToListAsync();
-            //    return pros;
-
-
-
-
-
         }
+
+
 
         public async Task<IEnumerable<HoaDonThuoc>> GetAllHoaDonThuoc()
         {
-            return await _context.HoaDonThuoc.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBSNavigation).OrderByDescending(x =>x.NgayHD).ToListAsync();
+            return await _context.HoaDonThuoc.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBSNavigation).OrderByDescending(x => x.NgayHD).ToListAsync();
         }
+
+
 
         public async Task<HoaDonThuoc> GetTTHDThuoc(string MaHD)
         {
-            var item = await _context.HoaDonThuoc.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x =>x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBSNavigation).Include(x =>x.MaPKNavigation).ThenInclude(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Include(x =>x.MaPKNavigation).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation)
+            var item = await _context.HoaDonThuoc.Include(x => x.MaNVNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBSNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Include(x => x.MaPKNavigation).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 
                  .FirstOrDefaultAsync(i => i.MaHD == MaHD);
 
@@ -140,8 +127,10 @@ namespace TES_MEDICAL.GUI.Services
 
                             };
             var result = await _context.ThongKeViewModel.FromSqlRaw("EXEC dbo.ThongKeHDV @ngaybatdau,@ngaykethuc", parms.ToArray()).ToListAsync();
-            return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj  = result};
+            return new Response<List<ThongKeDichVuViewModel>> { errorCode = 0, Obj = result };
         }
+
+
 
         public async Task<Response<List<ThongKeDichVuViewModel>>> ThongKeHDThuoc(DateTime ngayBatDau, DateTime ngayKetThuc)
         {

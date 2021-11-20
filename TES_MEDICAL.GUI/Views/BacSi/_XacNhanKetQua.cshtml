@@ -1,5 +1,4 @@
 ﻿@model PhieuKham;
-
 <style>
     /* định dạng thẻ div chưa các button tab */
     div.tab-modal {
@@ -91,11 +90,7 @@
                 </h6>
             </div>
         </div>
-        @*chi tiết sinh hiệu thêm*@
-        <!--<div class="row ms-2 mb-1">-->
-        @*vòng lập*@
-
-        <!--</div>-->
+        
         <div class="ms-3" style="background-color: white; position: absolute;">
             <h6 id="title-history" class="p-2" style="font-weight: 600;">Kết quả khám bệnh</h6>
         </div>
@@ -108,7 +103,6 @@
             <div class="mt-2">
                 <div style="background-color: white; position: absolute;" class="ms-3"><h6 style="margin-inline: 7px"><strong>Kết quả khám:</strong></h6></div>
                 <div id="title-border" style="margin-top: 10px; margin-bottom: 20px; margin-inline: 10px;">
-                    @*@Model.KetQuaKham*@
                     <div class="row mt-4 ms-4 mb-1">
                         @if (ViewBag.ListTC != null)
                         {
@@ -122,8 +116,6 @@
                                 </div>
                             }
                         }
-
-
                     </div>
                 </div>
             </div>
@@ -142,7 +134,6 @@
                     <tr>
                         <td class="col-8">
                             <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
-                            @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
                             <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
@@ -186,10 +177,5 @@
         });
     }
     showDonThuoc();
-    //$('#tab1').click(function () {
-    //    showContent('PHP')
-    //})
-    //$('#tab2').click(function () {
-    //    showContent('HTML')
-    //})
+    
 </script>

@@ -37,34 +37,7 @@
         <button id="tab2" onclick="showThongTin()" class="tablinks">Thông tin bệnh nhân</button>
     </div>
     <input style="display:none" value="@Model.MaPhieuKham" id="maPK" />
-    @*<table class="table table-borderless">
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Tên bệnh nhân</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.HoTen</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Số điện thoại</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.SDT</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Ngày lập hóa đơn</td>
-                    <th>@Model.MaPhieuKhamNavigation.NgayKham</th>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>*@
+    
     <div id="HTML" class="tabcontent p-3 border-0" style="padding-inline: 40px">
         <div class="ms-3" style="background-color: white; position: absolute;">
             <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin bệnh nhân</h6>
@@ -94,31 +67,7 @@
         </div>
     </div>
 
-    @*<table class="table">
-            <thead>
-                <tr>
-                    <th class="col-3">Tên thuốc</th>
-                    <th class="col-1 text-center">SL</th>
-                    <th class="col-2 text-center">Vị trí</th>
-                    <th class="col-3">Ghi chú</th>
-                    <th class="col-3 text-end">Đơn giá</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in ViewBag.CTLichSuThuoc as IEnumerable<ChiTietToaThuoc>)
-                {
-                    <tr>
-                        <td class="col-3">@item.MaThuocNavigation.TenThuoc</td>
-                        <td class="col-1 text-center">@item.SoLuong</td>
-                        <td class="col-2 text-center">@item.MaThuocNavigation.Vitri</td>
-                        <td class="col-3">@item.GhiChu</td>
-                        <td class="col-3 text-end">@item.MaThuocNavigation.DonGia.ToString("n0").Replace(',', '.') VNĐ</td>
-                    </tr>
-                }
-
-
-            </tbody>
-        </table>*@
+    
     <div id="PHP" class="tabcontent p-3 border-0" style="font-size: 17px">
         <table class="table table-bordered">
             <tr id="table-header" class="text-light">
@@ -134,7 +83,6 @@
                     <tr>
                         <td class="col-6">
                             <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
-                            @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
                             <p style="font-style: italic">@item.GhiChu</p>
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
@@ -180,10 +128,5 @@
         });
     }
     showDonThuoc();
-    //$('#tab1').click(function () {
-    //    showContent('PHP')
-    //})
-    //$('#tab2').click(function () {
-    //    showContent('HTML')
-    //})
+    
 </script>

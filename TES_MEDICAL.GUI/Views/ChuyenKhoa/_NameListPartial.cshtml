@@ -1,11 +1,5 @@
-
-
-
 @model IPagedList<ChuyenKhoa>
-
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
 
@@ -89,14 +83,8 @@
         @{
             var searchModel = ViewBag.Data as ChuyenKhoaSearchModel;
         }
-
-
         @Html.PagedListPager((IPagedList<ChuyenKhoa>)ViewBag.Names, page => Url.Action("PageList", new { page, TenCKSearch = searchModel.TenCKSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

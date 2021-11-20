@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-
-
-
 <style>
     .a {
         text-decoration: none !important
@@ -61,8 +58,6 @@
 
 @section Scripts{
 
-
-
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
 
@@ -76,8 +71,6 @@
                 ReloadPage(1);
 
             });
-
-
 
         //Hàm mở modal của Chi tiết Toa Thuốc Đang phát
         function Detail(_maPhieu) {
@@ -228,7 +221,6 @@
                         'Retry');
                 },
                 error: function (errormessage) {
-                    //alert(errormessage.responseText);
                     $(this).prop("disabled", false);
 
                     $(this).html(
