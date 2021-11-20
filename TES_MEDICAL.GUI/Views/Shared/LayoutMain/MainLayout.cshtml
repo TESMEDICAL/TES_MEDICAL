@@ -337,20 +337,20 @@
                         <!-- Brand -->
                         @if ((await UserManager.GetUserAsync(User)).ChucVu == 1)
                         {
-                            <a class="sidebar-brand">
+                            <a class="sidebar-brand" style="margin-left: -15px;">
                                 <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Tiếp nhận </strong>Client</span>
                             </a>
                         }
                         else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
                         {
-                            <a class="sidebar-brand">
+                            <a class="sidebar-brand" style="margin: 0 auto;">
                                 <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Dược sĩ </strong>Client</span>
                             </a>
                         }
                         else
                         {
-                            <a class="sidebar-brand">
-                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Khám bệnh </strong>Client</span>
+                            <a class="sidebar-brand" style="margin: 0 auto;">
+                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Bác sĩ </strong>Client</span>
                             </a>
                         }
 
