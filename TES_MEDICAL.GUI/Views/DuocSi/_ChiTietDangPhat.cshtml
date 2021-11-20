@@ -1,6 +1,4 @@
 ﻿@model TES_MEDICAL.GUI.Models.ToaThuoc
-
-
     <style>
         /* định dạng thẻ div chưa các button tab */
         div.tab-modal {
@@ -60,50 +58,7 @@
             </div>
         </div>
     </div>
-    @*<table class="table table-borderless">
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Tên bệnh nhân</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.HoTen</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Số điện thoại</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.SDT</th>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>*@
-
-    @*<table class="table">
-        <thead>
-            <tr>
-                <th class="col-4">Tên thuốc</th>
-                <th class="col-2">Số lượng</th>
-                <th class="col-2">Vị trí</th>
-                <th class="col-4">Ghi chú</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.CTToaThuocDangPhat as IEnumerable<ChiTietToaThuoc>)
-            {
-                <tr>
-                    <td class="col-4">@item.MaThuocNavigation.TenThuoc</td>
-                    <td class="col-2">@item.SoLuong</td>
-                    <td class="col-2">@item.MaThuocNavigation.Vitri</td>
-                    <td class="col-3">@item.GhiChu</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>*@
-
+    
     <div id="PHP" class="tabcontent p-3 border-0" style="font-size: 17px">
         <table class="table table-bordered">
             <tr id="table-header" class="text-light">
@@ -160,10 +115,5 @@
         });
     }
     showDonThuoc();
-    //$('#tab1').click(function () {
-    //    showContent('PHP')
-    //})
-    //$('#tab2').click(function () {
-    //    showContent('HTML')
-    //})
+    
 </script>

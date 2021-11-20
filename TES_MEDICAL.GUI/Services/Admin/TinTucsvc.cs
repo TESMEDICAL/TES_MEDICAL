@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,11 +22,6 @@ namespace TES_MEDICAL.GUI.Services
 
         }
       
-      
-
-
-        
-        
         public async Task <TinTuc> Add(TinTuc model)
         {
             try

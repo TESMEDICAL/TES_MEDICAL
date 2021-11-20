@@ -1,5 +1,3 @@
-
-
 @model TES_MEDICAL.GUI.Models.DichVuSearchModel
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
@@ -375,7 +373,6 @@
             });
         }
         function _delete(id) {
-            /*var cf = confirm('Bạn muốn xóa dịch vụ này?');*/
             Swal.fire({
                 title: 'Bạn muốn xóa dịch vụ này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -387,7 +384,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/DichVu/Delete",
@@ -414,7 +410,6 @@
             })
         }
         function _restore(id) {
-            /*var cf = confirm('Bạn muốn khôi phục dịch vụ  này?');*/
             Swal.fire({
                 title: 'Bạn muốn khôi phục dịch vụ này?',
                 text: "Thao tác không thể thay đổi !",
@@ -426,7 +421,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/DichVu/Restore",
