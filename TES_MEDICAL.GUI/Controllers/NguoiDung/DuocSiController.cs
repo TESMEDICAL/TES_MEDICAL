@@ -54,16 +54,11 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpGet]
         public async Task<IActionResult> ReloadPageLichSu(ToaThuocSearchModel model)
         {
-
             //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
-
 
             var listmodel = await _service.SearchToaThuoc(model);
 
             if (!model.Page.HasValue) model.Page = 1;
-
-
-
             model.TrangThaiPK = 2;
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;

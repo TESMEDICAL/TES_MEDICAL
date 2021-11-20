@@ -117,6 +117,7 @@
 
             obj.Page = page;
             obj.TrangThai = 2;
+            obj.TrangThaiPK = 2
             $("#TimKiem").val("");
             $.ajax({
                 url: '/DuocSi/ReloadPageLichSu/',
@@ -173,9 +174,7 @@
 
 
         function Clear() {
-
-
-            ReloadPage(1);
+            ReloadPage(2);
         }
 
 
