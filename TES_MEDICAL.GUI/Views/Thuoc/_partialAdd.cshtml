@@ -98,8 +98,7 @@
                 </div>
                 <div class="form-group col-12">
                     <h6>Thông tin</h6>
-                    <div class="col-12">
-                        @*@Html.EditorFor(model => model.ThongTin, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <div class="col-12">                       
                         <textarea asp-for="ThongTin" class="form-control" rows="4"></textarea>
                         @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
                     </div>

@@ -84,8 +84,7 @@
             <div class="form-group col-12">
                 <h6>
                     Tên người dùng
-                </h6>
-                @*@Html.LabelFor(model => model.HoTen, "Họ tên", htmlAttributes: new { @class = "control-label col-12" })*@
+                </h6>               
                 <div class="col-12">
                     @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
@@ -93,8 +92,7 @@
             </div>
 
             <div class="form-group col-md-6">
-                <h6>Email</h6>
-                @*@Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-6" })*@
+                <h6>Email</h6>              
                 <div class="col-md-12">
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -104,8 +102,7 @@
 
 
             <div class="form-group col-md-6">
-                <h6>Số điện thoại</h6>
-                @*@Html.LabelFor(model => model.SDT, "Số điện thoại", htmlAttributes: new { @class = "control-label col-12" })*@
+                <h6>Số điện thoại</h6>                
                 <div class="col-12">
                     @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
@@ -113,8 +110,7 @@
             </div>
 
             <div class="form-group col-md-6">
-                <h6>Mật khẩu</h6>
-                @*@Html.LabelFor(model => model.MatKhau, "Mật khẩu", htmlAttributes: new { @class = "control-label col-12" })*@
+                <h6>Mật khẩu</h6>               
                 <div class="col-12">
                     @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
@@ -122,8 +118,7 @@
             </div>
 
             <div class="form-group col-md-6">
-                <h6>Xác nhật mật khẩu</h6>
-                @*@Html.LabelFor(model => model.ConfirmPassword, "Mật khẩu xác nhận", htmlAttributes: new { @class = "control-label col-12" })*@
+                <h6>Xác nhật mật khẩu</h6>             
                 <div class="col-12">
                     @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -131,15 +126,13 @@
             </div>
 
             <div class="form-group col-md-6">
-                <h6>Chức vụ</h6>
-                @*@Html.LabelFor(model => model.ChucVu, "Chức vụ", htmlAttributes: new { @class = "control-label col-12" })*@
+                <h6>Chức vụ</h6>               
                 <div class="col-12">
                     <select asp-for="ChucVu" class="form-select">
                         <option value="0" selected>Chọn chức vụ</option>
                         <option value="1">Admin</option>
                         <option value="2">User</option>
-                    </select>
-                    @*@Html.EditorFor(model => model.ChucVu, new { htmlAttributes = new { @class = "form-control" } })*@
+                    </select>                  
                     @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -147,8 +140,7 @@
             <div class="form-group form-check col-md-5">
                 <h6 class="form-label">Trạng thái</h6>
                 <div>
-                    <label class="form-check-label">
-                        @*@Html.CheckBoxFor(model => model.TrangThai) Đang hoạt động*@
+                    <label class="form-check-label">                       
                         <input class="form-check-input" type="checkbox" asp-for="TrangThai" value="true" /> Đang hoạt động
                     </label>
                 </div>
@@ -158,25 +150,18 @@
 
         <!--Phần hình-->
         <div class="box-right col-sm-3">
-            <div class="form-group col-12">
-                @*@Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-6" })*@
-                @*@Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })*@
+            <div class="form-group col-12">                
                 @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
-
-
                 <div id="image-holder2">
                     <img src="~/images/@Model.HinhAnh">
                 </div>
                 <label class="btn-img btn mt-4">
                     <i class="fa fa-image"></i>  Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
                 </label>
-
             </div>
-
         </div>
 
     }
-
 </div>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
@@ -192,8 +177,7 @@
         var file = e.target.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
-            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius: 3%;'/>"
-            //var img = "<img src='" + reader.result + "' style='width: 250px; height: 300px; object - fit: cover; object - position: center center;'/>"
+            var img = "<img src='" + reader.result + "' style='width: 250px; height: 250px; object-fit: cover; object-position: center center;border-radius: 3%;'/>"           
             $('#image-holder2').html(img);
         };
         reader.readAsDataURL(file);
