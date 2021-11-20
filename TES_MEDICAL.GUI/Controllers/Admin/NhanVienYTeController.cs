@@ -129,7 +129,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
-                        if (error.Code.Contains("Email"))
+                        if (error.Code.Contains("Email")|| error.Code.Contains("UserName"))
                             {
                             ModelState.AddModelError("Email", error.Description);
                         }
