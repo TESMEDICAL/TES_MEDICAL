@@ -118,7 +118,7 @@
                 else {
                     JSON.parse(response).forEach(function (item) {
                         console.log(item);
-                        var stringDate = new Date(item.NgayKham);
+                        var stringDate = new DateTime(item.NgayKham);
                         var dd = stringDate.getDate();
                         var MM = stringDate.getMonth();
                         var yyyy = stringDate.getFullYear();
@@ -134,7 +134,7 @@
                                     <h6><a>${item.MaBNNavigation.SDT}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a>${ngayKham}</a></h6>
+                                    <h6><a>${stringDate.toLocaleString("es-CL")}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
                                     <h6><a id="ButtonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
