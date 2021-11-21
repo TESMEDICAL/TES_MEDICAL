@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +22,6 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
 
         }
-
 
         public async Task<Response<Benh>> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
         {
@@ -93,7 +90,8 @@ namespace TES_MEDICAL.GUI.Services
                     var listCTTrieuChung = _context.CTTrieuChung.Where(p => p.MaBenh == model.MaBenh);
                     foreach (var existingCTTrieuChung in listCTTrieuChung)
                     {
-                        if (!trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh))
+                        var boole = !trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh);
+                        if (!trieuchungs.Any(c => c.MaTrieuChung == existingCTTrieuChung.MaTrieuChung))
 
                             _context.Entry(existingCTTrieuChung).State = EntityState.Deleted;
                     }
@@ -142,9 +140,6 @@ namespace TES_MEDICAL.GUI.Services
 
                 return new Response<Benh> { errorCode = -2 };
             }
-
-
-
 
         }
 
@@ -197,12 +192,6 @@ namespace TES_MEDICAL.GUI.Services
                 listUnpaged = listUnpaged.Where(x => x.ThongTin.ToUpper().Contains(model.ThongTinSearch.ToUpper()));
             }
 
-
-
-
-
-
-
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
 
@@ -210,10 +199,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -224,7 +209,6 @@ namespace TES_MEDICAL.GUI.Services
             List<Benh> data = new List<Benh>();
 
             data = _context.Benh.ToList();
-
 
             return data;
 

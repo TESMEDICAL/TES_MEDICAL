@@ -52,26 +52,41 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<ToaThuoc> listUnpaged = null;
            if (model.TrangThaiPK ==1)
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null)
-                        return true;
-                    else
-                        return false;
-                })).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+          (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+           && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+                ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+
             }
             else
             {
-                listUnpaged = (_context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where((delegate (ToaThuoc x)
-                {
-                    if ((string.IsNullOrWhiteSpace(model.KeywordSearch) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0) || (Helper.ConvertToUnSign(x.MaPhieuKhamNavigation.MaBNNavigation.SDT).IndexOf(model.KeywordSearch, StringComparison.CurrentCultureIgnoreCase) >= 0)) && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2)
-                        return true;
-                    else
-                        return false;
-                })).OrderByDescending(x=>x.MaPhieuKhamNavigation.NgayKham));
-            } 
-                
-              
+                listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
+        (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2 && x.STTTOATHUOC != null
+
+
+
+
+
+
+
+              ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+
+            }
+
+
 
 
 
@@ -131,7 +146,7 @@ namespace TES_MEDICAL.GUI.Services
                     
                     existingThuoc.TrangThai = 1;
                     stt.UuTien = "B";
-                    if(_context.ToaThuoc.Where(x => x.TrangThai == 1).Count() > 0)
+                    if(_context.ToaThuoc.Include(x=>x.STTTOATHUOC).Where(x => x.TrangThai == 1 && x.STTTOATHUOC != null).Count() > 0)
                     {
                         stt.STT = _context.ToaThuoc.Include(x => x.STTTOATHUOC).Where(x => x.TrangThai == 1).Max(x => x.STTTOATHUOC.STT);
 
@@ -158,49 +173,49 @@ namespace TES_MEDICAL.GUI.Services
         }
 
         //Ham Create Hoa Don
-        public void CreateHD(PhieuKham PK)
-        {
+        //public void CreateHD(PhieuKham PK)
+        //{
 
-            var tongTien = PK.ToaThuoc.ChiTietToaThuoc.Sum(x => x.MaThuocNavigation.DonGia * x.SoLuong);
-            var listThuoc = "";
-            foreach (var item in PK.ToaThuoc.ChiTietToaThuoc)
-            {
+        //    var tongTien = PK.ToaThuoc.ChiTietToaThuoc.Sum(x => x.MaThuocNavigation.DonGia * x.SoLuong);
+        //    var listThuoc = "";
+        //    foreach (var item in PK.ToaThuoc.ChiTietToaThuoc)
+        //    {
 
-                listThuoc += $"<tr><td class='col-3'><strong>{item.MaThuocNavigation.TenThuoc}</strong></td><td class='col-4'><strong>{item.GhiChu}</strong></td><td class='col-2 text-center'><strong>{item.SoLuong}</strong></td><td class='col-3 text-end'><strong>{(item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.')}</strong></td></tr>";
+        //        listThuoc += $"<tr><td class='col-3'><strong>{item.MaThuocNavigation.TenThuoc}</strong></td><td class='col-4'><strong>{item.GhiChu}</strong></td><td class='col-2 text-center'><strong>{item.SoLuong}</strong></td><td class='col-3 text-end'><strong>{(item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.')}</strong></td></tr>";
 
-            }
-            //ten | soluong | thanhtien | ghichu
-            var tenNV = PK.ToaThuoc.HoaDonThuoc.MaNVNavigation.HoTen;
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/InvoiceThuoc.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHD}", PK.ToaThuoc.HoaDonThuoc.MaHD);
-                html = html.Replace("{MaPK}", PK.ToaThuoc.HoaDonThuoc.MaPKNavigation.MaPhieuKham.ToString());
-                html = html.Replace("{NgayHD}", PK.ToaThuoc.HoaDonThuoc.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-                html = html.Replace("{MaNV}", tenNV);
-                html = html.Replace("{TongTien}", tongTien.ToString("n0").Replace(',', '.'));
-                html = html.Replace("{listThuoc}", listThuoc);
-                html = html.Replace("{tenBN}", PK.MaBNNavigation.HoTen);
-                html = html.Replace("{SDT}", PK.MaBNNavigation.SDT);
-                html = html.Replace("{NgaySinh}", PK.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy"));
-                html = html.Replace("{DiaChi}", PK.MaBNNavigation.DiaChi);
+        //    }
+        //    //ten | soluong | thanhtien | ghichu
+        //    var tenNV = PK.ToaThuoc.HoaDonThuoc.MaNVNavigation.HoTen;
+        //    var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+        //    using (var reader = new System.IO.StreamReader(root + @"/InvoiceThuoc.html"))
+        //    {
+        //        string readFile = reader.ReadToEnd();
+        //        string html = string.Empty;
+        //        html = readFile;
+        //        html = html.Replace("{MaHD}", PK.ToaThuoc.HoaDonThuoc.MaHD);
+        //        html = html.Replace("{MaPK}", PK.ToaThuoc.HoaDonThuoc.MaPKNavigation.MaPhieuKham.ToString());
+        //        html = html.Replace("{NgayHD}", PK.ToaThuoc.HoaDonThuoc.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
+        //        html = html.Replace("{MaNV}", tenNV);
+        //        html = html.Replace("{TongTien}", tongTien.ToString("n0").Replace(',', '.'));
+        //        html = html.Replace("{listThuoc}", listThuoc);
+        //        html = html.Replace("{tenBN}", PK.MaBNNavigation.HoTen);
+        //        html = html.Replace("{SDT}", PK.MaBNNavigation.SDT);
+        //        html = html.Replace("{NgaySinh}", PK.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy"));
+        //        html = html.Replace("{DiaChi}", PK.MaBNNavigation.DiaChi);
 
 
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
+        //        HtmlToPdf ohtmlToPdf = new HtmlToPdf();
+        //        PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
+        //        byte[] pdf = opdfDocument.Save();
+        //        opdfDocument.Close();
 
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon\HoaDonThuoc", PK.ToaThuoc.HoaDonThuoc.MaHD + ".pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);
+        //        string filePath = "";
+        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon\HoaDonThuoc", PK.ToaThuoc.HoaDonThuoc.MaHD + ".pdf");
+        //        System.IO.File.WriteAllBytes(filePath, pdf);
 
-            }
+        //    }
 
-        }
+        //}
 
         public async Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK)
         {

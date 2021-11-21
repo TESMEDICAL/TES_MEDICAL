@@ -34,18 +34,17 @@
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-info row">
-
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Họ và tên</a></h6>
+                                <h6 style="font-weight:bold"><a>Họ và tên</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Số điện thoại</a></h6>
+                                <h6 style="font-weight:bold"><a>Số điện thoại</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Ngày khám</a></h6>
+                                <h6 style="font-weight:bold"><a>Ngày khám</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Mã phiếu khám</a></h6>
+                                <h6 style="font-weight:bold"><a>Mã phiếu khám</a></h6>
                             </div>
                         </div>
                     </div>
@@ -55,19 +54,7 @@
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div id="ShowLichSu" class="mini-cart-info row">
-                            @*@foreach (var item in Model)
-                                {
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.MaBNNavigation.HoTen</a></h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.MaBNNavigation.SDT</a></h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.NgayKham</a></h6>
-                                    </div>
-                                }*@
-
+                           
 
                         </div>
                     </div>
@@ -106,7 +93,6 @@
 
     </div>
 </div>
-
 <script>
     function OpenLichSuDatLich() {
         $.ajax({
@@ -137,16 +123,16 @@
                         var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
                         $("#ShowLichSu").append(`
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.TenBN}</a></h6>
+                                    <h6><a>${item.TenBN}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.SDT}</a></h6>
+                                    <h6><a>${item.SDT}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#" id="demo">${ngayKham}</a></h6>
+                                    <h6><a id="demo">${ngayKham}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.MaPhieu}</a></h6>
+                                    <h6><a>${item.MaPhieu}</a></h6>
                                 </div>
 
                     `)
@@ -161,10 +147,10 @@
     }
 
 
-
 </script>
 
 
 
 
 
+    

@@ -1,6 +1,4 @@
 ﻿@model PhieuDatLich
-
-
 @{
     ViewData["Title"] = "THÔNG TIN ĐẶT LỊCH KHÁM";
     Layout = null;
@@ -47,6 +45,8 @@
                                 <h6 class="section-subtitle ltn__secondary-color">Hello, @Model.TenBN</h6>
                                 <h1 class="section-title white-color" style="font-size:50px">Bạn đã đặt lịch thành công</h1>
                                 <h2 class="section-title white-color" style="font-size:50px">Mã đặt lịch <span style="color: yellow;">@Model.MaPhieu</span><br> Vui lòng lưu mã để tiện theo dõi</h2>
+                                <div id="qrcode" style="width:135px; margin:0 auto; padding:5px; background-color:white;" ></div>
+                                <br />
                                 <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
                             </div>
                             <div class="ltn__countdown mb-20" data-countdown="@Model.NgayKham?.ToString("yyyy/MM/dd hh:mm:ss")"></div>
@@ -78,6 +78,20 @@
     <script src="~/GuestElement/js/plugins.js"></script>
     <!-- Main JS -->
     <script src="~/GuestElement/js/main.js"></script>
+
+    <!--QRCODE-->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+    <script>
+        const qrcode = new QRCode(document.getElementById('qrcode'), {
+            text: '@Model.MaPhieu',
+            width: 128,
+            height: 128,
+            colorDark: '#000',
+            colorLight: '#fff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
 
 </body>
 </html>

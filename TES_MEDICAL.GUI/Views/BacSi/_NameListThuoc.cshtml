@@ -1,13 +1,13 @@
 ﻿@model IPagedList<Thuoc>
-
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
 <style>
-    .drug-img{
-        width: 10vw;
+    .drug-img {
+        width: 8vw;
+        height: 8vw;
+        object-fit: cover;
+        object-position: center center;
     }
 </style>
 
@@ -62,7 +62,6 @@
         @{
             var searchModel = ViewBag.Data as ThuocSearchModel;
         }
-
 
         @Html.PagedListPager((IPagedList<Thuoc>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch, TrangThai = searchModel.TrangThai}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>

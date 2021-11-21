@@ -3,7 +3,11 @@
     ViewData["Title"] = "LỊCH SỬ KHÁM";
     Layout = "~/Views/Shared/GuestLayout.cshtml";
 }
-
+<style>
+    #ButtonChiTiet:hover {
+        cursor: pointer;
+    }
+</style>
 <div class="row">
     <div class="col-lg-8 m-auto">
         <div class="ltn__form-box contact-form-box box-shadow white-bg">
@@ -35,16 +39,16 @@
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-info row">
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Họ và tên</a></h6>
+                                <h6 style="font-weight:bold"><a>Họ và tên</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Số điện thoại</a></h6>
+                                <h6 style="font-weight:bold"><a>Số điện thoại</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#">Ngày khám</a></h6>
+                                <h6 style="font-weight:bold"><a>Ngày khám</a></h6>
                             </div>
                             <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a href="#"></a></h6>
+                                <h6 style="font-weight:bold"><a></a></h6>
                             </div>
                         </div>
                     </div>
@@ -54,19 +58,7 @@
                 <div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div id="ShowLichSu" class="mini-cart-info row">
-                            @*@foreach (var item in Model)
-                                {
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.MaBNNavigation.HoTen</a></h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.MaBNNavigation.SDT</a></h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h6><a href="#">@item.NgayKham</a></h6>
-                                    </div>
-                                }*@
-
+                            @*Show Lich Su*@
                         </div>
                     </div>
                 </div>
@@ -114,22 +106,19 @@
                 SDT: $('#SDT').val()
             },
             success: function (response) {
-                //$("#myModalContent").html(response);
-                //$('#myModal').show();
-                //$('#btSave').show();
-                //$('#btupdate').hide();r
+
                 $("#ShowLichSu").html("");
                 if (response.status == -2) {
                     $("#ShowLichSu").append(`
                             <div class="col-sm-12 text-center text-danger">
-                                <h6 style="font-weight:bold"><a href="#">Không tìm thấy</a></h6>
+                                <h6 style="font-weight:bold"><a>Không tìm thấy</a></h6>
                             </div>
                     `)
                 }
                 else {
                     JSON.parse(response).forEach(function (item) {
                         console.log(item);
-                        var stringDate = new Date(item.NgayKham);
+                        var stringDate = new DateTime(item.NgayKham);
                         var dd = stringDate.getDate();
                         var MM = stringDate.getMonth();
                         var yyyy = stringDate.getFullYear();
@@ -138,23 +127,23 @@
                         var ss = stringDate.getSeconds();
                         var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
                         $("#ShowLichSu").append(`
-                    <div class="col-sm-3">
-                                    <h6><a href="#">${item.MaBNNavigation.HoTen}</a></h6>
+                                <div class="col-sm-3">
+                                    <h6><a>${item.MaBNNavigation.HoTen}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${item.MaBNNavigation.SDT}</a></h6>
+                                    <h6><a>${item.MaBNNavigation.SDT}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#">${ngayKham}</a></h6>
+                                    <h6><a>${stringDate.toLocaleString("es-CL")}</a></h6>
                                 </div>
                                 <div class="col-sm-3">
-                                    <h6><a href="#" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
+                                    <h6><a id="ButtonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
                                 </div>
                     `)
                     });
                 }
-                
-                console.log(response);
+
+
 
             }
         });
@@ -165,7 +154,7 @@
             url: "/Home/ChiTietLichSuKham/",
             type: 'GET',
             data: {
-                MaPK:  _MaPK
+                MaPK: _MaPK
             },
             success: function (response) {
                 $("#myModalContent").html(response);

@@ -33,8 +33,13 @@ namespace TES_MEDICAL.GUI.Helpers
             return result.ToString();
         }
 
-
-        //Hàm SendMail
+        /// <summary>
+        /// Send Mail
+        /// </summary>
+        /// <param name="receiver"></param>
+        /// <param name="Subject"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public static bool SendMail(string receiver, string Subject, string message)
         {
             try
@@ -68,7 +73,7 @@ namespace TES_MEDICAL.GUI.Helpers
 
 
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }
@@ -83,13 +88,6 @@ namespace TES_MEDICAL.GUI.Helpers
 
         }
 
-        //Hàm cắt chuỗi name
-        //public static string GetName(string FullName)
-        //{
-        //    string[] words = FullName.Split(' ');
-        //    return (words[words.Length - 2]) + " " + words[words.Length - 1];
-
-        //}
         public static string GetName(string FullName)
         {
             string[] words = FullName.Split(' ');
@@ -99,7 +97,11 @@ namespace TES_MEDICAL.GUI.Helpers
 
         }
 
-        //Hàm Gen mật khẩu 
+        /// <summary>
+        /// Generation Password
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static string GetRandomPassword(int length)
         {
             const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

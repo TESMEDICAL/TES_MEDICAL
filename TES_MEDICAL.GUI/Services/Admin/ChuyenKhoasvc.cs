@@ -1,9 +1,6 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Web;
 using X.PagedList;
@@ -25,11 +22,6 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
-
-
-
-
-
         public async Task<Response<ChuyenKhoa>> Add(ChuyenKhoa model)
         {
             try
@@ -39,20 +31,10 @@ namespace TES_MEDICAL.GUI.Services
                     _context.Entry(model).State = EntityState.Added;
                     await _context.SaveChangesAsync();
 
-
-
-
                     await transaction.CommitAsync();
                     return new Response<ChuyenKhoa> {errorCode=0,Obj = model };
 
                 }
-
-
-
-
-
-
-
 
             }
             catch (DbUpdateException ex)
@@ -70,10 +52,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<ChuyenKhoa> Get(Guid id)
         {
 
-            var item = await _context.ChuyenKhoa
-
-                .FindAsync(id);
-
+            var item = await _context.ChuyenKhoa.FindAsync(id);
 
             if (item == null)
             {
@@ -90,14 +69,8 @@ namespace TES_MEDICAL.GUI.Services
                 using (var transaction = _context.Database.BeginTransaction())
                 {
 
-
-
                     var existingChuyenKhoa = await _context.ChuyenKhoa.FindAsync(model.MaCK);
                     existingChuyenKhoa.TenCK = model.TenCK;
-
-
-
-
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -107,21 +80,16 @@ namespace TES_MEDICAL.GUI.Services
 
             }
            
-             catch (DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 if (ex.InnerException.Message.Contains("UNIQUE KEY"))
                 {
                     return new Response<ChuyenKhoa> { errorCode = -1 };
                 }
-
                 return new Response<ChuyenKhoa> { errorCode = -2 };
 
             }
         
-
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
@@ -131,12 +99,10 @@ namespace TES_MEDICAL.GUI.Services
 
                 var find = await _context.ChuyenKhoa.FindAsync(Id);
 
-
                 _context.ChuyenKhoa.Remove(find);
                 await _context.SaveChangesAsync();
 
                 return true;
-
 
             }
             catch (Exception ex)
@@ -155,43 +121,33 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<ChuyenKhoa> listUnpaged = null;
             listUnpaged = _context.ChuyenKhoa.Where(x => 
             string.IsNullOrWhiteSpace(model.TenCKSearch)||
-            EF.Functions.Collate(x.TenCK, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.TenCKSearch, "SQL_Latin1_General_Cp1_CI_AI"))
-            )
-                .OrderBy(x=>x.TenCK);
+            EF.Functions.Collate(x.TenCK, "SQL_Latin1_General_Cp1_CI_AI")
+            .Contains(EF.Functions.Collate(model.TenCKSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+            .OrderBy(x=>x.TenCK);
            
-
-
-
-
-
-
-
-
-
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
-
 
             if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
                 return null;
 
             return listPaged;
 
-
-
-
-
         }
 
+        public async Task<IEnumerable<ChuyenKhoa>> GetChuyenKhoaHaveDoctor()
+        {
+            return await  (from Ck in _context.ChuyenKhoa join
+                    doctor in _context.NhanVienYte
+                    on Ck.MaCK equals doctor.ChuyenKhoa
+                    select Ck
+                    ).Distinct().ToListAsync();
+        }
 
-
+        
         public async Task<IEnumerable<ChuyenKhoa>> GetAll()
         {
 
-
             return await _context.ChuyenKhoa.ToListAsync ();
-
-
-           
 
         }
     }

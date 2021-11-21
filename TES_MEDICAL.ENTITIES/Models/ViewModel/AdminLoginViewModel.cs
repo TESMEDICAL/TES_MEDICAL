@@ -9,9 +9,9 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
 {
     public class AdminLoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Vui lòng nhập Email")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Vui lòng nhập mật khẩu")]
         public string Password { get; set; }
         public string ReturnUrl { get; set; }
     }

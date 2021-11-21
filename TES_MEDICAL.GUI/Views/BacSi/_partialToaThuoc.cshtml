@@ -4,14 +4,10 @@
     <h4 style="text-align:center; font-weight:bold">Toa Thuốc</h4>
     <hr />
 </div>
-<!--<div class="modal-header">-->
-@*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
 
-<!--</div>-->
 <div class="modal-body">
     <div class="col-8 m-auto">
-        <table class="table" id="danhSach" style="width:100%">
+        <table class="table table-bordered" id="danhSach" style="width:100%">
             <thead>
                 <tr>
 
@@ -24,15 +20,15 @@
 
                 @foreach (var item in Model)
                 {
-                <tr>
+                    <tr>
 
-                    <td >@item.TenThuoc</td>
-                    <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('@item.MaThuoc')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button></td>
-                    <td class="d-none" >@item.MaThuoc</td>
-                </tr>
+                        <td>@item.TenThuoc</td>
+                        <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('@item.MaThuoc')" style="border-radius: 60px;"><i class="fa fa-info-circle"></i></button></td>
+                        <td class="d-none">@item.MaThuoc</td>
+                    </tr>
                 }
 
-               
+
 
             </tbody>
         </table>
@@ -48,15 +44,12 @@
                 </tr>
             </thead>
             <tbody id="listToaThuoc">
-                
-                  
-
             </tbody>
         </table>
     </div>
 </div>
 <div class="modal-footer">
-  
+
     <button type="button" class="btn btn-success" style="margin-left: 5px;" data-bs-dismiss="modal" onclick="ConfirmToaThuoc()">OK</button>
 </div>
 

@@ -1,5 +1,3 @@
-
-
 @model TES_MEDICAL.GUI.Models.DichVuSearchModel
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
@@ -11,7 +9,7 @@
 <style>
     .box {
         background-color: white;
-        font-family: Arial
+        font-family: Source Sans Pro;
     }
 
     .box-title {
@@ -45,12 +43,14 @@
         background-color: rgb(82, 183, 136);
         color: white;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        transition: 0.15s all;
     }
 
         .header-btn button:hover {
             background-color: rgb(118, 200, 147);
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transform: scale(1.1)
+            transform: scale(1.075);
+            color: white;
         }
 
     .form-check {
@@ -323,29 +323,19 @@
                 }
             });
         }
-
-
         function Create() {
-
             $myModalContent.html("");
-
             $.ajax({
                 url: '/DichVu/Add/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: true,
-
-
                 success: function (result) {
                     $myModalContent.html(result);
                     $('#btSave').show();
                     $('#btupdate').hide();
                     $('#btPrint').hide();
                     $modal.modal('show');
-
-
                     $('#preloader-box').toggleClass('hide');
                 },
                 failure: function (message) {
@@ -354,7 +344,6 @@
             });
 
         }
-
         function _Detail(id_) {
             $myModalContent.html("");
 
@@ -368,7 +357,6 @@
                 data: {
                     id: id_
                 },
-
                 success: function (result) {
                     $myModalContent.html(result);
                     $('#btSave').hide();
@@ -384,11 +372,7 @@
                 }
             });
         }
-
-
-
         function _delete(id) {
-            /*var cf = confirm('Bạn muốn xóa dịch vụ này?');*/
             Swal.fire({
                 title: 'Bạn muốn xóa dịch vụ này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -400,7 +384,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/DichVu/Delete",
@@ -426,12 +409,7 @@
                 }
             })
         }
-     
-
-
-
         function _restore(id) {
-            /*var cf = confirm('Bạn muốn khôi phục dịch vụ  này?');*/
             Swal.fire({
                 title: 'Bạn muốn khôi phục dịch vụ này?',
                 text: "Thao tác không thể thay đổi !",
@@ -443,7 +421,6 @@
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //Ajax
                     $.ajax({
                         type: "POST",
                         url: "/DichVu/Restore",
@@ -469,52 +446,27 @@
                 }
             })
         }
-
         $("#KeyWordSearch").keyup(function () {
-
             obj = {};
-
             obj.TenCKSearch = $(this).val()
-
             obj.page = 1;
             $.ajax({
                 url: '/DichVu/PageList/',
-
                 type: "Get",
-
-
                 data: obj,
-
                 success: function (result) {
-
                     if (result.status != 2) {
-
-
                         $('#nameListContainer').html(result);
                     }
-
-                  
                 },
-
                 failure: function (message) {
                     $('#preloader-box').toggleClass('hide');
                 }
             });
-
-
-
-
         });
-
-       
-
         function Clear() {
-
-
             reloadpage(1);
         }
-
-
     </script>
 }
 

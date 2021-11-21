@@ -1,8 +1,5 @@
 ﻿@model IPagedList<PhieuKham>
-
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
 <div id="list">
@@ -20,39 +17,13 @@
                     @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
                     {
                         <tr>
-
-
-
-
                             <td>@item.STTPhieuKham.STT</td>
-
-
-
-
-
                             <td>@item.MaBNNavigation.HoTen</td>
-
-
-
-
-
                             <td>@item.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</td>
-
-
-
-
-
-
-
-
-
-
-
                             <td>
                                 <a class="btn btn-info btn-sm active" title="Khám bệnh" href="@Url.Action("KhamBenh","BacSi",new {MaPK = item.MaPK })"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
                                 <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
                             </td>
-
                         </tr>
                     }
                 }
@@ -81,7 +52,6 @@
                 UlElementClasses = new[] { "pagination" },
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" },
-
 
                 ContainerDivClasses = new[] { "pagination-container" }
 

@@ -1,8 +1,5 @@
-﻿
-@inject UserManager<NhanVienYte> UserManager;
+﻿@inject UserManager<NhanVienYte> UserManager;
 @using X.PagedList;
-
-
 @{
     ViewData["Title"] = "Danh sách chờ";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
@@ -28,7 +25,7 @@
 
 
 @section scripts{
-    
+
 
     <script>
         var table;
@@ -42,11 +39,6 @@
                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
 
             });
-
-      
-       
-
-
         function reloadpage(page) {
             obj = {};
 
@@ -73,8 +65,10 @@
                 }
             });
         }
+
+
         $("#TimKiem").keyup(function () {
-           
+
                 obj = {};
 
                 obj.KeyWordSearch = $(this).val()
@@ -89,7 +83,7 @@
                     data: obj,
 
                     success: function (result) {
-                        
+
                         $('#nameListContainer').html(result);
                     },
 
@@ -97,16 +91,11 @@
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
-            
-
-
 
         });
 
 
         function Clear() {
-
-
             reloadpage(1);
         }
 
@@ -130,9 +119,9 @@
             await start();
         });
 
+
         // Start the connection.
         start();
-
 
         connection.on("SentDocTor", (id) => {
 
@@ -163,19 +152,8 @@
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
-
-
-
-
-
-
             }
-
-
         });
-
-
-
 
     </script>
 }

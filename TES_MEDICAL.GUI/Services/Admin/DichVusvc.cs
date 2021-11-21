@@ -1,9 +1,6 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Web;
 using X.PagedList;
@@ -23,12 +20,6 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
 
         }
-
-
-
-
-
-
         public async Task<Response<DichVu>> Add(DichVu model)
         {
             try
@@ -44,13 +35,6 @@ namespace TES_MEDICAL.GUI.Services
                     return new Response<DichVu> { errorCode = 0, Obj = model};
 
                 }
-
-
-
-
-
-
-
 
             }
             catch (DbUpdateException ex)
@@ -78,7 +62,6 @@ namespace TES_MEDICAL.GUI.Services
             }
             return item;
 
-
         }
         public async Task<Response<DichVu>> Edit(DichVu model)
         {
@@ -87,15 +70,9 @@ namespace TES_MEDICAL.GUI.Services
                 using (var transaction = _context.Database.BeginTransaction())
                 {
 
-
-
                     var existingDichVu = await _context.DichVu.FindAsync(model.MaDV);
                     existingDichVu.TenDV = model.TenDV;
                     existingDichVu.DonGia = model.DonGia;
-
-
-
-
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -114,9 +91,6 @@ namespace TES_MEDICAL.GUI.Services
                 return new Response<DichVu> { errorCode = -2 };
             }
 
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
@@ -126,12 +100,10 @@ namespace TES_MEDICAL.GUI.Services
 
                 var find = await _context.DichVu.FindAsync(Id);
 
-
                 _context.DichVu.Remove(find);
                 await _context.SaveChangesAsync();
 
                 return true;
-
 
             }
             catch (Exception ex)
@@ -150,7 +122,6 @@ namespace TES_MEDICAL.GUI.Services
             IEnumerable<DichVu> listUnpaged;
             listUnpaged = _context.DichVu.OrderBy(x => x.TenDV);
 
-
             listUnpaged = _context.DichVu.Where(x =>
                        string.IsNullOrWhiteSpace(model.KeyWordSearch) ||
                        EF.Functions.Collate(x.TenDV, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
@@ -163,26 +134,12 @@ namespace TES_MEDICAL.GUI.Services
                 listUnpaged = listUnpaged.Where(x => x.TrangThai);
             }    
 
-
-
-
-
-
-
-
-
-
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
-
 
             if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -192,11 +149,11 @@ namespace TES_MEDICAL.GUI.Services
         {
             if(MaPK!= Guid.Empty)
             {
-                return await _context.DichVu.Where(x => !_context.ChiTietDV.Any(y => y.MaDV == x.MaDV && y.MaHDNavigation.MaPK == MaPK)).ToListAsync();
+                
+                return await _context.DichVu.Where(x => _context.ChiTietDV.Any(y => y.MaDV == x.MaDV && y.MaHDNavigation.MaPK == MaPK)).ToListAsync();
             }
             return await _context.DichVu.ToListAsync();
            
-
         }
 
     }

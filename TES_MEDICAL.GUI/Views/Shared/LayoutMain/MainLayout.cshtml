@@ -21,7 +21,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="~/font-awesome-4.7/font-awesome-4.7/css/font-awesome.min.css">
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
     <link rel="stylesheet" href="~/css/jquery-ui.css" />
     <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
     <link rel="stylesheet" href="~/MainElement/css/main.css">
@@ -59,6 +62,8 @@
     <!-- END Stylesheets -->
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
+    <!-- Sweet Alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
@@ -67,9 +72,33 @@
             background-color: #666;
             color: white;
         }
+
         a {
             text-decoration: none !important
         }
+
+        .profile-edit-img {
+            width: 30vmin;
+            height: 30vmin;
+            object-fit: cover;
+            object-position: center center;
+        }
+        .header-text-title{
+            display: flex;
+        }
+        .header-text-left {
+            width: 60%;
+        }
+            .header-text-left h1 {
+                font-size: 5vmin;
+            }
+        .header-text-right {
+            width: 40%;
+            text-align: right;
+        }
+            .header-text-right h2 {
+                font-size: 5vmin;
+            }
     </style>
 </head>
 <body>
@@ -306,36 +335,52 @@
                     <!-- Sidebar Content -->
                     <div class="sidebar-content">
                         <!-- Brand -->
-                        <a href="index.html" class="sidebar-brand">
-                            <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Tiếp nhận </strong>Client</span>
-                        </a>
+                        @if ((await UserManager.GetUserAsync(User)).ChucVu == 1)
+                        {
+                            <a class="sidebar-brand">
+                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Tiếp nhận </strong>Client</span>
+                            </a>
+                        }
+                        else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
+                        {
+                            <a class="sidebar-brand">
+                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Dược sĩ </strong>Client</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="sidebar-brand">
+                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Khám bệnh </strong>Client</span>
+                            </a>
+                        }
+
                         <!-- END Brand -->
                         <!-- User Info -->
                         <div class="sidebar-section sidebar-user clearfix sidebar-nav-mini-hide">
                             <!--<div class="sidebar-user-avatar">
-                                <a href="page_ready_user_profile.html">
-                                    <img src="~/MainElement/img/placeholders/avatars/avatar2.jpg" alt="avatar">
-                                </a>
-                            </div>
-                            <div class="sidebar-user-name">Thanh Duy</div>
-                            <div class="sidebar-user-links" style="margin-left:11px">
-                                <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#modal-user-settings').modal('show');"><i class="gi gi-user"></i></a>
-                                <a href="page_ready_user_profile.html" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-cogwheel"></i></a>-->
+            <a href="page_ready_user_profile.html">
+                <img src="~/MainElement/img/placeholders/avatars/avatar2.jpg" alt="avatar">
+            </a>
+        </div>
+        <div class="sidebar-user-name">Thanh Duy</div>
+        <div class="sidebar-user-links" style="margin-left:11px">
+            <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#modal-user-settings').modal('show');"><i class="gi gi-user"></i></a>
+            <a href="page_ready_user_profile.html" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-cogwheel"></i></a>-->
                             <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.html in PHP version) -->
                             <!--<a href="login.html" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
-                            </div>-->
+        </div>-->
                             <partial name="~/Views/Shared/_LoginPartial.cshtml" />
                         </div>
                         <!-- END User Info -->
                         <!-- Theme Colors -->
                         <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
-                        <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">                           
+                        <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
-                            </li>                            
+                            </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
                             </li>
@@ -351,7 +396,7 @@
                             </li>
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-lake themed-border-lake" data-theme="/MainElement/css/themes/lake.css" data-toggle="tooltip" title="Lake"></a>
-                            </li>                            
+                            </li>
                         </ul>
 
 
@@ -413,7 +458,7 @@
                                 <li class="@Html.IsSelected(actions: "LichSuKham", controllers: "BacSi")">
                                     <a href="@Url.Action("LichSuKham","BacSi")"><i class="fas fa-history sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Lịch sử khám</span></a>
                                 </li>
-                             
+
 
                             }
 
@@ -450,7 +495,7 @@
                         <!-- Main Sidebar Toggle Button -->
                         <li>
                             <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
-                                <i class="fas fa-expand"></i>
+                                <i class="fas fa-bars"></i>
                             </a>
                         </li>
                         <!-- END Main Sidebar Toggle Button -->
@@ -497,15 +542,14 @@
                     <!-- For an image header add the class 'content-header-media' and an image as in the following example -->
                     <div class="content-header content-header-media container m-auto">
                         <div class="header-section">
-                            <div style="display: flex;">
-                                <!-- Main Title (hidden on small devices for the statistics to fit) -->
-                                <div style="width: 60%; " @*class="hidden-xs hidden-sm"*@>
-                                    <h1 style="font-size: 5vmin;">Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
+                            <div class="header-text-title">
+                                <div class="header-text-left">
+                                    <h1>Xin chào <strong>@Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</strong><br><small>Mừng bạn đã quay trở lại !</small></h1>
                                 </div>
                                 <!-- END Main Title -->
                                 <!-- Top Stats -->
-                                <div style="width: 38%;  text-align: right;">
-                                    <h2 style="font-size: 5vmin;" class="animation-hatch">
+                                <div class="header-text-right">
+                                    <h2 class="animation-hatch">
                                         <strong>27&deg; C</strong><br>
                                         <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
                                     </h2>
@@ -547,7 +591,7 @@
     <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header m-auto">
@@ -557,33 +601,33 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <form id="frm1" enctype="multipart/form-data" class="form-horizontal" onsubmit="return false;">
-                        <div class="col-5 m-auto mb-2">
+                        <div class="col-8 m-auto mb-2">
                             <div id="image-holder2" class="text-center">
-                                <img src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" width="150" id="Edit_Hinh">
+                                <img class="profile-edit-img" src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" id="Edit_Hinh">
                             </div>
                             <br>
                             <div class="pt-1 text-center mb-4">
-                                <label class="btn btn-primary">
+                                <label class="btn text-light" id="btn-confirm">
                                     <i class="fa fa-image"></i> Chọn ảnh<input type="file" style="display: none;" name="image" id="upload-back">
                                 </label>
                             </div>
                         </div>
 
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Email</label>
-                            <div class="col-md-6">
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Email</label>
+                            <div class="">
                                 <input type="email" id="Edit_Email" class="form-control" value="@((await UserManager.GetUserAsync(User)).Email)" readonly>
                             </div>
                         </div>
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Họ và tên</label>
-                            <div class="col-md-6">
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Họ và tên</label>
+                            <div>
                                 <input type="text" id="Edit_HoTen" class="form-control" value="@((await UserManager.GetUserAsync(User)).HoTen)">
                             </div>
                         </div>
-                        <div class="form-group row mb-2">
-                            <label class="col-md-4 control-label" style="padding-left: 100px;" for="user-settings-email">Số điện thoại</label>
-                            <div class="col-md-6">
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Số điện thoại</label>
+                            <div>
                                 <input type="text" id="Edit_SDT" class="form-control" value="@((await UserManager.GetUserAsync(User)).PhoneNumber)">
                             </div>
                         </div>
@@ -602,7 +646,7 @@
                         <br />
                         <div class="form-group text-end mb-2">
                             <div class="col-12 text-right">
-                                <button type="submit" onclick="Edit()" class="btn btn-primary" style="width:20%;">Lưu</button>
+                                <button type="submit" onclick="Edit()" class="btn text-light" id="btn-confirm" style="width:20%;">Lưu</button>
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
                             </div>
                         </div>
@@ -615,7 +659,7 @@
     <!-- END User Settings -->
     <!--Start ChangePassword-->
     <div id="modal-user-changepass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header m-auto">

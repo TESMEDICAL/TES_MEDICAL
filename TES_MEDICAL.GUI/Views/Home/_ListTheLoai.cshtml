@@ -13,8 +13,6 @@
     
 </style>
 
-
-
     <div class="row ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">
         @foreach (var item in Model)
         {
@@ -36,7 +34,7 @@
                         <div class="ltn__blog-meta-btn">
                             <div class="ltn__blog-meta">
                                 <ul>
-                                    <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>June 24, 2021</li>
+                                    <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>@item.ThoiGian?.ToString("dd/MM/yyyy h:mm tt")</li>
                                 </ul>
                             </div>
                             <div class="ltn__blog-btn">

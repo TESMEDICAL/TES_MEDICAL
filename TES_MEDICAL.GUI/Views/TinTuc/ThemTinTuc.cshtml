@@ -6,9 +6,6 @@
 }
 
 <style>
-    .box{
-        font-family: Arial;
-    }
     .box-background{
         background-color: white;
     }
@@ -137,12 +134,20 @@
         background-color: white;
   }
 
-    .box-button button {
+    .box-button {
         background-color: rgb(82, 183, 136);
         color: white;
+        border: 2px solid rgb(82, 183, 136);
         height: 40px;
-
+        padding: 0 30px 0 30px;
+        transition: 0.25s all;
+        font-weight: 400;
     }
+        .box-button:hover {
+            border: 2px solid rgb(82, 183, 136);
+            color: rgb(82, 183, 136);
+            background-color: white;
+        }
 </style>
 
 <div class="box p-3">
@@ -162,7 +167,7 @@
                     </div>
                     @*<input type="text" asp-for="TieuDe" class="form-control">*@
                     <div class="form-floating mt-3 mb-3">
-                        <textarea class="form-control" asp-for="TieuDe" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 130px"></textarea>
+                        <textarea class="form-control" asp-for="TieuDe" style="height: 130px"></textarea>
                         @*<label for="floatingTextarea2">Nhập tiêu đề bài viết ...</label>*@
                         <span asp-validation-for="TieuDe" class="text-danger"></span>
                     </div>
@@ -185,7 +190,7 @@
                 </div>
                 <div class="box-status">
                     <div class="box-status-label">
-                        <label class="form-label">Nội dung</label>
+                        <label class="form-label">Trạng thái</label>
                     </div>
                     <div class="form-check mt-3 mb-3">
                         <input asp-for="TrangThai" class="form-check-input" type="checkbox" id="gridCheck">
@@ -199,19 +204,12 @@
             
             <div class="box-content col-12">
 
-                    <div class="box-content-label mb-3">
-                        <label class="form-label">Trạng thái</label>
-                    </div>
-
-
-                
-
                 <div class="d-flex justify-content-between">
-                    <div class="box-content-label mb-3">
-                        <label class="form-label">Nội dung</label>
+                    <div class="box-content-label mb-3 mt-3">
+                        <label class="form-label">Trạng Thái</label>
                     </div>
                     <div class="box-button mt-2">
-                        <button class="btn" onclick="_Preview()"><i class="fas fa-eye"></i> Xem trước</button>
+                        <a class="btn btn-success" onclick="_Preview()"><i class="fas fa-eye"></i> Xem trước</a>
                     </div>
                 </div>    
 
@@ -229,7 +227,7 @@
 </div>
 
 <div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-fullscreen">
         <!-- Modal content-->
         <div class="modal-content">
 
@@ -324,9 +322,12 @@
         var $myModalTitleins = $("#myModalTitleins");
 
         function _Preview() {
-            var obj = $("#frm").serializeObject();
+            var obj = {};
+            obj.TieuDe = jQuery("textarea#TieuDe").val();
+            obj.MaTL = $('#MaTL').val();
+            obj.NoiDung = jQuery("textarea#NoiDung").val();
             $myModalContent.html("");
-
+            console.log(obj);
             $.ajax({
                 url: '/TinTuc/Preview/',
                 type: "POST",
