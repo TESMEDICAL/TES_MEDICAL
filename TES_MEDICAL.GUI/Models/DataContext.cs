@@ -41,6 +41,7 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
         public virtual DbSet<TheLoai> TheLoai { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
