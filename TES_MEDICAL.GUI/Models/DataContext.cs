@@ -406,7 +406,6 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.MaPhieu).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

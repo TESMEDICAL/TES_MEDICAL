@@ -59,7 +59,10 @@
                                     <input type="text" name="hoten" placeholder="Họ và tên: @Model.TenBN" disabled>
                                     <input type="text" name="tel" placeholder="Ngày sinh: @Model.NgaySinh?.ToString("dd/MM/yyyy")" disabled>
                                     <input type="text" name="tel" placeholder="Số điện thoại: @Model.SDT" disabled>
-                                    <input type="text" name="email" placeholder="Email: @Model.Email" disabled>
+                                    @if (Model.Email != null)
+                                    {
+                                        <input type="text" name="email" placeholder="Email: @Model.Email" disabled>
+                                    }
                                     <input type="text" name="ngaykham" placeholder="Ngày khám : @Model.NgayKham" disabled>
 
                                 </form>

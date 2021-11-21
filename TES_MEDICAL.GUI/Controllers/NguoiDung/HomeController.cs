@@ -89,10 +89,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
-
-                  
-                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
-
+                    if (model.Email != null)
+                    {
+                        Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
+                    }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
