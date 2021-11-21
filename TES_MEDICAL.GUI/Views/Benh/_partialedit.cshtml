@@ -29,7 +29,7 @@
     }
 
     .box-label {
-        width: 150px;
+        width: 180px;
         height: 40px;
         background-color: rgb(82, 183, 136);
         margin-top: 10px;
@@ -78,7 +78,7 @@
             </div>
             <div class="box-left-title">
                 <div class="box-label">
-                    <label class="form-label">Tên bệnh</label>
+                    <label class="form-label">Tên bệnh (*)</label>
                 </div>
                 <div class="box-left-input mt-3 mb-3">
                     @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
@@ -87,7 +87,7 @@
             </div>
             <div class="box-left-title">
                 <div class="box-label">
-                    <label class="form-label">Chuyên khoa</label>
+                    <label class="form-label">Chuyên khoa (*)</label>
                 </div>
 
                 <div class="box-left-select mt-3 mb-3">
@@ -101,7 +101,7 @@
         <div class="box-right col-sm-7">
             <div class="box-right-infomation">
                 <div class="box-label">
-                    <label class="form-label">Thông tin bệnh</label>
+                    <label class="form-label">Thông tin bệnh (*)</label>
                 </div>
                 <div class="box-right-textarea mt-3 mb-3">
                     <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" rows="7" style="height: 150px">@Model.ThongTin</textarea>
@@ -140,7 +140,7 @@
     <div class="box-bottom mt-5">
         <div class="d-flex justify-content-between mb-3 p-2">
             <div class="box-label">
-                <label class="form-label">Triệu chứng</label>
+                <label class="form-label">Triệu chứng (*)</label>
             </div>
             <div class="box-button mt-2">
                 <button type="button" class="btn" id="AddCTTrieuChung" onclick="AddView('CTTrieuChung')"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Chi tiết triệu chứng</button>            </div>

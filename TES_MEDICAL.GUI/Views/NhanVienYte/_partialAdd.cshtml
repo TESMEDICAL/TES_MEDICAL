@@ -64,7 +64,7 @@
                 <div class="text-danger"></div>
                 <div class="form-group col-12">
                     <h6>
-                        Họ tên
+                        Họ tên<strong style="color:#b10c0c">&nbsp;(*)</strong>
                     </h6>
                     <div class="col-12">
                         @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control" } })
@@ -72,28 +72,28 @@
                     </div>
                 </div>
                 <div class="form-group col-md-6">
-                    <h6>Email</h6>
+                    <h6>Email<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
                     <div class="col-12">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-6">
-                    <h6>Số điện thoại</h6>
+                    <h6>Số điện thoại<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
                     <div class="col-12">
                         @Html.EditorFor(model => model.SDTNV, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.SDTNV, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-6">
-                    <h6>Mật khẩu</h6>
+                    <h6>Mật khẩu<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
                     <div class="col-12">
                         @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-6">
-                    <h6>Xác nhận mật khẩu</h6>
+                    <h6>Xác nhận mật khẩu<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
                     <div class="col-12">
                         @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -103,8 +103,7 @@
                 <div class="form-group col-md-6">
                     <h6>Chức vụ</h6>
                     <div class="col-12">
-                        <select asp-for="ChucVu" class="form-select">
-                            <option value="0" selected>Chọn chức vụ</option>
+                        <select asp-for="ChucVu" class="form-select">                           
                             <option value="1">Nhân viên</option>
                             <option value="2">Bác sĩ</option>
                             <option value="3">Dược sĩ</option>
