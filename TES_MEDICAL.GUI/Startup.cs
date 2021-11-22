@@ -179,16 +179,26 @@ namespace TES_MEDICAL.GUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            // Xử lý lỗi 404
-            //app.Use(async (context, next) =>
-            //{
-            //    await next();
-            //    if (context.Response.StatusCode == 404)
-            //    {
-            //        context.Request.Path = "/Error/Error400";
-            //        await next();
-            //    }
-            //});
+            //Xử lý lỗi 
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 403)
+                {
+                    context.Request.Path = "/Admin/NoneUser";
+                    await next();
+                }
+                else if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Error/Error400";
+                    await next();
+                }
+                else if (context.Response.StatusCode == 400)
+                {
+                    context.Request.Path = "/Error/Error500";
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -65,7 +65,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult GioiThieu()
         {
-            return View();
+            return BadRequest();
         }
 
         public IActionResult DatLich()

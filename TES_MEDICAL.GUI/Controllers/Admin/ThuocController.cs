@@ -65,9 +65,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public  IActionResult Add()
         {
-
-             return PartialView("_partialAdd", new Thuoc());
-
+            return PartialView("_partialAdd", new Thuoc());
         }
 
         [HttpPost]
