@@ -144,11 +144,11 @@ namespace TES_MEDICAL.GUI.Services
         {
             if (MaTL != Guid.Empty)
             {
-                return await _context.TinTuc.Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL && x.TrangThai == true).ToListAsync();
+                return await _context.TinTuc.OrderByDescending(x => x.ThoiGian).Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL && x.TrangThai == true).ToListAsync();
             }
             else
             {
-                return await _context.TinTuc.Include(x => x.MaTLNavigation).Where(x =>x.TrangThai == true).ToListAsync();
+                return await _context.TinTuc.OrderByDescending(x => x.ThoiGian).Include(x => x.MaTLNavigation).Where(x =>x.TrangThai == true).ToListAsync();
             }          
         }
 

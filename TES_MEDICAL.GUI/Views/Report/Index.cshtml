@@ -373,7 +373,7 @@
 
                     $("#List").append(`
                     <tr>
-                                <td class="col-2">${NgayKham}</td>
+                                <td class="col-2 text-nowrap">${stringDate.toLocaleString('en-GB')}</td>
                                 <td class="col-3">${item.tenNV}</td>
 
                                 <td class="col-3">${item.tenBS}</td>
@@ -417,18 +417,18 @@
                     data.result.forEach(function (item) {
 
                         var stringDate = new Date(item.ngayHD);
-                        var dd = stringDate.getDate();
-                        var MM = stringDate.getMonth();
-                        var yyyy = stringDate.getFullYear();
-                        var hh = stringDate.getHours();
-                        var mm = stringDate.getMinutes();
-                        var ss = stringDate.getSeconds();
-                        var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-
+                        //var dd = stringDate.getDate();
+                        //var MM = stringDate.getMonth();
+                        //var yyyy = stringDate.getFullYear();
+                        //var hh = stringDate.getHours();
+                        //var mm = stringDate.getMinutes();
+                        //var ss = stringDate.getSeconds();
+                        //var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                        console.log(stringDate);
                         $("#List").append(`
-                    <tr>
-                                <td class="col-2">${NgayKham}</td>
-                                <td class="col-3">${item.tenNV}</td>
+                            <tr>
+                                <td class="col-3 text-nowrap">${stringDate.toLocaleString('en-GB')}</td>
+                                <td class="col-2">${item.tenNV}</td>
 
                                 <td class="col-3">${item.tenBS}</td>
                                 <th class="col-3">${item.tenBN}</th>
