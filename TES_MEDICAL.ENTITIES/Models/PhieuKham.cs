@@ -11,7 +11,7 @@ namespace TES_MEDICAL.GUI.Models
         {
             ChiTietSinhHieu = new HashSet<ChiTietSinhHieu>();
             HoaDon = new HashSet<HoaDon>();
-            ChiTietBenhPK = new HashSet<ChiTietBenhPK>();
+           
         }
 
         public Guid MaPK { get; set; }
@@ -34,8 +34,7 @@ namespace TES_MEDICAL.GUI.Models
         public virtual ToaThuoc ToaThuoc { get; set; }
         public virtual ICollection<ChiTietSinhHieu> ChiTietSinhHieu { get; set; }
         public virtual ICollection<HoaDon> HoaDon { get; set; }
-        public virtual ICollection<ChiTietBenhPK> ChiTietBenhPK { get; set; }
-     
+       
         public virtual Benh MaBenhNavigation { get; set; }
     }
 }
