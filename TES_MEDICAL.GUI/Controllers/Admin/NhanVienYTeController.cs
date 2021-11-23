@@ -50,9 +50,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 if (!model.Page.HasValue) model.Page = 1;
 
-
-
-
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
@@ -60,7 +57,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
 
@@ -88,8 +84,6 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 else
                 {
-                    //model.Hinh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.Hinh = fileName;
                     filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
@@ -129,7 +123,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
-                        if (error.Code.Contains("Email"))
+                        if (error.Code.Contains("Email")|| error.Code.Contains("UserName"))
                             {
                             ModelState.AddModelError("Email", error.Description);
                         }
@@ -149,23 +143,6 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<ActionResult> Edit(string id)
-        //{
-        //    var item = await _service.Get(id);
-        //    if (item == null)
-        //    {
-        //        return NotFound(); ;
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ChuyenKhoa = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
-
-
-        //        return PartialView("_partialedit", item);
-        //    }
-
-        //}
 
         [HttpGet]
         public async Task<ActionResult> Detail(Guid id)
@@ -184,36 +161,7 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Edit(NhanVienYte model, [FromForm] IFormFile file)
-        //{
-        //    string filePath = "";
-        //    if (file != null)
-        //    {
-        //        var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-        //        model.Hinh = fileName;
-        //        filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-        //    }
-
-        //    if (await _service.Edit(model) != null)
-        //    {
-        //        if (file != null)
-        //        {
-        //            using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                file.CopyTo(fileStream);
-        //            }
-        //        }
-        //        return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        //    }
-        //    else
-        //    {
-        //        return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-        //    }
-
-
-        //}
-
+        
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {

@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,14 +43,6 @@ namespace TES_MEDICAL.GUI.Services
                     return new Response<TheLoai> { errorCode = 0, Obj = model };
 
                 }
-
-
-
-
-
-
-
-
             }
             catch (DbUpdateException ex)
             {
@@ -68,10 +58,7 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<TheLoai> Get(Guid id)
         {
 
-            var item = await _context.TheLoai
-
-                .FirstOrDefaultAsync(i => i.MaTL == id);
-
+            var item = await _context.TheLoai.FirstOrDefaultAsync(i => i.MaTL == id);
 
             if (item == null)
             {
@@ -93,15 +80,10 @@ namespace TES_MEDICAL.GUI.Services
                     var existingTheLoai = await _context.TheLoai.FindAsync(model.MaTL);
                     existingTheLoai.TenTL = model.TenTL;
 
-
-
-
-
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     return new Response<TheLoai> { errorCode = 0, Obj = model };
                 }
-
 
             }
             catch (DbUpdateException ex)
@@ -114,9 +96,6 @@ namespace TES_MEDICAL.GUI.Services
                 return new Response<TheLoai> { errorCode = -2 };
             }
 
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
@@ -126,12 +105,10 @@ namespace TES_MEDICAL.GUI.Services
 
                 var find = await _context.TheLoai.FindAsync(Id);
 
-
                 _context.TheLoai.Remove(find);
                 await _context.SaveChangesAsync();
 
                 return true;
-
 
             }
             catch (Exception ex)
@@ -139,7 +116,6 @@ namespace TES_MEDICAL.GUI.Services
                 Console.WriteLine(ex);
                 return false;
             }
-
 
         }
 
@@ -151,21 +127,7 @@ namespace TES_MEDICAL.GUI.Services
             listUnpaged = _context.TheLoai.Where(x=>string.IsNullOrWhiteSpace(
                 model.TenTLSearch)||
                 EF.Functions.Collate(x.TenTL, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.TenTLSearch, "SQL_Latin1_General_Cp1_CI_AI"))
-                
-                
-                
-                
-                
                 ).OrderBy(x => x.TenTL);
-
-
-
-          
-
-
-
-
-
 
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
@@ -174,10 +136,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -188,7 +146,6 @@ namespace TES_MEDICAL.GUI.Services
             List<TheLoai> data = new List<TheLoai>();
 
             data = _context.TheLoai.ToList();
-
 
             return data;
 
