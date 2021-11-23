@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using TES_MEDICAL.GUI.Models
 
+@model TES_MEDICAL.GUI.Models.NhanVienModel
+
 @inject SignInManager<NhanVienYte> SignInManager
 @inject UserManager<NhanVienYte> UserManager
 
@@ -83,19 +85,24 @@
             object-fit: cover;
             object-position: center center;
         }
-        .header-text-title{
+
+        .header-text-title {
             display: flex;
         }
+
         .header-text-left {
             width: 60%;
         }
+
             .header-text-left h1 {
                 font-size: 5vmin;
             }
+
         .header-text-right {
             width: 40%;
             text-align: right;
         }
+
             .header-text-right h2 {
                 font-size: 5vmin;
             }
@@ -120,8 +127,8 @@
                 <div class="preloader-spinner hidden-lt-ie10"></div>
             </div>
         </div>
-        <!-- END Preloader -->       
-        
+        <!-- END Preloader -->
+
         <div id="page-container" class="sidebar-partial sidebar-visible-lg sidebar-no-animations">
             <!-- Alternative Sidebar -->
             <div id="sidebar-alt">
@@ -295,7 +302,7 @@
                     <!-- END Sidebar Content -->
                 </div>
                 <!-- END Wrapper for scrolling functionality -->
-            </div>           
+            </div>
             <!-- END Alternative Sidebar -->
             <!-- Main Sidebar -->
             <div id="sidebar">
@@ -330,7 +337,7 @@
                         </div>
                         <!-- END User Info -->
                         <!-- Theme Colors -->
-                        
+
                         <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
                             <li>
                                 <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
@@ -432,7 +439,7 @@
             <!-- END Main Sidebar -->
             <!-- Main Container -->
             <div id="main-container">
-                <!-- Header -->                
+                <!-- Header -->
                 <header class="navbar navbar-default">
                     <!-- Left Header Navigation -->
                     <ul class="nav navbar-nav-custom">
@@ -442,7 +449,7 @@
                                 <i class="fas fa-bars"></i>
                             </a>
                         </li>
-                        <!-- END Main Sidebar Toggle Button -->                        
+                        <!-- END Main Sidebar Toggle Button -->
                     </ul>
                 </header>
                 <!-- END Header -->
@@ -466,10 +473,9 @@
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
-                        </div>                                             
+                        </div>
                     </div>
                     <!-- END Dashboard Header -->
-
                     <!-- Body Start -->
                     <div style="border: solid 0px; padding-top:10px;min-height:600px">
                         @RenderBody()
@@ -499,60 +505,7 @@
     <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
     <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
 
-    <div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header m-auto">
-                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Cập Nhật Thông Tin</strong></h2>
-                </div>
-                <!-- END Modal Header -->
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <form id="frm1" enctype="multipart/form-data" class="form-horizontal" onsubmit="return false;">
-                        <div class="col-8 m-auto mb-2">
-                            <div id="image-holder2" class="text-center">
-                                <img class="profile-edit-img" src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" id="Edit_Hinh">
-                            </div>
-                            <br>
-                            <div class="pt-1 text-center mb-4">
-                                <label class="btn text-light" id="btn-confirm">
-                                    <i class="fa fa-image"></i> Chọn ảnh<input type="file" style="display: none;" name="image" id="upload-back">
-                                </label>
-                            </div>
-                        </div>
 
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Email</label>
-                            <div class="">
-                                <input type="email" id="Edit_Email" class="form-control" value="@((await UserManager.GetUserAsync(User)).Email)" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Họ và tên</label>
-                            <div>
-                                <input type="text" id="Edit_HoTen" class="form-control" value="@((await UserManager.GetUserAsync(User)).HoTen)">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Số điện thoại</label>
-                            <div>
-                                <input type="text" id="Edit_SDT" class="form-control" value="@((await UserManager.GetUserAsync(User)).PhoneNumber)">
-                            </div>
-                        </div>                        
-                        <br />
-                        <div class="form-group text-end mb-2">
-                            <div class="col-12 text-right">
-                                <button type="submit" onclick="Edit()" class="btn text-light" id="btn-confirm" style="width:20%;">Lưu</button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- END Modal Body -->
-            </div>
-        </div>
-    </div>
     <!-- END User Settings -->
     <!--Start ChangePassword-->
     <div id="modal-user-changepass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -568,7 +521,33 @@
                     <div id="myModalContent_ChangePass">
 
                     </div>
+
                 </div>
+                <!-- END Modal Body -->
+            </div>
+        </div>
+    </div>
+    <!--End ChangePassword-->
+
+    <div id="contentChangeInfo">
+
+    </div>
+
+    <!--Start ChangeInfo-->
+    <div id="modal_user_changeinfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header m-auto">
+                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Cập nhật thông tin</strong></h2>
+                </div>
+                <!-- END Modal Header -->
+                <!-- Modal Body -->
+                @*<div class="modal-body">
+                        <div id="myModalContent_ChangeInfo">
+
+                        </div>
+                    </div>*@
                 <!-- END Modal Body -->
             </div>
         </div>
@@ -592,7 +571,7 @@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <!--Script chạy Active trên Menu-->
     <script>
         function myActive(e) {
@@ -623,13 +602,37 @@
             $('#myModalContent_ChangePass').html("");
 
             $.ajax({
-                url: '/Identity/ChangePassword/',
+                url: '/Identity/ChangeInfo/',
                 type: "Get",
                 timeout: 20000,
                 async: true,
                 success: function (result) {
+                    console.log(result);
                     $('#myModalContent_ChangePass').html(result);
                     $('#modal-user-changepass').modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
+        //Hàm open modal ChangeInfo
+        function OpenChangeInfo() {
+            $('#contentChangeInfo').html("");
+
+            $.ajax({
+                url: '/Identity/ChangeInfo/',
+                type: "Get",
+                timeout: 20000,
+                async: true,
+                success: function (result) {
+                    console.log(result);
+                    $('#contentChangeInfo').html('hello');
+                   /* $('#modal_user_changeinfo').modal('show');*/
 
 
                     $('#preloader-wrapper').toggleClass('hide');

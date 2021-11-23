@@ -12,6 +12,8 @@ namespace TES_MEDICAL.GUI.Constant
             public const string MaNguoiDung = "MaNguoiDung";
             public const string UserName = "UserName";
             public const string FullName = "FullName";
+            public const string SDT = "SDT";
+            public const string HinhAnh = "HinhAnh";
             public const string ChucVu = "ChucVu";
             public const string Valid = "Valid";
             public const string NguoidungContext = "NguoidungContext";

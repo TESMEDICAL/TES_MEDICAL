@@ -66,14 +66,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.MaNguoiDung)
         <div class="box-left col-sm-7 row">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group col-4" style="display:none">
-                <label class="control-label col-md-6" for="MaNguoiDung">MaNguoiDung</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.MaNguoiDung, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MaNguoiDung, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group col-4" style="display:none">
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })

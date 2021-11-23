@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using TES_MEDICAL.GUI.Models
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions
+@using TES_MEDICAL.GUI.Constant
+
+@{ string userName = Context.Session.GetString(SessionKey.Nguoidung.UserName);}
+@{ string fullName = Context.Session.GetString(SessionKey.Nguoidung.FullName);}
+@{ string sdt = Context.Session.GetString(SessionKey.Nguoidung.SDT);}
+@{ string hinhAnh = Context.Session.GetString(SessionKey.Nguoidung.HinhAnh);}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,6 +23,29 @@
             height: 100% !important;
             margin: 0 !important;
             overflow: scroll;
+        }
+
+        .btn-img {
+            width: 150px;
+            margin-left: -1%;
+            background-color: red;
+            color: white;
+            border: 2px solid rgb(82, 183, 136);
+            transition: 0.25s all;
+            padding: 10px 0 10px 0;
+        }
+
+            .btn-img:hover {
+                /*background-color: white;*/
+                border: 2px solid rgb(82, 183, 136);
+                color: rgb(82, 183, 136);
+            }
+
+        .profile-edit-img {
+            width: 30vmin;
+            height: 30vmin;
+            object-fit: cover;
+            object-position: center center;
         }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -48,10 +81,20 @@
             </ul>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">                
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button" style="text-align:right;" title="Phóng to">
                         <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="$('#modal-admin-settings').modal('show');" role="button" style="text-align:right;" title="Thông tin">
+                        <i class="fas fa-info"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" role="button" style="text-align:right;" title="Đổi mật khẩu">
+                        <i class="fas fa-user-cog"></i>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -92,6 +135,133 @@
         <!-- /.control-sidebar -->
     </div>
 
+
+
+    <!--Phần Modal Change Info - ChangPassword-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+
+    <div id="modal-admin-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header m-auto">
+                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Cập Nhật Thông Tin</strong></h2>
+                </div>
+                <!-- END Modal Header -->
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="frm1" enctype="multipart/form-data" class="form-horizontal" onsubmit="return false;">
+                        <div class="col-8 m-auto mb-2">
+                            <div id="image-holder2" class="text-center">
+                                <img class="profile-edit-img" src="~/images/@hinhAnh" id="Edit_Hinh">
+                            </div>
+                            <br>
+                            <div class="pt-1 text-center mb-4">
+                                <label class="btn-img btn mt-4">
+                                    <i class="fa fa-image"></i>&nbsp; &nbsp; Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Email</label>
+                            <div class="">
+                                <input type="email" id="Edit_Email" class="form-control" value="@userName" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Họ và tên</label>
+                            <div>
+                                <input type="text" id="Edit_HoTen" class="form-control" value="@fullName">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-2 col-8 m-auto">
+                            <label class="control-label ms-1" for="user-settings-email">Số điện thoại</label>
+                            <div>
+                                <input type="text" id="Edit_SDT" class="form-control" value="@sdt">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group text-end mb-2">
+                            <div class="col-12 text-right">
+                                <button type="submit" onclick="Edit()" class="btn text-light" id="btn-confirm" style="width:20%; background-color: #52b788; color:white;">Lưu</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- END Modal Body -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        //Hàm load hình
+        $('#upload-back').change(function (e) {
+            var self = this;
+
+            var file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+
+                var img = "<img src='" + reader.result + "' style='width: 100%'/>"
+                $('#image-holder2').html(img);
+            };
+            reader.readAsDataURL(file);
+
+        });
+
+        //Hàm edit info Admin
+        function Edit() {
+            if ($("#frm1").valid()) {
+                var formData = new FormData();
+                var fileUpload = $("#upload-back").get(0);
+                var file = fileUpload.files[0];
+
+                formData.append("file", file);
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('HoTen', $("#Edit_HoTen").val());
+                formData.append('SDT', $("#Edit_SDT").val());
+                formData.append('HinhAnh', $("#Edit_Hinh").val());
+
+                $.ajax({
+                    type: "POST",
+                    url: "/NguoiDung/Edit",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                location.reload();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        }
+                        else {
+                            $myModalContent.html(result);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+        }
+    </script>
+    <!--Kết thúc Modal Change Info - ChangPassword-->
     <!-- ./wrapper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
