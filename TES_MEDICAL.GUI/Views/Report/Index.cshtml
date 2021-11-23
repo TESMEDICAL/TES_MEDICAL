@@ -456,7 +456,7 @@
                     `)
                     });
 
-                    $.get("/LoadPagenation", { currentPage: page, PageTotal: data.pageTotal, NgayBD: ngaybd, NgayKT: ngaykt, Type: type }, function (pagenation) {
+                    $.get("/LoadPagenation", { currentPage: 1, PageTotal: data.pageTotal, NgayBD: ngaybd, NgayKT: ngaykt, Type: type }, function (pagenation) {
 
                         $('#Page').html(pagenation);
                     });
