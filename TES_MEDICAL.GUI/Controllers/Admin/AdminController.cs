@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TES_MEDICAL.ADMIN.Shared.Helper;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Constant;
 using TES_MEDICAL.GUI.Interfaces;
@@ -66,7 +67,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                             HttpContext.Session.SetString(SessionKey.Nguoidung.FullName, nguoidung.HoTen);
                             HttpContext.Session.SetString(SessionKey.Nguoidung.ChucVu, nguoidung.ChucVu.ToString());
                             HttpContext.Session.SetString(SessionKey.Nguoidung.SDT, nguoidung.SDT);
-                            HttpContext.Session.SetString(SessionKey.Nguoidung.HinhAnh, nguoidung.HinhAnh);
+                            HttpContext.Session.SetString(SessionKey.Nguoidung.HinhAnh, nguoidung.HinhAnh);                            
                             HttpContext.Session.SetString(SessionKey.Nguoidung.NguoidungContext,
                                 JsonConvert.SerializeObject(nguoidung));
 
@@ -97,9 +98,46 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             return RedirectToAction("Login", "Admin");
         }
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return PartialView("_ChangePasswordUser");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _nguoidungSvc.Get(Guid.Parse(HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung)));
+                if (user.MatKhau == MaHoaHelper.Mahoa(model.CurrentPassword))
+                {
+                    user.MatKhau = model.NewPassword;
+                }
+                else
+                {
+                    ModelState.AddModelError("CurrentPassword", "Mật khẩu cũ không đúng.");
+                    return PartialView("_ChangePasswordUser",model);
+                }
+               
+                var result = await _nguoidungSvc.Edit(user);
+                if (result.errorCode == 0)
+                {
+                    
+                    HttpContext.Session.Clear();
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", redirectUrL = Url.Action("Index", "TinTuc"), obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
+            }
+            return PartialView("_ChangePasswordUser",model);
+        }
 
 
-        
+
         [HttpGet]
         public async Task<IActionResult> ChangeInfo()
         {

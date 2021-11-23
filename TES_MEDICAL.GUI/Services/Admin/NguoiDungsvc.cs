@@ -82,6 +82,7 @@ namespace TES_MEDICAL.GUI.Services
                     existingNguoiDung.HinhAnh = model.HinhAnh;
                     existingNguoiDung.ChucVu = model.ChucVu;
                     existingNguoiDung.TrangThai = model.TrangThai;
+                    existingNguoiDung.MatKhau = MaHoaHelper.Mahoa(model.MatKhau); //Doi mat khau
 
 
                     await _context.SaveChangesAsync();

@@ -93,7 +93,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" role="button" style="text-align:right;" title="Đổi mật khẩu">
+                    <a class="nav-link" onclick="OpenChangePass()" role="button" style="text-align:right;" title="Đổi mật khẩu">
                         <i class="fas fa-user-cog"></i>
                     </a>
                 </li>
@@ -209,6 +209,29 @@
             });
         }
 
+        //Hàm open modal ChangePass
+        function OpenChangePass() {
+            $('#myModalContent_ChangePass').html("");
+
+            $.ajax({
+                url: '/Admin/ChangePassword/',
+                type: "Get",
+                timeout: 20000,
+                async: true,
+                success: function (result) {
+                    console.log(result);
+                    $('#myModalContent_ChangePass').html(result);
+                    $('#modal-user-changepass').modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
         //Hàm edit info Admin
         function Edit() {
             if ($("#frm1").valid()) {
@@ -242,6 +265,48 @@
                         }
                         else {
                             $myModalContent.html(result);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+        }
+
+        //Hàm ChangePass
+        function ChangePass() {
+            if ($("#frm2").valid()) {
+                var formData = new FormData();
+
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('CurrentPassword', $("#Edit_PassOld").val());
+                formData.append('NewPassword', $("#Edit_Passnew").val());
+                formData.append('ConfirmPassword', $("#Edit_Passnew2").val());
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/ChangePassword",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                window.location.href = result.redirectUrL;
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        }
+                        else {
+                            $('#myModalContent_ChangePass').html(result);
                         }
                     },
                     error: function (errormessage) {
