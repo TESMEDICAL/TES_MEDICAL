@@ -27,16 +27,17 @@
             <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
         </div>
     </div>        
-            @*<div class="col-10 text-start">
-                <input class="mr-2 mb-2 form-control w-50" id="TimKiem" placeholder="Nhập từ khóa cần tìm" />
-            </div>
 
-
-            <div class="button-reload col-2 text-end">
-                <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
-            </div>*@
     
-    <div id="nameListContainer" class="mt-3">
+   
+    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 15px;">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+        <label class="form-check-label" for="flexCheckChecked">
+            Hiện tất cả
+        </label>
+    </div>
+    <div id="nameListContainer">
+
         <partial name="_ListLichSu" model="@ViewBag.Names as IPagedList<ToaThuoc>" />
 
     </div>

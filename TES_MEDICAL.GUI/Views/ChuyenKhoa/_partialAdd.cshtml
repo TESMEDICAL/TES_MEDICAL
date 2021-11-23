@@ -5,8 +5,7 @@
         padding: 0;
         margin: 0;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        /*        display: flex;
-    */
+        
     }
 
     .box-title-1 {
@@ -45,26 +44,9 @@
                 @Html.ValidationMessageFor(model => model.TenCK, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
 </div>
-
-
-
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
 <script>
 
     $(document).ready(function () {

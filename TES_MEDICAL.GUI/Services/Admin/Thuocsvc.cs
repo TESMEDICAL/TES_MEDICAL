@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,11 +22,6 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
-
-
-
-
-
         public async Task<Response<Thuoc>> Add(Thuoc model)
         {
             try
@@ -39,18 +32,9 @@ namespace TES_MEDICAL.GUI.Services
                     _context.Entry(model).State = EntityState.Added;
                     await _context.SaveChangesAsync();
                     
-
-
                     await transaction.CommitAsync();
                     return new Response<Thuoc> { errorCode = 0, Obj = model };
                 }
-
-
-
-
-
-
-
 
             }
             catch (DbUpdateException ex)
@@ -68,17 +52,13 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<Thuoc> Get(Guid id)
         {
 
-            var item = await _context.Thuoc
-
-                .FirstOrDefaultAsync(i => i.MaThuoc == id);
-
+            var item = await _context.Thuoc.FirstOrDefaultAsync(i => i.MaThuoc == id);
 
             if (item == null)
             {
                 return null;
             }
             return item;
-
 
         }
         public async Task<Response<Thuoc>> Edit(Thuoc model)
@@ -88,8 +68,6 @@ namespace TES_MEDICAL.GUI.Services
                 using (var transaction = _context.Database.BeginTransaction())
                 {
 
-
-
                     var existingThuoc = await _context.Thuoc.FindAsync(model.MaThuoc);
                     existingThuoc.TenThuoc = model.TenThuoc;
                     existingThuoc.Vitri = model.Vitri;
@@ -97,10 +75,6 @@ namespace TES_MEDICAL.GUI.Services
                     existingThuoc.ThongTin = model.ThongTin;
                     existingThuoc.TrangThai = model.TrangThai;
                     existingThuoc.HinhAnh = model.HinhAnh;
-
-
-
-
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -119,24 +93,18 @@ namespace TES_MEDICAL.GUI.Services
                 return new Response<Thuoc> { errorCode = -2 };
             }
 
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
         {
             try
             {
-
                 var find = await _context.Thuoc.FindAsync(Id);
-
 
                 _context.Thuoc.Remove(find);
                 await _context.SaveChangesAsync();
 
                 return true;
-
 
             }
             catch (Exception ex)
@@ -157,27 +125,12 @@ namespace TES_MEDICAL.GUI.Services
             string.IsNullOrWhiteSpace(model.KeyWordSearch) || 
             EF.Functions.Collate(x.TenThuoc, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))||
             EF.Functions.Collate(x.ThongTin, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWordSearch, "SQL_Latin1_General_Cp1_CI_AI"))
-
-
-
-
-
-
-
-                ).OrderBy(x => x.TenThuoc);
+            ).OrderBy(x => x.TenThuoc);
 
             if(!model.TrangThai)
             {
              listUnpaged =   listUnpaged.Where(x => x.TrangThai);
-            }    
-
-
-
-
-
-
-
-
+            } 
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
 
@@ -186,20 +139,13 @@ namespace TES_MEDICAL.GUI.Services
 
             return listPaged;
 
-
-
-
-
         }
-
-
 
         protected IEnumerable<Thuoc> GetAllFromDatabase()
         {
             List<Thuoc> data = new List<Thuoc>();
 
             data = _context.Thuoc.ToList();
-
 
             return data;
 

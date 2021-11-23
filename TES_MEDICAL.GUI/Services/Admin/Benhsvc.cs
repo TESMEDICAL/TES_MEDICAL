@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +22,6 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
 
         }
-
 
         public async Task<Response<Benh>> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
         {
@@ -144,9 +141,6 @@ namespace TES_MEDICAL.GUI.Services
                 return new Response<Benh> { errorCode = -2 };
             }
 
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
@@ -192,12 +186,6 @@ namespace TES_MEDICAL.GUI.Services
                 .OrderBy(x => x.TenBenh);
 
 
-
-
-
-
-
-
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
 
@@ -205,10 +193,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -219,7 +203,6 @@ namespace TES_MEDICAL.GUI.Services
             List<Benh> data = new List<Benh>();
 
             data = _context.Benh.ToList();
-
 
             return data;
 

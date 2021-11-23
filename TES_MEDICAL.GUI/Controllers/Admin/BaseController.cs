@@ -25,10 +25,5 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             return HttpContext.Session.GetString(SessionKey.Nguoidung.FullName);
         }
 
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
     }
 }

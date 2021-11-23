@@ -1,11 +1,8 @@
-
-
 using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using X.PagedList;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
 

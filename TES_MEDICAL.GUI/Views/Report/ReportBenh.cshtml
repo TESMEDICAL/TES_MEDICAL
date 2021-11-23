@@ -89,14 +89,15 @@
             <div class="input-group mb-3">
                 <div class="input-group-item">
                     <p>Ngày bắt đầu:</p>
-                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" >
+                    <input value="@DateTime.Now.AddMonths(-4).ToString("yyyy-MM-dd")" id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" >
                 </div>
                 <div class="input-group-item ms-3">
                     <p>Ngày kết thúc:</p>
-                    <input id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input value="@DateTime.Now.ToString("yyyy-MM-dd")" id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
-            <div class="box-option">
+            <div class="box-option row">
+                <div class="col-5">
                     <p>Chọn mục thống kê:</p>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="buttonBenh" value="ReportBenh">
@@ -110,8 +111,14 @@
                             Thuốc
                         </label>
                     </div>
-                
+
+
+                </div>
+                <div class="col-7 mt-3">
+                    <button class="btn btn-primary" onclick="ReloadPage()"><i class="fa fa-eye text-white"></i>&nbsp;Thống kê</button>
+                </div>
             </div>
+            
         </div>
         <div class="box-item" style="overflow: scroll; overflow-x: hidden">
             <div class="box-item-title mb-4">
@@ -289,6 +296,141 @@
             }
 
         });
+
+        function ReloadPage() {
+            var $Radio = $('input[name=flexRadioDefault]:checked')
+            if ($Radio.val() == 'ReportBenh') {
+                $.ajax({
+                    url: "/Report/ThongKeBenh",
+                    type: "GET",
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+                    success: function (response) {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            data: [{
+                                type: "bar",
+                                indexLabel: "{y} ca",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        /*Biểu đồ tròn*/
+                        var chart = new CanvasJS.Chart("chartContainer1", {
+                            theme: "light1", // "light1", "light2", "dark1", "dark2"
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            data: [{
+                                type: "pie",
+                                startAngle: 180,
+                                toolTipContent: "<b>{label}</b>: {y}%",
+                                showInLegend: "true",
+                                legendText: "{label}",
+                                indexLabel: "{label} - {y} ca",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        $("#BieuDoCot").html("");
+                        $("#tenBenhId").show();
+                        $("#tenThuocId").hide();
+                        $(".table").show();
+                        (response.dataTable.obj).forEach(function (item) {
+                            $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.tenBenh}</td>
+                                <td>${item.soLuong}</td>
+                            </tr>
+                        `)
+                                ;
+
+                        });
+
+
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-box').toggleClass('hide');
+                    }
+                });
+            }
+
+            else if ($Radio.val() == 'ReportThuoc'){
+                $.ajax({
+                    url: "/Report/ThongKeSoLuongThuoc",
+                    type: "GET",
+                    data: {
+                        ngayBatDau: $('#ngayBatDau').val(),
+                        ngayKetThuc: $('#ngayKetThuc').val()
+                    },
+                    success: function (response) {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+
+                            data: [{
+                                type: "bar",
+                                indexLabel: "{y}",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        /*Biểu đồ tròn*/
+                        var chart = new CanvasJS.Chart("chartContainer1", {
+                            theme: "light1", // "light1", "light2", "dark1", "dark2"
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            data: [{
+                                type: "pie",
+                                startAngle: 180,
+                                toolTipContent: "<b>{label}</b>: {y}%",
+                                showInLegend: "true",
+                                legendText: "{label}",
+                                indexLabel: "{label} - {y}",
+                                dataPoints: response.dataPoints
+                            }]
+                        });
+                        chart.render();
+
+
+                        $("#BieuDoCot").html("");
+                        $(".table").show();
+                        $("#tenThuocId").show();
+                        $("#tenBenhId").hide();
+
+                        (response.dataTable.obj).forEach(function (item) {
+                            $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.tenThuoc}</td>
+                                <td>${item.soLuong}</td>
+                            </tr>
+                        `)
+                                ;
+
+                        });
+
+
+                    },
+                    error: function (errormessage) {
+                        toastr.warning(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-box').toggleClass('hide');
+                    }
+                });
+            }
+
+
+        }
     </script>                
 }
 

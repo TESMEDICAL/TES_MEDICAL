@@ -1,5 +1,3 @@
-
-
 using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +15,6 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<bool> Delete(Guid Id);
         Task<IPagedList<DichVu>> SearchByCondition(DichVuSearchModel model);
         Task<IEnumerable<DichVu>> GetDichVu(Guid MaPK);
-
     }
 }
 

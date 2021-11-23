@@ -34,13 +34,15 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("ThemPhieuKham", "TiepNhan");
-            
+
         }
+
 
         public IActionResult NoneUserNVYT()
         {
             return View();
         }
+
 
         [Authorize]
         [HttpGet]
@@ -53,18 +55,19 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
 
+
         [HttpPost]
         public async Task<IActionResult> ChangeInfo(NhanVienModel model, [FromForm] IFormFile file)
         {
             try
             {
                 string filePath = "";
-                
+
 
                 var user = await _userManager.GetUserAsync(User);
                 user.HoTen = model.HoTen;
                 user.PhoneNumber = model.SDTNV;
-                
+
                 if (file != null)
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
@@ -84,15 +87,16 @@ namespace TES_MEDICAL.GUI.Controllers
                 await _userManager.UpdateAsync(user);
                 await _signInManager.RefreshSignInAsync(user);
 
-                return Json(new { status = 1, title = "", text = "Cập nhật thành công."}, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = 1, title = "", text = "Cập nhật thành công." }, new Newtonsoft.Json.JsonSerializerSettings());
             }
 
             catch (Exception)
             {
 
                 return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            } 
+            }
         }
+
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -102,19 +106,13 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model) 
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     var user = await _userManager.GetUserAsync(User);
-                    //if (user == null)
-                    //{
-                    //    ModelState.AddModelError(string.Empty, "")
-                    //    return PartialView("_ChangePassword", model);
-
-                    //}
 
                     var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                     if (!result.Succeeded)
@@ -129,9 +127,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
                     await _signInManager.SignOutAsync();
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
-
-                    //return Json(new { status = 1, title = "", text = "Cập nhật thành công." }, new Newtonsoft.Json.JsonSerializerSettings());
-
 
                 }
                 catch (Exception)
@@ -158,17 +153,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
             if (ModelState.IsValid)
             {
-               
+
                 var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
                 if (user == null)
                 {
                     ViewBag.Error = "Email chưa được đăng ký !";
                     return View();
                 }
-                    
+
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callback = Url.Action(nameof(ResetPassword), "Identity", new { token, email = user.Email }, Request.Scheme);
-                //var callback = $"{request.Scheme}://{request.Host}/", new { token, email = user.Email }
                 Helper.SendMail(forgotPasswordModel.Email, "[TES-MEDICAL] - QUÊN MẬT KHẨU", $"Nhấn vào đây để đặt lại mật khẩu: <br><a href='{callback}'>Khôi phục mật khẩu</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
@@ -176,11 +170,11 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-
         public IActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
+
 
         [HttpGet]
         public IActionResult ResetPassword(string token, string email)
@@ -188,6 +182,8 @@ namespace TES_MEDICAL.GUI.Controllers
             var model = new ResetPasswordViewModel { Token = token, Email = email };
             return View(model);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordModel)
@@ -209,21 +205,22 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 return View();
             }
-                if (user.ChucVu == 1)
-                {
-                    await _userManager.AddToRoleAsync(user, "nhanvien");
-                }
-                else if (user.ChucVu == 2)
-                {
-                    await _userManager.AddToRoleAsync(user, "bacsi");
-                }
-                else
-                {
+            if (user.ChucVu == 1)
+            {
+                await _userManager.AddToRoleAsync(user, "nhanvien");
+            }
+            else if (user.ChucVu == 2)
+            {
+                await _userManager.AddToRoleAsync(user, "bacsi");
+            }
+            else
+            {
                 await _userManager.AddToRoleAsync(user, "duocsi");
             }
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(ResetPasswordConfirmation));
         }
+
 
         [HttpGet]
         public IActionResult ResetPasswordConfirmation()
