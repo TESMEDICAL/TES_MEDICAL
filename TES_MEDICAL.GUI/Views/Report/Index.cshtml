@@ -160,12 +160,6 @@
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
-                        @*<tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>1</td>
-                            </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -305,7 +299,6 @@
                                 </td>
                             </tr>
 
-
                         </tbody>
                     </table>
 
@@ -333,16 +326,6 @@
 
                     </div>
                 </div>
-
-
-                @*<div class="modal-footer">
-                        <div class="text-right">
-                            <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
-                            <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                            <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
-                            <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                        </div>
-                    </div>*@
             </div>
 
         </div>
@@ -390,7 +373,7 @@
 
                     $("#List").append(`
                     <tr>
-                                <td class="col-2">${NgayKham}</td>
+                                <td class="col-2 text-nowrap">${stringDate.toLocaleString('en-GB')}</td>
                                 <td class="col-3">${item.tenNV}</td>
 
                                 <td class="col-3">${item.tenBS}</td>
@@ -434,18 +417,11 @@
                     data.result.forEach(function (item) {
 
                         var stringDate = new Date(item.ngayHD);
-                        var dd = stringDate.getDate();
-                        var MM = stringDate.getMonth();
-                        var yyyy = stringDate.getFullYear();
-                        var hh = stringDate.getHours();
-                        var mm = stringDate.getMinutes();
-                        var ss = stringDate.getSeconds();
-                        var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-
+                        
                         $("#List").append(`
-                    <tr>
-                                <td class="col-2">${NgayKham}</td>
-                                <td class="col-3">${item.tenNV}</td>
+                            <tr>
+                                <td class="col-3 text-nowrap">${stringDate.toLocaleString('en-GB')}</td>
+                                <td class="col-2">${item.tenNV}</td>
 
                                 <td class="col-3">${item.tenBS}</td>
                                 <th class="col-3">${item.tenBN}</th>

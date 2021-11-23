@@ -1,5 +1,4 @@
 ﻿
-
 @{
     int currentPage = ViewBag.currentPage;
     int countPages = ViewBag.countPages;
@@ -10,34 +9,21 @@
     {
         return $"PageList({_pagenumber},'{NgayBD}','{NgayKT}',{Type})";
     };
-
     if (currentPage > countPages)
     { currentPage = countPages; }
-
-
     if (countPages <= 1) { return; }
-
-
     int? preview = null;
     int? next = null;
-
     if (currentPage > 1)
     { preview = currentPage - 1; }
-
-
     if (currentPage < countPages)
     {
         next = currentPage + 1;
     }
-
-
     // Các trang hiện thị trong điều hướng
     List<int> pagesRanges = new List<int>();
-
-
     int delta = 5;             // Số trang mở rộng về mỗi bên trang hiện tại
     int remain = delta * 2;     // Số trang hai bên trang hiện tại
-
     pagesRanges.Add(currentPage);
     // Các trang phát triển về hai bên trang hiện tại
     for (int i = 1; i <= delta; i++)

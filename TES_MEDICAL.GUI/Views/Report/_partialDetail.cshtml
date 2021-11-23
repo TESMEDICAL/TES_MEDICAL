@@ -44,22 +44,18 @@
     body {
         background: #e7e9ed;
         color: #535b61;
-        /* font-family: "Poppins", sans-serif; */
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
         line-height: 22px;
     }
-
     form {
         padding: 0;
         margin: 0;
         display: inline;
     }
-
     img {
         vertical-align: inherit;
     }
-
     a, a:focus {
         color: #0071cc;
         text-decoration: none;
@@ -677,7 +673,6 @@
         <!-- Main Content -->
         <main>
             <div class="row">
-                <!-- <div class="col-sm-6 mb-3"> <strong>Mã toa thuốc:</strong> <span>85522467</span> </div> -->
                 <p class="mb-0" style="text-align: right;">Mã hóa đơn: <strong>@Model.MaHoaDon</strong> </p>
                 <p class="mb-0" style="text-align: right;">Tên nhân viên: <strong>@Model.MaNVNavigation.HoTen</strong> </p>
                 <div class="mb-3 text-sm-end" style="text-align: right;">Ngày xuất hóa đơn: <strong>@Model.NgayHD</strong></div>
@@ -721,8 +716,6 @@
                                         <td class="col-6 text-end ms-auto"><strong>@item.DonGiaDV?.ToString("n0").Replace(',', '.')</strong></td>
                                     </tr>
                                 }
-
-
                             </tbody>
                             <tfoot class="card-footer">
                                 <tr>
@@ -743,7 +736,6 @@
                 CVPM Quang Trung, P. Tân Chánh Hiệp, Q.12, TP.HCM
             </p>
             <hr>
-
             <div class="btn-group btn-group-sm d-print-none"> <a onclick="PrintElem()" class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-print"></i> Print</a></div>
         </footer>
     </div>
