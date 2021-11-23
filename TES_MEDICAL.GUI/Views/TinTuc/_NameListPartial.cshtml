@@ -40,39 +40,35 @@
 
     <div class="list-table" >
         <table class="table table-bordered text-left w-100 " style="font-size:small">
-                <tr id="thead">
-
-                    <th class="col-6">
-                        Tiêu đề
-                    </th>
-
-                    <th class="col-2 text-center">
-                        Trạng thái
-                    </th>
-
-                    <th class="col-2 text-center">
-                        Thể loại
-                    </th>
-
-                    <th class="col-2 text-center">Thao tác</th>
+            <tr id="thead">
+                <th class="col-6">
+                    Tiêu đề
+                </th>
+                <th class="col-2 text-center">
+                    Trạng thái
+                </th>
+                <th class="col-2 text-center">
+                    Thể loại
+                </th>
+                <th class="col-2 text-center">Thao tác</th>
+            </tr>
+            @foreach (var item in ViewBag.Names as IEnumerable<TinTuc>)
+            {
+                <tr>
+                    <td class="table-title-name col-6"><p>@item.TieuDe</p></td>
+                    <td class="col-2 text-center">@item.TrangThai</td>
+                    <td class="col-2 text-center">@item.MaTLNavigation.TenTL</td>
+                    <td class="table-btn col-2 text-nowrap text-center">
+                        <a class="btn-stutus btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        @if (item.TrangThai)
+                        {<a class="btn-stutus btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                        else
+                        {
+                            <a class="btn-stutus btn btn-sm active" onclick="_restore('@item.MaBaiViet')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                        <a class="btn-stutus btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                    </td>
                 </tr>
-                @foreach (var item in ViewBag.Names as IEnumerable<TinTuc>)
-                {
-                    <tr>
-                        <td class="table-title-name col-6"><p>@item.TieuDe</p></td>
-                        <td class="col-2 text-center">@item.TrangThai</td>
-                        <td class="col-2 text-center">@item.MaTLNavigation.TenTL</td>
-                        <td class="table-btn col-2 text-nowrap text-center">
-                            <a class="btn-stutus btn btn-sm active" title="Chỉnh sửa" href="@Url.ActionLink("Edit","TinTuc", new  {id= item.MaBaiViet })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            @if (item.TrangThai)
-                            {<a class="btn-stutus btn  btn-sm active" onclick="_delete('@item.MaBaiViet')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
-                            else
-                            {
-                                <a class="btn-stutus btn btn-sm active" onclick="_restore('@item.MaBaiViet')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-                            <a class="btn-stutus btn btn-sm active" title="Chi tiết" onclick="_Detail('@item.MaBaiViet')"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </td>
-                    </tr>
-                }
+            }
 
         </table>
     </div>
@@ -106,10 +102,6 @@
 
         @Html.PagedListPager((IPagedList<TinTuc>)ViewBag.Names, page => Url.Action("PageList", new { page, TieuDeSearch = searchModel.TieuDeSearch, TrangThaiSearch = searchModel.TrangThaiSearch, MaTLSearch = searchModel.MaTLSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

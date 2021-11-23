@@ -359,42 +359,7 @@
 
 
 
-        function Timkiem() {
-
-
-            $.ajax({
-                url: '/ChuyenKhoa/PageList/',
-
-                type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
-
-
-                success: function (result) {
-
-
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
-
-                        $('#nameListContainer').html(result);
-                    }
-
-
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
-
-                failure: function (message) {
-                    $('#preloader-box').toggleClass('hide');
-                }
-            });
-        }
+   
 
         function Clear() {
 
