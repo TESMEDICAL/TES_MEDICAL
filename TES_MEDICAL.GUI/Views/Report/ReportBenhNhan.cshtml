@@ -89,11 +89,11 @@
             <div class="input-group mb-3">
                 <div class="input-group-item">
                     <p>Ngày bắt đầu:</p>
-                    <input id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input value="@DateTime.Now.AddMonths(-4).ToString("yyyy-MM-dd")" id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group-item ms-3">
                     <p>Ngày kết thúc:</p>
-                    <input id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input value="@DateTime.Now.ToString("yyyy-MM-dd")" id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
             </div>
             <div class="box-option">
@@ -118,6 +118,7 @@
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
+
                     </tbody>
                 </table>
             </div>

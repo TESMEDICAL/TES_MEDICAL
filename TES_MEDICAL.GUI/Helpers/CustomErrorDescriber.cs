@@ -16,11 +16,5 @@ namespace TES_MEDICAL.GUI.Helpers
             return error;
         }
 
-        //public override IdentityError PasswordMismatch()
-        //{
-        //    var error = base.PasswordMismatch();
-        //    error.Description = "Vui lòng nhập password có kèm chữ viết Hoa";
-        //    return error;
-        //}
     }
 }

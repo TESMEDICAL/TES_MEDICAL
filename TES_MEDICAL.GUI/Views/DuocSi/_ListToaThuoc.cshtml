@@ -1,8 +1,5 @@
 ﻿@model IPagedList<ToaThuoc>
-
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
 <div id="list">
@@ -67,3 +64,4 @@
         @Html.PagedListPager((IPagedList<ToaThuoc>)ViewBag.Names, page => Url.Action("ReloadPage", new { page, KeywordSearch = searchModel.KeywordSearch,TrangThai = searchModel.TrangThai,TrangThaiPK = 1 }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
 
+</div>
