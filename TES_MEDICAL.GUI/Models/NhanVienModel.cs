@@ -30,6 +30,7 @@ namespace TES_MEDICAL.GUI.Models
         [Required(ErrorMessage = "Bạn cần nhập họ tên")]
         public string HoTen { get; set; }
 
+        [RegularExpression(@"^\(?([0-9]{3})[-. ]?([0-9]{4})[-. ]?([0-9]{3})$", ErrorMessage = "Số điện thoại không đúng")]
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
         public string SDTNV { get; set; }
 
