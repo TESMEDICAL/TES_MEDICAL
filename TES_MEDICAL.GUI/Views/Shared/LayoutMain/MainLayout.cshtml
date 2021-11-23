@@ -529,9 +529,7 @@
     </div>
     <!--End ChangePassword-->
 
-    <div id="contentChangeInfo">
-
-    </div>
+    
 
     <!--Start ChangeInfo-->
     <div id="modal_user_changeinfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -543,11 +541,11 @@
                 </div>
                 <!-- END Modal Header -->
                 <!-- Modal Body -->
-                @*<div class="modal-body">
+                <div class="modal-body">
                         <div id="myModalContent_ChangeInfo">
 
                         </div>
-                    </div>*@
+                    </div>
                 <!-- END Modal Body -->
             </div>
         </div>
@@ -602,7 +600,7 @@
             $('#myModalContent_ChangePass').html("");
 
             $.ajax({
-                url: '/Identity/ChangeInfo/',
+                url: '/Identity/ChangePass/',
                 type: "Get",
                 timeout: 20000,
                 async: true,
@@ -631,8 +629,8 @@
                 async: true,
                 success: function (result) {
                     console.log(result);
-                    $('#contentChangeInfo').html('hello');
-                   /* $('#modal_user_changeinfo').modal('show');*/
+                    $('#myModalContent_ChangeInfo').html(result);
+                    $('#modal_user_changeinfo').modal('show');
 
 
                     $('#preloader-wrapper').toggleClass('hide');

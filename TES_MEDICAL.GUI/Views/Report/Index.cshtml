@@ -417,14 +417,7 @@
                     data.result.forEach(function (item) {
 
                         var stringDate = new Date(item.ngayHD);
-                        //var dd = stringDate.getDate();
-                        //var MM = stringDate.getMonth();
-                        //var yyyy = stringDate.getFullYear();
-                        //var hh = stringDate.getHours();
-                        //var mm = stringDate.getMinutes();
-                        //var ss = stringDate.getSeconds();
-                        //var NgayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-                        console.log(stringDate);
+                        
                         $("#List").append(`
                             <tr>
                                 <td class="col-3 text-nowrap">${stringDate.toLocaleString('en-GB')}</td>
