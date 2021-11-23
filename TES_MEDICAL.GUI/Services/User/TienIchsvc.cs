@@ -27,7 +27,7 @@ namespace TES_MEDICAL.GUI.Services
            string.IsNullOrWhiteSpace(KeyWord) ||
            EF.Functions.Collate(x.TenBenh, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))
            )
-               .OrderBy(x => x.TenBenh).ToListAsync();
+               .Take(10).ToListAsync();
 
         }
         public async Task<PhieuKham> GetAuToFill(string TenBenh)
@@ -45,7 +45,7 @@ namespace TES_MEDICAL.GUI.Services
          
           EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
           )
-              .OrderBy(x => x.TenTrieuChung).Take(10).ToListAsync();
+             .Take(10).ToListAsync();
         }
 
         public List<ListResponse> GetListChanDoan(List<string> ListTrieuChung)
