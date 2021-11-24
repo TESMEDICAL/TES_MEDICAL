@@ -569,7 +569,6 @@
     <script src="~/MainElement/js/plugins.js"></script>
     <script src="~/MainElement/js/app.js"></script>
 
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <!--Script chạy Active trên Menu-->
     <script>
         function myActive(e) {
@@ -648,10 +647,10 @@
                 var fileUpload = $("#upload-back").get(0);
                 var file = fileUpload.files[0];
                 formData.append("file", file);
-                formData.append('Email', $("#Edit_Email").val());
-                formData.append('HoTen', $("#Edit_HoTen").val());
-                formData.append('SDT', $("#Edit_SDT").val());
-                formData.append('HinhAnh', $("#Edit_Hinh").val());
+                formData.append('UpdateEmail', $("#UpdateEmail").val());
+                formData.append('UpdateHoTen', $("#UpdateHoTen").val());
+                formData.append('UpdateSDT', $("#UpdateSDT").val());
+                formData.append('UpdateHinhAnh', $("#Edit_Hinh").val());
 
                 $.ajax({
                     type: "POST",
