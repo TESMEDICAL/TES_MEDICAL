@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 
-
-
-
 <style>
     .a {
         text-decoration: none !important
@@ -25,13 +22,8 @@
             <button type="button" class="btn" style="color:white;" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
         </div>
     </div>
-    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 15px;">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-        <label class="form-check-label" for="flexCheckChecked">
-            Hiện tất cả
-        </label>
-    </div>
-    <div id="nameListContainer">
+    
+    <div id="nameListContainer" class="mt-3">
         <partial name="_ListToaThuoc" model="@ViewBag.Names as IPagedList<ToaThuoc>" />
     </div>
 
@@ -61,8 +53,6 @@
 
 @section Scripts{
 
-
-
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
 
@@ -76,8 +66,6 @@
                 ReloadPage(1);
 
             });
-
-
 
         //Hàm mở modal của Chi tiết Toa Thuốc Đang phát
         function Detail(_maPhieu) {
@@ -227,7 +215,6 @@
                         'Retry');
                 },
                 error: function (errormessage) {
-                    //alert(errormessage.responseText);
                     $(this).prop("disabled", false);
 
                     $(this).html(

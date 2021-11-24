@@ -31,15 +31,9 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ReloadPage(ToaThuocSearchModel model)
         {
 
-            //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
-            
-            
             var listmodel = await _service.SearchToaThuoc(model);
 
             if (!model.Page.HasValue) model.Page = 1;
-
-
-            
 
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
@@ -47,18 +41,18 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.Data = model;
 
             return PartialView("_ListToaThuoc", listmodel);
-            //return Ok(listToaThuocCTT);
         }
 
 
         [HttpGet]
         public async Task<IActionResult> ReloadPageLichSu(ToaThuocSearchModel model)
         {
-            //model.MaBS = (await _userManager.GetUserAsync(User)).Id;
+
 
             var listmodel = await _service.SearchToaThuoc(model);
 
             if (!model.Page.HasValue) model.Page = 1;
+
             model.TrangThaiPK = 2;
             ViewBag.Names = listmodel;
             ViewBag.TrangThai = model.TrangThai;
@@ -66,7 +60,6 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.Data = model;
 
             return PartialView("_ListLichSu", listmodel);
-            //return Ok(listToaThuocCTT);
         }
 
 
@@ -78,7 +71,6 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Thay đổi thất bại."}, new Newtonsoft.Json.JsonSerializerSettings());
         }
 
-        //Hàm thanh toán thuốc dùng trong Model ToaThuoc
         [HttpPost]
         public async Task<IActionResult> ThanhToan(Guid maPK)
         {
@@ -95,7 +87,6 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        //Hàm xác nhận thuốc dùng trong Model ToaThuocDangPhat
         [HttpPost]
         public async Task<IActionResult> XacNhanThuocDangCho(Guid maPK)
         {
@@ -139,7 +130,6 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        // Toathuoc/ToaThuocDangPhat
         public async Task<IActionResult> ToaThuocDangPhat(ToaThuocSearchModel model)
         {
             model.TrangThai = 1;
@@ -205,21 +195,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 if (!model.Page.HasValue) model.Page = 1;
 
-
-
-               
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
                 return PartialView("_NameListThuoc", listmodel);
-                //return View("DanhSachThuoc", listmodel);
             }
             else
             {
 
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-
 
         }
 
@@ -233,11 +218,9 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             else
             {
-
-
                 return PartialView("_ChiTietThuoc", await _thuocService.Get(id));
             }
         }
 
     }
-}
+} 

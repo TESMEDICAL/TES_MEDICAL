@@ -1,6 +1,4 @@
 ﻿
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -16,14 +14,9 @@
             <input type="text" name="text" id="SDTDatLich" class="form-control" />
             <label>Ngày sinh:</label>
             <input type="date" name="text" id="NgaySinhDatLich" class="form-control" />
-
-
         </div>
     </div>
 </div>
-
-
-
 
 <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -39,7 +32,6 @@
     });
 
     scanner.addListener('scan', function (c) {
-        /*document.getElementById('text').value = c;*/
         $.ajax({
             url: "/TiepNhan/LoadThongTinByMaDatLich/",
             type: 'POST',
@@ -79,10 +71,5 @@
                 $('#myModalQrCode').modal('hide');
             }
         });
-
-
     }
-
-   
-
 </script>

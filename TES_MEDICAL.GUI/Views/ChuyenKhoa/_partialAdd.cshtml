@@ -5,8 +5,7 @@
         padding: 0;
         margin: 0;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        /*        display: flex;
-    */
+        
     }
 
     .box-title-1 {
@@ -39,32 +38,15 @@
 
 
         <div class="form-group col-12">
-            <h6>Tên chuyên khoa</h6>
+            <h6>Tên chuyên khoa<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
             <div class="col-md-7">
                 @Html.EditorFor(model => model.TenCK, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenCK, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
 </div>
-
-
-
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
 <script>
 
     $(document).ready(function () {

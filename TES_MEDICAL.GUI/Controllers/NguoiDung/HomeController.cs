@@ -27,7 +27,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDuocSi _duocSiService;
         private readonly IDichVu _dichVuService;
         private readonly ITienIch _tienichRep;
-        
+
 
 
         private IHubContext<SignalServer> _hubContext;
@@ -81,11 +81,11 @@ namespace TES_MEDICAL.GUI.Controllers
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
-                if(model.NgayKham<DateTime.Now)
+                if (model.NgayKham < DateTime.Now)
                 {
                     ModelState.AddModelError("NgayKham", "Ngày khám phải sau ngày hiện tại");
                     return View(model);
-                }    
+                }
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
@@ -121,6 +121,8 @@ namespace TES_MEDICAL.GUI.Controllers
                 return BadRequest();
             }
         }
+
+
         [Produces("application/json")]
         [HttpPost("GetTrieuChungNew")]
         [Route("api/ChanDoan/GetTrieuChungNew")]
@@ -128,7 +130,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             try
             {
-               
+
                 var trieuchungs = _tienichRep.GetListChanDoan(ListTrieuChung.ToList());
                 return Ok(trieuchungs);
             }
@@ -137,6 +139,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Ok(new List<string>());
             }
         }
+
 
         [Produces("application/json")]
         [HttpPost("KetQuaChanDoan")]
@@ -151,15 +154,15 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 foreach (var item in result)
                 {
-                    dataPoints1.Add(new DataPoint((item.TenBenh + "("+item.SoTrieuChung+"/"+item.TongCong+")").ToString(), item.SoTrieuChung));
+                    dataPoints1.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.SoTrieuChung));
                 }
                 foreach (var item in result)
                 {
                     dataPoints2.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.TongCong - item.SoTrieuChung));
                 }
-                
 
-                return Ok(new { DataPoint1 = dataPoints1 , DataPoint2 = dataPoints2 });
+
+                return Ok(new { DataPoint1 = dataPoints1, DataPoint2 = dataPoints2 });
             }
             catch
             {
@@ -196,7 +199,6 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //Nội dung mail
         private string message(PhieuDatLich model)
         {
             var request = HttpContext.Request;
@@ -210,17 +212,22 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
-                //Url.Action("ResultDatLich", "Home", new { maPhieu = HttpUtility.UrlEncode(model.MaPhieu) }, _baseURL);
                 return StrContent.ToString();
             }
 
         }
-        //Partial View TinTuc Theo TheLoai
+
+        /// <summary>
+        /// Partial tin tức theo thể loại
+        /// </summary>
+        /// <param name="MaTL"></param>
+        /// <returns></returns>
         public async Task<IActionResult> ListTheLoai(Guid MaTL)
         {
 
             return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
         }
+
 
         public async Task<IActionResult> TinChiTiet(Guid id)
         {
@@ -228,13 +235,14 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.TL1 = await _tintucService.GetTinMin(Guid.Empty);
 
             ViewBag.Hinh = baiViet.Hinh;
-            
+
             if (baiViet == null)
             {
                 return RedirectToAction("Index", "Home");
             }
             return View(baiViet);
         }
+        
 
         public async Task<IActionResult> SearchByPhoneNumber(string SDT)
         {
@@ -259,6 +267,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
+
 
         public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
         {
@@ -286,11 +295,13 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
         }
+
+
         public IActionResult ChanDoan()
         {
             return View();
         }
 
-        
+
     }
 }

@@ -159,9 +159,7 @@
                                 <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
-                        <!--<div class="col-sm-12">-->
-                        @*<textarea asp-for="KetQuaKham" rows="6" class="form-control" placeholder="Nhập triệu chứng ..."></textarea>*@
-                        <!--</div>-->
+                        
                         <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
                             <ul class="symptom-list mt-2" id="ListTrieuChung">
                             </ul>
@@ -256,7 +254,6 @@
                         <i class="fa fa-plus text-white"></i>
                         Thêm thuốc
                     </button>
-                    @*<button class="btn" style="background-color:seagreen;  color:white;"><i class="fa fa-plus text-white"></i>  Thêm toa thuốc</button>*@
                 </div>
             </div>
             <div class="form-group mt-3" style="margin-inline: 20px;">
@@ -366,13 +363,6 @@
                 },
 
             });
-
-
-
-
-
-
-
         });
     function BindOld(item) {
         $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
@@ -404,10 +394,7 @@
         var $modal = $('#myModal');
         var $myModalContent = $("#myModalContent");
         $(document).ready(
-
-
             function () {
-
                 $("#frmKhamBenh").validate({
                     // Specify validation rules
                     rules: {
@@ -488,7 +475,6 @@
                                     oldPK = data;
                                     UseOld()
 
-
                                 }
                             });
                         }
@@ -522,9 +508,6 @@
                     $('#ThuocContent').html(data)
                     table =  $('#danhSach').DataTable(
                         {
-
-
-
                             "order": [0, "asc"],
                             "language": {
                                 "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
@@ -540,19 +523,7 @@
                                     "previous": "<"
                                 },
                             }
-                            //"columnDefs": [
-                            //    {
-                            //        "targets": [2],
-                            //        "visible": false
-                            //    }
-
-                            //]
-
-
-
-
-
-
+                            
                         }
                     )
                 });
@@ -663,11 +634,7 @@
         }
 
         function UseOld() {
-
             Phieukham.ToaThuoc = {};
-
-
-
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
                 type: 'Post',
@@ -684,8 +651,6 @@
                         table = $('#danhSach').DataTable(
                             {
 
-
-
                                 "order": [0, "asc"],
                                 "language": {
                                     "lengthMenu": "Hiển thị _MENU_ kết quả mỗi trang",
@@ -701,19 +666,7 @@
                                         "previous": "<"
                                     },
                                 }
-                                //"columnDefs": [
-                                //    {
-                                //        "targets": [2],
-                                //        "visible": false
-                                //    }
-
-                                //]
-
-
-
-
-
-
+                                
                             }
                         )
                     }
@@ -901,7 +854,6 @@
                 $("#toathuocFinal").append(` <tr>
                             <td class="col-8">
                                 <h6 style="font-weight: bold">${thuoc.TenThuoc}</h6>
-                                @*Thẻ <p style="font-style: italic"></p> này mô tả, gắn dữ liệu vào có thể xóa*@
                                 <p style="font-style: italic"> Ngày uống ${thuoc.LanTrongNgay} lần, mỗi lần ${thuoc.VienMoiLan} viên, uống ${thuoc.TruocKhian?"trước khi ăn":"sau khi ăn"}, uống ${thuoc.Sang ? "sáng" : ""} ${thuoc.Trua ? ", trưa" : ""} ${thuoc.Chieu ? ", chiều" : ""}.</p>
                             </td>
                             <td class="col-2 text-center">${thuoc.SoLuong}</td>

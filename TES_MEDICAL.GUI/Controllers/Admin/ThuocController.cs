@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -69,7 +68,6 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
             if (ModelState.IsValid)
@@ -83,8 +81,6 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 else
                 {
-                    //model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
                     filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);

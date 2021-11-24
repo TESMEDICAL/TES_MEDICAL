@@ -176,6 +176,33 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("int");
                 });
 
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ResponseHoaDon", b =>
+                {
+                    b.Property<string>("MaHD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayHD")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenBN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenBS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenNV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ScalarInt", b =>
+                {
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+                });
+
             modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeBenhViewModel", b =>
                 {
                     b.Property<int>("soLuong")
@@ -626,7 +653,6 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");

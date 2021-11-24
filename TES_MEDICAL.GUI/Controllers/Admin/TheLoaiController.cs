@@ -43,9 +43,6 @@ namespace TES_MEDICAL.GUI.Controllers
             {
 
                 if (!model.Page.HasValue) model.Page = 1;
-
-
-
                 
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
@@ -57,8 +54,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-
-          
         }
                 
         
@@ -82,8 +77,8 @@ namespace TES_MEDICAL.GUI.Controllers
            
             
         } 
+
         [HttpGet]
-       
         public async Task <ActionResult> Edit(Guid id)
         {
             if (await _service.Get(id) == null)
@@ -97,7 +92,9 @@ namespace TES_MEDICAL.GUI.Controllers
             }
                
         }
-          [HttpGet]
+
+
+        [HttpGet]
         public async Task <ActionResult> Detail(Guid id)
         {
             if (await _service.Get(id) == null)
@@ -114,7 +111,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
        
         [HttpPost]
-       
         public async Task <ActionResult> Edit( TheLoai model)
         {
           

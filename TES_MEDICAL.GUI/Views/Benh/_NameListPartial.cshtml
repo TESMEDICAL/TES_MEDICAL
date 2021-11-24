@@ -1,11 +1,5 @@
-
-
-
 @model IPagedList<Benh>
-
 @using X.PagedList.Mvc.Core;
-
-
 @using X.PagedList;
 @using X.PagedList.Web.Common
 
@@ -51,23 +45,19 @@
 </style>
 
 <div id="list">
-
     <div class="list-table" style="min-height:400px">
         <table class="table table-bordered text-left w-100 " style="font-size:small">
             <tr id="thead">
 
                 <th class="col-3">
-
                     Tên bệnh
                 </th>
 
                 <th class="col-5">
-
                     Thông tin
                 </th>
 
                 <th class="col-2">
-
                     Chuyên khoa
                 </th>
 
@@ -102,7 +92,6 @@
                     LiElementClasses = new string[] { "page-item" },
                     PageClasses = new string[] { "page-link" },
 
-
                     ContainerDivClasses = new[] { "pagination-container" }
 
 
@@ -113,7 +102,7 @@
             }
 
 
-            @Html.PagedListPager((IPagedList<Benh>)ViewBag.Names, page => Url.Action("PageList", new { page, TenBenhSearch = searchModel.TenBenhSearch, ThongTinSearch = searchModel.ThongTinSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+            @Html.PagedListPager((IPagedList<Benh>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWord = searchModel.KeyWord }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
         </div>
     </div>
 </div>
