@@ -10,8 +10,8 @@ using TES_MEDICAL.GUI.Models;
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211111142712_update14")]
-    partial class update14
+    [Migration("20211123154255_update1")]
+    partial class update1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,96 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ListResponse", b =>
+                {
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ResponseChanDoan", b =>
+                {
+                    b.Property<Guid>("MaBenh")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SoTrieuChung")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenBenh")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TongCong")
+                        .HasColumnType("int");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ResponseHoaDon", b =>
+                {
+                    b.Property<string>("MaHD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayHD")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenBN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenBS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenNV")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ScalarInt", b =>
+                {
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeBenhViewModel", b =>
+                {
+                    b.Property<int>("soLuong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("tenBenh")
+                        .HasColumnType("nvarchar(max)");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeDichVuViewModel", b =>
+                {
+                    b.Property<int>("Nam")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Thang")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeLuotKhamViewModel", b =>
+                {
+                    b.Property<int>("luotKham")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nam")
+                        .HasColumnType("int");
+
+                    b.Property<int>("thang")
+                        .HasColumnType("int");
+                });
+
+            modelBuilder.Entity("TES_MEDICAL.ENTITIES.Models.ViewModel.ThongKeSoLuongThuoc", b =>
+                {
+                    b.Property<int>("soLuong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("tenThuoc")
+                        .HasColumnType("nvarchar(max)");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.Benh", b =>
@@ -530,6 +620,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Theme")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
@@ -562,7 +655,6 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -765,6 +857,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ThoiGian")
+                        .HasColumnType("DateTime");
 
                     b.Property<string>("TieuDe")
                         .IsRequired()
