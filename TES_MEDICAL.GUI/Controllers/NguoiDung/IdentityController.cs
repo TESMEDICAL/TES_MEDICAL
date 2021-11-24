@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,18 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
+
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ChangeInfo()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var model = new UpdateUser { Email = user.Email, HoTen = user.HoTen, HinhAnh = user.Hinh, Id = user.Id, SDT = user.PhoneNumber };
+            return PartialView("_Edit_User",model);
+        }
+
+
 
 
         [HttpPost]

@@ -47,27 +47,21 @@
     <div class="list-table" style="min-height:400px">
         <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
-
                     <th class="col-3">
                         Tên thuốc
                     </th>
-
                     <th class="col-1 text-center">
                         Vị trí
                     </th>
-
                     <th class="col-2 text-center">
                         Đơn giá
                     </th>
-
                     <th class="col-2 text-center">
                         Trạng thái
                     </th>
-
                     <th class="col-2 text-center">
                         Hình ảnh
                     </th>
-
                     <th class="col-2 text-center">Thao tác</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<Thuoc>)
@@ -97,7 +91,6 @@
 
 
     <div class="text-right">
-
         @{
             var pageRender = new PagedListRenderOptions
             {
@@ -110,24 +103,14 @@
                 UlElementClasses = new[] { "pagination" },
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" },
-
-
                 ContainerDivClasses = new[] { "pagination-container" }
-
-
             };
         }
         @{
             var searchModel = ViewBag.Data as ThuocSearchModel;
         }
-
-
         @Html.PagedListPager((IPagedList<Thuoc>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch, TrangThai = searchModel.TrangThai}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

@@ -76,15 +76,12 @@
                                 {
                                     @("User")
                                 }
-                            </p>
-                            
+                            </p>                            
                         </td>
                         <td class="col-2 text-center">
                             <img class="listname-img" src="~/images/@item.HinhAnh" />
                         </td>
-
                         <td class="col-2 text-center"><p style="margin-top: 25%;">@(item.TrangThai?"Hoạt động":"Không hoạt động")</p></td>
-
                         <td class="table-btn col-2 text-center">
                                 <a class="btn-status btn btn-sm active" onclick="Edit('@item.MaNguoiDung')" title="Chỉnh sửa thông tin"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)
@@ -102,7 +99,6 @@
         </table>
     </div>
 
-
     <div class="text-right">
         @{
             var pageRender = new PagedListRenderOptions
@@ -117,24 +113,14 @@
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" },
 
-
                 ContainerDivClasses = new[] { "pagination-container" }
-
-
             };
         }
-
         @{
             var searchModel = ViewBag.Data as NguoiDungSearchModel;
         }
-
-
         @Html.PagedListPager((IPagedList<NguoiDung>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch, TrangThai = searchModel.TrangThai }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

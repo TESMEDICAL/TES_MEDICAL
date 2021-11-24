@@ -163,11 +163,10 @@
             <div class="box-left form-group">
                 <div class="box-left-title">
                     <div class="box-title-label">
-                        <label class="form-label">Tiêu đề</label>
+                        <label class="form-label">Tiêu đề (*)</label>
                     </div>
-                    @*<input type="text" asp-for="TieuDe" class="form-control">*@
                     <div class="form-floating mt-3 mb-3">
-                        <textarea class="form-control" asp-for="TieuDe" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 130px"></textarea>
+                        <textarea class="form-control" asp-for="TieuDe" style="height: 130px"></textarea>
                     </div>
                 </div>
             </div>
@@ -180,13 +179,12 @@
                         <select asp-for="MaTL" asp-items="@ViewBag.MaTL" class="form-select">
                             <option value="">Chọn thể loại</option>
                         </select>
-                        @*@Html.DropDownList("MaTL", null, htmlAttributes: new { @class = "form-control" })*@
                         @Html.ValidationMessageFor(model => model.MaTL, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="box-status">
                     <div class="box-status-label">
-                        <label class="form-label">Trạng thái</label>
+                        <label class="form-label">Trạng thái (*)</label>
                     </div>
                     <div class="form-check mt-3 mb-3">
                         <input class="form-check-input" asp-for="TrangThai" type="checkbox" id="gridCheck">
@@ -199,10 +197,17 @@
 
             
             <div class="box-content col-12">
-                <div class="box-content-label mb-3">
-                    <label class="form-label">Trạng thái</label>
+                <div class="d-flex justify-content-between">
+                    <div class="box-content-label mb-3 mt-3">
+                        <label class="form-label">Nội dung (*)</label>
+                    </div>
+                    <div class="mt-2">
+                        <a class="btn btn-success" onclick="_Preview()"><i class="fas fa-eye"></i> Xem trước</a>
+                    </div>
                 </div>
-                <textarea rows="20" asp-for="NoiDung" class="form-control NoiDung" placeholder="Nhập nội dung ..."></textarea>
+                <div>
+                    <textarea rows="20" asp-for="NoiDung" class="form-control NoiDung" placeholder="Nhập nội dung ..."></textarea>
+                </div>
             </div>
             <div class="box-btn d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn-savee btn"><i class="fas fa-save"></i> Cập nhật</button>
@@ -210,15 +215,36 @@
             </div>
         </form>
     </div>
-
 </div>
 
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-fullscreen">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+            </div>
+            <div class="modal-body">
+                <div id="myModalContent">
+
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="modal-footer-btn text-right">
+                    <button type="button" class="btn" onclick="CloseModal()" id="btclose" data-bs-dismiss="modal" style="background-color: rgb(239, 71, 111); color: white;"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 @section scripts{
-    @*<script src="~/ckeditor/ckeditor.js"></script>
-        <script src="~/ckeditor/adapters/jquery.js"></script>
-        <script>
-            $("#NoiDung").ckeditor();
-        </script>*@
     <link href="~/summernote/summernote-lite.css" rel="stylesheet" />
     <script src="~/summernote/summernote-lite.js"></script>
 
@@ -241,7 +267,6 @@
 
             function UploadImage(file) {
                 var url = '@Url.Action("UploadFile", "TinTuc")';
-
                 formData = new FormData();
                 formData.append("aUploadedFile", file);
                 $.ajax({
@@ -252,7 +277,6 @@
                     contentType: false,
                     processData: false,
                     success: function (FileUrl) {
-                       // alert(FileUrl);
                         var imgNode = document.createElement('img');
                         imgNode.src = FileUrl;
                         $('.NoiDung').summernote('insertNode', imgNode);
@@ -263,7 +287,49 @@
                 });
             }
         });
-    </script>
 
+
+        var $id = "";
+        var $modal = $('#myModal');
+        var $myModalContent = $("#myModalContent");
+        var $modalins = $('#myModalins');
+        var $myModalContentins = $("#myModalContentins");
+        var $myModalTitle = $("#myModalTitle");
+        var $myModalTitleins = $("#myModalTitleins");
+
+        function _Preview() {
+            var obj = {};
+            obj.TieuDe = jQuery("textarea#TieuDe").val();
+            obj.MaTL = $('#MaTL').val();
+            obj.NoiDung = jQuery("textarea#NoiDung").val();
+            $myModalContent.html("");
+            console.log(obj);
+            $.ajax({
+                url: '/TinTuc/Preview/',
+                type: "POST",
+                timeout: 20000,
+                async: true,
+                data: obj,
+                success: function (result) {
+                    $myModalContent.html(result);
+                    $('#btSave').hide();
+                    $('#btupdate').hide();
+                    $('#btPrint').hide();
+                    $modal.modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
+        function CloseModal() {
+            $('#myModalContent').html("");
+        }
+
+    </script>
 }
 

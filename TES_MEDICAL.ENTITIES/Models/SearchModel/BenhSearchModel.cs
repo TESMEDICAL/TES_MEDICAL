@@ -11,8 +11,8 @@ namespace TES_MEDICAL.GUI.Models
     public class BenhSearchModel
     {
         public int? Page { get; set; }
-        public String TenBenhSearch { get; set; }
-        public String ThongTinSearch { get; set; }
+        public String KeyWord { get; set; }
+        
     }
 }
 
