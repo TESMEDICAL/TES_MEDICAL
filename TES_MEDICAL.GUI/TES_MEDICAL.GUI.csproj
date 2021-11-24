@@ -118,6 +118,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\HoaDon\HoaDonThuoc\" />
 
     <Folder Include="wwwroot\images\photos\" />
