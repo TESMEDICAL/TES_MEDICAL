@@ -57,7 +57,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ChangeInfo(NhanVienModel model, [FromForm] IFormFile file)
+        public async Task<IActionResult> ChangeInfo(UpdateUser model, [FromForm] IFormFile file)
         {
             try
             {
@@ -66,8 +66,8 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 var user = await _userManager.GetUserAsync(User);
                 user.HoTen = model.HoTen;
-                user.PhoneNumber = model.SDTNV;
-
+                user.PhoneNumber = model.SDT;
+                
                 if (file != null)
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);

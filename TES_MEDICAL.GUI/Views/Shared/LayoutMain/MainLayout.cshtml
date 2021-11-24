@@ -600,7 +600,7 @@
             $('#myModalContent_ChangePass').html("");
 
             $.ajax({
-                url: '/Identity/ChangePass/',
+                url: '/Identity/ChangePassword/',
                 type: "Get",
                 timeout: 20000,
                 async: true,
@@ -650,8 +650,8 @@
                 formData.append("file", file);
                 formData.append('Email', $("#Edit_Email").val());
                 formData.append('HoTen', $("#Edit_HoTen").val());
-                formData.append('SDTNV', $("#Edit_SDT").val());
-                formData.append('Hinh', $("#Edit_Hinh").val());
+                formData.append('SDT', $("#Edit_SDT").val());
+                formData.append('HinhAnh', $("#Edit_Hinh").val());
 
                 $.ajax({
                     type: "POST",
