@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using TES_MEDICAL.GUI.Constant;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -154,46 +155,27 @@ namespace TES_MEDICAL.GUI.Controllers
 
        
         [HttpPost]
-       
-        public async Task <ActionResult> Edit( NguoiDung model, [FromForm] IFormFile file)
+        public async Task<ActionResult> Edit(NguoiDung model)
         {
-            if (ModelState.IsValid)
+            var user = await _service.Get(Guid.Parse(HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung)));
+            user.ChucVu = model.ChucVu;
+            user.TrangThai = model.TrangThai;
+            var result = await _service.Edit(user);
+            if (result.errorCode == 0)
             {
-                string filePath = "";
-                if (file != null)
-                {
-
-                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-                }
-
-                var result = await _service.Edit(model);
-                if (result.errorCode == -1)
-                {
-                    ModelState.AddModelError("Email", "Email đã tồn tại");
-                    return PartialView("_partialedit", model);
-                }
-
-                if (result.errorCode == 0)
-                {
-                    if (file != null)
-                    {
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            file.CopyTo(fileStream);
-                        }
-
-                    }
-                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-                }
-                else
-                {
-                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-                }
+                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            return PartialView("_partialedit", model);
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
+            }
+            
         }
+            
+        
+
+
 
         [HttpPost]
         public async Task <ActionResult> Delete(Guid id)

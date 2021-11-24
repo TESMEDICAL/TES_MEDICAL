@@ -112,7 +112,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                 var user = await _nguoidungSvc.Get(Guid.Parse(HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung)));
                 if (user.MatKhau == MaHoaHelper.Mahoa(model.CurrentPassword))
                 {
-                    user.MatKhau = model.NewPassword;
+                    user.MatKhau = MaHoaHelper.Mahoa(model.NewPassword);
                 }
                 else
                 {
