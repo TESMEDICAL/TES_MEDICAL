@@ -74,7 +74,7 @@ namespace TES_MEDICAL.GUI.Services
         (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
         EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
         EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2 && x.STTTOATHUOC != null
+         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2
 
 
 
@@ -82,7 +82,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-              ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+              ).OrderByDescending(x => x.MaPhieuKhamNavigation.NgayKham));
 
             }
 

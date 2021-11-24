@@ -48,6 +48,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ReloadPageLichSu(ToaThuocSearchModel model)
         {
 
+
             var listmodel = await _service.SearchToaThuoc(model);
 
             if (!model.Page.HasValue) model.Page = 1;
