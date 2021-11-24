@@ -88,12 +88,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="$('#modal-admin-settings').modal('show');" role="button" style="text-align:right;" title="Thông tin">
+                    <a class="nav-link" onclick="OpenChangeInfo()" role="button" style="text-align:right;" title="Thông tin">
                         <i class="fas fa-info"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" role="button" style="text-align:right;" title="Đổi mật khẩu">
+                    <a class="nav-link" onclick="OpenChangePass()" role="button" style="text-align:right;" title="Đổi mật khẩu">
                         <i class="fas fa-user-cog"></i>
                     </a>
                 </li>
@@ -138,83 +138,99 @@
 
 
     <!--Phần Modal Change Info - ChangPassword-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="~/js/jquery-ui.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
-
-    <div id="modal-admin-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!--Start ChangePassword-->
+    <div id="modal-user-changepass" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header m-auto">
-                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Cập Nhật Thông Tin</strong></h2>
+                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Đổi mật khẩu</strong></h2>
                 </div>
                 <!-- END Modal Header -->
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="frm1" enctype="multipart/form-data" class="form-horizontal" onsubmit="return false;">
-                        <div class="col-8 m-auto mb-2">
-                            <div id="image-holder2" class="text-center">
-                                <img class="profile-edit-img" src="~/images/@hinhAnh" id="Edit_Hinh">
-                            </div>
-                            <br>
-                            <div class="pt-1 text-center mb-4">
-                                <label class="btn-img btn mt-4">
-                                    <i class="fa fa-image"></i>&nbsp; &nbsp; Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
-                                </label>
-                            </div>
-                        </div>
+                    <div id="myModalContent_ChangePass">
 
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Email</label>
-                            <div class="">
-                                <input type="email" id="Edit_Email" class="form-control" value="@userName" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Họ và tên</label>
-                            <div>
-                                <input type="text" id="Edit_HoTen" class="form-control" value="@fullName">
-                            </div>
-                        </div>
-                        <div class="form-group row mb-2 col-8 m-auto">
-                            <label class="control-label ms-1" for="user-settings-email">Số điện thoại</label>
-                            <div>
-                                <input type="text" id="Edit_SDT" class="form-control" value="@sdt">
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group text-end mb-2">
-                            <div class="col-12 text-right">
-                                <button type="submit" onclick="Edit()" class="btn text-light" id="btn-confirm" style="width:20%; background-color: #52b788; color:white;">Lưu</button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+
                 </div>
                 <!-- END Modal Body -->
             </div>
         </div>
     </div>
+    <!--End ChangePassword-->
+
+    <!--Start ChangeInfo-->
+    <div id="modal_user_changeinfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header m-auto">
+                    <h2 class="modal-title"><i class="fa fa-pencil"></i> <strong>Cập nhật thông tin</strong></h2>
+                </div>
+                <!-- END Modal Header -->
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div id="myModalContent_ChangeInfo">
+
+                    </div>
+                </div>
+                <!-- END Modal Body -->
+            </div>
+        </div>
+    </div>
+    <!--End ChangePassword-->
+
+    <!--Kết thúc Modal Change Info - ChangPassword-->
 
     <script>
 
-        //Hàm load hình
-        $('#upload-back').change(function (e) {
-            var self = this;
+        //Hàm open modal ChangeInfo
+        function OpenChangeInfo() {
+            $('#contentChangeInfo').html("");
 
-            var file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onloadend = () => {
+            $.ajax({
+                url: '/Admin/ChangeInfo/',
+                type: "Get",
+                timeout: 20000,
+                async: true,
+                success: function (result) {
+                    
+                    $('#myModalContent_ChangeInfo').html(result);
+                    $('#modal_user_changeinfo').modal('show');
 
-                var img = "<img src='" + reader.result + "' style='width: 100%'/>"
-                $('#image-holder2').html(img);
-            };
-            reader.readAsDataURL(file);
 
-        });
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
+
+        //Hàm open modal ChangePass
+        function OpenChangePass() {
+            $('#myModalContent_ChangePass').html("");
+
+            $.ajax({
+                url: '/Admin/ChangePassword/',
+                type: "Get",
+                timeout: 20000,
+                async: true,
+                success: function (result) {
+                    
+                    $('#myModalContent_ChangePass').html(result);
+                    $('#modal-user-changepass').modal('show');
+
+
+                    $('#preloader-wrapper').toggleClass('hide');
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
 
         //Hàm edit info Admin
         function Edit() {
@@ -231,7 +247,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/NguoiDung/Edit",
+                    url: "/Admin/ChangeInfo",
                     processData: false,
                     contentType: false,
                     data: formData,
@@ -241,7 +257,7 @@
                             if (result.status >= 1) {
 
                                 toastr.success(result.text);
-                                location.reload();
+                                window.location.href = result.redirectUrL;
                             }
                             else {
                                 toastr.warning(result.text);
@@ -249,6 +265,48 @@
                         }
                         else {
                             $myModalContent.html(result);
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    },
+                    failure: function (message) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                    }
+                });
+            }
+        }
+
+        //Hàm ChangePass
+        function ChangePass() {
+            if ($("#frm2").valid()) {
+                var formData = new FormData();
+
+                formData.append('Email', $("#Edit_Email").val());
+                formData.append('CurrentPassword', $("#Edit_PassOld").val());
+                formData.append('NewPassword', $("#Edit_Passnew").val());
+                formData.append('ConfirmPassword', $("#Edit_Passnew2").val());
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/ChangePassword",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#preloader-wrapper').toggleClass('hide');
+                        if (result.status != null) {
+                            if (result.status >= 1) {
+
+                                toastr.success(result.text);
+                                window.location.href = result.redirectUrL;
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        }
+                        else {
+                            $('#myModalContent_ChangePass').html(result);
                         }
                     },
                     error: function (errormessage) {
