@@ -22,7 +22,12 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
-        public async Task<TheLoai> Add(TheLoai model)
+
+
+
+
+
+        public async Task<Response<TheLoai>> Add(TheLoai model)
         {
             try
             {
@@ -35,15 +40,18 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<TheLoai> { errorCode = 0, Obj = model };
 
                 }
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<TheLoai> { errorCode = -1 };
+                }
 
+                return new Response<TheLoai> { errorCode = -2 };
             }
         }
 
@@ -60,27 +68,32 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-
-
-        public async Task<TheLoai> Edit(TheLoai model)
+        public async Task<Response<TheLoai>> Edit(TheLoai model)
         {
             try
             {
                 using (var transaction = _context.Database.BeginTransaction())
                 {
-                    var existingTheLoai = _context.TheLoai.Find(model.MaTL);
+
+
+
+                    var existingTheLoai = await _context.TheLoai.FindAsync(model.MaTL);
                     existingTheLoai.TenTL = model.TenTL;
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<TheLoai> { errorCode = 0, Obj = model };
                 }
 
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<TheLoai> { errorCode = -1 };
+                }
+
+                return new Response<TheLoai> { errorCode = -2 };
             }
 
         }

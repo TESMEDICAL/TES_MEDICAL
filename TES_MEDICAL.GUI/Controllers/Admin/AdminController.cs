@@ -145,7 +145,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
             string HoTenNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.FullName);
             string hinhAnhNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.HinhAnh);
             string sdtNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.SDT);
-            var model = new UpdateUser { Email = EmailNguoiDung, HoTen = HoTenNguoiDung, HinhAnh = hinhAnhNguoiDung, SDT = sdtNguoiDung };
+            var model = new UpdateUser { UpdateEmail = EmailNguoiDung, UpdateHoTen = HoTenNguoiDung, UpdateHinhAnh = hinhAnhNguoiDung, UpdateSDT = sdtNguoiDung };
             return PartialView("_Edit_User", model);
         }
 
@@ -166,8 +166,8 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
                 }
 
                               
-                user.HoTen = model.HoTen;
-                user.SDT = model.SDT;
+                user.HoTen = model.UpdateHoTen;
+                user.SDT = model.UpdateSDT;
 
                 var result = await _nguoidungSvc.Edit(user);
                 if (result.errorCode == -1)

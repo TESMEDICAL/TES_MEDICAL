@@ -9,7 +9,6 @@ namespace TES_MEDICAL.ENTITIES.Models.SearchModel
     public class PhieuDatLichSearchModel
     {
         public int? Page { get; set; }
-        
         public String KeywordSearch { get; set; }
     }
 }
