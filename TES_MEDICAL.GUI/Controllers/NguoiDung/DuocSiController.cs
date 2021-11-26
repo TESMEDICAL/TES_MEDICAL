@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
@@ -18,13 +20,21 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDuocSi _service;
         private readonly IThuoc _thuocService;
         private UserManager<NhanVienYte> _userManager;
+        private readonly IHubContext<SignalServer> _hubContext;
 
 
-        public DuocSiController(IDuocSi service, IThuoc thuocService, UserManager<NhanVienYte> userManager)
+        public DuocSiController(
+            IDuocSi service, 
+            IThuoc thuocService, 
+            UserManager<NhanVienYte> userManager,
+            IHubContext<SignalServer> hubContext
+
+            )
         {
             _service = service;
             _thuocService = thuocService;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -93,6 +103,7 @@ namespace TES_MEDICAL.GUI.Controllers
             var result = await _service.XacNhanThuocDangCho(maPK);
             if (result != null)
             {
+                await _hubContext.Clients.All.SendAsync("SendToaThuocDangPhat");
                 return Json(new { status = 1, title = "", text = "Xác nhận thành công", redirectUrL = Url.Action("ToaThuocDangPhat", "DuocSi"), obj = "" }, new JsonSerializerSettings());
             }
             else
