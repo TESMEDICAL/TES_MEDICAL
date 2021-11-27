@@ -10,20 +10,17 @@ using TES_MEDICAL.GUI.Models;
 using Microsoft.Data.SqlClient;
 
 namespace TES_MEDICAL.GUI.Services
-
 {
     public class TienIchsvc : ITienIch
     {
         private readonly DataContext _context;
-
         public TienIchsvc(DataContext context)
         {
             _context = context;
-
         }
         public async Task<List<Benh>> SearchBenh(string KeyWord)
         {
-            return await _context.Benh.Where(x =>
+           return await _context.Benh.Where(x =>
            string.IsNullOrWhiteSpace(KeyWord) ||
            EF.Functions.Collate(x.TenBenh, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))
            )
@@ -36,8 +33,7 @@ namespace TES_MEDICAL.GUI.Services
                     join b in _context.Benh
                     on pk.MaBenh equals (b.MaBenh)
                     where b.TenBenh.Equals(TenBenh)&&pk.TrangThai>=1&&pk.TrangThai<=2
-                    select pk).FirstOrDefaultAsync();
-           
+                    select pk).FirstOrDefaultAsync();           
         }
         public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
         {
@@ -45,9 +41,8 @@ namespace TES_MEDICAL.GUI.Services
          
           EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
           )
-             .Take(10).ToListAsync();
+              .OrderBy(x => x.TenTrieuChung).Take(10).ToListAsync();
         }
-
         public List<ListResponse> GetListChanDoan(List<string> ListTrieuChung)
         {
             try
@@ -59,10 +54,8 @@ namespace TES_MEDICAL.GUI.Services
             catch 
             {
                 return null;
-            }
-           
+            }           
         }
-
         public List<ResponseChanDoan> KetQuaChanDoan(List<string> ListTrieuChung)
         {
             try
@@ -75,8 +68,6 @@ namespace TES_MEDICAL.GUI.Services
             {
                 return null;
             }
-
         }
-
     }
 }

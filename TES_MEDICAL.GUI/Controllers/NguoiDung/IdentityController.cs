@@ -49,7 +49,7 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> ChangeInfo()
         {
             var user = await _userManager.GetUserAsync(User);
-            var model = new UpdateUser { Email = user.Email, HoTen = user.HoTen, HinhAnh = user.Hinh, Id = user.Id, SDT = user.PhoneNumber };
+            var model = new UpdateUser { UpdateEmail = user.Email, UpdateHoTen = user.HoTen, UpdateHinhAnh = user.Hinh, Id = user.Id, UpdateSDT = user.PhoneNumber };
             return PartialView("_Edit_User",model);
         }
 
@@ -57,7 +57,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ChangeInfo(NhanVienModel model, [FromForm] IFormFile file)
+        public async Task<IActionResult> ChangeInfo(UpdateUser model, [FromForm] IFormFile file)
         {
             try
             {
@@ -65,9 +65,9 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
                 var user = await _userManager.GetUserAsync(User);
-                user.HoTen = model.HoTen;
-                user.PhoneNumber = model.SDTNV;
-
+                user.HoTen = model.UpdateHoTen;
+                user.PhoneNumber = model.UpdateSDT;
+                
                 if (file != null)
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);

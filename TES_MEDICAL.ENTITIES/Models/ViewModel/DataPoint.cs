@@ -15,7 +15,6 @@ namespace TES_MEDICAL.ENTITIES.Models.ViewModel
             this.Label = label;
             this.Y = y;
         }
-
         [DataMember(Name = "label")]
         public string Label = "";
 

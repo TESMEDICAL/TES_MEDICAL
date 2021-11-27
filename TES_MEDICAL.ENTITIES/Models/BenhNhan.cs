@@ -12,7 +12,6 @@ namespace TES_MEDICAL.GUI.Models
         {
             PhieuKham = new HashSet<PhieuKham>();
         }
-
         public Guid MaBN { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập Họ tên bệnh nhân")]

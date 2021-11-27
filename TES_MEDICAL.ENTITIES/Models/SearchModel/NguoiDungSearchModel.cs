@@ -14,7 +14,7 @@ namespace TES_MEDICAL.GUI.Models
         public String KeyWordSearch{ get; set; }
         public bool TrangThai { get; set; }
        
-             }
     }
+}
 
 

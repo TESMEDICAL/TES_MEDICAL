@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_ValidationScriptsPartial2.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Benh\Index.cshtml" />
     <None Include="Views\Benh\_CTTrieuChungView.cshtml" />
     <None Include="Views\Benh\_NameListPartial.cshtml" />
@@ -29,6 +33,7 @@
     <None Include="Views\NhanVienYte\_partialedit.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial2.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
@@ -113,6 +118,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\HoaDon\HoaDonThuoc\" />
 
     <Folder Include="wwwroot\images\photos\" />

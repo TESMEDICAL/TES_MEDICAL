@@ -19,7 +19,6 @@ namespace TES_MEDICAL.GUI.Models
             Benh = new HashSet<Benh>();
             NhanVienYte = new HashSet<NhanVienYte>();
         }
-
         public Guid MaCK { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập tên Chuyên Khoa")]
@@ -27,26 +26,6 @@ namespace TES_MEDICAL.GUI.Models
         public string TenCK { get; set; }
 
         public virtual ICollection<Benh> Benh { get; set; }
-        public virtual ICollection<NhanVienYte> NhanVienYte { get; set; }
-        //public  IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    var errors = new List<ValidationResult>();
-
-
-            
-
-        //    //get the required service injected
-        //    var _service = validationContext.GetService(typeof(IValidate)) as IValidate;
-
-        //    // Database call through service for validation
-        //    var isExist =  _service.ExistsChuyenKhoa(TenCK);
-        //    if (isExist)
-        //    {
-        //        errors.Add(new ValidationResult("Chuyên khoa đã tồn tại", new[] { nameof(TenCK) }));
-        //    }
-            
-
-        //    return errors;
-        //}
+        public virtual ICollection<NhanVienYte> NhanVienYte { get; set; }  
     }
 }
