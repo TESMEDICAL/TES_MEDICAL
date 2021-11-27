@@ -38,7 +38,7 @@
 
 
         <div class="form-group col-12">
-            <h6>Tên chuyên khoa</h6>
+            <h6>Tên chuyên khoa<strong style="color:#b10c0c">&nbsp;(*)</strong></h6>
             <div class="col-md-7">
                 @Html.EditorFor(model => model.TenCK, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenCK, "", new { @class = "text-danger" })
@@ -46,7 +46,7 @@
         </div>
     }
 </div>
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial2"); }
 <script>
 
     $(document).ready(function () {

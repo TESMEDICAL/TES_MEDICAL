@@ -2,16 +2,6 @@
 @{
     ViewData["Title"] = "THÊM PHIẾU KHÁM";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
-
-
-
-    @*<style>
-            .input-validation{
-                margin-top: 10px;
-            }
-        </style>*@
-
-
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data", @class = "row form needs-validation" }))
@@ -31,7 +21,7 @@
             <div class="form-horizontal form-bordered">
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-sm-2">
-                        <label for="Hoten" class="col-form-label">SĐT</label>
+                        <label for="Hoten" class="col-form-label">SĐT<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                     </div>
                     <div class="col-sm-7">
                         <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
@@ -45,18 +35,16 @@
                 </div>
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-sm-2">
-                        <label for="Hoten" class="col-form-label">Họ tên</label>
+                        <label for="Hoten" class="col-form-label">Họ tên<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                     </div>
                     <div class="col-sm-10">
                         <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
                         <span asp-validation-for="HoTen" class="text-danger"></span>
                     </div>
                 </div>
-
-
                 <div class="row g-2 align-items-center m-1">
                     <div class="col-sm-2">
-                        <label for="NgaySinh" class="col-form-label">Ngày sinh</label>
+                        <label for="NgaySinh" class="col-form-label">Ngày sinh<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                     </div>
                     <div class="col-sm-10">
                         <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
@@ -67,29 +55,16 @@
                     <div class="col-sm-2">
                         <label for="GioiTinh" class="col-form-label">Giới tính</label>
                     </div>
-                    <div class="col-sm-10">
-                        <!-- <select id="example-select" name="example-select" class="form-control" size="1">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select> -->
+                    <div class="col-sm-10">                        
                         <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
                             <option value="0">Nam</option>
                             <option value="1">Nữ</option>
-
                         </select>
                     </div>
-
                 </div>
-
-                <div class="row g-2 align-items-center m-1">
-                    @*<div class="col-sm-2">
-                            <label for="DiaChi" class="col-form-label">Địa chỉ</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
-                        </div>*@
+                <div class="row g-2 align-items-center m-1">                   
                     <div class="col-sm-2">
-                        <label for="DiaChi" class="col-form-label">Địa chỉ</label>
+                        <label for="DiaChi" class="col-form-label">Địa chỉ<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                     </div>
                     <div class="input-validation col-sm-10">
                         <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
@@ -114,7 +89,7 @@
             <div class="form-horizontal form-bordered p-0">
                 <div class="form-group row">
                     <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Chuyên khoa</label>
+                        <label for="inputEmail4" class="form-label">Chuyên khoa<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                         <select id="MaCK" style="font-size: 13px;" class="form-select" asp-items="@ViewBag.ListCK">
                             <option value="">Chọn chuyên khoa</option>
                         </select>
@@ -124,7 +99,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputPassword4" class="form-label">Bác sĩ</label>
+                        <label for="inputPassword4" class="form-label">Bác sĩ<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                         <select style="font-size: 13px;" class="form-select" asp-for="MaBS">
                             <option value="">Chọn bác sĩ</option>
 
@@ -133,10 +108,7 @@
                             <span asp-validation-for="MaBS" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-12">
-                        @*<div class="col-12">
-                                <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
-                            </div>*@
+                    <div class="col-12">                       
                         <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         <div class="col-12">
                             <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 115px;"></textarea>
@@ -156,13 +128,7 @@
 
 
 <div class="col-12">
-    <div class="block">
-        @*<div class="form-group" style="float:right">
-                <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-            </div>
-            <div class="button-reload form-group" style="float:right">
-                <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
-            </div>*@
+    <div class="block">       
         <div class="d-flex justify-content-end">
             <div class="form-group">
                 <button id="btn-confirm" class="btn me-1" style="color:white;" onclick="OpenThemDichVu()">
@@ -187,15 +153,10 @@
                 </tbody>
             </table>
             <div class=" form-group mb-2 mt-5" style="text-align:right">
-                <!-- @*<button type="submit" class="btn btn-primary"><i class="far fa-credit-card "></i> Thanh toán</button>*@ -->
                 <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
             </div>
         </div>
-
-
-
-
     </div>
 </div>
 
@@ -205,24 +166,17 @@
 <div id="myModal" class="modal fade" style="overflow-x: hidden;">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">
-
-            @*<div class="modal-header">
-
-                    <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-                </div>*@
+        <div class="modal-content">           
             <div class="modal-body">
 
                 <div id="myModalContent">
 
                 </div>
             </div>
-
-
             <div class="modal-footer">
                 <div class="text-right">
 
-                    <button type="button" id="btCheckOut" @*onclick="ThanhToan()"*@ class="btn"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
+                    <button type="button" id="btCheckOut" class="btn"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
 
                     <button type="button" class="btn btn-danger" style="background-color: rgb(250, 79, 79)" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
@@ -235,18 +189,12 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
-            @*<div class="modal-header">
-
-                    <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
-                </div>*@
             <div class="modal-body">
 
                 <div id="myModalContent">
                     <partial name="_AddDichVu" model="@ViewBag.ListDV" />
                 </div>
             </div>
-
-
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
@@ -269,8 +217,6 @@
             <div class="modal-body" id="myModalContentQrCode">
 
             </div>
-
-
             <div class="modal-footer">
                 <div class="text-right">
                     <button type="button" class="btn btn-primary" onclick="XacNhanQRCode()"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Xác nhận</button>
@@ -304,11 +250,6 @@
                         $('#GioiTinh').prop("selectedIndex", 1)
                     }
                     $("#MaBN").val(data.MaBN);
-
-
-
-
-
                 }
                 else {
                     $("#HoTen").val("");
@@ -321,10 +262,7 @@
                 }
             });
 
-        });
-
-        
-
+        });      
     });
 
     
@@ -333,19 +271,10 @@
 
 
     <script>
-
-
-
         function OpenThemDichVu() {
-
-
             $('#modalDV').modal('show');
             $('#btSave').show();
-
-
-
         }
-
         ////Hàm mở modal của Partial ScanQR
         function OpenScanner() {
             $.ajax({
@@ -362,27 +291,13 @@
         }
 
         function Refresh() {
-
-
-
-
             $("#listDV > tr").each(function (i) {
                 $tr = $(this)
-
-
                 var $td = $tr.find("td");
-
-
-
                 $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6" >${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2" style ="text-aline: center;" ><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
-
-
-
                 $tr.remove();
             });
-
         }
-
         //Hàm mở modal của nút xác nhận
         function OpenXacNhanDV() {
 
@@ -401,12 +316,8 @@
                 $.ajax({
                     url: "/TiepNhan/XacNhanDichVu/",
                     type: 'POST',
-
-
                     async: true,
                     data: obj,
-
-
                     success: function (response) {
                         if (response.status == -2) {
                             toastr.warning(response.text)
@@ -422,11 +333,7 @@
                 });
             }
 
-
-
         }
-
-
 
         $("#btCheckOut").click(function () {
 
@@ -457,7 +364,6 @@
 
                 },
                 error: function (errormessage) {
-                    //alert(errormessage.responseText);
                     $(this).prop("disabled", false);
 
                     $(this).html(
@@ -468,33 +374,7 @@
                 }
             });
 
-
-        });
-        //function ThanhToan() {
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/TiepNhan/FinalCheckOut/",
-        //        data: obj,
-        //        success: function (result) {
-        //            $('#preloader-wrapper').toggleClass('hide');
-        //            if (result.status >= 1) {
-
-        //                toastr.success(result.text);
-        //                window.location.href = result.redirectUrL;
-        //            }
-        //            else {
-        //                toastr.warning(result.text);
-
-        //            }
-        //        },
-        //        error: function (errormessage) {
-        //            alert(errormessage.responseText);
-        //        },
-        //        failure: function (message) {
-        //            $('#preloader-wrapper').toggleClass('hide');
-        //        }
-        //    });
-        //}
+        });        
         $("#MaCK").change(function () {
 
             var id = $(this).val();
@@ -510,12 +390,10 @@
 
         });
 
-
-
         $(document).on('click', '.remove', function () {
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
+            $("#table_dichvu > tbody").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td class="text-center"><button class="btn btn-success btn-sm addDV"><i class="fa fa-plus" aria-hidden="true"></i></button></td></tr>`);
             $tr.remove();
 
         });
@@ -527,11 +405,28 @@
             $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalServer")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
 
-
-
-
-
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+        connection.onclose(async () => {
+            await start();
+        });
+        // Start the connection.
+        start();
+        connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
+            toastr.success("Có một lịch đặt mới");
+            
+        });
     </script>
-
 }

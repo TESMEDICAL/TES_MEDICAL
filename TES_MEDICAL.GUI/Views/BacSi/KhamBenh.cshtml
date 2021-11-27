@@ -113,13 +113,13 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-4">
-                        <label class="col-md-5 control-label" for="example-textarea-input">Mạch</label>
+                        <label class="col-md-5 control-label" for="example-textarea-input">Mạch<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                         <div class="col-md-10">
                             <input type="text" asp-for="Mach" class="form-control" placeholder="Vui lòng nhập mạch">
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <label class="col-md-5 control-label" for="example-textarea-input">Huyết áp</label>
+                        <label class="col-md-5 control-label" for="example-textarea-input">Huyết áp<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                         <div class="col-md-10">
                             <input type="text" asp-for="HuyetAp" class="form-control" placeholder="Vui lòng nhập huyết áp">
                         </div>
@@ -168,7 +168,7 @@
                     <div class="col-sm-7">
                         <div class="row">
                             <div class="col-sm-12" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán</label>
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
                                 <div class="col-md-11">
                                     <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
                                 </div>
@@ -584,8 +584,11 @@
             });
 
         function addTrieuChung(name) {
-            $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
-            $('#trieuchungauto').val("");
+            if (name) {
+                $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+                $('#trieuchungauto').val("");
+            }
+            
         }
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
@@ -964,6 +967,38 @@
                 }
             });
         }
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/PhieuKham")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+
+        // Start the connection.
+        start();
+
+        connection.on("SentDocTor", (id) => {
+
+            if (Clienid == id) {
+
+                toastr.success("Có một bệnh nhân mới");
+               
+            }
+        });
 
     </script>
 }

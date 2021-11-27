@@ -13,7 +13,6 @@ namespace TES_MEDICAL.GUI.Models
             HoaDon = new HashSet<HoaDon>();
            
         }
-
         public Guid MaPK { get; set; }
         public string MaBS { get; set; }
         public Guid MaBN { get; set; }

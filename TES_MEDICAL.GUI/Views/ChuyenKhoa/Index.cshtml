@@ -78,7 +78,7 @@
                 <div class="header-input-1 col-7">
                     @Html.EditorFor(model => model.TenCKSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập thông tin cần tìm ..." } })
                 </div>
-                
+
             </div>
             <div class="header-modal-right col-sm-4 row">
                 <div class="header-btn col-7">
@@ -87,7 +87,7 @@
                 <div class="header-btn col-5">
                     <button type="button" class="btn" onclick="Clear()" id="btSeach"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Làm mới</button>
                 </div>
-            </div>  
+            </div>
         }
     </div>
     <div id="nameListContainer" class="mt-4" style="margin-inline: 15px;">
@@ -125,10 +125,10 @@
 
     </div>
 </div>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial2"); }
 
+@section Scripts{
 
-@section scripts{
-   
     <script>
 
         var $id = "";
@@ -166,7 +166,7 @@
                                 else {
                                     $myModalContent.html(result);
                                 }
-                             
+
                             },
                             error: function (errormessage) {
                                 alert(errormessage.responseText);
@@ -185,7 +185,7 @@
                         var obj = $("#frm").serialize();
                         $.ajax({
                             type: "POST",
-                            url: "/ChuyenKhoa/Edit", 
+                            url: "/ChuyenKhoa/Edit",
                             data: obj,
                             success: function (result) {
                                 $('#preloader-box').toggleClass('hide');
@@ -224,7 +224,7 @@
 
 
 
-        });
+            });
 
 
 
@@ -322,36 +322,36 @@
 
 
         $("#TenCKSearch").keyup(function () {
-          
-                obj = {};
 
-                obj.TenCKSearch = $(this).val()
+            obj = {};
 
-                obj.page = 1;
-                $.ajax({
-                    url: '/ChuyenKhoa/PageList/',
+            obj.TenCKSearch = $(this).val()
 
-                    type: "Get",
+            obj.page = 1;
+            $.ajax({
+                url: '/ChuyenKhoa/PageList/',
+
+                type: "Get",
 
 
-                    data: obj,
+                data: obj,
 
-                    success: function (result) {
+                success: function (result) {
 
-                        if (result.status != 2) {
-                           
+                    if (result.status != 2) {
 
-                            $('#nameListContainer').html(result);
-                        }
 
                         $('#nameListContainer').html(result);
-                    },
-
-                    failure: function (message) {
-                        $('#preloader-box').toggleClass('hide');
                     }
-                });
-            
+
+                    $('#nameListContainer').html(result);
+                },
+
+                failure: function (message) {
+                    $('#preloader-box').toggleClass('hide');
+                }
+            });
+
 
 
 
@@ -359,42 +359,7 @@
 
 
 
-        function Timkiem() {
 
-
-            $.ajax({
-                url: '/ChuyenKhoa/PageList/',
-
-                type: "Get",
-                timeout: 20000,
-                async: false,
-                data: $("#frmSearch").serialize(),
-
-
-                success: function (result) {
-
-
-                    if (result.status == -2) {
-                        toastr.success(result.text);
-
-                    }
-                    else {
-
-                        $('#nameListContainer').html(result);
-                    }
-
-
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-
-
-                failure: function (message) {
-                    $('#preloader-box').toggleClass('hide');
-                }
-            });
-        }
 
         function Clear() {
 

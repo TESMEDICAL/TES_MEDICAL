@@ -88,7 +88,7 @@ namespace TES_MEDICAL.GUI.Migrations
                 {
                     MaPhieu = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SDT = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false),
-                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     TenBN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NgaySinh = table.Column<DateTime>(type: "datetime", nullable: false),
                     NgayKham = table.Column<DateTime>(type: "datetime", nullable: false)
@@ -131,12 +131,12 @@ namespace TES_MEDICAL.GUI.Migrations
                 name: "TrieuChung",
                 columns: table => new
                 {
-                    TenTrieuChung = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TenTrieuChungKhongDau = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                    MatrieuChung = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenTrieuChung = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__TrieuChu__38C0D567B7BAD8FD", x => x.TenTrieuChung);
+                    table.PrimaryKey("PK__TrieuChu__18521B702BAAC1B3", x => x.MatrieuChung);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,6 +190,7 @@ namespace TES_MEDICAL.GUI.Migrations
                     TrangThai = table.Column<bool>(type: "bit", nullable: false),
                     Hinh = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     ChuyenKhoa = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -221,11 +222,13 @@ namespace TES_MEDICAL.GUI.Migrations
                 columns: table => new
                 {
                     MaBaiViet = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Hinh = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TieuDe = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrangThai = table.Column<bool>(type: "bit", nullable: false),
                     MaNguoiViet = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MaTL = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    MaTL = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ThoiGian = table.Column<DateTime>(type: "DateTime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -241,7 +244,7 @@ namespace TES_MEDICAL.GUI.Migrations
                         column: x => x.MaTL,
                         principalTable: "TheLoai",
                         principalColumn: "MaTL",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,23 +252,22 @@ namespace TES_MEDICAL.GUI.Migrations
                 columns: table => new
                 {
                     MaBenh = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenTrieuChung = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ChiTietTrieuChung = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    MaTrieuChung = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("cttc_pk", x => new { x.MaBenh, x.TenTrieuChung });
+                    table.PrimaryKey("PK__CTTrieuC__E45FC2F731FF98AB", x => new { x.MaBenh, x.MaTrieuChung });
                     table.ForeignKey(
-                        name: "FK__CTTrieuCh__MaBen__4316F928",
+                        name: "FK__CTTrieuCh__MaBen__19DFD96B",
                         column: x => x.MaBenh,
                         principalTable: "Benh",
                         principalColumn: "MaBenh",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK__CTTrieuCh__TenTr__440B1D61",
-                        column: x => x.TenTrieuChung,
+                        name: "FK__CTTrieuCh__MaTri__1AD3FDA4",
+                        column: x => x.MaTrieuChung,
                         principalTable: "TrieuChung",
-                        principalColumn: "TenTrieuChung",
+                        principalColumn: "MatrieuChung",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -359,7 +361,7 @@ namespace TES_MEDICAL.GUI.Migrations
                 columns: table => new
                 {
                     MaPK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MaBS = table.Column<string>(type: "varchar(50)", nullable: true),
+                    MaBS = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     MaBN = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Mach = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     NhietDo = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true),
@@ -368,7 +370,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     KetQuaKham = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ChanDoan = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NgayKham = table.Column<DateTime>(type: "datetime", nullable: false),
-                    NgayTaiKham = table.Column<DateTime>(type: "datetime", nullable: true)
+                    NgayTaiKham = table.Column<DateTime>(type: "datetime", nullable: true),
+                    TrangThai = table.Column<byte>(type: "tinyint", nullable: false, defaultValueSql: "(CONVERT([tinyint],(0)))"),
+                    MaBenh = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -385,29 +389,11 @@ namespace TES_MEDICAL.GUI.Migrations
                         principalTable: "NhanVienYTe",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChiTietDV",
-                columns: table => new
-                {
-                    MaPhieuKham = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MaDV = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_ctdv", x => new { x.MaPhieuKham, x.MaDV });
                     table.ForeignKey(
-                        name: "FK__ChiTietDV__MaDV__5812160E",
-                        column: x => x.MaDV,
-                        principalTable: "DichVu",
-                        principalColumn: "MaDV",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK__ChiTietDV__MaPhi__571DF1D5",
-                        column: x => x.MaPhieuKham,
-                        principalTable: "PhieuKham",
-                        principalColumn: "MaPK",
+                        name: "FK_PhieuKham_MaBenh",
+                        column: x => x.MaBenh,
+                        principalTable: "Benh",
+                        principalColumn: "MaBenh",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -437,7 +423,7 @@ namespace TES_MEDICAL.GUI.Migrations
                 {
                     MaHoaDon = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
                     MaPK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MaNV = table.Column<string>(type: "varchar(50)", nullable: true),
+                    MaNV = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     NgayHD = table.Column<DateTime>(type: "datetime", nullable: false),
                     TongTien = table.Column<decimal>(type: "money", nullable: true)
                 },
@@ -464,7 +450,8 @@ namespace TES_MEDICAL.GUI.Migrations
                 {
                     MaPhieuKham = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     STT = table.Column<int>(type: "int", nullable: false),
-                    MaUuTien = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
+                    MaUuTien = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    TrangThai = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -496,13 +483,45 @@ namespace TES_MEDICAL.GUI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChiTietDV",
+                columns: table => new
+                {
+                    MaHD = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: false),
+                    MaDV = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DonGiaDV = table.Column<decimal>(type: "money", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__ChiTietD__4557FE8526B532A5", x => new { x.MaHD, x.MaDV });
+                    table.ForeignKey(
+                        name: "FK__ChiTietDV__MaDV__40058253",
+                        column: x => x.MaDV,
+                        principalTable: "DichVu",
+                        principalColumn: "MaDV",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__ChiTietDV__MaHD__3F115E1A",
+                        column: x => x.MaHD,
+                        principalTable: "HoaDon",
+                        principalColumn: "MaHoaDon",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ChiTietToaThuoc",
                 columns: table => new
                 {
                     MaPK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MaThuoc = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
-                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DonGiaThuoc = table.Column<decimal>(type: "money", nullable: true),
+                    LanTrongNgay = table.Column<int>(type: "int", nullable: false),
+                    VienMoiLan = table.Column<int>(type: "int", nullable: false),
+                    TruocKhian = table.Column<bool>(type: "bit", nullable: false),
+                    Sang = table.Column<bool>(type: "bit", nullable: false),
+                    Trua = table.Column<bool>(type: "bit", nullable: false),
+                    Chieu = table.Column<bool>(type: "bit", nullable: false),
+                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -615,9 +634,9 @@ namespace TES_MEDICAL.GUI.Migrations
                 column: "MaThuoc");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CTTrieuChung_TenTrieuChung",
+                name: "IX_CTTrieuChung_MaTrieuChung",
                 table: "CTTrieuChung",
-                column: "TenTrieuChung");
+                column: "MaTrieuChung");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HoaDon_MaNV",
@@ -658,6 +677,11 @@ namespace TES_MEDICAL.GUI.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PhieuKham_MaBenh",
+                table: "PhieuKham",
+                column: "MaBenh");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PhieuKham_MaBN",
                 table: "PhieuKham",
                 column: "MaBN");
@@ -676,6 +700,13 @@ namespace TES_MEDICAL.GUI.Migrations
                 name: "IX_TinTuc_MaTL",
                 table: "TinTuc",
                 column: "MaTL");
+
+            migrationBuilder.CreateIndex(
+                name: "UQ__TrieuChu__38C0D5667814C499",
+                table: "TrieuChung",
+                column: "TenTrieuChung",
+                unique: true,
+                filter: "[TenTrieuChung] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -708,9 +739,6 @@ namespace TES_MEDICAL.GUI.Migrations
                 name: "CTTrieuChung");
 
             migrationBuilder.DropTable(
-                name: "HoaDon");
-
-            migrationBuilder.DropTable(
                 name: "HoaDonThuoc");
 
             migrationBuilder.DropTable(
@@ -732,10 +760,10 @@ namespace TES_MEDICAL.GUI.Migrations
                 name: "DichVu");
 
             migrationBuilder.DropTable(
-                name: "Thuoc");
+                name: "HoaDon");
 
             migrationBuilder.DropTable(
-                name: "Benh");
+                name: "Thuoc");
 
             migrationBuilder.DropTable(
                 name: "TrieuChung");
@@ -757,6 +785,9 @@ namespace TES_MEDICAL.GUI.Migrations
 
             migrationBuilder.DropTable(
                 name: "NhanVienYTe");
+
+            migrationBuilder.DropTable(
+                name: "Benh");
 
             migrationBuilder.DropTable(
                 name: "ChuyenKhoa");

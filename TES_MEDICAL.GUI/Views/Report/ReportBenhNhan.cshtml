@@ -118,7 +118,7 @@
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -130,17 +130,11 @@
 
 
 <script>
-        $(".table").hide();
-        
-
-        
-
+        $(".table").hide();              
         /*Auto display thống kế*/
         $(document).ready(function () {
             $("#reportLuotKham").trigger('click');
         });
-
-
     function ReportLuotKham() {
         $.ajax({
             url: "/Report/ThongKeLuotKham",

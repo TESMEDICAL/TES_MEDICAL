@@ -102,7 +102,7 @@
             }
 
 
-            @Html.PagedListPager((IPagedList<Benh>)ViewBag.Names, page => Url.Action("PageList", new { page, TenBenhSearch = searchModel.TenBenhSearch, ThongTinSearch = searchModel.ThongTinSearch }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+            @Html.PagedListPager((IPagedList<Benh>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWord = searchModel.KeyWord }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
         </div>
     </div>
 </div>

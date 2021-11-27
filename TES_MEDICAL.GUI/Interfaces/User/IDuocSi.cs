@@ -11,15 +11,10 @@ namespace TES_MEDICAL.GUI.Interfaces
     public interface IDuocSi
     {
         Task<IPagedList<ToaThuoc>> SearchToaThuoc(ToaThuocSearchModel model);
-
         Task<ToaThuoc> GetToaThuocByMaPhieu(Guid MaPhieu);
-
         Task <IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu);
-
         Task<STTTOATHUOC> ChangeSoUuTien(Guid maPK);
-
         Task<ToaThuoc> ThanhToanThuoc(Guid maPK,string MaNV);
-
         Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK);
     }
 }

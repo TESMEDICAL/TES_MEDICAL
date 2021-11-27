@@ -89,8 +89,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
-                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model));
-
+                    if (model.Email != null)
+                    {
+                        Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
+                    }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
@@ -172,9 +174,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
-        {
+        {           
             var model = await _service.GetPhieuDat(MaPhieu);
-            return View(model);
+            if (model != null)
+            {
+                return View(model);
+            }                        
+            return RedirectToAction("DatLichError", "Home");
+        }
+
+        public IActionResult DatLichError()
+        {
+            return View();
         }
 
         public IActionResult LichSuDatLich()

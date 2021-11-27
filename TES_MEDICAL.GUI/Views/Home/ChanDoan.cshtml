@@ -211,7 +211,7 @@
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
                             <div class="test-foot-btn p-2 bd-highlight">
-                                <button style="margin-right: 68px;" onclick="GetTrieuChungNew()">Tiếp theo</button>
+                                <button style="margin-right: 68px;" onclick="GetTrieuChungNew()" id="btNext" disabled>Tiếp theo</button>
                             </div>
                         </div>
                     </div>
@@ -226,12 +226,12 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 68px;" onclick="FinalCheck()">Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 68px;" onclick="FinalCheck()" id="btFinal">Hoàn tất</button></div>
                         </div>
                     </div>
                     <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingResult"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
                     <div class="test-result border" id="ResultContent">
-                        <div class="test-head d-flex justify-content-start" style="height: 50px;">
+                        <div class="test-head d-flex justify-content-start" style="height: 50px;"> 
                             <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả: </p></div>
                         </div>
                         <div class="result-body row" style="padding: 10px 90px 20px 90px;">
@@ -343,16 +343,24 @@
                     }
                 });
 
+
                 $('#trieuchungauto').on("keyup", function (e) {
                     if (e.keyCode == 13) {
                         addTrieuChung($(this).val());
                         $(this).val("");
+                        if ($('.trieuChungOld').length > 0) {
+                            $('#btNext').prop('disabled', false);
+                        }
+                        else {
+                            $('#btNext').prop('disabled', true);
+                        }
                     }
                 });
 
 
 
             });
+
 
         function addTrieuChung(name) {
             $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
@@ -366,15 +374,21 @@
 
 
 
+
         $(document).on('click', '.remove', function () {
             $(this).parent().remove();
-
+           
 
         });
 
         $(document).on('click', '.removeTC', function () {
             $(this).parent().parent().remove();
-
+            if ($('.trieuChungOld').length > 0) {
+                $('#btNext').prop('disabled', false);
+            }
+            else {
+                $('#btNext').prop('disabled', true);
+            }
 
         });
 
@@ -409,14 +423,23 @@
                 success: function (response) {
                     $('#ResultTCNew').fadeIn('slow');
                     $('#LoadingTCNew').hide();
-
-                    response.forEach(function (item) {
-                        $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
+                    if (response.leight > 0) {
+                        btFinal
+                        response.forEach(function (item) {
+                            $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
                                             <label class="checkbox-inline" style="font-size: 20px;">
                                                 <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
                                             </label>
                                         </div>`)
-                    });
+                        });
+                    }
+                    else {
+                        $('#ListTrieuChungNew').append(`<h3 class="row text-center" >
+                                           Không có kết quả
+                                        </h3>`)
+                    }
+
+                   
 
                 }
             });

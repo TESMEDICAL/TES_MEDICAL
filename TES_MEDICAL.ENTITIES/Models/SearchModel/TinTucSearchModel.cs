@@ -16,7 +16,7 @@ namespace TES_MEDICAL.GUI.Models
         TrangThaiSearch{ get; set; }
         public  Guid? 
         MaTLSearch{ get; set; }
-             }
     }
+}
 
 

@@ -9,7 +9,6 @@ namespace TES_MEDICAL.ENTITIES.Models.SearchModel
     public class ToaThuocSearchModel
     {
         public int? Page { get; set; }
-       
         public String KeywordSearch { get; set; }
         public byte TrangThai { get; set; }
         public byte TrangThaiPK { get; set; }
