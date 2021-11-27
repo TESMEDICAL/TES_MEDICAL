@@ -299,7 +299,7 @@ namespace TES_MEDICAL.GUI.Controllers
         /// QR CODE
         /// </summary>
         /// <returns></returns>
-        public IActionResult ViewQRCode()
+        public IActionResult QRCodeSample()
         {
             return View("QRCodeSample");
         }

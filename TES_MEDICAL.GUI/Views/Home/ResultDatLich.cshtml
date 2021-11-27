@@ -45,7 +45,9 @@
                                 <h6 class="section-subtitle ltn__secondary-color">Hello, @Model.TenBN</h6>
                                 <h1 class="section-title white-color" style="font-size:50px">Bạn đã đặt lịch thành công</h1>
                                 <h2 class="section-title white-color" style="font-size:50px">Mã đặt lịch <span style="color: yellow;">@Model.MaPhieu</span><br> Vui lòng lưu mã để tiện theo dõi</h2>
-                                <div id="qrcode" style="width:135px; margin:0 auto; padding:5px; background-color:white;" ></div>
+                                @*<div id="qrcode" style="width:135px; margin:0 auto; background-color:white; border:3px solid white" ></div>*@
+                                <img id="qrcode">
+                                <div><a href="dataQrCode" target="_blank" download="qrcodeDownLoad.png">Download</a></div>
                                 <br />
                                 <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
                             </div>
@@ -83,7 +85,7 @@
     <script src="~/GuestElement/js/main.js"></script>
 
     <!--QRCODE-->
-    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
     <script>
         const qrcode = new QRCode(document.getElementById('qrcode'), {
@@ -94,6 +96,70 @@
             colorLight: '#fff',
             correctLevel: QRCode.CorrectLevel.H
         });
+
+        var dataQrCode = document.getElementById('qrcode').toDataURL();
+        console.log(document.getElementById('qrcode'));
+    </script>*@
+    <script src="~/js/qrious.js"></script>
+    <script>
+        (function() {
+    var $background = document.querySelector('main form [name="background"]');
+    var $backgroundAlpha = document.querySelector('main form [name="backgroundAlpha"]');
+    var $foreground = document.querySelector('main form [name="foreground"]');
+    var $foregroundAlpha = document.querySelector('main form [name="foregroundAlpha"]');
+    var $level = document.querySelector('main form [name="level"]');
+    var $section = document.querySelector('main section');
+    var $padding = document.querySelector('main form [name="padding"]');
+    var $size = document.querySelector('main form [name="size"]');
+    var $value = document.querySelector('main form [name="value"]');
+
+    var qr = window.qr = new QRious({
+      element: document.getElementById('qrcode'),
+        size: 250,
+        value: '@Model.MaPhieu'
+    });
+
+    $background.addEventListener('change', function() {
+      qr.background = $background.value || null;
+    });
+
+    $backgroundAlpha.addEventListener('change', function() {
+      qr.backgroundAlpha = $backgroundAlpha.value || null;
+    });
+
+    $foreground.addEventListener('change', function() {
+      qr.foreground = $foreground.value || null;
+    });
+
+    $foregroundAlpha.addEventListener('change', function() {
+      qr.foregroundAlpha = $foregroundAlpha.value || null;
+    });
+
+    $level.addEventListener('change', function() {
+      qr.level = $level.value;
+    });
+
+    $padding.addEventListener('change', function() {
+      if ($padding.validity.valid) {
+        qr.padding = $padding.value !== '' ? $padding.value : null;
+      }
+    });
+
+    $size.addEventListener('change', function() {
+      if (!$size.validity.valid) {
+        return;
+      }
+
+      qr.size = $size.value || null;
+
+      $section.style.minWidth = qr.size + 'px';
+    });
+
+    $value.value = 'QRious';
+    $value.addEventListener('input', function() {
+      qr.value = $value.value;
+    });
+  })();
     </script>
 
 </body>
