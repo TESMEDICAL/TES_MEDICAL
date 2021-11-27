@@ -144,7 +144,7 @@
                 </div>
             </div>
             <br /><br />
-            <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+            @*<div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
@@ -159,7 +159,7 @@
                                 <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
-                        
+
                         <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
                             <ul class="symptom-list mt-2" id="ListTrieuChung">
                             </ul>
@@ -188,7 +188,58 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>*@
+            // DEMO
+            <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
+                <div class="block-title">
+                    <h2><strong>Thông tin khám bệnh</strong></h2>
+                </div>
+                <div class="row">
+                    <!--Vòng lập bắt đầu-->
+                    <div class="row col-12 mb-3" style="padding-inline: 38px;">
+                        <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                        <div class="col-sm-6 row">
+                            <div class="col-sm-10 pe-0 me-0">
+                                <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                            </div>
+                            <div class="button-reload col-sm-2 text-end">
+                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-inline: 38px; margin-top: -25px;">
+                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                            </div>
+                        </div>
+                        <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
+                            <ul class="symptom-list mt-2" id="ListTrieuChung">
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Vòng lặp kết thúc-->
 
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="button-reload col-sm-4">
+                                <button class="btn border-0" style="color: white; margin: 40px 0px 0px 25px;"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</button>
+                            </div>
+                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                                <div class="col-md-10">
+                                    <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                                <div class="col-md-10">
+                                    <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,11 +256,11 @@
             </div>
             <div class="form-group collapse mt-3 table-bordered" id="LichSuKham" style="margin-inline: 20px;">
                 <table class="table table-bordered">
-                        <tr id="table-header" class="text-light">
-                            <th class="col-4 text-center">Ngày khám</th>
-                            <th class="col-4 text-center">Chẩn đoán</th>
-                            <th class="col-4 text-center">Thao tác</th>
-                        </tr>
+                    <tr id="table-header" class="text-light">
+                        <th class="col-4 text-center">Ngày khám</th>
+                        <th class="col-4 text-center">Chẩn đoán</th>
+                        <th class="col-4 text-center">Thao tác</th>
+                    </tr>
                     <tbody>
                         @{
                             var LichSu = ViewBag.LichSuKham as IEnumerable<PhieuKham>;
@@ -258,10 +309,10 @@
             </div>
             <div class="form-group mt-3" style="margin-inline: 20px;">
                 <table class="table table-bordered">
-                        <tr id="table-header" class="text-light">
-                            <th class="col-8">Tên thuốc</th>
-                            <th class="col-4 text-center">Số lượng</th>
-                        </tr>
+                    <tr id="table-header" class="text-light">
+                        <th class="col-8">Tên thuốc</th>
+                        <th class="col-4 text-center">Số lượng</th>
+                    </tr>
                     <tbody id="toathuocFinal">
                     </tbody>
                 </table>
