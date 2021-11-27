@@ -75,8 +75,15 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> DeletePhieuDatLich(string MaPhieu)
         {
-            await _service.DeletePhieuDatLichById(MaPhieu);
-            return Ok();
+            var result = await _service.DeletePhieuDatLichById(MaPhieu);
+
+            if (result == true)
+            {
+                return Json(new { status = 1, title = "", text = "Xóa thành công.", obj = "" }, new JsonSerializerSettings());
+            }
+
+            else
+                return Json(new { status = -2, title = "", text = "Xóa không thành công", obj = "" }, new JsonSerializerSettings());
         }
 
         public async Task<JsonResult> DocTor_Bind(Guid MaCK)
