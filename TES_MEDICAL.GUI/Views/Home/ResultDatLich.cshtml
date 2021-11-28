@@ -46,8 +46,8 @@
                                 <h1 class="section-title white-color" style="font-size:50px">Bạn đã đặt lịch thành công</h1>
                                 <h2 class="section-title white-color" style="font-size:50px">Mã đặt lịch <span style="color: yellow;">@Model.MaPhieu</span><br> Vui lòng lưu mã để tiện theo dõi</h2>
                                 @*<div id="qrcode" style="width:135px; margin:0 auto; background-color:white; border:3px solid white" ></div>*@
-                                <img id="qrcode">
-                                <div><a href="dataQrCode" target="_blank" download="qrcodeDownLoad.png">Download</a></div>
+                            <canvas id="qrcode"></canvas>
+                                <div><a class="btn btn-primary" onclick="downloadQR()">Tải QRCode</a></div>
                                 <br />
                                 <h5 class="ltn__secondary-color">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</h5>
                             </div>
@@ -85,21 +85,6 @@
     <script src="~/GuestElement/js/main.js"></script>
 
     <!--QRCODE-->
-    @*<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
-
-    <script>
-        const qrcode = new QRCode(document.getElementById('qrcode'), {
-            text: '@Model.MaPhieu',
-            width: 128,
-            height: 128,
-            colorDark: '#000',
-            colorLight: '#fff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-
-        var dataQrCode = document.getElementById('qrcode').toDataURL();
-        console.log(document.getElementById('qrcode'));
-    </script>*@
     <script src="~/js/qrious.js"></script>
     <script>
         (function() {
@@ -159,7 +144,14 @@
     $value.addEventListener('input', function() {
       qr.value = $value.value;
     });
-  })();
+        })();
+
+        function downloadQR() {
+            var link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = document.getElementById('qrcode').toDataURL()
+            link.click();
+        }
     </script>
 
 </body>
