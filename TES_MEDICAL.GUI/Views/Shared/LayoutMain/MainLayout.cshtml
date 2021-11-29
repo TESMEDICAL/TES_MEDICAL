@@ -467,9 +467,10 @@
                                 <!-- Top Stats -->
                                 <div class="header-text-right">
                                     <h2 class="animation-hatch">
-                                        <strong>27&deg; C</strong><br>
-                                        <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
+                                        <strong id="DoC"></strong><br>
+                                        <small id="locationMain"><i class="fa fa-map-marker"></i></small>
                                     </h2>
+                                    <button onclick="getLocation()" id="btThoiTiet" class="display-none">Try It</button>
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
@@ -579,6 +580,28 @@
             e.target.className = "active";
         }
 
+        //Hàm get vị trí 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function showPosition(position) {
+            console.log(position.coords.latitude, position.coords.longitude);
+            LoadThoiTiet(position.coords.latitude, position.coords.longitude);
+        }
+
+        $(document).ready(
+            function () {
+                             
+                $("#btThoiTiet").trigger('click');
+            });
+
+        
+
         //Hàm load hình
         $('#upload-back').change(function (e) {
             var self = this;
@@ -593,6 +616,24 @@
             reader.readAsDataURL(file);
 
         });
+
+        //Load thời tiết
+        function LoadThoiTiet(lat,lon) {
+            $.ajax({
+                url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=1f8c83dd8445415660abe62e1f2dd416`,
+                type: "Get",
+                timeout: 20000,
+                data: JSON,
+                async: true,
+                success: function (result) {
+                    console.log(result);
+                    $('#DoC').html(Math.ceil(result.main.temp - 273.15) + '&deg;C');
+                    $('#locationMain').html(result.name);
+          
+                }
+            });
+        }
+
 
         //Hàm open modal ChangePass
         function OpenChangePass() {

@@ -63,8 +63,7 @@ namespace TES_MEDICAL.GUI.Controllers
             if (!string.IsNullOrWhiteSpace(MaPhieu))
             {
 
-                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
-                await _service.DeletePhieuDatLichById(MaPhieu);
+                var phieuKham = new PhieuKhamViewModel {MaPhieuDatLich = MaPhieu, HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
                 return View(phieuKham);
 
             }
@@ -173,14 +172,16 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             model.MaNVHD = (await _userManager.GetUserAsync(User)).Id;
             var result = await _service.CreatePK(model);
+            
 
             if (result != null)
             {
                 var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
                 await _hubContext.Clients.All.SendAsync("SentDocTor", model.MaBS);
 
-
+                await _service.DeletePhieuDatLichById(model.MaPhieuDatLich);
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
+                
             }
 
             else

@@ -15,6 +15,7 @@
             </div>
             <input style="display:none" name="MaBN" id="MaBN" />
             @Html.HiddenFor(model => model.UuTien)
+            @Html.HiddenFor(model =>model.MaPhieuDatLich)
 
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
@@ -153,8 +154,7 @@
                 </tbody>
             </table>
             <div class=" form-group mb-2 mt-5" style="text-align:right">
-                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
-                <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>               
             </div>
         </div>
     </div>
@@ -351,8 +351,37 @@
 
                     if (result.status >= 1) {
 
-                        toastr.success(result.text);
-                        window.location.href = result.redirectUrL;
+                        //toastr.success(result.text);
+                        //window.location.href = result.redirectUrL;
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Gửi thông tin bệnh nhân thành công',
+
+                            html: '<progress value="0" max="3" id="progressBar"></progress>',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    const content = Swal.getHtmlContainer()
+                                    if (content) {
+                                        const b = content.querySelector('#progressBar')
+                                        if (b) {
+                                            b.value = 3 - Math.floor(Swal.getTimerLeft() / 1000)
+                                        }
+                                    }
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                                window.location.href = result.redirectUrL;
+                            }
+                        }).then((cf) => {
+
+                            if (cf.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = result.redirectUrL;
+                            }
+                        })
                     }
                     else {
                         toastr.warning(result.text);
@@ -427,6 +456,6 @@
         connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
             toastr.success("Có một lịch đặt mới");
             
-        });
+        });       
     </script>
 }
