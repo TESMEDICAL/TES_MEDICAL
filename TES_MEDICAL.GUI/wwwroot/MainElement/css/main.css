@@ -117,12 +117,12 @@ body {
 
 */ background-color: #344a3d;
 }
-.button-reload button{
-    background-color: seagreen;
+.button-reload button {
+    background-color: #27AE60;
     color: white;
 }
 .button-reload a {
-    background-color: seagreen;
+    background-color: #27AE60;
     color: white;
 }
 #title-history {
@@ -132,9 +132,20 @@ body {
 #title-border {
     border: 1px solid #27ae60;
 }
-#btCheckOut, #btnUpdate {
-    background-color: seagreen;
+#btCheckOut,
+#btn-confirm,
+#btnUpdate,
+#btSave,
+#btnAddDV,
+#btnAddThuoc,
+#btUse,
+#btSend {
+    background-color: #27AE60;
     color: white;
+}
+#TongTien h4 {
+    font-weight: bold;
+    color: #27AE60;
 }
 #sidebar,
 #sidebar-alt {

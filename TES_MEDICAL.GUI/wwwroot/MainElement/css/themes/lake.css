@@ -25,7 +25,7 @@ li.dropdown-header,
 .table-pricing.table-featured td,
 .table-pricing td.table-featured,
 .themed-background-dark {
-    background-color: #043e50;
+    background-color: #023e8a;
 }
 
 .themed-border-dark {
@@ -39,7 +39,7 @@ header.navbar-inverse.navbar-fixed-bottom {
 header.navbar-inverse.navbar-fixed-top,
 .table-pricing.table-featured th,
 .table-pricing th.table-featured {
-    border-bottom-color: #043e50;
+    border-bottom-color: #0077b6;
 }
 
 .navbar.navbar-inverse {
@@ -47,22 +47,35 @@ header.navbar-inverse.navbar-fixed-top,
 }
 
 .button-reload button {
-    background: #043e50;
+    background: #00b4d8;
 }
 
 .button-reload a {
-    background: #043e50;
+    background: #00b4d8;
 }
 .content-header-media .header-section {
-    background: #043e50;
+    background: #0077b6;
 }
 #table-header {
-    background: #043e50;
+    background: #0077b6;
 }
 
-#btn-confirm, #btSeach {
-    background: rgb(0, 119, 182);
+#btn-confirm,
+#btSeach,
+#btnUpdate,
+#btSave,
+#btCheckOut,
+#btnAddDV,
+#btnAddThuoc,
+#btUse,
+#btSend {
+    background: #00b4d8;
+    color: white;
     border: none;
+}
+#TongTien h4 {
+    font-weight: bold;
+    color: #00b4d8;
 }
 #title-history {
     color: rgb(0, 119, 182);
@@ -356,7 +369,7 @@ a:focus,
     .select2-container--default .select2-results__option--highlighted[aria-selected],
     .nav-horizontal a:hover,
     .nav-horizontal li.active a {
-        background-color: rgb(0, 119, 182);
+        background-color: #0077b6;
     }
 
 .timeline-list .active .timeline-icon,
@@ -523,6 +536,6 @@ fieldset[disabled] .btn-primary.active:focus {
 @media screen and (min-width: 992px) {
     .sidebar-mini.sidebar-visible-lg-mini #sidebar .sidebar-nav .sidebar-nav-menu + ul {
         border-left-color: #e38e7b;
-        background-color: #043e50;
+        background-color: #0077b6;
     }
 }
