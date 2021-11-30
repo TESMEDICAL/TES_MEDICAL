@@ -68,6 +68,12 @@
                         @Model.NgayKham
                     </h6>
                 </div>
+                <div class="col-sm-6 mt-4 mb-3">
+                    <h6>
+                        <strong>Ghi chú</strong><br />                   
+                        @(string.IsNullOrEmpty(Model.GhiChu)?"Không có":Model.GhiChu)
+                    </h6>
+                </div>
             </div>
         </div>
     </div>
