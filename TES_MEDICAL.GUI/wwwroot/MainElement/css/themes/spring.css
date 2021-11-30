@@ -62,9 +62,30 @@ header.navbar-inverse.navbar-fixed-top,
     background-color: seagreen;
 }
 
-#btn-confirm, #btSeach {
+#btCheckOut,
+#btn-confirm,
+#btnUpdate,
+#btSave,
+#btnAddDV,
+#btnAddThuoc,
+#btUse,
+#btSend,
+#btupdate,
+#btThanhToan,
+#btXacNhan {
     background-color: #27AE60;
+    color: white;
     border: none;
+}
+
+#TongTien h4 {
+    font-weight: bold;
+    color: #27AE60;
+}
+
+#tenThuoc {
+    font-weight: bold;
+    color: #27AE60;
 }
 
 #title-history {

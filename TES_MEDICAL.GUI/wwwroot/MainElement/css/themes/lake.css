@@ -68,12 +68,19 @@ header.navbar-inverse.navbar-fixed-top,
 #btnAddDV,
 #btnAddThuoc,
 #btUse,
-#btSend {
+#btSend,
+#btupdate,
+#btThanhToan,
+#btXacNhan {
     background: #00b4d8;
     color: white;
     border: none;
 }
 #TongTien h4 {
+    font-weight: bold;
+    color: #00b4d8;
+}
+#tenThuoc {
     font-weight: bold;
     color: #00b4d8;
 }
