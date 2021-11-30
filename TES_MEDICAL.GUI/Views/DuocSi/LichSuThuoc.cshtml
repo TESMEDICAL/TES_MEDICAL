@@ -30,12 +30,12 @@
 
     
    
-    <div class="form-check mt-2 mb-3" style="float: right; margin-right: 15px;">
+    @*<div class="form-check mt-2 mb-3" style="float: right; margin-right: 15px;">
         <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
         <label class="form-check-label" for="flexCheckChecked">
             Hiện tất cả
         </label>
-    </div>
+    </div>*@
     <div id="nameListContainer">
 
         <partial name="_ListLichSu" model="@ViewBag.Names as IPagedList<ToaThuoc>" />
@@ -113,7 +113,7 @@
 
             obj.Page = page;
             obj.TrangThai = 2;
-            obj.TrangThaiPK = 2
+            obj.TrangThaiPK = 2;
             $("#TimKiem").val("");
             $.ajax({
                 url: '/DuocSi/ReloadPageLichSu/',
@@ -142,7 +142,7 @@
 
             obj.KeyWordSearch = $(this).val()
             obj.TrangThai = 2;
-
+            obj.TrangThaiPK = 2;
             obj.page = 1;
             $.ajax({
                 url: '/DuocSi/ReloadPageLichSu/',
@@ -170,7 +170,7 @@
 
 
         function Clear() {
-            ReloadPage(2);
+            ReloadPage(1);
         }
 
 

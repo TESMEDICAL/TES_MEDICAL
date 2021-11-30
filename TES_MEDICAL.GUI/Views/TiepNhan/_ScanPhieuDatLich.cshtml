@@ -56,20 +56,11 @@
         $('#SDT').val($('#SDTDatLich').val());
         $('#NgaySinh').val($('#NgaySinhDatLich').val());
         $('#UuTien').val(1);
-        $.ajax({
-            type: "POST",
-            url: "/TiepNhan/DeletePhieuDatLich/",
-            data: {
-                MaPhieu: $('#TextMaDatLich').val()
-            },
-            async: true,
-            success: function (result) {
-                $('body').removeAttr("style")
-                $('body').removeClass("modal-open")
+        $('body').removeAttr("style")
+        $('body').removeClass("modal-open")
 
-                $(".modal-backdrop").remove()
-                $('#myModalQrCode').modal('hide');
-            }
-        });
+        $(".modal-backdrop").remove()
+        $('#myModalQrCode').modal('hide');
+        $('#MaPhieuDatLich').val($('#TextMaDatLich').val());
     }
 </script>

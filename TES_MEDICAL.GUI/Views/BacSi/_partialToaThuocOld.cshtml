@@ -50,10 +50,10 @@
                             <h6 style="margin-inline: 20px; font-weight:bold;" name="TenThuoc">@item.MaThuocNavigation.TenThuoc</h6>
                             <div class="row" style="margin-inline: 20px;">
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;" value="@item.LanTrongNgay" name="LanTrongNgay"> lần.</label>
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" value="@item.LanTrongNgay" name="LanTrongNgay"> lần.</label>
                                 </div>
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;" value="@item.VienMoiLan" name="VienMoiLan"> viên.</label>
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" value="@item.VienMoiLan" name="VienMoiLan"> viên.</label>
                                 </div>
                                 <div class="form-check col-sm-4 mb-2">
                                     <input class="form-check-input" type="checkbox"  name="TruocKhian" value="" @(item.TruocKhian?"checked":"")>
@@ -83,7 +83,7 @@
                         </th>
                         <th class="col-2">
                             <div class="input-group mb-3">
-                                <input type="number" placeholder="Số lượng..." class="form-control" value="@item.SoLuong" name="SoLuong">
+                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" value="@item.SoLuong" name="SoLuong">
                             </div>
                         </th>
                         <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>

@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -204,6 +207,19 @@ namespace TES_MEDICAL.GUI.Controllers
             var request = HttpContext.Request;
             var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            string Base64 = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(model.MaPhieu, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    bitMap.Save(ms, ImageFormat.Png);
+                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());                    
+                }
+            }
+
             using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
             {
                 string readFile = reader.ReadToEnd();
@@ -212,6 +228,8 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
+                StrContent = StrContent.Replace("{Base64QR}", $"<img src='{Base64}' alt='' style='height: 150px; width: 150px' />");
+
                 return StrContent.ToString();
             }
 
