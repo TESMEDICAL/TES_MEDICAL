@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
@@ -91,7 +92,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     if (model.Email != null)
                     {
-                        Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
+                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model))); //SendMail
+
+                        th_one.Start();
+                        
                     }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
