@@ -24,5 +24,6 @@ namespace TES_MEDICAL.GUI.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 
         public DateTime? NgayKham { get; set; }   
+        public string GhiChu { get; set; }
     }
 }
