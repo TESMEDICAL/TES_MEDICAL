@@ -119,32 +119,35 @@
 
 <div class="col-12">
     <div class="block">
-        <div class="form-group" style="float:right">
-            <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()"><i class="fa fa-repeat text-white"></i>  Thêm Lại</button>
-        </div>
-        <div class="button-reload form-group" style="float:right">
-            <button class="btn me-1" style="color:white;" onclick="OpenThemDichVu()"><i class="fa fa-plus text-white"></i>  Thêm dịch vụ</button>
+        <div class="d-flex justify-content-end">
+            <div class="form-group">
+                <button id="btn-confirm" class="btn me-1" style="color:white;" onclick="OpenThemDichVu()">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Thêm dịch vụ
+                </button>
+            </div>
+            <div class="form-group">
+                <button class="btn" style="background-color: rgb(250, 79, 79); color: white; " onclick="Refresh()">
+                    <i class="fa fa-refresh" aria-hidden="true"></i> Thêm lại
+                </button>
+            </div>
         </div>
 
-        <div class="form-group">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-
-                        <th scope="col">Dịch vụ</th>
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Thao tác</th>
-                    </tr>
-                </thead>
+        <div class="form-group" style="margin-top: 20px;">
+            <table class="table table-bordered">
+                <tr id="table-header" class="text-light">
+                    <th class="col-6">Dịch vụ</th>
+                    <th class="col-4">Đơn giá</th>
+                    <th class="col-2 text-center">Thao tác</th>
+                </tr>
                 <tbody id="listDV">
                     @foreach (var item in  ViewBag.ListOld as List<ChiTietDV>)
                     {
-                        <tr><td style="display:none">@item.MaDV</td><td>@item.MaDVNavigation.TenDV</td><td>@item.MaDVNavigation.DonGia</td><td><button class="btn btn-danger btn-sm remove" disabled> <i class="fa fa-trash"></i></button></td></tr>
+                        <tr><td style="display:none">@item.MaDV</td><td class="col-6">@item.MaDVNavigation.TenDV</td><td class="col-4">@item.MaDVNavigation.DonGia</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove" disabled> <i class="fa fa-trash"></i></button></td></tr>
                     }
                 </tbody>
             </table>
             <div class=" form-group" style="text-align:right">
-                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()"><i class="fa fa-check"></i> Xác nhận</button>
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
                 <button type="reset" class="btn btn-warning" onclick=""><i class="fa fa-repeat"></i> Làm mới</button>
             </div>
         </div>
@@ -172,9 +175,9 @@
             <div class="modal-footer">
                 <div class="text-right">
 
-                    <button type="button" id="btCheckOut" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
+                    <button type="button" id="btCheckOut" class="btn"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
 
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -201,7 +204,7 @@
                 <div class="text-right">
 
 
-                    <button type="button" class="btn btn-success btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -366,7 +369,7 @@
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
 
-            $("#listDV").append(`<tr class="NewDV"><td style="display:none">${$td.eq(0).text()}</td><td>${$td.eq(1).text()}</td><td>${$td.eq(2).text()}</td><td><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
+            $("#listDV").append(`<tr class="NewDV"><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-sm remove" style="background-color: rgb(250, 79, 79); color: white;"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
     </script>

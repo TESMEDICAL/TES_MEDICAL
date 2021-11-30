@@ -46,6 +46,55 @@ header.navbar-inverse.navbar-fixed-top,
     background-color: #577162;
 }
 
+.button-reload button {
+    background-color: #27AE60;
+}
+
+.button-reload a {
+    background-color: #27AE60;
+}
+
+.content-header-media .header-section {
+    background-color: seagreen;
+}
+
+#table-header {
+    background-color: seagreen;
+}
+
+#btn-confirm, #btSeach {
+    background-color: #27AE60;
+    border: none;
+}
+
+#title-history {
+    color: #4ad66d;
+}
+
+#title-border {
+    border: 1px solid #4ad66d;
+}
+
+#tab1:hover {
+    background-color: #4ad66d;
+    color: white;
+}
+
+#tab2:hover {
+    background-color: #4ad66d;
+    color: white;
+}
+
+#tab1.active {
+    background-color: #25a244;
+    color: white;
+}
+
+#tab2.active {
+    background-color: #25a244;
+    color: white;
+}
+
 /* Main Light Colors */
 .sidebar-nav a,
 .header-section h1 i,

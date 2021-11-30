@@ -250,7 +250,7 @@
             </div>
             <div class="form-group">
                 <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                    <button style="color:white; border: none" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button style="color:white; border: none" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="fa fa-plus text-white"></i>
                         Thêm thuốc
                     </button>
@@ -272,7 +272,7 @@
         <!--Button-->
         <div class="form-group" style="text-align: right; margin-right: 10px;">
             <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
-            <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
         </div>
         <br /><br />
     </div>
@@ -311,9 +311,9 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btUse" class="btn btn-primary" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
-                    <button type="button" id="btSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
-                    <button type="button" class="btn btn-danger" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btUse" class="btn"  onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
+                    <button type="button" id="btSend" class="btn"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
+                    <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -802,7 +802,7 @@
                                 <input type="number"  placeholder="Số lượng..." class="form-control" name ="SoLuong">
                             </div>
                         </th>
-                        <th class="col-2 text-center"><button class="btn btn-danger deleteThuoc"><i class="fa fa-trash"></i></button></th>
+                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
                     </tr>
               `);
             table
@@ -814,7 +814,7 @@
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
 
-            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-sm addThuoc" id="btnAddThuoc" style="border-radius: 50%;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
 
 
             $(rowNode).find('td').eq(1).addClass('text-center');

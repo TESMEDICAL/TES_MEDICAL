@@ -178,7 +178,7 @@
 
                     <button type="button" id="btCheckOut" class="btn"><i class="fa fa-save"></i>&nbsp;Thanh Toán</button>
 
-                    <button type="button" class="btn btn-danger" style="background-color: rgb(250, 79, 79)" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -197,7 +197,7 @@
             </div>
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;"  id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -402,7 +402,7 @@
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
 
-            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove"> <i class="fa fa-trash"></i></button></td></tr>`);
+            $("#listDV").append(`<tr><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-sm remove" style="background-color: rgb(250, 79, 79); color: white;"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
         const connection = new signalR.HubConnectionBuilder()
