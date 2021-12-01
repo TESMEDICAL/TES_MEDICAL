@@ -80,6 +80,7 @@
                         <div class="input-item input-item-email">
                             <input style="color:darkslategrey" id="SDT" type="text" placeholder="Mời bạn nhập số điện thoại">
                         </div>
+                        <div class="mb-2 d-none" style="margin-top:-15px" id="textErrorSDT"><span class="text-danger">Vui lòng nhập số điện thoại</span></div>
                     </div>
                 </div>
                 <div class="btn-wrapper mt-0">
@@ -205,18 +206,23 @@
     }
 
     function GetOTP() {
-        $.ajax({
-            url: "/Home/Generate",
-            type: 'GET',
-            data: {
-                SDT: $('#SDT').val()
-            },
-            success: function (response) {
-                
-                console.log(response);
-                $('#modelOTP').modal('show');
-            }
-        });
+        if ($('#SDT').val() == '') {
+            $('#textErrorSDT').removeClass("d-none");
+        }
+        else {
+            $('#textErrorSDT').addClass("d-none");
+            $.ajax({
+                url: "/Home/Generate",
+                type: 'GET',
+                data: {
+                    SDT: $('#SDT').val()
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#modelOTP').modal('show');
+                }
+            });
+        }        
     }
 
 
