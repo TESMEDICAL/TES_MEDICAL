@@ -33,42 +33,27 @@
                 <div class="ltn__utilize-menu-head">
                     <span class="ltn__utilize-menu-title">Lịch sử khám</span>
                 </div>
+                <div class="mini-cart-product-area">          
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-header">
+                                <th class="head-item">Họ và tên</th>
+                                <th class="head-item text-center">Số điện thoại</th>
+                                <th class="head-item text-center">Ngày khám</th>
+                                <th class="head-item text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <!--Show dữ liệu lịch sử khám-->
+                        <tbody id="ShowLichSu">
 
-                <!--Tiêu Đề-->
-                <div class="mini-cart-product-area">
-                    <div class="mini-cart-item clearfix">
-                        <div class="mini-cart-info row">
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Họ và tên</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Số điện thoại</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Ngày khám</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a></a></h6>
-                            </div>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>                   
                 </div>
-
-                <!--Dữ liệu-->
-                <div class="mini-cart-product-area">
-                    <div class="mini-cart-item clearfix">
-                        <div id="ShowLichSu" class="mini-cart-info row">
-                            @*Show Lich Su*@
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
         <!-- Utilize Cart Menu End -->
     </div>
 </div>
-
+</div>
 <!-- Modal Tổng -->
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-lg">
@@ -76,8 +61,8 @@
         <div class="modal-content">
 
             <div class="modal-header">
-
-                <div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>
+                  
+                @*<div class="modal-title" style="font-size: 17px;text-transform:uppercase;color:#3c8dbc"><strong id="myModalTitle"></strong></div>*@
             </div>
             <div class="modal-body">
 
@@ -118,27 +103,17 @@
                 else {
                     JSON.parse(response).forEach(function (item) {
                         console.log(item);
-                        var stringDate = new DateTime(item.NgayKham);
-                        var dd = stringDate.getDate();
-                        var MM = stringDate.getMonth();
-                        var yyyy = stringDate.getFullYear();
-                        var hh = stringDate.getHours();
-                        var mm = stringDate.getMinutes();
-                        var ss = stringDate.getSeconds();
-                        var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
+                        var stringDate = new Date(item.NgayKham);                                                
                         $("#ShowLichSu").append(`
-                                <div class="col-sm-3">
-                                    <h6><a>${item.MaBNNavigation.HoTen}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a>${item.MaBNNavigation.SDT}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a>${stringDate.toLocaleString("es-CL")}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a id="ButtonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a></h6>
-                                </div>
+                                <tr class="table-body" style="background-color: white;">
+                                    <td class="body-item"><a>${item.MaBNNavigation.HoTen}</a></td>
+                                    <td class="body-item text-center"><a>${item.MaBNNavigation.SDT}</a></td>
+                                    <td class="body-item text-center"><a>${stringDate.toLocaleString("es-CL")}</a></td>
+                                    <td class="body-item text-center">
+                                        <a id="ButtonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a>
+                                    </td>
+                                </tr>
+                                
                     `)
                     });
                 }

@@ -1,83 +1,61 @@
 ﻿@model TES_MEDICAL.GUI.Models.PhieuKham
 
+<style>
+    .table tr td{
+        background-color: white;
+    }
+</style>
 <div class="col-10 m-auto">
-    <h4 style="text-align:center; font-weight:bold">THÔNG TIN PHIẾU KHÁM</h4>
-    <hr />
+    <h2 class="modal-title" style="text-align:center; font-weight:bold">THÔNG TIN PHIẾU KHÁM</h2>
+    <br />
     <input style="display:none" />
     <table class="table table-borderless">
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Tên bệnh nhân</td>
-                <th>@Model.MaBNNavigation.HoTen</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Số điện thoại</td>
-                <th>@Model.MaBNNavigation.SDT</th>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Ngày lập hóa đơn</td>
-                <th>@Model.NgayKham</th>
-                <td></td>
-            </tr>
-        </tbody>
+        <tr>
+            <td class="col-3">Tên bệnh nhân :</td>
+            <td class="col-9"><p style="font-weight: 600;">@Model.MaBNNavigation.HoTen</p></td>
+        </tr>
+        <tr>
+            <td class="col-3">Số điện thoại :</td>
+            <td class="col--9"><p style="font-weight: 600;">@Model.MaBNNavigation.SDT</p></td>
+        </tr>
+        <tr>
+            <td class="col-3">Ngày lập hóa đơn :</td>
+            <td class="col-9"><p style="font-weight: 600;">@Model.NgayKham</p></td>
+        </tr>
     </table>
 
-    <table class="table">
+    <table class="table table-bordered">
+        <tr>
+            <th class="col-9"><p>Tên dịch vụ</p></th>
+            <th class="col-3 text-center"><p>Đơn giá</p></th>
+        </tr>
+        @foreach (var item in ViewBag.CTLichSuDichVu as IEnumerable<DichVu>)
+        {
+            <tr>
+                <td class="col-9">@item.TenDV</td>
+                <td class="col-3 text-center">@item.DonGia.ToString("#,###") VNĐ</td>
+            </tr>
+        }
+    </table>
+
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th class="col-3">Tên dịch vụ</th>
-                <th class="col-1 text-center">Đơn giá</th>
+                <th class="col-9"><p>Tên thuốc</p></th>
+                <th class="col-3 text-center"><p>Số lượng</p></th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in ViewBag.CTLichSuDichVu as IEnumerable<DichVu>)
-            {
-                <tr>
-                    <td class="col-3">@item.TenDV</td>
-                    <td class="col-1 text-center">@item.DonGia.ToString("#,###")</td>
-
-                </tr>
-            }
-
-            
-        </tbody>
-    </table>
-
-    <table class="table">
-        <thead>
+        @foreach (var item in ViewBag.CTLichSuThuoc as IEnumerable<ChiTietToaThuoc>)
+        {
             <tr>
-                <th class="col-3">Tên thuốc</th>
-                <th class="col-1 text-center">Số lượng</th>
-                
+                <td class="col-9">
+                    <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                    <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
+                </td>
+                <td class="col-3 text-center">@item.SoLuong</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.CTLichSuThuoc as IEnumerable<ChiTietToaThuoc>)
-            {
-                <tr>
-                    <td class="col-8">
-                        <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
-                        <p style="font-style: italic"> Ngày uống @item.LanTrongNgay lần, mỗi lần @item.VienMoiLan viên, uống @(item.TruocKhian?"trước khi ăn":"sau khi ăn"), uống @(item.Sang ? "sáng" : "") @(item.Trua ? ", trưa" : "") @(item.Chieu ? ", chiều" : "").</p>
-                    </td>
-                    <td class="col-2 text-center">@item.SoLuong</td>
-
-                </tr>
-            }
-
-
-        </tbody>
+        }
     </table>
 
-    
+
 </div>
