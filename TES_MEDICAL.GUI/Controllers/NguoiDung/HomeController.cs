@@ -269,7 +269,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         
 
-        public async Task<IActionResult> SearchByPhoneNumber(string SDT)
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT,string otp)
         {
             var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
             if (listPhieuKham.Count() > 0)
