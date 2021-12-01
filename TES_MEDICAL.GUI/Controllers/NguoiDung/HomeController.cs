@@ -271,21 +271,30 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> SearchByPhoneNumber(string SDT,string otp)
         {
-            var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
-            if (listPhieuKham.Count() > 0)
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
+            if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
-
-                return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
-                new JsonSerializerSettings
+                var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
+                if (listPhieuKham.Count() > 0)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+                    return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
             else
             {
-
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+            
         }
 
         public IActionResult LichSuKham()
@@ -304,16 +313,9 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT,string otp)
         {
-            if (SDT != null)
-            {
-                byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
-                totp.Totp = new Totp(rfcKey, 120,
-                                         OtpHashMode.Sha1, 6);
-            }
-            else
-            {
-                return BadRequest();
-            }           
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
             if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
                 var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
@@ -348,13 +350,19 @@ namespace TES_MEDICAL.GUI.Controllers
         //Gen OTP
         public IActionResult Generate(string SDT)
         {
-            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            if (!string.IsNullOrWhiteSpace(SDT))
+            {
+                byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
 
-            // Generating TOTP
-            totp.Totp = new Totp(rfcKey, 120,
-                                    OtpHashMode.Sha1, 6);
-            return Ok(totp.Totp.ComputeTotp());
-
+                // Generating TOTP
+                totp.Totp = new Totp(rfcKey, 120,
+                                        OtpHashMode.Sha1, 6);
+                return Ok(totp.Totp.ComputeTotp());
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
     }

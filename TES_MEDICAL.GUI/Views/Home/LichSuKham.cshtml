@@ -165,7 +165,7 @@
                     <div class="text-center mt-3 d-none" id="textErrorOTP"><span class="text-danger">Mã xác thực không đúng</span></div>
                 </div>
             </div>
-            <button class="comfirm-otp" type="button" onclick="OpenLichSuDatLich()">Xác nhận</button>
+            <button class="comfirm-otp" type="button" onclick="OpenLichSuKham()">Xác nhận</button>
             <button class="btn-close-modal" onclick="hideModal('modelOTP')">Đóng</button>
         </div>
     </div>
@@ -207,27 +207,33 @@
     }
 
     function OpenLichSuKham() {
+        var _otp = String($('#ist').val()) + String($('#sec').val()) + String($('#third').val()) + String($('#fourth').val()) + String($('#fifth').val()) + String($('#sixth').val())
+
         $.ajax({
             url: "/Home/SearchByPhoneNumber",
             type: 'GET',
             data: {
-                SDT: $('#SDT').val()
+                SDT: $('#SDT').val(),
+                otp: _otp
             },
             success: function (response) {
-
-                $("#ShowLichSu").html("");
-                if (response.status == -2) {
-                    $("#ShowLichSu").append(`
+                if (response.status == -3) {
+                    $('#textErrorOTP').removeClass("d-none");
+                }
+                else {
+                    hideModal('modelOTP');
+                    $("#ShowLichSu").html("");
+                    if (response.status == -2) {
+                        $("#ShowLichSu").append(`
                             <div class="col-sm-12 text-center text-danger">
                                 <h6 style="font-weight:bold"><a>Không tìm thấy</a></h6>
                             </div>
                     `)
-                }
-                else {
-                    JSON.parse(response).forEach(function (item) {
-                        console.log(item);
-                        var stringDate = new Date(item.NgayKham);                                                
-                        $("#ShowLichSu").append(`
+                    }
+                    else {
+                        JSON.parse(response).forEach(function (item) {                            
+                            var stringDate = new Date(item.NgayKham);
+                            $("#ShowLichSu").append(`
                                 <tr class="table-body" style="background-color: white;">
                                     <td class="body-item"><a>${item.MaBNNavigation.HoTen}</a></td>
                                     <td class="body-item text-center"><a>${item.MaBNNavigation.SDT}</a></td>
@@ -238,11 +244,9 @@
                                 </tr>
                                 
                     `)
-                    });
+                        });
+                    }
                 }
-
-
-
             }
         });
     }
