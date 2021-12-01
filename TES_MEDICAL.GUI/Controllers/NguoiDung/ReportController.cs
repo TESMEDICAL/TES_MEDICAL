@@ -7,12 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
+using TES_MEDICAL.GUI.Controllers.Admin;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private IWebHostEnvironment Environment;
         private readonly IReport _service;

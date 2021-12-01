@@ -12,5 +12,10 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
         {
             return View();
         }
+
+        public IActionResult Error500()
+        {
+            return View();
+        }
     }
 }

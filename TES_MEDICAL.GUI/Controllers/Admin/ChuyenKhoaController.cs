@@ -63,7 +63,6 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(ChuyenKhoa model)
         {
             if (ModelState.IsValid)

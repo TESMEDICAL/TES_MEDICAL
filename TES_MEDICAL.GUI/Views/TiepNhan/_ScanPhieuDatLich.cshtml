@@ -1,6 +1,4 @@
 ﻿
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -16,14 +14,9 @@
             <input type="text" name="text" id="SDTDatLich" class="form-control" />
             <label>Ngày sinh:</label>
             <input type="date" name="text" id="NgaySinhDatLich" class="form-control" />
-
-
         </div>
     </div>
 </div>
-
-
-
 
 <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -39,7 +32,6 @@
     });
 
     scanner.addListener('scan', function (c) {
-        /*document.getElementById('text').value = c;*/
         $.ajax({
             url: "/TiepNhan/LoadThongTinByMaDatLich/",
             type: 'POST',
@@ -64,25 +56,11 @@
         $('#SDT').val($('#SDTDatLich').val());
         $('#NgaySinh').val($('#NgaySinhDatLich').val());
         $('#UuTien').val(1);
-        $.ajax({
-            type: "POST",
-            url: "/TiepNhan/DeletePhieuDatLich/",
-            data: {
-                MaPhieu: $('#TextMaDatLich').val()
-            },
-            async: true,
-            success: function (result) {
-                $('body').removeAttr("style")
-                $('body').removeClass("modal-open")
+        $('body').removeAttr("style")
+        $('body').removeClass("modal-open")
 
-                $(".modal-backdrop").remove()
-                $('#myModalQrCode').modal('hide');
-            }
-        });
-
-
+        $(".modal-backdrop").remove()
+        $('#myModalQrCode').modal('hide');
+        $('#MaPhieuDatLich').val($('#TextMaDatLich').val());
     }
-
-   
-
 </script>

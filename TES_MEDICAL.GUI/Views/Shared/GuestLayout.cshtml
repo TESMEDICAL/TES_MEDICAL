@@ -23,12 +23,6 @@
 </head>
 
 <body>
-
-    <!--[if lte IE 9]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-    <![endif]-->
-    <!-- Add your site or application content here -->
-    <!-- Body main wrapper start -->
     <div class="body-wrapper">
 
         <!-- HEADER AREA START (header-5) -->
@@ -50,34 +44,18 @@
                                 <div class="ltn__top-bar-menu">
                                     <ul>
                                         <li>
-                                            <!-- ltn__language-menu -->
-                                            <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
-                                                <!-- <ul>
-                                                    <li><a href="#" class="dropdown-toggle"><span class="active-currency">English</span></a>
-                                                        <ul>
-                                                            <li><a href="#">Arabic</a></li>
-                                                            <li><a href="#">Bengali</a></li>
-                                                            <li><a href="#">Chinese</a></li>
-                                                            <li><a href="#">English</a></li>
-                                                            <li><a href="#">French</a></li>
-                                                            <li><a href="#">Hindi</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul> -->
-                                            </div>
-                                        </li>
-                                        <li>
                                             <!-- ltn__social-media -->
                                             <div class="ltn__social-media">
                                                 <ul>
                                                     <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
                                                     <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-
                                                     <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a></li>
                                                     <li><a href="#" title="Dribbble"><i class="fab fa-dribbble"></i></a></li>
+
                                                 </ul>
                                             </div>
                                         </li>
+                                        <li><a href="@Url.ActionLink("ThemPhieuKham","TiepNhan")">Nhân viên y tế</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -272,7 +250,7 @@
         <div class="ltn__utilize-overlay"></div>
 
         <!-- SLIDER AREA START (slider-3) -->
-        <div class="ltn__slider-area ltn__slider-3  section-bg-1">
+        <div class="ltn__slider-area ltn__slider-3  section-bg-1" id="SlideHeader">
             <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
                 <!-- ltn__slide-item -->
                 <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bs-bg="/GuestElement/img/slider/bg2.jpg">
@@ -457,8 +435,6 @@
                             <div class="footer-newsletter">
                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.444519014646!2d106.62615621474966!3d10.853755692269056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752bee0b0ef9e5%3A0x5b4da59e47aa97a8!2zQ8O0bmcgVmnDqm4gUGjhuqduIE3hu4FtIFF1YW5nIFRydW5n!5e0!3m2!1svi!2ssg!4v1634028744284!5m2!1svi!2ssg" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
-                            @*<h5 class="mt-30">We Accept</h5>
-                                <img src="~/GuestElement/img/icons/payment-4.png" alt="Payment Image">*@
                         </div>
                     </div>
                 </div>
@@ -473,13 +449,6 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12 align-self-center">
-                        @*<div class="ltn__copyright-menu text-end">
-                                <ul>
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="#">Claim</a></li>
-                                    <li><a href="#">Privacy & Policy</a></li>
-                                </ul>
-                            </div>*@
                     </div>
                 </div>
             </div>
@@ -494,7 +463,6 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                            <!-- <i class="fas fa-times"></i> -->
                         </button>
                     </div>
                     <div class="modal-body">
@@ -555,7 +523,6 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <!-- <hr> -->
                                             <div class="ltn__product-details-menu-3">
                                                 <ul>
                                                     <li>
@@ -724,14 +691,14 @@
             function () {
 
 
-                $('.slick-arrow').each(function () {
+
+                $('#SlideHeader .slick-arrow').each(function () {
+
 
                     $(this).addClass('d-none');
                 });
 
             });
-
-
 
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -742,7 +709,7 @@
         }(document, 'script', 'facebook-jssdk'));
 
 
-        setInterval(function () { $(".slick-next").trigger("click"); }, 7000);
+        setInterval(function () { $("#SlideHeader .slick-next").trigger("click"); }, 7000);
     </script>
     @RenderSection("Scripts", required: false)
 

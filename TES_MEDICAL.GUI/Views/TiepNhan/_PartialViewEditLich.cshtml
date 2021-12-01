@@ -27,6 +27,10 @@
         margin-top: 20px;
         padding-inline: 20px;
     }
+    #btclose {
+        background-color: #FA4F4F;
+        color: white;
+    }
 </style>
 <div>
     <div class="modal-header">
@@ -54,7 +58,6 @@
                     </div>
                     <div class="col-sm-6 mt-4 mb-3">
                         <h6>
-
                             <strong>Ngày khám:</strong><br />
                             @Model.SDT
                         </h6>
@@ -78,61 +81,10 @@
     <div class="modal-footer">
         <div class="text-right">
             <a class="btn" id="btnUpdate" onclick="UpdateDatLich()"><i class="far fa-save"></i>&nbsp;Cập nhật</a>
-            <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            <button type="button" class="btn" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
         </div>
     </div>
 </div>
-
-
-
-@*
-<div class="box-modal" name="frm" id="frm" enctype="multipart/form-data">
-    <div class="box-content">
-        <div class="box-title ms-3">
-            <h6 id="title-history" class="p-2">Thông tin bệnh nhân</h6>
-        </div>        
-        <div class="row ms-1 me-1 mb-1" id="title-border">
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(model => model.MaPhieu)
-            <div class="col-sm-6 mt-4 mb-3">
-                <h6>
-                    <strong>
-                        Tên bệnh nhân:
-                    </strong><br />
-                    @Model.TenBN
-                </h6>
-            </div>
-            <div class="col-sm-6 mt-4 mb-3">
-                <h6>
-
-                    <strong>Ngày khám:</strong><br />
-                    @Model.SDT
-                </h6>
-            </div>
-            <div class="col-sm-6 mt-4 mb-3">
-                <h6>
-                    <strong>Ngày tái khám</strong><br />
-                    @Model.NgaySinh?.ToString("dd/MM/yyyy")
-                </h6>
-            </div>
-            <div class="col-sm-6 mt-4 mb-3">
-                <h6>
-                    <strong>Ngày tái khám</strong><br />
-                    <input class="textbox-n form-control" type="datetime-local" asp-for="@Model.NgayKham">
-                </h6>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <div class="text-right">
-            <a class="btn" onclick="UpdateDatLich()" id="btnUpdate">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật
-            </a>
-            <button type="button" class="btn btn-danger" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-        </div>
-    </div>
-</div>*@
-
 
 <script>
     function UpdateDatLich() {
@@ -163,8 +115,6 @@
 
         }
     }
-
-
 </script>
 
 

@@ -29,36 +29,21 @@
         var obj = {};
         var Clienid;
         $(document).ready(
-
             function () {
-
                 reloadpage(1);
                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
-
             });
-
-
-
-
-
         function reloadpage(page) {
             obj = {};
-
             obj.Page = page;
             $("#TimKiem").val("");
             $.ajax({
                 url: '/TiepNhan/ReLoadCapNhat/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: false,
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
 
@@ -78,36 +63,43 @@
                     url: '/TiepNhan/ReLoadCapNhat/',
 
                     type: "Get",
-
-
                     data: obj,
 
                     success: function (result) {
 
                         $('#nameListContainer').html(result);
                     },
-
                     failure: function (message) {
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
-
-
-
-
         });
-
-
         function Clear() {
-
-
             reloadpage(1);
         }
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalServer")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
 
-
-
-
-
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+        connection.onclose(async () => {
+            await start();
+        });
+        // Start the connection.
+        start();
+        connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
+            toastr.success("Có một lịch đặt mới");
+           
+        });
     </script>
 }
 

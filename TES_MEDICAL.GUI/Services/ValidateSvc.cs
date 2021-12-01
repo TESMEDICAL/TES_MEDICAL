@@ -15,16 +15,13 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
-
         public bool CheckNgayKham(DateTime? ngay)
         {
             return ngay > DateTime.Now;
         }
-
         public bool ExistsChuyenKhoa(string ten)
         {
             return  _context.ChuyenKhoa.Any(x => x.TenCK == ten);
         }
-
     }
 }

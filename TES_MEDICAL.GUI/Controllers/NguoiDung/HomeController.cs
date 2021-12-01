@@ -2,11 +2,15 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
@@ -89,8 +93,13 @@ namespace TES_MEDICAL.GUI.Controllers
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
-                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model));
+                    if (model.Email != null)
+                    {
+                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model))); //SendMail
 
+                        th_one.Start();
+                        
+                    }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
@@ -172,9 +181,18 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
-        {
+        {           
             var model = await _service.GetPhieuDat(MaPhieu);
-            return View(model);
+            if (model != null)
+            {
+                return View(model);
+            }                        
+            return RedirectToAction("DatLichError", "Home");
+        }
+
+        public IActionResult DatLichError()
+        {
+            return View();
         }
 
         public IActionResult LichSuDatLich()
@@ -193,6 +211,19 @@ namespace TES_MEDICAL.GUI.Controllers
             var request = HttpContext.Request;
             var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            string Base64 = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(model.MaPhieu, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    bitMap.Save(ms, ImageFormat.Png);
+                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());                    
+                }
+            }
+
             using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
             {
                 string readFile = reader.ReadToEnd();
@@ -201,6 +232,8 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
+                StrContent = StrContent.Replace("{Base64QR}", $"<img src='{Base64}' alt='' style='height: 150px; width: 150px' />");
+
                 return StrContent.ToString();
             }
 

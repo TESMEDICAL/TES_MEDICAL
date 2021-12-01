@@ -8,8 +8,8 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
 {
     public class PhieuKhamViewModel
     {
-        public Guid MaBN { get; set; }
-      
+        public string MaPhieuDatLich { get; set; } 
+        public Guid MaBN { get; set; }      
         [Required(ErrorMessage ="Bạn cần nhập họ tên")]
         public string HoTen { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại")]
@@ -27,6 +27,5 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
         public bool UuTien { get; set; }
         public List<DichVu> dichVus { get; set; }
         public string MaNVHD { get; set; }
-    }
-  
+    } 
 }

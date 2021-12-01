@@ -27,7 +27,7 @@ using Hangfire;
 
 using Microsoft.AspNetCore.Identity;
 using System.Net;
-
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace TES_MEDICAL.GUI
 {
@@ -43,6 +43,7 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             //Token tồn tại trong 2 tiếng
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
@@ -157,7 +158,37 @@ namespace TES_MEDICAL.GUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
+            //Xử lý lỗi 
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 403)
+                {
+                    context.Request.Path = "/Admin/NoneUser";
+                    await next();
+                }
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Error/Error400";
+                    await next();
+                }
+                if (context.Response.StatusCode == 500)
+                {
+                    context.Request.Path = "/Error/Error500";
+                    await next();
+                }
+            });
+
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new { error = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

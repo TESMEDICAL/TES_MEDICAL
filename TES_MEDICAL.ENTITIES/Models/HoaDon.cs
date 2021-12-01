@@ -11,7 +11,6 @@ namespace TES_MEDICAL.GUI.Models
         {
             ChiTietDV = new HashSet<ChiTietDV>();
         }
-
         public string MaHoaDon { get; set; }
         public Guid MaPK { get; set; }
         public string MaNV { get; set; }
