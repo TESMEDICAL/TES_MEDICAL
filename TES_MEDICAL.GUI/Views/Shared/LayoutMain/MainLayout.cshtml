@@ -394,8 +394,8 @@
                                 <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
                                     <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="fas fa-calendar-week sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Quản lý đặt lịch</span></a>
                                 </li>
-                                <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
-                                    <a href="/tiepnhan/capnhatdichvu"><i class="fas fa-pen-alt sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Cập nhật dịch vụ</span></a>
+                                <li class="@Html.IsSelected(actions: "CapNhatDichVu", controllers: "TiepNhan")">
+                                    <a href="@Url.Action("CapNhatDichVu","TiepNhan")"><i class="fas fa-pen-alt sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Cập nhật dịch vụ</span></a>
                                 </li>
                             }
                             else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
