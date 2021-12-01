@@ -139,11 +139,19 @@ body {
 #btnAddDV,
 #btnAddThuoc,
 #btUse,
-#btSend {
+#btSend,
+#btupdate,
+#btThanhToan,
+#btXacNhan {
     background-color: #27AE60;
     color: white;
+    border: none;
 }
 #TongTien h4 {
+    font-weight: bold;
+    color: #27AE60;
+}
+#tenThuoc {
     font-weight: bold;
     color: #27AE60;
 }
