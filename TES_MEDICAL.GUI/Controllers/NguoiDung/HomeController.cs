@@ -304,9 +304,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT,string otp)
         {
-            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
-            totp.Totp = new Totp(rfcKey, 120,
-                                     OtpHashMode.Sha1, 6);
+            if (SDT != null)
+            {
+                byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+                totp.Totp = new Totp(rfcKey, 120,
+                                         OtpHashMode.Sha1, 6);
+            }
+            else
+            {
+                return BadRequest();
+            }           
             if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
                 var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
