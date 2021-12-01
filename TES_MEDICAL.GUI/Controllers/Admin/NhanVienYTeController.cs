@@ -86,7 +86,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.Hinh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
                 }
 
 
