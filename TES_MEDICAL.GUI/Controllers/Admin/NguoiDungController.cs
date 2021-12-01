@@ -90,7 +90,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
                 }
 
                 model.MaNguoiDung = Guid.NewGuid();

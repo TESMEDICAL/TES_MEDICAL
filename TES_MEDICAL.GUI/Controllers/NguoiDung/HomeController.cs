@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using OtpSharp;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,6 +33,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDuocSi _duocSiService;
         private readonly IDichVu _dichVuService;
         private readonly ITienIch _tienichRep;
+        private OTPCLASS totp;
 
 
 
@@ -43,7 +46,8 @@ namespace TES_MEDICAL.GUI.Controllers
                                 ITinTuc tintucService,
                                 IDuocSi duocSiService,
                                 IDichVu dichvuService,
-                                ITienIch tienichRep
+                                ITienIch tienichRep,
+                                OTPCLASS toptpRep
             )
         {
             _logger = logger;
@@ -54,6 +58,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _duocSiService = duocSiService;
             _dichVuService = dichvuService;
             _tienichRep = tienichRep;
+            totp = toptpRep;
 
         }
 
@@ -74,8 +79,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult DatLich()
         {
-
-
             return View();
         }
 
@@ -266,23 +269,32 @@ namespace TES_MEDICAL.GUI.Controllers
         }
         
 
-        public async Task<IActionResult> SearchByPhoneNumber(string SDT)
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT,string otp)
         {
-            var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
-            if (listPhieuKham.Count() > 0)
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
+            if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
-
-                return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
-                new JsonSerializerSettings
+                var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
+                if (listPhieuKham.Count() > 0)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+                    return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
             else
             {
-
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+            
         }
 
         public IActionResult LichSuKham()
@@ -299,23 +311,34 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT)
+        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT,string otp)
         {
-            var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
-            if (listPhieuDatLich.Count() > 0)
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
+            if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
-
-                return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
-                new JsonSerializerSettings
+                var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
+                if (listPhieuDatLich.Count() > 0)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+
+                    return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+                else
+                {
+
+                    return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
             else
             {
-
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+            
         }
 
 
@@ -324,6 +347,23 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
+        //Gen OTP
+        public IActionResult Generate(string SDT)
+        {
+            if (!string.IsNullOrWhiteSpace(SDT))
+            {
+                byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+
+                // Generating TOTP
+                totp.Totp = new Totp(rfcKey, 120,
+                                        OtpHashMode.Sha1, 6);
+                return Ok(totp.Totp.ComputeTotp());
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }
