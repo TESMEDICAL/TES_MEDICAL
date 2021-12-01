@@ -60,7 +60,17 @@
 
     <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
     <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+    @if (string.IsNullOrWhiteSpace((await UserManager.GetUserAsync(User)).Theme))
+    {
+        <link rel="stylesheet" href="~/MainElement/css/themes/spring.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="@((await UserManager.GetUserAsync(User)).Theme)">
+    }
     <link rel="stylesheet" href="~/MainElement/css/themes.css">
+
+
     <!-- END Stylesheets -->
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
@@ -572,6 +582,14 @@
 
     <!--Script chạy Active trên Menu-->
     <script>
+        var DefaulTheme = '@(string.IsNullOrWhiteSpace((await UserManager.GetUserAsync(User)).Theme)? "spring.css": (await UserManager.GetUserAsync(User)).Theme)';
+        var colorList = $('.sidebar-themes');
+        var themeLink = $('#theme-link');
+        var themeColor = themeLink.length ? themeLink.attr('href') : 'default';
+        $('a[data-theme="' + themeColor + '"]', colorList)
+            .parent('li')
+            .addClass('active');
+
         function myActive(e) {
             var elems = document.querySelectorAll(".active");
             [].forEach.call(elems, function (el) {
@@ -598,9 +616,14 @@
             function () {
                              
                 $("#btThoiTiet").trigger('click');
+               
             });
 
-        
+        function LoadTheme(name) {
+            if (Themes != null && Themes != '') {
+                $(`link[href="${DefaulTheme}"]`).before(`<link id="theme-link" rel="stylesheet" href="${name}">`);
+            }
+        }
 
         //Hàm load hình
         $('#upload-back').change(function (e) {
@@ -626,7 +649,7 @@
                 data: JSON,
                 async: true,
                 success: function (result) {
-                    console.log(result);
+                   
                     $('#DoC').html(Math.ceil(result.main.temp - 273.15) + '&deg;C');
                     $('#locationMain').html(result.name);
           
@@ -766,6 +789,42 @@
                 });
             }
         }
+        $('a', colorList).click(function (e) {
+            // Get theme name
+           var themeColor = $(this).data('theme');
+
+            $('li', colorList).removeClass('active');
+            $(this).parent('li').addClass('active');
+
+            if (themeColor === 'default') {
+                if (themeLink.length) {
+                    themeLink.remove();
+                    themeLink = $('#theme-link');
+                }
+            } else {
+                if (themeLink.length) {
+                    themeLink.attr('href', themeColor);
+                } else {
+                    $('link[href="/MainElement/css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + themeColor + '">');
+                    themeLink = $('#theme-link');
+                    $.ajax({
+                        url: '@Url.Action("ChangeTheme","Identity")',
+                        type: "Get",
+                        timeout: 20000,
+                        data: {
+                            ThemeUrl: themeColor
+                        },
+                        async: true,
+                        success: function (result) {
+
+                          
+                        }
+                    });
+                }
+            }
+
+          
+        });
 
     </script>
 

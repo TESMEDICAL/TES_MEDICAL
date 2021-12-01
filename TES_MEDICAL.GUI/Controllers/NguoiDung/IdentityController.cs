@@ -169,6 +169,25 @@ namespace TES_MEDICAL.GUI.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ChangeTheme(string ThemeUrl)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                user.Theme = ThemeUrl;
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+                return Json(new { status = 1, title = "", text = "Đổi chủ đề thành công." });
+            }
+            catch
+            {
+                return Json(new { status = 0, title = "", text = "Có lỗi xảy ra vui lòng kiểm tra lại." });
+            }
+
+          
+
+        }
+
 
         public IActionResult ForgotPasswordConfirmation()
         {
