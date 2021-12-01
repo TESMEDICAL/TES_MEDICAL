@@ -83,7 +83,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
                 }
 
                 model.MaThuoc = Guid.NewGuid();
@@ -155,7 +155,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
                 }
 
                 var result = await _service.Edit(model);
