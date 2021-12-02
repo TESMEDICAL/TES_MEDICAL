@@ -643,13 +643,12 @@
         //Load thời tiết
         function LoadThoiTiet(lat,lon) {
             $.ajax({
-                url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=1f8c83dd8445415660abe62e1f2dd416&lang=vi`,
+                url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=1f8c83dd8445415660abe62e1f2dd416`,
                 type: "Get",
                 timeout: 20000,
                 data: JSON,
                 async: true,
-                success: function (result) {
-                   
+                success: function (result) {                   
                     $('#DoC').html(Math.ceil(result.main.temp - 273.15) + '&deg;C');
                     $('#locationMain').html(result.name);
           
@@ -705,7 +704,7 @@
         }
 
         //Hàm edit info NhanVienYTe
-        function Edit() {
+        function EditInfo() {
             if ($("#frm1").valid()) {
                 var formData = new FormData();
                 var fileUpload = $("#upload-back").get(0);

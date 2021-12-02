@@ -30,7 +30,7 @@
                         <td>@item.Vitri</td>
                         <td>@item.DonGia?.ToString("n0").Replace(',', '.')</td>
                         <td>@(item.TrangThai?"Hoạt động":"Không hoạt động")</td>
-                        <td><img class="drug-img" src="~/images/@item.HinhAnh" /></td>
+                        <td><img class="drug-img" src="~/images/imagesThuoc/@item.HinhAnh" /></td>
                         <td class="text-nowrap"><a class="btn btn-info btn-sm active" onclick="_Detail('@item.MaThuoc')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
                     </tr>
                 }

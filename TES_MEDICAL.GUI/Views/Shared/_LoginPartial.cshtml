@@ -16,7 +16,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="sidebar-user-avatar">
-        <img src="~/images/@((await UserManager.GetUserAsync(User)).Hinh)" alt="avatar" class="imgavt">
+        <img src="~/images/NguoiDung/@((await UserManager.GetUserAsync(User)).Hinh)" alt="avatar" class="imgavt">
     </div>
 <div class="sidebar-user-name text-nowrap w-100"> @Helper.GetName((await UserManager.GetUserAsync(User)).HoTen)</div>
 <div class="sidebar-user-links ms-2">

@@ -108,6 +108,9 @@
 	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
 	 
 
+	  <PackageReference Include="OtpSharp.Core" Version="1.0.0" />
+	 
+
 	  <PackageReference Include="QRCoder" Version="1.4.2" />
 	  <PackageReference Include="Select.HtmlToPdf.NetCore" Version="21.1.0" />
 	  <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
@@ -123,6 +126,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\HoaDon\HoaDonThuoc\" />
+    <Folder Include="wwwroot\images\NguoiDung\" />
 
     <Folder Include="wwwroot\images\photos\" />
 
