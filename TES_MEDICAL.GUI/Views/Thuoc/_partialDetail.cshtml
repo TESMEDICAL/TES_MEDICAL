@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-sm-8">
                     <h6 style="font-weight: 600">
-                        @Model.DonGia.ToString("#,###")
+                        @Model.DonGia?.ToString("n0").Replace(',', '.')
                     </h6>
                 </div>
             </div>

@@ -29,7 +29,7 @@
                     <tr>
                         <td style="text-align: left;">@item.TenThuoc</td>
                         <td>@item.Vitri</td>
-                        <td>@item.DonGia.ToString("#,###")</td>
+                        <td>@item.DonGia?.ToString("n0").Replace(',', '.')</td>
                         <td>@(item.TrangThai?"Hoạt động":"Không hoạt động")</td>
                         <td>
                             <img src="~/images/@item.HinhAnh" class="drug-img" />

@@ -45,7 +45,7 @@
             {
                 <tr>
                     <td class="col-3">@item.TenDV</td>
-                    <td class="col-1 text-center">@item.DonGia.ToString("#,###")</td>
+                    <td class="col-1 text-center">@item.DonGia?.ToString("n0").Replace(",", ".")</td>
 
                 </tr>
             }

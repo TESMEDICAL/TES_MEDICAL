@@ -98,11 +98,11 @@
                             <p style="font-style: italic">@item.GhiChu</p>
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
-                        <td>@item.MaThuocNavigation.DonGia.ToString("n0").Replace(',', '.') VNĐ</td>
-                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia).ToString("n0").Replace(',', '.')) VNĐ</td>
+                        <td>@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
+                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia)?.ToString("n0").Replace(',', '.')) VNĐ</td>
 
                     </tr>
-                    toTal += (item.SoLuong * item.MaThuocNavigation.DonGia);
+                    toTal +=(decimal)(item.SoLuong * item.MaThuocNavigation.DonGia);
                 }
 
             </tbody>
