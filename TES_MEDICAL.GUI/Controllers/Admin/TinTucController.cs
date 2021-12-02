@@ -57,13 +57,12 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        //public async Task<ActionResult> Add()
-        //{
-        //    ViewBag.MaNguoiViet = new SelectList(_service.NguoiDungNav(), "MaNguoiDung", "Email");
+        public async Task<ActionResult> ThemTinTuc()
+        {
+            ViewBag.MaTL = new SelectList(await _theLoaiRep.GetAll(), "MaTL", "TenTL");
+            return View(new TinTuc { TrangThai = true });
+        }
 
-        //    return PartialView("_partialAdd", new TinTuc());
-
-        //}
 
         [HttpPost]
         public async Task<ActionResult> ThemTinTuc(TinTuc model)
@@ -74,6 +73,7 @@ namespace TES_MEDICAL.GUI.Controllers
             string maNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung);
             model.MaBaiViet = Guid.NewGuid();
             model.MaNguoiViet = Guid.Parse(maNguoiDung);
+            model.ThoiGian = DateTime.Now;
             if (await _service.Add(model) != null)
 
                 return
