@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewData["Title"] = "ReportBenhNhan";
+﻿@{
+    ViewData["Title"] = "Report Benh Nhan";
     Layout = "~/Views/Shared/LayoutAdmin/LayoutAdmin.cshtml";
 }
 
@@ -20,77 +19,184 @@
 
 <title>How to create bootstrap charts using bootstrap 5</title>
 <style>
-    .chart-container {
-        width: 50%;
-        height: 50%;
-        margin: auto;
+    .box {
+        display: flex;
+        flex-wrap: wrap;
     }
+
+    .box-item {
+        width: calc(50% - 10px);
+        background-color: white;
+        font-family: Arial;
+        height: 350px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .box-item-title {
+        background-color: rgb(233, 236, 239);
+        height: 40px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px
+    }
+
+        .box-item-title h6 {
+            padding: 10px;
+            font-weight: 600;
+            color: rgb(108, 117, 125);
+        }
+
+    .box-option {
+        margin-left: 23px;
+    }
+
+        .box-option .form-check {
+            margin-left: 15px;
+        }
+
+    .input-group {
+        display: flex;
+        flex-wrap: nowrap;
+        margin-left: -7px;
+    }
+
+        .input-group .input-group-item {
+            width: calc(50% - 30px);
+            margin-left: 30px;
+        }
 </style>
-
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 <body>
-    <div class="row">
-        <div class="card chart-container col-sm-6">
-            <canvas id="chart"></canvas>
+    <div class="box">
+        <div class="box-item">
+            <div class="box-item-title mb-4">
+                <h6>Biểu đồ đường</h6>
+            </div>
+            <div id="chartContainer1" style="height: 270px; width: auto"></div>
+
         </div>
-        @*<div class="card chart-container col-sm-6">
-              <canvas id="chart"></canvas>
-            </div>*@
+        <div class="box-item">
+            <div class="box-item-title mb-4">
+                <h6>Biểu đồ cột</h6>
+            </div>
+            <div id="chartContainer" style="height: 270px; width: auto"></div>
+        </div>
+        <div class="box-item">
+            <div class="box-item-title mb-4">
+                <h6>Lựa chọn</h6>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-item">
+                    <p>Ngày bắt đầu:</p>
+                    <input value="@DateTime.Now.AddMonths(-4).ToString("yyyy-MM-dd")" id="ngayBatDau" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group-item ms-3">
+                    <p>Ngày kết thúc:</p>
+                    <input value="@DateTime.Now.ToString("yyyy-MM-dd")" id="ngayKetThuc" type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="box-option">
+                <div class="form-check ">
+                    <button style="margin-left: -35px" onclick="ReportLuotKham()" id="reportLuotKham" class="btn btn-primary">Thống kê</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="box-item" style="overflow: scroll; overflow-x: hidden">
+            <div class="box-item-title mb-4">
+                <h6>Thông tin</h6>
+            </div>
+            <div>
+                <table class="table">
+                    <thead class="table-head-fixed">
+                        <tr>
+                            <th scope="col" id="tenBenhId">Lượt khám</th>
+                            <th scope="col" id="tenThuocId">Tháng</th>
+                            <th scope="col">Năm</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="BieuDoCot">
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
     </div>
-
-
 </body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
-</script>
-<script>
-      //const ctx = document.getElementById("chart").getContext('2d');
-      //const myChart = new Chart(ctx, {
-      //  type: 'line',
-      //  data: {
-      //    labels: ["Tháng 1", "Tháng 2", "Tháng 3",
-      //    "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
-      //     "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-      //    datasets: [{
-      //      label: 'Last week',
-      //      backgroundColor: 'rgba(161, 198, 247, 1)',
-      //      borderColor: 'rgb(47, 128, 237)',
-      //      data: [6000, 7000, 8000, 9000, 9500, 3000, 2000, 2500, 2000, 1000, 700, 100],
-      //    }]
-      //  },
-      //  options: {
-      //    scales: {
-      //      yAxes: [{
-      //        ticks: {
-      //          beginAtZero: true,
-      //        }
-      //      }]
-      //    }
-      //  },
-      //});
 
-     const ctx = document.getElementById("chart").getContext('2d');
-       const myChart = new Chart(ctx, {
-         type: 'bar',
-         data: {
-           labels: ["Dịch vụ", "Khám bệnh", "Thuốc",
-           "Chăm sốc sức khỏe", "Viện phí"],
-           datasets: [{
-             label: 'food Items',
-             backgroundColor: 'rgba(161, 198, 247, 1)',
-             borderColor: 'rgb(47, 128, 237)',
-             data: [500, 700, 600, 200, 400],
-           }]
-         },
-         options: {
-           scales: {
-             yAxes: [{
-               ticks: {
-                 beginAtZero: true,
-               }
-             }]
-           }
-         },
-       });
+<script>
+        $(".table").hide();              
+        /*Auto display thống kế*/
+        $(document).ready(function () {
+            $("#reportLuotKham").trigger('click');
+        });
+    function ReportLuotKham() {
+        $.ajax({
+            url: "/Report/ThongKeLuotKham",
+            type: "GET",
+            data: {
+                ngayBatDau: $('#ngayBatDau').val(),
+                ngayKetThuc: $('#ngayKetThuc').val()
+            },
+            success: function (response) {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    data: [{
+                        type: "bar",
+                        indexLabel: "{y} lượt",
+                        dataPoints: response.dataPoints
+                    }]
+                });
+                chart.render();
+
+
+                /*Biểu đồ tròn*/
+                var chart = new CanvasJS.Chart("chartContainer1", {
+                    theme: "light1", // "light1", "light2", "dark1", "dark2"
+                    exportEnabled: true,
+                    animationEnabled: true,
+                    data: [{
+                        type: "pie",
+                        startAngle: 180,
+                        toolTipContent: "<b>{label}</b>: {y}%",
+                        showInLegend: "true",
+                        legendText: "{label}",
+                        indexLabel: "Tháng {label} - {y} lượt",
+                        dataPoints: response.dataPoints
+                    }]
+                });
+                chart.render();
+
+
+                $("#BieuDoCot").html("");
+                $(".table").show();
+                (response.dataTable.obj).forEach(function (item) {
+                    $("#BieuDoCot").append(`
+                            <tr>
+                                <td>${item.luotKham}</td>
+                                <td>${item.thang}</td>
+                                <td>${item.nam}</td>
+                            </tr>
+                        `)
+                        ;
+
+                });
+
+
+            },
+            error: function (errormessage) {
+                toastr.warning(errormessage.responseText);
+            },
+            failure: function (message) {
+                $('#preloader-box').toggleClass('hide');
+            }
+        });
+    }
 </script>
 
 

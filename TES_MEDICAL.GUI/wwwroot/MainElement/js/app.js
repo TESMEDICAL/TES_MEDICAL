@@ -594,32 +594,7 @@ var App = function() {
             .addClass('active');
 
         // When a color theme link is clicked
-        $('a', colorList).click(function(e){
-            // Get theme name
-            themeColor = $(this).data('theme');
-
-            $('li', colorList).removeClass('active');
-            $(this).parent('li').addClass('active');
-
-            if (themeColor === 'default') {
-                if (themeLink.length) {
-                    themeLink.remove();
-                    themeLink = $('#theme-link');
-                }
-            } else {
-                if (themeLink.length) {
-                    themeLink.attr('href', themeColor);
-                } else {
-                    $('link[href="/MainElement/css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + themeColor + '">');
-                    themeLink = $('#theme-link');
-                }
-            }
-
-            // If cookies have been enabled, save the new options
-            if (cookies) {
-                Cookies.set('optionThemeColor', themeColor, {expires: 7});
-            }
-        });
+     
 
         // Prevent template options dropdown from closing on clicking options
         $('.dropdown-options a').click(function(e){ e.stopPropagation(); });

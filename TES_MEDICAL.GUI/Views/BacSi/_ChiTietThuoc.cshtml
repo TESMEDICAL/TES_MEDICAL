@@ -6,9 +6,7 @@
     <div class="row m-4">
         <!--Phần hình ảnh-->
         <div class="col-sm-4">
-            <img src="~/images/@Model.HinhAnh" style="width:200px" />
-            @*@Html.DisplayFor(model => model.HinhAnh)*@
-
+            <img src="~/images/imagesThuoc/@Model.HinhAnh" style="width:200px" />
 
         </div>
         <div class="col-sm-8">
@@ -25,9 +23,7 @@
                         Đơn giá
                     </div>
                     <div class="col-sm-8">
-                        <!-- @Html.DisplayFor(model => model.DonGia) -->
-
-                        @Model.DonGia.ToString("#,###")
+                        @Model.DonGia?.ToString("n0").Replace(',', '.')
                     </div>
                 </div>
 

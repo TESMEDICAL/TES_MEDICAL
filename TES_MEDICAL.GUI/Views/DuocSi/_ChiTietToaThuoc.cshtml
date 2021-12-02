@@ -1,89 +1,149 @@
 ﻿@model TES_MEDICAL.GUI.Models.ToaThuoc
 
 
-<div class="container-fluid" id="pannelToaThuoc">
-    <h4 style="text-align:center; font-weight:bold">THÔNG TIN TOA THUỐC</h4>
-    <hr />
-    <br />
+<style>
+    /* định dạng thẻ div chưa các button tab */
+    div.tab-modal {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        background-color: #ffff;
+    }
 
-    <div class="col-10 m-auto" id="pannelToaThuoc">
-        <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
-            <input style="display:none" value="@Model.MaPhieuKham" id="maPK" />
+        /* định dạng các button tab */
+        div.tab-modal button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            font-weight: 600;
+        }
+    /* định dạng nội dung hiển thị */
+    .tabcontent {
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+<h4 style="text-align:center; font-weight:bold">THÔNG TIN TOA THUỐC</h4>
+<hr />
+<br />
+
+<div style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; margin-inline: 5px; margin-top: -5px;" id="pannelToaThuoc">
+    <div class="tab-modal" id="tabModal">
+        <button id="tab1" onclick="showDonThuoc()" class="tablinks active">Toa thuốc</button>
+        <button id="tab2" onclick="showThongTin()" class="tablinks">Thông tin bệnh nhân</button>
+    </div>
+    <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
+        <input style="display:none" value="@Model.MaPhieuKham" id="maPK" />
+    </div>
+
+    <div id="HTML" class="tabcontent p-3 border-0" style="padding-inline: 40px">
+        <div class="ms-3" style="background-color: white; position: absolute;">
+            <h6 id="title-history" class="p-2" style="font-weight: 600;">Thông tin bệnh nhân</h6>
         </div>
-        <table class="table table-borderless">
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Tên bệnh nhân</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.HoTen</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Số điện thoại</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.SDT</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Ngày sinh</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Địa chỉ</td>
-                    <th>@Model.MaPhieuKhamNavigation.MaBNNavigation.DiaChi</th>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <hr>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Tên thuốc</th>
-                    <th>Số lượng</th>
-                    <th>Ghi chú</th>
-                    <th>Đơn giá</th>
-                    <th>Thành tiền</th>
-                </tr>
+        <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 20px;">
+            <div class="col-sm-6 mt-4">
+                <h6>
+                    <strong>
+                        Tên bệnh nhân:
+                    </strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.HoTen
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h6>
+
+                    <strong>Số điện thoại</strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.SDT
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h6>
+                    <strong>Ngày sinh</strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h6>
+                    <strong>Địa chỉ</strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.DiaChi
+                </h6>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="PHP" class="tabcontent p-3 border-0" style="font-size: 17px">
+        <table class="table table-bordered">
+            <tr id="table-header" class="text-light">
+                <th class="col-6">Tên thuốc</th>
+                <th class="col-2 text-center">Số lượng</th>
+                <td class="col-2">Đơn giá</td>
+                <td class="col-2">Thành tiền</td>
+            </tr>
+            <tbody id="toathuocFinal">
                 @{
                     decimal toTal = 0;
                 }
-
                 @foreach (var item in ViewBag.CTToaThuoc as IEnumerable<ChiTietToaThuoc>)
                 {
                     <tr>
-                        <td>@item.MaThuocNavigation.TenThuoc</td>
-                        <td>@item.SoLuong</td>
-                        <td>@item.GhiChu</td>
-                        <td>@item.MaThuocNavigation.DonGia.ToString("n0").Replace(',', '.') VNĐ</td>
-                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia).ToString("n0").Replace(',', '.')) VNĐ</td>
+                        <td class="col-8">
+                            <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                            <p style="font-style: italic">@item.GhiChu</p>
+                        </td>
+                        <td class="col-2 text-center">@item.SoLuong</td>
+                        <td>@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
+                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia)?.ToString("n0").Replace(',', '.')) VNĐ</td>
 
                     </tr>
-
-
-
-                    toTal += (item.SoLuong * item.MaThuocNavigation.DonGia);
+                    toTal +=(decimal)(item.SoLuong * item.MaThuocNavigation.DonGia);
                 }
-
-
-
 
             </tbody>
         </table>
+    </div>
 
-        <div>
-            <h4 style="color: seagreen; font-weight: bold; text-align: right;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
-        </div>
+    <div class="p-3" id="TongTien">
+        <h4 style="text-align: right;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
     </div>
 </div>
+
+<script type="text/javascript">
+    var buttons = document.getElementsByClassName('tablinks');
+    var contents = document.getElementsByClassName('tabcontent');
+
+    function showDonThuoc() {
+        $('.tabcontent').each(function () {
+
+            $(this).prop('style', 'display: none');
+        });
+
+        $('#PHP').prop('style', 'display: block');
+    }
+    function showThongTin() {
+        $('.tabcontent').each(function () {
+
+            $(this).prop('style', 'display: none');
+        });
+
+        $('#HTML').prop('style', 'display: block');
+    }
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function () {
+            var id = this.textContent;
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            this.className += " active";
+            showContent(id);
+        });
+    }
+    showDonThuoc();
+
+</script>

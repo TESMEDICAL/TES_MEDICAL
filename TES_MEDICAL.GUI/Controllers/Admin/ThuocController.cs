@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -65,13 +64,10 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public  IActionResult Add()
         {
-
-             return PartialView("_partialAdd", new Thuoc());
-
+            return PartialView("_partialAdd", new Thuoc());
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Thuoc model, [FromForm] IFormFile file)
         {
             if (ModelState.IsValid)
@@ -85,10 +81,9 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
                 else
                 {
-                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    model.HinhAnh = fileName;
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
                 }
 
                 model.MaThuoc = Guid.NewGuid();
@@ -160,7 +155,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
                 }
 
                 var result = await _service.Edit(model);

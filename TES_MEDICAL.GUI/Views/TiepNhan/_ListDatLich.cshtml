@@ -38,7 +38,7 @@
                             <td  style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy")</td>
                             <td  >
                                 <a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
-                                <a class='btn btn-info btn-sm active'> <i class='fa fa-trash'></i></a>
+                                <a class='btn btn-info btn-sm active' onclick="_delete('@item.MaPhieu')"> <i class='fa fa-trash'></i></a>
                                 <a onclick=Detail('@item.MaPhieu') class='btn btn-info btn-sm active' title='Thông tin'> <i class='fa fa-info-circle' aria-hidden='true'></i></a>
                             </td>
                         </tr>

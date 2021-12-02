@@ -43,11 +43,11 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage ="Vui lòng nhập Email.")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -55,11 +55,16 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        [BindProperty]
+        public string Error { get; set; } = null;
+
+        
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                Error = "Đăng nhập thất bại.";
             }
 
             returnUrl ??= Url.Content("~/");
@@ -84,26 +89,32 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var checkUser = await _userManager.FindByNameAsync(Input.Email);
-                if(checkUser.TrangThai == true)
-                {
                     var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                     if (result.Succeeded)
                     {
                         var user = await _userManager.FindByNameAsync(Input.Email);
-                        _logger.LogInformation("User logged in.");
-                        if (user.ChucVu == 1)
+                        if (user.TrangThai == true)
                         {
-                            return LocalRedirect("~/TiepNhan/ThemPhieuKham");
-                        }
-                        else if (user.ChucVu == 3)
-                        {
-                            return LocalRedirect("~/DuocSi/ToaThuoc");
+                            _logger.LogInformation("User logged in.");
+                            if (user.ChucVu == 1)
+                            {
+                                return LocalRedirect("~/TiepNhan/ThemPhieuKham");
+                            }
+                            else if (user.ChucVu == 3)
+                            {
+                                return LocalRedirect("~/DuocSi/ToaThuoc");
+                            }
+                            else
+                            {
+                                return LocalRedirect("~/Bacsi/");
+                            }
                         }
                         else
                         {
-                            return LocalRedirect("~/Bacsi/");
-                        }
+                          return RedirectToAction("NoneUserNVYT", "Identity");
+                         }
+                        
                     }
                     if (result.RequiresTwoFactor)
                     {
@@ -116,14 +127,11 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                        Error = "Đăng nhập thất bại.";
                         return Page();
                     }
-                }
-                else
-                {
-                    return RedirectToAction("NoneUserNVYT", "Identity");
-                }
+                
                 
 
 

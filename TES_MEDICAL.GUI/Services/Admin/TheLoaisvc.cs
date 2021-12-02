@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,7 +27,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-        public async Task<TheLoai> Add(TheLoai model)
+        public async Task<Response<TheLoai>> Add(TheLoai model)
         {
             try
             {
@@ -42,33 +40,25 @@ namespace TES_MEDICAL.GUI.Services
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<TheLoai> { errorCode = 0, Obj = model };
 
                 }
-
-
-
-
-
-
-
-
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<TheLoai> { errorCode = -1 };
+                }
 
+                return new Response<TheLoai> { errorCode = -2 };
             }
         }
 
         public async Task<TheLoai> Get(Guid id)
         {
 
-            var item = await _context.TheLoai
-
-                .FirstOrDefaultAsync(i => i.MaTL == id);
-
+            var item = await _context.TheLoai.FirstOrDefaultAsync(i => i.MaTL == id);
 
             if (item == null)
             {
@@ -78,7 +68,7 @@ namespace TES_MEDICAL.GUI.Services
 
 
         }
-        public async Task<TheLoai> Edit(TheLoai model)
+        public async Task<Response<TheLoai>> Edit(TheLoai model)
         {
             try
             {
@@ -87,28 +77,24 @@ namespace TES_MEDICAL.GUI.Services
 
 
 
-                    var existingTheLoai = _context.TheLoai.Find(model.MaTL);
+                    var existingTheLoai = await _context.TheLoai.FindAsync(model.MaTL);
                     existingTheLoai.TenTL = model.TenTL;
-
-
-
-
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    return new Response<TheLoai> { errorCode = 0, Obj = model };
                 }
 
-
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex);
-                return null;
+                if (ex.InnerException.Message.Contains("UNIQUE KEY"))
+                {
+                    return new Response<TheLoai> { errorCode = -1 };
+                }
+
+                return new Response<TheLoai> { errorCode = -2 };
             }
-
-
-
 
         }
 
@@ -119,12 +105,10 @@ namespace TES_MEDICAL.GUI.Services
 
                 var find = await _context.TheLoai.FindAsync(Id);
 
-
                 _context.TheLoai.Remove(find);
                 await _context.SaveChangesAsync();
 
                 return true;
-
 
             }
             catch (Exception ex)
@@ -132,7 +116,6 @@ namespace TES_MEDICAL.GUI.Services
                 Console.WriteLine(ex);
                 return false;
             }
-
 
         }
 
@@ -144,21 +127,7 @@ namespace TES_MEDICAL.GUI.Services
             listUnpaged = _context.TheLoai.Where(x=>string.IsNullOrWhiteSpace(
                 model.TenTLSearch)||
                 EF.Functions.Collate(x.TenTL, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.TenTLSearch, "SQL_Latin1_General_Cp1_CI_AI"))
-                
-                
-                
-                
-                
                 ).OrderBy(x => x.TenTL);
-
-
-
-          
-
-
-
-
-
 
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
 
@@ -167,10 +136,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
 
             return listPaged;
-
-
-
-
 
         }
 
@@ -181,7 +146,6 @@ namespace TES_MEDICAL.GUI.Services
             List<TheLoai> data = new List<TheLoai>();
 
             data = _context.TheLoai.ToList();
-
 
             return data;
 

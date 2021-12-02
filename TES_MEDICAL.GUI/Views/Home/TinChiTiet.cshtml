@@ -4,21 +4,20 @@
     ViewData["Title"] = Model.TieuDe;
     Layout = "~/Views/Shared/GuestLayout.cshtml";
 }
-<style>
-    .thumb {
-        height: 100px;
-        background-color: #3e3e3e;
-        background-image: none;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
+<style>   
+    .thumb-img {
+        width: 30%;
+        object-fit: cover;
+        object-position: center center;
     }
-
-    .text-wrap h6 {
-        white-space: wrap;
+    .thumb-content a p {
+        font-size: 17px;
+        color: #000;
+        font-weight: 600;
         width: 200px;
-        height: 40px;
+        flex-wrap: wrap;  
         overflow: hidden;
+        white-space: nowrap;
         text-overflow: ellipsis;
     }
 </style>
@@ -70,22 +69,26 @@
 
                         <div class="widget ltn__top-rated-product-widget">
                             <h4 class="ltn__widget-title ltn__widget-title-border">Tin liên quan</h4>
-                            <ul>
+                            <div class="list-news-contact">
                                 @foreach (var item in ViewBag.TL1)
-                                {
-                                    <li>
-                                        <div class="row">
-                                            <div class="thumb col-sm-3" style="background-image: url(@item.Hinh);"></div>
-                                            <div class="text-wrap col-sm-9">
+                                {                                    
+                                    <div class="news-contact-items mb-4">
+                                        <div class="d-flex">
+                                            <img class="thumb-img" src="@item.Hinh" />
+                                            <div class="thumb-content text-wrap col-sm-9">
                                                 <a asp-controller="Home" asp-action="TinChiTiet" asp-route-id="@item.MaBaiViet">
-                                                    <h6 class="card-title">@item.TieuDe</h6>
+                                                    <p class="card-title">@item.TieuDe</p>
                                                 </a>
                                                 <p style="font-size: 10px"><i class="far fa-calendar-alt"></i> 26/10/2021</p>
                                             </div>
                                         </div>
-                                    </li>
+                                    </div>                                    
+                                    
+
                                 }
-                            </ul>
+                            </div>
+                                
+                            
                         </div>
 
                     </aside>

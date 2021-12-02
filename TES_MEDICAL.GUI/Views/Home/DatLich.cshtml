@@ -12,13 +12,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-item input-item-name">
-                            <input type="text" asp-for="TenBN" placeholder="Họ và tên">
+                            <input type="text" asp-for="TenBN" placeholder="Họ và tên (*)">
                             <span asp-validation-for="TenBN" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-item input-item-email">
-                            <input type="text" asp-for="SDT" placeholder="Số điện thoại">
+                            <input type="text" asp-for="SDT" placeholder="Số điện thoại (*)">
                             <span asp-validation-for="SDT" class="text-danger"></span>
                         </div>
                     </div>
@@ -31,20 +31,20 @@
                     <div class="col-md-6">
                         <div class="input-item input-item-subject">
 
-                            <input placeholder="Ngày sinh" asp-format="{0:dd/MM/yyyy}" class="textbox-n" type="text" onfocus="(this.type='date')" asp-for="NgaySinh">
+                            <input placeholder="Ngày sinh (*)" asp-format="{0:dd/MM/yyyy}" class="textbox-n" type="text" onfocus="(this.type='date')" asp-for="NgaySinh">
                             <span asp-validation-for="NgaySinh" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-item input-item-subject">
-                            <input placeholder="Ngày khám" class="textbox-n" asp-format="{0:dd/MM/yyyy HH:mm}" type="text" onfocus="(this.type='datetime-local')" asp-for="NgayKham">
+                            <input placeholder="Ngày khám (*)" class="textbox-n" asp-format="{0:dd/MM/yyyy HH:mm}" type="text" onfocus="(this.type='datetime-local')" asp-for="NgayKham">
                             <span asp-validation-for="NgayKham" class="text-danger"></span>
                         </div>
                     </div>
 
                 </div>
                 <div class="input-item input-item-textarea">
-                    <textarea name="message" placeholder="Ghi chú"></textarea>
+                    <textarea asp-for="GhiChu" placeholder="Ghi chú"></textarea>
                 </div>
                 <div class="btn-wrapper mt-0">
 

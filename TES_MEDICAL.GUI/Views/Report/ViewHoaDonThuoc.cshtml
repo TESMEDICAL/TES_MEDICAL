@@ -40,18 +40,6 @@
         background-color: rgb(82, 183, 136);
         color: white;
     }
-
-/*    .btn-infomation {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .table-btn a:hover {
-        transform: scale(1.075)
-    }
-
-    .table-btn a i {
-        color: white;
-    }*/
 </style>
 
 
@@ -91,29 +79,14 @@
     <div class="modal-dialog modal-fullscreen">
         <!-- Modal content-->
         <div class="modal-content">
-
             <div class="modal-header">
-
-
             </div>
             <div class="modal-body">
-
                 <div id="myModalContent">
 
                 </div>
             </div>
-
-
-            @*<div class="modal-footer">
-                    <div class="text-right">
-                        <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
-                        <button type="button" id="btupdate" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
-                        <button type="button" id="btPrint" class="btn btn-success btn-sm" onclick="PrintPreview('pannelThuoc')"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
-                        <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
-                    </div>
-                </div>*@
         </div>
-
     </div>
 </div>
 
@@ -131,6 +104,17 @@
                 $('#myModal').modal('show');
             }
         });
+    }
+    function PrintElem() {
+        var mywindow = window.open('', 'PRINT', 'height=600,width=600');
+        mywindow.document.write(document.getElementById('myModalContent').innerHTML);
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
     }
 </script>
 

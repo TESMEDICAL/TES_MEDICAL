@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using TES_MEDICAL.GUI.Extension;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
@@ -29,7 +27,7 @@ using Hangfire;
 
 using Microsoft.AspNetCore.Identity;
 using System.Net;
-
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace TES_MEDICAL.GUI
 {
@@ -45,6 +43,7 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             //Token tồn tại trong 2 tiếng
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
@@ -58,25 +57,7 @@ namespace TES_MEDICAL.GUI
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
 
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(120); });
-            //services.ConfigureApplicationCookie(options =>
-            //{
-
-            //    options.Cookie.Name = ".AspNetCore.Identity.Application";
-            //    //options.ExpireTimeSpan = TimeSpan.FromHours(1);
-            //    options.SlidingExpiration = true;
-            //});
-
-            //        services.AddAuthentication()
-            //.AddGoogle(googleOptions =>
-            //{
-            //    // Đọc thông tin Authentication:Google từ appsettings.json
-            //    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-
-            //    // Thiết lập ClientID và ClientSecret để truy cập API google
-            //    googleOptions.ClientId = googleAuthNSection["ClientId"];
-            //    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
-
-            //});
+            
 
             var jwtSettings = Configuration.GetSection("JWTSettings");
             services.AddAuthentication()
@@ -110,8 +91,7 @@ namespace TES_MEDICAL.GUI
 
 
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            //services.AddDefaultIdentity<NhanVienYte>(options => options.SignIn.RequireConfirmedAccount = false).AddErrorDescriber<CustomErrorDescriber>()
-            //       .AddEntityFrameworkStores<DataContext>();
+            
             services.AddDefaultIdentity<NhanVienYte>(options => {
                 options.SignIn.RequireConfirmedAccount = false;
 
@@ -140,17 +120,16 @@ namespace TES_MEDICAL.GUI
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseDefaultTypeSerializer()
-                //.UseMemoryStorage() 
                 .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
             );
             services.AddHangfireServer();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
-   .AddRazorPagesOptions(options =>
-   {
-       options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-       options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-   }).AddRazorRuntimeCompilation();
+               .AddRazorPagesOptions(options =>
+               {
+                   options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                   options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+               }).AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -179,16 +158,37 @@ namespace TES_MEDICAL.GUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            // Xử lý lỗi 404
+
+            //Xử lý lỗi 
             app.Use(async (context, next) =>
             {
                 await next();
+                if (context.Response.StatusCode == 403)
+                {
+                    context.Request.Path = "/Admin/NoneUser";
+                    await next();
+                }
                 if (context.Response.StatusCode == 404)
                 {
                     context.Request.Path = "/Error/Error400";
                     await next();
                 }
+                if (context.Response.StatusCode == 500)
+                {
+                    context.Request.Path = "/Error/Error500";
+                    await next();
+                }
             });
+
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new { error = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -199,10 +199,7 @@ namespace TES_MEDICAL.GUI
             app.UseAuthentication();
 
             app.UseAuthorization();
-            //app.UseEndpoints(endpoints =>
-            //{
-
-            //});
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

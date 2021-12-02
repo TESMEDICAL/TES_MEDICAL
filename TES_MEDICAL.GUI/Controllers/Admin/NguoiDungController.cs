@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using TES_MEDICAL.GUI.Constant;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -63,7 +64,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
                 
         
-        public async Task<ActionResult> Add()
+        public IActionResult Add()
         {
                        
             return PartialView("_partialAdd",new NguoiDung() );
@@ -89,7 +90,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
                 }
 
                 model.MaNguoiDung = Guid.NewGuid();
@@ -120,13 +121,6 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
             }
             return PartialView("_partialAdd", model);
-
-            //model.MaNguoiDung = Guid.NewGuid();
-            //if (await _service.Add(model) != null)
-            //    return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-            //else
-            //    return Json(new { status = -2, title = "", text = "Thêm không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-
 
         } 
         [HttpGet]
@@ -161,46 +155,27 @@ namespace TES_MEDICAL.GUI.Controllers
 
        
         [HttpPost]
-       
-        public async Task <ActionResult> Edit( NguoiDung model, [FromForm] IFormFile file)
+        public async Task<ActionResult> Edit(NguoiDung model)
         {
-            if (ModelState.IsValid)
+            var user = await _service.Get(model.MaNguoiDung);
+            user.ChucVu = model.ChucVu;
+            user.TrangThai = model.TrangThai;
+            var result = await _service.Edit(user);
+            if (result.errorCode == 0)
             {
-                string filePath = "";
-                if (file != null)
-                {
-                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
-                    var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-                }
-
-                var result = await _service.Edit(model);
-                if (result.errorCode == -1)
-                {
-                    ModelState.AddModelError("Email", "Email đã tồn tại");
-                    return PartialView("_partialedit", model);
-                }
-
-                if (result.errorCode == 0)
-                {
-                    if (file != null)
-                    {
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            file.CopyTo(fileStream);
-                        }
-
-                    }
-                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-                }
-                else
-                {
-                    return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
-                }
+                return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            return PartialView("_partialedit", model);
+            else
+            {
+                return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+
+            }
+            
         }
+            
+        
+
+
 
         [HttpPost]
         public async Task <ActionResult> Delete(Guid id)
@@ -212,6 +187,8 @@ namespace TES_MEDICAL.GUI.Controllers
             else
                 return Json(new { status = -2, title = "", text = "Vô hiệu không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
+
+
         [HttpPost]
         public async Task<ActionResult> Restore(Guid id)
         {

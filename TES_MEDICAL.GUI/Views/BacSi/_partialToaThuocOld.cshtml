@@ -1,16 +1,10 @@
-﻿
-@model ToaThuoc
-
+﻿@model ToaThuoc
 
 <div class="pt-3">
     <h4 style="text-align:center; font-weight:bold">Toa Thuốc</h4>
     <hr />
 </div>
-<!--<div class="modal-header">-->
-@*<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
 
-<!--</div>-->
 <div class="modal-body">
     <div class="col-8 m-auto">
         <table class="table" id="danhSach" style="width:100%">
@@ -29,12 +23,10 @@
                     <tr>
 
                         <td>@item.TenThuoc</td>
-                        <td class="text-center"><button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('@item.MaThuoc')" style="border-radius: 60px;"><i class="fa fa-info-circle"></i></button></td>
+                        <td class="text-center"><button class="btn btn-sm addThuoc" id="btnAddThuoc" style="border-radius: 50%;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('@item.MaThuoc')" style="border-radius: 60px;"><i class="fa fa-info-circle"></i></button></td>
                         <td class="d-none">@item.MaThuoc</td>
                     </tr>
                 }
-
-
 
             </tbody>
         </table>
@@ -58,10 +50,10 @@
                             <h6 style="margin-inline: 20px; font-weight:bold;" name="TenThuoc">@item.MaThuocNavigation.TenThuoc</h6>
                             <div class="row" style="margin-inline: 20px;">
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;" value="@item.LanTrongNgay" name="LanTrongNgay"> lần.</label>
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" value="@item.LanTrongNgay" name="LanTrongNgay"> lần.</label>
                                 </div>
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;" value="@item.VienMoiLan" name="VienMoiLan"> viên.</label>
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" value="@item.VienMoiLan" name="VienMoiLan"> viên.</label>
                                 </div>
                                 <div class="form-check col-sm-4 mb-2">
                                     <input class="form-check-input" type="checkbox"  name="TruocKhian" value="" @(item.TruocKhian?"checked":"")>
@@ -91,10 +83,10 @@
                         </th>
                         <th class="col-2">
                             <div class="input-group mb-3">
-                                <input type="number" placeholder="Số lượng..." class="form-control" value="@item.SoLuong" name="SoLuong">
+                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" value="@item.SoLuong" name="SoLuong">
                             </div>
                         </th>
-                        <th class="col-2 text-center"><button class="btn btn-danger deleteThuoc"><i class="fa fa-trash"></i></button></th>
+                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
                     </tr>
                 }
             </tbody>
@@ -103,6 +95,6 @@
 </div>
 <div class="modal-footer">
 
-    <button type="button" class="btn btn-success" style="margin-left: 5px;" data-bs-dismiss="modal" onclick="ConfirmToaThuoc()">OK</button>
+    <button type="button" class="btn" id="btSave" style="margin-left: 5px;" data-bs-dismiss="modal" onclick="ConfirmToaThuoc()">Xác nhận</button>
 </div>
 

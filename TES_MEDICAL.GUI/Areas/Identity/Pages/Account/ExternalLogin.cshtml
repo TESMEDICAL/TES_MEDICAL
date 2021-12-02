@@ -71,7 +71,7 @@
                     <div class="col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-envelope-open-text"></i></span>
-                            <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email">
+                            <input asp-for="Input.Email" class="form-control input-lg" placeholder="Email" readonly>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
                     </div>
@@ -80,9 +80,12 @@
                     <div class="col-xs-12">
                         <div class="input-group">
                             <span class="input-group-addon" style="color: rgb(54, 172, 105);"><i class="fad fa-lock-alt"></i></span>
-                            <input type="password" asp-for="Input.PassWord" class="form-control input-lg">
+                            <input type="password" asp-for="Input.PassWord" class="form-control input-lg" placeholder="Nhập mật khẩu hệ thống để liên kết tài khoản.">
                             <span asp-validation-for="Input.PassWord" class="text-danger"></span>
                         </div>
+                        <spa class="text-danger" style="margin-left:50px;">
+                            @(string.IsNullOrWhiteSpace(Model.Error)?"":Model.Error)
+                        </spa>
                     </div>
                 </div>
                 <div class="form-group">

@@ -43,11 +43,7 @@
             <div class="modal-content" id="myModalContent">
 
 
-
-
-
             </div>
-
         </div>
     </div>
 </div>
@@ -61,13 +57,9 @@
         var table;
         var obj = {};
         $(document).ready(
-
             function () {
-
-              /*  ReloadPage();*/
-
+                ReloadPage();
             });
-
         ////Hàm mở modal của Chi tiết đặt lịch
         function Detail(_id) {
             $.ajax({
@@ -109,93 +101,38 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
-        $("#btSave").click(function () {
 
-            if ($("#frm").valid()) {
-
-                var obj = $("#frm").serialize();
-               
-                $.ajax({
-                    type: "POST",
-                    url: "/TiepNhan/Edit",
-                    dataType: "json",
-                    data: obj,
-                    success: function (result) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                        if (result.status >= 1) {
-                            toastr.success(result.text);
-                            ReloadPage()
-
-                        }
-                        else {
-                            toastr.warning(result.text);
-                        }
-                        ReloadPage();
-                    },
-                    error: function (errormessage) {
-                        alert(errormessage.responseText);
-                    },
-                    failure: function (message) {
-                        $('#preloader-wrapper').toggleClass('hide');
-                    }
-                });
-
-            }
-        });
-        $("#TimKiem").keyup(function () {
-           
-            obj = {};
-           
-
+        
+        $("#TimKiem").keyup(function () {           
+            obj = {};          
                 obj.KeyWordSearch = $(this).val()
-
                 obj.page = 1;
                 $.ajax({
                     url: '/TiepNhan/ReloadPage/',
-
                     type: "Get",
-
-
                     data: obj,
-
                     success: function (result) {
-
-
                         $('#nameListContainer').html(result);
                     },
-
                     failure: function (message) {
                         $('#preloader-wrapper').toggleClass('hide');
                     }
                 });
-            
-
-
-
         });
-
-
         function ReloadPage(Page) {
             obj = {};
 
-            obj.Page = page;
+            obj.Page = Page;
             $("#TimKiem").val("");
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: false,
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
@@ -203,9 +140,8 @@
         }
 
         function Clear() {
-            reloadpage(1);
+            ReloadPage(1);
         }
-
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/signalServer")
             .configureLogging(signalR.LogLevel.Information)
@@ -220,48 +156,71 @@
                 setTimeout(start, 5000);
             }
         };
-
         connection.onclose(async () => {
             await start();
         });
-
         // Start the connection.
         start();
-
-
         connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
-
             toastr.success("Có một lịch đặt mới");
-            obj = {};
-            
+            obj = {};            
             obj.page = $('#CurrentPage').val();
-            obj.KeyWordSearch = $('#TimKiem').val()
-
-           
+            obj.KeyWordSearch = $('#TimKiem').val()           
             $.ajax({
                 url: '/TiepNhan/ReloadPage/',
-
                 type: "Get",
-
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
-
-
         });
 
 
+        function _delete(id) {
+            Swal.fire({
+                title: 'Bạn có muốn xóa phiếu đặt lịch này ?',
+                text: "Thao tác không thể thay đổi !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Huỷ bỏ',
+                confirmButtonText: 'Xác nhận'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/TiepNhan/DeletePhieuDatLich",
+                        data: { "MaPhieu": id },
+                        success: function (result) {
+                            $('#preloader-box').toggleClass('hide');
+                            if (result.status >= 1) {
+                                toastr.success(result.text);
+                                ReloadPage();
+                            }
+                            else {
+                                toastr.warning(result.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            toastr.warning(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-box').toggleClass('hide');
+                        }
+                    });
+                }
+            })
+        }
 
+        
+        
+
+        
     </script>
 }
 

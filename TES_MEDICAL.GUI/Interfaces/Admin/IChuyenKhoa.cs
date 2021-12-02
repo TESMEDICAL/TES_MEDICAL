@@ -1,11 +1,8 @@
-
-
 using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using X.PagedList;
 namespace TES_MEDICAL.GUI.Interfaces
 {
@@ -17,6 +14,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<bool> Delete(Guid Id);
         Task<IPagedList<ChuyenKhoa>> SearchByCondition(ChuyenKhoaSearchModel model);
         Task<IEnumerable<ChuyenKhoa>> GetAll();
+        Task<IEnumerable<ChuyenKhoa>> GetChuyenKhoaHaveDoctor();
 
     }
 }

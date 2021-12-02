@@ -1,5 +1,3 @@
-
-
 @model TES_MEDICAL.GUI.Models.TinTucSearchModel
 @using X.PagedList;
 @using TES_MEDICAL.GUI.Models;
@@ -10,12 +8,11 @@
 <style>
     .box {
         background-color: white;
-        font-family: Arial
+        font-family: Source Sans Pro;
     }
 
     .box-title {
         background-color: rgb(233, 236, 239);
-
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px
@@ -46,12 +43,14 @@
         background-color: rgb(82, 183, 136);
         color: white;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        transition: 0.15s all;
     }
 
         .header-btn a:hover {
             background-color: rgb(118, 200, 147);
+            color: white;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transform: scale(1.1)
+            transform: scale(1.075)
         }
 
     .form-check {
@@ -63,36 +62,23 @@
     }
 </style>
 
-
-
-
-
 <div class="box m-3">
     <div class="box-title mb-4">
          <h6>Quản lý trang chủ</h6>   
-
     </div>
-
     <div class="header row">
-
         @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frmSearch", id = "frmSearch", enctype = "multipart/form-data", @class = "d-flex flex-wrap m-2" }))
         {
             @Html.AntiForgeryToken()
 
             <div class="header-left col-sm-8 row">
                 <div class="header-input-1 col-5">
-                    <input type="text" class="form-control" asp-for="TieuDeSearch" placeholder="Nhập tiêu đề..." aria-label="Username" aria-describedby="basic-addon1">
-                    @*@Html.EditorFor(model => model.TieuDeSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo tiêu đề" } })*@
+                    <input type="text" class="form-control" asp-for="TieuDeSearch" placeholder="Nhập tiêu đề..." aria-label="Username" aria-describedby="basic-addon1">                   
                 </div>
-
-
-
                 <div class="header-dropdown col-3">
-
-                    @*@Html.EditorFor(model => model.MaTLSearch, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control-sm", @placeholder = "Lọc theo mã thể loại" } })*@
-                    @Html.DropDownListFor(model => model.MaTLSearch, new SelectList(@ViewBag.MaTL, "MaTL", "TenTL"), "Lọc theo thể loại", new { @class = "mr-2 mb-2 form-select" })
+                    @Html.DropDownListFor(model => model.MaTLSearch, new SelectList(@ViewBag.MaTL, "MaTL", "TenTL"), "Lọc theo thể loại", new { @class = "mr-2 mb-2 form-select text-secondary" })
                 </div>
-                <div class="header-btn col-3">
+                <div class="header-btn col-3 ">
                     <a class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</a>
                 </div>
             </div>
@@ -110,41 +96,28 @@
                     Hiện tất cả
                 </label>
             </div>
-
-
-
         }
-
     </div>
 
     <div id="nameListContainer" class="mt-2" style="margin-inline: 5px;">        
-
         <div class="name-list">
             <partial name="_NameListPartial" model="ViewBag.Names as IPagedList<TinTuc>" />
         </div>
     </div>
 </div>
 
-
-
-
-
 <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
-
             <div class="modal-header">
-
 
             </div>
             <div class="modal-body">
-
                 <div id="myModalContent">
 
                 </div>
             </div>
-
 
             <div class="modal-footer">
                 <div class="modal-footer-btn text-right">
@@ -171,14 +144,11 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+
         $(document).ready(
-
             function () {
-
                 $("#btSave").click(function () {
                     var obj = $("#frm").serializeObject();
-
-
                     $.ajax({
                         type: "POST",
                         url: "/TinTuc/Add",
@@ -186,7 +156,6 @@
                         success: function (result) {
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
-
                                 toastr.success(result.text);
                                 reloadpage(1);
                             }
@@ -201,10 +170,8 @@
                             $('#preloader-wrapper').toggleClass('hide');
                         }
                     });
-
-
-
                 });
+
                 $("#btupdate").click(function () {
                     var obj = $("#frm").serializeObject();
                     $.ajax({
@@ -229,33 +196,23 @@
                             $('#preloader-wrapper').toggleClass('hide');
                         }
                     });
-
-
                 });
+
                 $("#btclose").click(function () {
-
-                    /*reloadpage(1);*/
                 });
-                $("#btcloseins").click(function () {
 
+                $("#btcloseins").click(function () {
                     reloadpage(1);
                 });
 
-
-
             });
-
         $(document).on('click', '.remove', function () {
-
             $(this).parent().parent().remove();
-
         });
 
         function AddView(child) {
-
             $.ajax({
                 url: '/TinTuc/add' + child,
-
                 success: function (data) {
                     $("#partial" + child).append(data);
                 }
@@ -276,43 +233,28 @@
 
                 type: "Get",
                 timeout: 20000,
-
                 async: false,
-
                 data: obj,
-
                 success: function (result) {
-
-
                     $('#nameListContainer').html(result);
                 },
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
         }
 
-
         function PrintPreview(id) {
             $.print("#" + id);
         }
 
-        
-
-
         function Create() {
-
             $myModalContent.html("");
-
             $.ajax({
                 url: '/TinTuc/Add/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: true,
-
 
                 success: function (result) {
                     $myModalContent.html(result);
@@ -320,7 +262,6 @@
                     $('#btupdate').hide();
                     $('#btPrint').hide();
                     $modal.modal('show');
-
 
                     $('#preloader-wrapper').toggleClass('hide');
                 },
@@ -336,23 +277,18 @@
 
             $.ajax({
                 url: '/TinTuc/Detail/',
-
                 type: "Get",
                 timeout: 20000,
-
                 async: true,
                 data: {
                     id: id_
                 },
-
                 success: function (result) {
                     $myModalContent.html(result);
                     $('#btSave').hide();
                     $('#btupdate').hide();
                     $('#btPrint').hide();
                     $modal.modal('show');
-
-
                     $('#preloader-wrapper').toggleClass('hide');
                 },
                 failure: function (message) {
@@ -361,12 +297,7 @@
             });
         }
 
-
-
-
-        function _delete(id) {
-
-            /*var cf = swal.fire('Bạn muốn vô hiệu hóa tin này?');*/
+        function _delete(id) {        
             Swal.fire({
                 title: 'Bạn có muốn vô hiệu hoá tin này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -386,7 +317,6 @@
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
                                 toastr.success(result.text);
-
                                 reloadpage();
                             }
                             else {
@@ -402,13 +332,9 @@
                     });
                 }
             })
-
         }
 
-
-
         function _restore(id) {
-            /*var cf = confirm('Bạn muốn Khôi phục tin này?');*/
             Swal.fire({
                 title: 'Bạn muốn Khôi phục tin này ?',
                 text: "Thao tác không thể thay đổi !",
@@ -419,8 +345,7 @@
                 cancelButtonText: 'Huỷ bỏ',
                 confirmButtonText: 'Xác nhận'
             }).then((result) => {
-                if (result.isConfirmed) {
-                    //Ajax
+                if (result.isConfirmed) {                   
                     $.ajax({
                         type: "POST",
                         url: "/TinTuc/Restore",
@@ -429,7 +354,6 @@
                             $('#preloader-wrapper').toggleClass('hide');
                             if (result.status >= 1) {
                                 toastr.success(result.text);
-
                                 reloadpage();
                             }
                             else {
@@ -458,47 +382,34 @@
             else {
                 obj.TrangThaiSearch = false;
             }
-
             $.ajax({
                 url: '/TinTuc/PageList/',
-
                 type: "Get",
                 timeout: 20000,
                 async: false,
                 data: obj,
-
-
                 success: function (result) {
-
-
                     if (result.status == -2) {
                         toastr.success(result.text);
-
                     }
                     else {
 
                         $('#nameListContainer').html(result);
                     }
-
-
                 },
                 error: function (errormessage) {
                     alert(errormessage.responseText);
                 },
-
-
                 failure: function (message) {
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
         }
 
+
         function Clear() {
-
-
             reloadpage(1);
         }
-
 
     </script>
 }

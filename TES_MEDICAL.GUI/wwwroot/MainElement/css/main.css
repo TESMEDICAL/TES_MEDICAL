@@ -117,8 +117,12 @@ body {
 
 */ background-color: #344a3d;
 }
-.button-reload button{
-    background-color: seagreen;
+.button-reload button {
+    background-color: #27AE60;
+    color: white;
+}
+.button-reload a {
+    background-color: #27AE60;
     color: white;
 }
 #title-history {
@@ -127,6 +131,29 @@ body {
 
 #title-border {
     border: 1px solid #27ae60;
+}
+#btCheckOut,
+#btn-confirm,
+#btnUpdate,
+#btSave,
+#btnAddDV,
+#btnAddThuoc,
+#btUse,
+#btSend,
+#btupdate,
+#btThanhToan,
+#btXacNhan {
+    background-color: #27AE60;
+    color: white;
+    border: none;
+}
+#TongTien h4 {
+    font-weight: bold;
+    color: #27AE60;
+}
+#tenThuoc {
+    font-weight: bold;
+    color: #27AE60;
 }
 #sidebar,
 #sidebar-alt {
@@ -937,7 +964,25 @@ a.sidebar-title:focus {
     #btn-confirm {
         background: #27ae60;
         border: none;
-    } 
+    }
+
+/*#tabModal button :hover*/
+#tab1:hover {
+    background-color: #9ce37d;
+    color: black;
+}
+#tab2:hover {
+    background-color: #9ce37d;
+    color: black;
+}
+#tab1.active {
+    background-color: #b3ffb3;
+    color: black;
+}
+#tab2.active {
+    background-color: #b3ffb3;
+    color: black;
+}
 
 .content-header-media small,
 .content-header-media i {

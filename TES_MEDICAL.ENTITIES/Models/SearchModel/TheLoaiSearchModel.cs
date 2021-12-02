@@ -12,7 +12,7 @@ namespace TES_MEDICAL.GUI.Models
     {   
         public int? Page  { get; set; }
         public String TenTLSearch{ get; set; }
-             }
     }
+}
 
 

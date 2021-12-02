@@ -20,10 +20,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<IPagedList<PhieuKham>> GetListPhieuKham(PhieuKhamSearchModel model);
         Task<PhieuKham> GetPhieuKhamById(Guid id);
         Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs);
-
         Task<List<ChiTietDV>> GetListDVByPK(Guid MaPK);
-
-
-
+        Task<bool> DeletePhieuDatLichById(string id); 
     }
 }

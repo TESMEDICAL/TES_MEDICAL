@@ -1,5 +1,3 @@
-
-
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +22,6 @@ namespace TES_MEDICAL.GUI.Services
             _context = context;
 
         }
-
 
         public async Task<Response<Benh>> Add(Benh model, List<CTrieuChungModel> TrieuChungs)
         {
@@ -93,7 +90,8 @@ namespace TES_MEDICAL.GUI.Services
                     var listCTTrieuChung = _context.CTTrieuChung.Where(p => p.MaBenh == model.MaBenh);
                     foreach (var existingCTTrieuChung in listCTTrieuChung)
                     {
-                        if (!trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh))
+                        var boole = !trieuchungs.Any(c => c.MaBenh == existingCTTrieuChung.MaBenh);
+                        if (!trieuchungs.Any(c => c.MaTrieuChung == existingCTTrieuChung.MaTrieuChung))
 
                             _context.Entry(existingCTTrieuChung).State = EntityState.Deleted;
                     }
@@ -143,9 +141,6 @@ namespace TES_MEDICAL.GUI.Services
                 return new Response<Benh> { errorCode = -2 };
             }
 
-
-
-
         }
 
         public async Task<bool> Delete(Guid Id)
@@ -181,26 +176,14 @@ namespace TES_MEDICAL.GUI.Services
         public async Task<IPagedList<Benh>> SearchByCondition(BenhSearchModel model)
         {
 
-            IEnumerable<Benh> listUnpaged;
-            listUnpaged = _context.Benh.Include(x=>x.MaCKNavigation).OrderBy(x => x.TenBenh);
-
-            if (!string.IsNullOrWhiteSpace(model.TenBenhSearch))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.TenBenh.ToUpper().Contains(model.TenBenhSearch.ToUpper()));
-            }
-
-
-            if (!string.IsNullOrWhiteSpace(model.ThongTinSearch))
-
-            {
-                listUnpaged = listUnpaged.Where(x => x.ThongTin.ToUpper().Contains(model.ThongTinSearch.ToUpper()));
-            }
-
-
-
-
-
+            IEnumerable<Benh> listUnpaged = null;
+            listUnpaged = _context.Benh.Include(x=>x.MaCKNavigation).Where(x =>
+            string.IsNullOrWhiteSpace(model.KeyWord) ||
+            EF.Functions.Collate(x.TenBenh, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))||
+            EF.Functions.Collate(x.ThongTin, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))||
+            EF.Functions.Collate(x.MaCKNavigation.TenCK, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))
+            )
+                .OrderBy(x => x.TenBenh);
 
 
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, pageSize);
@@ -211,10 +194,6 @@ namespace TES_MEDICAL.GUI.Services
 
             return listPaged;
 
-
-
-
-
         }
 
 
@@ -224,7 +203,6 @@ namespace TES_MEDICAL.GUI.Services
             List<Benh> data = new List<Benh>();
 
             data = _context.Benh.ToList();
-
 
             return data;
 

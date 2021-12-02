@@ -26,16 +26,9 @@
         transform: scale(1.075)
     }
 
-    .btn-edit {
+    .btn-status {
         background-color: rgb(17, 138, 178);
-    }
-
-    .btn-delete {
-        background-color: rgb(17, 138, 178);
-    }
-
-    .btn-infomation {
-        background-color: rgb(17, 138, 178);
+        width: 30px;
     }
 
     .table-btn a i {
@@ -51,31 +44,24 @@
 </style>
 
 <div id="list">
-
     <div class="list-table" style="min-height:400px">
         <table class="table table-bordered text-left w-100 " style="font-size:small">
                 <tr id="thead">
-
                     <th class="col-3">
                         Tên thuốc
                     </th>
-
                     <th class="col-1 text-center">
                         Vị trí
                     </th>
-
                     <th class="col-2 text-center">
                         Đơn giá
                     </th>
-
                     <th class="col-2 text-center">
                         Trạng thái
                     </th>
-
                     <th class="col-2 text-center">
                         Hình ảnh
                     </th>
-
                     <th class="col-2 text-center">Thao tác</th>
                 </tr>
                 @foreach (var item in ViewBag.Names as IEnumerable<Thuoc>)
@@ -83,19 +69,19 @@
                     <tr>
                         <td class="col-3"><p style="margin-top: 16%;">@item.TenThuoc</p></td>
                         <td class="col-1 text-center"><p style="margin-top: 60%;">@item.Vitri</p></td>
-                        <td class="col-2 text-center"><p style="margin-top: 25%;">@item.DonGia.ToString("#,###")</p></td>
+                        <td class="col-2 text-center"><p style="margin-top: 25%;">@item.DonGia?.ToString("n0").Replace(',', '.')</p></td>
                         <td class="col-2 text-center"><p style="margin-top: 25%;">@(item.TrangThai?"Hoạt động":"Không hoạt động")</p></td>
                         <td class="col-2 text-center">
-                            <img class="listname-img" src="~/images/@item.HinhAnh"/>
+                            <img class="listname-img" src="~/images/imagesThuoc/@item.HinhAnh"/>
                         </td>
                         <td class="table-btn text-nowrap col-2 text-center">
-                            <a class="btn-edit btn btn-sm active" onclick="Edit('@item.MaThuoc')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a class="btn-status btn btn-sm active" onclick="Edit('@item.MaThuoc')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             @if (item.TrangThai)
-                            {<a class="btn-delete btn  btn-sm active" onclick="_delete('@item.MaThuoc')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
+                            {<a class="btn-status btn  btn-sm active" onclick="_delete('@item.MaThuoc')" title="Ngừng hoạt động"> <i class="fa fa-trash"></i></a>}
                             else
                             {
-                                <a class="btn btn-success btn-sm active" onclick="_restore('@item.MaThuoc')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
-                            <a class="btn-infomation btn btn-sm active" onclick="_Detail('@item.MaThuoc')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                <a class="btn-status btn btn-sm active" onclick="_restore('@item.MaThuoc')" title="Khôi phục hoạt động"> <i class="fa fa-recycle" aria-hidden="true"></i></a>}
+                            <a class="btn-status btn btn-sm active" onclick="_Detail('@item.MaThuoc')" title="Thông tin"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </td>
 
                     </tr>
@@ -105,7 +91,6 @@
 
 
     <div class="text-right">
-
         @{
             var pageRender = new PagedListRenderOptions
             {
@@ -118,24 +103,14 @@
                 UlElementClasses = new[] { "pagination" },
                 LiElementClasses = new string[] { "page-item" },
                 PageClasses = new string[] { "page-link" },
-
-
                 ContainerDivClasses = new[] { "pagination-container" }
-
-
             };
         }
         @{
             var searchModel = ViewBag.Data as ThuocSearchModel;
         }
-
-
         @Html.PagedListPager((IPagedList<Thuoc>)ViewBag.Names, page => Url.Action("PageList", new { page, KeyWordSearch = searchModel.KeyWordSearch, TrangThai = searchModel.TrangThai}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(pageRender, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
     </div>
-
-
-
-
 </div>
 
 

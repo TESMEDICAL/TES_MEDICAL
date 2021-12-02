@@ -42,7 +42,7 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" class="btn btn-danger btn-sm" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -52,10 +52,6 @@
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 @section Scripts{
     <script>
-
-       
-
-
         var $id = "";
         var $modal = $('#myModal');
         var $myModalContent = $("#myModalContent");
@@ -144,11 +140,42 @@
                     $("#Title").html("Lịch sử khám");
                     $('#myModal').modal('show');
                    
-
-
                 }
             });
         }
+
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/PhieuKham")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+
+        // Start the connection.
+        start();
+
+        connection.on("SentDocTor", (id) => {
+
+            if (Clienid == id) {
+
+                toastr.success("Có một bệnh nhân mới");
+              
+            }
+        });
     </script>
 
 }

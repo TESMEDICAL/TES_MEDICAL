@@ -9,7 +9,6 @@ namespace TES_MEDICAL.SHARE.Models.ViewModel
         public int STT { get; set; }
         public Guid MaPK { get; set; }
         public string HoTen { get; set; }
-        public string UuTien { get; set; }
-        
+        public string UuTien { get; set; }       
     }
 }

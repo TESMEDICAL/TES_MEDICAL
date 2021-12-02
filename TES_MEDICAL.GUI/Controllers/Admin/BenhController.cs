@@ -1,4 +1,3 @@
-
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
@@ -47,9 +46,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 if (!model.Page.HasValue) model.Page = 1;
 
-
-
-
                 ViewBag.Names = listmodel;
                 ViewBag.Data = model;
 
@@ -80,7 +76,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(Benh model,CTrieuChungModel[] Trieuchungs)
+        public async Task<IActionResult> Add(Benh model, CTrieuChungModel[] Trieuchungs)
         {
             if (ModelState.IsValid)
             {
@@ -106,8 +102,9 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK");
             return PartialView("_partialAdd", model);
         }
-        [HttpGet]
 
+
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             var item = await _service.Get(id);
@@ -120,7 +117,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 var listTC = new List<CTrieuChungModel>();
                 ViewBag.MaCK = new SelectList(await _service.ChuyenKhoaNav(), "MaCK", "TenCK", (await _service.Get(id)).MaCK);
 
-                foreach(var trieuchung in item.CTTrieuChung)
+                foreach (var trieuchung in item.CTTrieuChung)
                 {
                     listTC.Add(new CTrieuChungModel { MaBenh = item.MaBenh, MaTrieuChung = trieuchung.MaTrieuChung, TenTrieuChung = trieuchung.MaTrieuChungNavigation.TenTrieuChung });
                 }
@@ -129,6 +126,8 @@ namespace TES_MEDICAL.GUI.Controllers
             }
 
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid id)
         {

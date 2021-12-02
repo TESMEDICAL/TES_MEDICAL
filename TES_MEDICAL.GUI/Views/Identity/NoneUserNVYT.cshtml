@@ -4,12 +4,6 @@
     //Layout = "~/Views/Shared/GuestLayout.cshtml";
     Layout = null;
 }
-
-@*<header>
-        <h1 class="text-danger">@ViewData["Title"]</h1>
-        <p class="text-danger">Hello</p>
-    </header>*@
-
 <meta charset="utf-8">
 <title>@ViewData["Title"]</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
@@ -61,8 +55,7 @@
                         HTTP 403 Forbidden
                     </h1>
                     <h2>@ViewData["Title"]</h2>
-                    <!-- <h3>Oops! Looks like something going rong</h3> -->
-                    <p style="font-size:20px">Bạn không có quyền truy cập vào trang này, vui lòng đăng nhập và thử lại sau !</p>
+                    <p style="font-size:20px">Bạn không có quyền truy cập vào trang này, vui lòng liên hệ quản trị viên !</p>
                     <div class="btn-wrapper">
                         <a href="@Url.ActionLink("ThemPhieuKham","TiepNhan")" class="btn btn-transparent"><i class="fas fa-long-arrow-alt-left"></i> Quay trở lại</a>
                     </div>

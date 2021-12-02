@@ -20,7 +20,6 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
-
         //Hàm change STT Toa Thuốc
         public async Task<STTTOATHUOC> ChangeSoUuTien(Guid maPK)
         {
@@ -28,12 +27,8 @@ namespace TES_MEDICAL.GUI.Services
             {
                 using (var transaction = _context.Database.BeginTransaction())
                 {
-                    
                     var existingSTT = await _context.STTTOATHUOC.FindAsync(maPK);
                     existingSTT.UuTien = "C";
-                    
-
-
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     return existingSTT;
@@ -45,125 +40,75 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
             }
         }
-
         //Get All Toa Thuốc Có Trạng Thái
         public async Task<IPagedList<ToaThuoc>> SearchToaThuoc(ToaThuocSearchModel model)
         {
-            IEnumerable<ToaThuoc> listUnpaged = null;
+           IEnumerable<ToaThuoc> listUnpaged = null;
            if (model.TrangThaiPK ==1)
-            {
+           {
                 listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
-          (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
-          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
-          EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-           && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null
-
-
-
-
-
-
-
-                ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
-
-
-            }
-            else
-            {
+                (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+                EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+                && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 1 && x.STTTOATHUOC != null).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
+           }
+           else
+           {
                 listUnpaged = (_context.ToaThuoc.Include(x => x.STTTOATHUOC).Include(x => x.MaPhieuKhamNavigation).ThenInclude(x => x.MaBNNavigation).Where(x =>
-        (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
-        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
-        EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-         && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2 && x.STTTOATHUOC != null
-
-
-
-
-
-
-
-              ).OrderBy(x => x.STTTOATHUOC.UuTien).ThenBy(x => x.STTTOATHUOC.STT));
-
-            }
-
-
-
-
-
-
-
-
-            var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
-
-
-            if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
+                (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
+                EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
+                EF.Functions.Collate(x.MaPhieuKhamNavigation.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
+                && x.TrangThai == model.TrangThai && x.MaPhieuKhamNavigation.TrangThai == 2).OrderByDescending(x=>x.MaPhieuKhamNavigation.NgayKham));
+           }
+           var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
+           if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
                 return null;
-
             return listPaged;
-
-
-
-
-
         }
         public async Task<IEnumerable<ChiTietToaThuoc>> GetChiTiet(Guid MaPhieu)
         {
             return await _context.ChiTietToaThuoc.Include(x => x.MaThuocNavigation)
                 .Where(x=>x.MaPK == MaPhieu).ToListAsync();
         }
-
         public async Task<ToaThuoc> GetToaThuocByMaPhieu(Guid MaPhieu)
         {
             return await _context.ToaThuoc.Include(x => x.MaPhieuKhamNavigation).Include(x => x.MaPhieuKhamNavigation.MaBNNavigation).Include(x => x.ChiTietToaThuoc)
                 .FirstOrDefaultAsync(x => x.MaPhieuKham == MaPhieu);
         }
 
-       
         public async Task<ToaThuoc> ThanhToanThuoc(Guid maPK,string MaNV)
         {
-            
             try
             {
                 using (var transaction = _context.Database.BeginTransaction())
                 {
                     var maHD = "HD_" + DateTime.Now.ToString("ddMMyyyyhhmmss");
-
                     HoaDonThuoc hoadon = new HoaDonThuoc
                     {
                         MaHD = maHD,
                         MaNV = MaNV,
                         NgayHD = DateTime.Now,
                         MaPK = maPK,
-                        
-                        
                     };
                     var existingThuoc = await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).FirstOrDefaultAsync(x=>x.MaPhieuKham==maPK);
                     hoadon.TongTien = (decimal)existingThuoc.ChiTietToaThuoc.Sum(x => x.SoLuong * x.DonGiaThuoc);
-
                     await _context.HoaDonThuoc.AddAsync(hoadon);
-
                     var stt = await _context.STTTOATHUOC.FindAsync(maPK);
-                    
                     existingThuoc.TrangThai = 1;
                     stt.UuTien = "B";
-                    if(_context.ToaThuoc.Where(x => x.TrangThai == 1).Count() > 0)
+                    if(_context.ToaThuoc.Include(x=>x.STTTOATHUOC).Where(x => x.TrangThai == 1 && x.STTTOATHUOC != null).Count() > 0)
                     {
                         stt.STT = _context.ToaThuoc.Include(x => x.STTTOATHUOC).Where(x => x.TrangThai == 1).Max(x => x.STTTOATHUOC.STT);
-
                     }
                     else
                     {
                         stt.STT = 1;
                     }
-
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     var phieuKham = await _context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.ToaThuoc).ThenInclude(x => x.HoaDonThuoc).ThenInclude(x => x.MaNVNavigation).Include(x => x.ToaThuoc.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == maPK);
-
                     return existingThuoc;
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -171,52 +116,6 @@ namespace TES_MEDICAL.GUI.Services
                 return null;
             }
         }
-
-        //Ham Create Hoa Don
-        public void CreateHD(PhieuKham PK)
-        {
-
-            var tongTien = PK.ToaThuoc.ChiTietToaThuoc.Sum(x => x.MaThuocNavigation.DonGia * x.SoLuong);
-            var listThuoc = "";
-            foreach (var item in PK.ToaThuoc.ChiTietToaThuoc)
-            {
-
-                listThuoc += $"<tr><td class='col-3'><strong>{item.MaThuocNavigation.TenThuoc}</strong></td><td class='col-4'><strong>{item.GhiChu}</strong></td><td class='col-2 text-center'><strong>{item.SoLuong}</strong></td><td class='col-3 text-end'><strong>{(item.MaThuocNavigation.DonGia * item.SoLuong).ToString("n0").Replace(',', '.')}</strong></td></tr>";
-
-            }
-            //ten | soluong | thanhtien | ghichu
-            var tenNV = PK.ToaThuoc.HoaDonThuoc.MaNVNavigation.HoTen;
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
-            using (var reader = new System.IO.StreamReader(root + @"/InvoiceThuoc.html"))
-            {
-                string readFile = reader.ReadToEnd();
-                string html = string.Empty;
-                html = readFile;
-                html = html.Replace("{MaHD}", PK.ToaThuoc.HoaDonThuoc.MaHD);
-                html = html.Replace("{MaPK}", PK.ToaThuoc.HoaDonThuoc.MaPKNavigation.MaPhieuKham.ToString());
-                html = html.Replace("{NgayHD}", PK.ToaThuoc.HoaDonThuoc.NgayHD.ToString("dd/MM/yyyy HH:mm:ss"));
-                html = html.Replace("{MaNV}", tenNV);
-                html = html.Replace("{TongTien}", tongTien.ToString("n0").Replace(',', '.'));
-                html = html.Replace("{listThuoc}", listThuoc);
-                html = html.Replace("{tenBN}", PK.MaBNNavigation.HoTen);
-                html = html.Replace("{SDT}", PK.MaBNNavigation.SDT);
-                html = html.Replace("{NgaySinh}", PK.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy"));
-                html = html.Replace("{DiaChi}", PK.MaBNNavigation.DiaChi);
-
-
-                HtmlToPdf ohtmlToPdf = new HtmlToPdf();
-                PdfDocument opdfDocument = ohtmlToPdf.ConvertHtmlString(html);
-                byte[] pdf = opdfDocument.Save();
-                opdfDocument.Close();
-
-                string filePath = "";
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\HoaDon\HoaDonThuoc", PK.ToaThuoc.HoaDonThuoc.MaHD + ".pdf");
-                System.IO.File.WriteAllBytes(filePath, pdf);
-
-            }
-
-        }
-
         public async Task<ToaThuoc> XacNhanThuocDangCho(Guid maPK)
         {
             try
@@ -225,17 +124,13 @@ namespace TES_MEDICAL.GUI.Services
                 {
                     var existingThuocDangPhat = await _context.ToaThuoc.FindAsync(maPK);
                     existingThuocDangPhat.TrangThai = 2;
-
                     var phieuKham = await _context.PhieuKham.FindAsync(maPK);
                     phieuKham.TrangThai = 2;
                     _context.Update(phieuKham);
-
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                     return existingThuocDangPhat;
                 }
-
-
             }
             catch (Exception ex)
             {

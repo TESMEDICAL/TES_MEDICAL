@@ -50,55 +50,47 @@
     <div class="box-modal row m-4">
         <!--Phần hình ảnh-->
         <div class="box-left col-sm-5">
-            <img class="detail-img" src="~/images/@Model.HinhAnh"/>
-            @*@Html.DisplayFor(model => model.HinhAnh)*@
+            <img class="detail-img" src="~/images/imagesThuoc/@Model.HinhAnh"/>
         </div>
         <div class="box-right col-sm-7">
-                <div class="box-right-top col-12 row mb-4">
-                    <h1 class="box-name">@Model.TenThuoc</h1>
-                    <h6 class="box-role">
-                        Vị trí: @Model.Vitri
+            <div class="box-right-top col-12 row mb-4">
+                <h1 class="box-name">@Model.TenThuoc</h1>
+                <h6 class="box-role">
+                    Vị trí: @Model.Vitri
+                </h6>
+            </div>
+            <div class="box-right-item row col-12">
+                <div class="col-sm-4">
+                    <h6>Đơn giá</h6>
+                </div>
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
+                        @Model.DonGia?.ToString("n0").Replace(',', '.')
                     </h6>
                 </div>
-
-                <div class="box-right-item row col-12">
-                    <div class="col-sm-4">
-                        <h6>Đơn giá</h6>
-                    </div>
-                    <div class="col-sm-8" >
-                        <!-- @Html.DisplayFor(model => model.DonGia) -->
-                        <h6 style="font-weight: 600">
-                            @Model.DonGia.ToString("#,###")
-                        </h6>
-                    </div>
+            </div>
+            <div class="box-right-item row col-12">
+                <div class="col-sm-4">
+                    <h6>Trạng thái</h6>
                 </div>
-
-
-                <div class="box-right-item row col-12">
-                    <div class="col-sm-4">
-                        <h6>Trạng thái</h6>
-                    </div>
-                    <div class="col-sm-8">
-                        <!-- @Html.DisplayFor(model => model.TrangThai) -->
-                        <h6 style="font-weight: 600">
-                            @Model.TrangThai
-                        </h6>
-                    </div>
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
+                        @Model.TrangThai
+                    </h6>
                 </div>
-
-                <div class="box-right-item row col-12">
-                    <div class="col-sm-4" style="font-weight:bold!important">
-                        <h6>Thông tin</h6>
-                    </div>
-                    <div class="col-sm-8">
-                        <!-- @Html.DisplayFor(model => model.ThongTin) -->
-                        <h6 style="font-weight: 600">
-                            @Model.ThongTin
-                        </h6>
-                    </div>
+            </div>
+            <div class="box-right-item row col-12">
+                <div class="col-sm-4" style="font-weight:bold!important">
+                    <h6>Thông tin</h6>
+                </div>
+                <div class="col-sm-8">
+                    <h6 style="font-weight: 600">
+                        @Model.ThongTin
+                    </h6>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 
