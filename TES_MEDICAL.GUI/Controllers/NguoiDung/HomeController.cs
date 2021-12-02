@@ -98,7 +98,9 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     if (model.Email != null)
                     {
-                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model))); //SendMail
+                        var request = HttpContext.Request;
+                        var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL))); //SendMail
 
                         th_one.Start();
                         
@@ -209,10 +211,9 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private string message(PhieuDatLich model)
+        private string message(PhieuDatLich model, string _baseURL)
         {
-            var request = HttpContext.Request;
-            var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                      
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             string Base64 = null;
             using (MemoryStream ms = new MemoryStream())
