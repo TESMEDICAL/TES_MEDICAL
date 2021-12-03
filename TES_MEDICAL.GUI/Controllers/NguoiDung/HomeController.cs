@@ -182,11 +182,66 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
+        [Produces("application/json")]
+        [HttpGet("searchtrieuchung")]
+        [Route("api/ChanDoan/searchtrieuchung")]
+        public async Task<IActionResult> SearchTrieuChung()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                return Ok(trieuchung);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [Produces("application/json")]
+        [HttpPost("GetTrieuChungNew")]
+        [Route("api/ChanDoan/GetTrieuChungNew")]
+        public IActionResult GetTrieuChungNew(string[] ListTrieuChung)
+        {
+            try
+            {
+
+                var trieuchungs = _tienichRep.GetListChanDoan(ListTrieuChung.ToList());
+                return Ok(trieuchungs);
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
+
+        [Produces("application/json")]
+        [HttpPost("KetQuaChanDoan")]
+        [Route("api/ChanDoan/KetQuaChanDoan")]
+        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
+        {
+            try
+            {
+                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList()).OrderBy(x => x.SoTrieuChung).ThenBy(x => x.TongCong);
+                List<DataPoint> dataPoints1 = new List<DataPoint>();
+                List<DataPoint> dataPoints2 = new List<DataPoint>();
+
+                foreach (var item in result)
+                {
+                    dataPoints1.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.SoTrieuChung));
+                }
+                foreach (var item in result)
+                {
+                    dataPoints2.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.TongCong - item.SoTrieuChung));
+                }
 
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
-        {
+        {           
             var model = await _service.GetPhieuDat(MaPhieu);
             if (model != null)
             {
