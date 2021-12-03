@@ -1,4 +1,5 @@
-﻿using TES_MEDICAL.GUI.Interfaces;
+﻿
+using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TES_MEDICAL.GUI.Models.ViewModel;
+
 using TES_MEDICAL.GUI.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
@@ -39,6 +41,8 @@ namespace TES_MEDICAL.GUI.Controllers
             IHubContext<RealtimeHub> hubContext,
             UserManager<NhanVienYte> userManager
 
+
+
             )
         {
             _service = service;
@@ -47,48 +51,38 @@ namespace TES_MEDICAL.GUI.Controllers
             _nhanvienyteRep = nhanVienYteRep;
             _hubContext = hubContext;
             _userManager = userManager;
-
+            
+          
+            
         }
-
-
-        [Route("/tiepnhan")]
-        [Route("/tiepnhan/ThemPhieuKham")]
+       
+     
+        
         public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
         {
-            ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetChuyenKhoaHaveDoctor(), "MaCK", "TenCK");
+            ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
 
             ViewBag.ListDV = await _dichvuRep.GetDichVu(Guid.Empty);
 
             var model = await _service.GetPhieuDatLichById(MaPhieu);
-
+           
             if (!string.IsNullOrWhiteSpace(MaPhieu))
             {
-
-                var phieuKham = new PhieuKhamViewModel {MaPhieuDatLich = MaPhieu, HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
+                
+                var phieuKham = new PhieuKhamViewModel { HoTen = model.TenBN, SDT = model.SDT, Email = model.Email, NgaySinh = model.NgaySinh, UuTien = true };
+                await _service.DeletePhieuDatLichById(MaPhieu);
                 return View(phieuKham);
 
             }
             return View(new PhieuKhamViewModel());
-
-
+             
+             
         }
 
-        public async Task<IActionResult> DeletePhieuDatLich(string MaPhieu)
-        {
-            var result = await _service.DeletePhieuDatLichById(MaPhieu);
-
-            if (result == true)
-            {
-                return Json(new { status = 1, title = "", text = "Xóa thành công.", obj = "" }, new JsonSerializerSettings());
-            }
-
-            else
-                return Json(new { status = -2, title = "", text = "Xóa không thành công", obj = "" }, new JsonSerializerSettings());
-        }
 
         public async Task<JsonResult> DocTor_Bind(Guid MaCK)
         {
-
+          
             var list = await _nhanvienyteRep.GetAllBS(MaCK);
             List<SelectListItem> ListBS = new List<SelectListItem>();
             foreach (var item in list)
@@ -98,27 +92,27 @@ namespace TES_MEDICAL.GUI.Controllers
             return Json(ListBS, new JsonSerializerSettings());
         }
 
-        public async Task<JsonResult> BenhNhan_bind(string SDT)
+        public JsonResult BenhNhan_bind(string SDT)
         {
-            return Json(await _service.GetBN(SDT), new JsonSerializerSettings());
+            return Json(_service.GetBN(SDT), new JsonSerializerSettings());
         }
 
 
         [HttpGet]
         public async Task<IActionResult> GetListDV(Guid MaPhieu)
         {
-
-            return PartialView("_AddDichVu", await _dichvuRep.GetDichVu(MaPhieu));
+           
+            return PartialView("_AddDichVu",await _dichvuRep.GetDichVu(MaPhieu));
         }
 
         [HttpPost]
         public async Task<IActionResult> XacNhanDichVu(PhieuKhamViewModel model)
         {
-            if (model.dichVus != null)
+            if(model.dichVus!=null)
             {
 
                 ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
-                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi, UuTien = model.UuTien };
+                var result = new PhieuKhamViewModel { MaBS = model.MaBS, HoTen = model.HoTen, SDT = model.SDT, GioiTinh = model.GioiTinh, NgaySinh = model.NgaySinh, TrieuChung = model.TrieuChung, DiaChi = model.DiaChi,UuTien = model.UuTien };
                 result.dichVus = new List<DichVu>();
 
                 foreach (var item in model.dichVus)
@@ -131,13 +125,15 @@ namespace TES_MEDICAL.GUI.Controllers
             else
                 return Json(new { status = -2, title = "", text = "Vui lòng chọn it nhất một dịch vụ", obj = "" }, new JsonSerializerSettings());
 
+
+
+
         }
-
-
         [HttpPost]
-        public async Task<IActionResult> XacNhanCapNhat(Guid MaPK, ChiTietDV[] dichVus)
+
+        public async Task<IActionResult> XacNhanCapNhat(Guid MaPK,ChiTietDV[] dichVus)
         {
-            if (dichVus != null && dichVus.Count() > 0)
+            if (dichVus!=null && dichVus.Count()>0)
             {
                 var model = await _service.GetPhieuKhamById(MaPK);
                 ViewBag.BacSi = await _nhanvienyteRep.Get(model.MaBS.ToString());
@@ -155,16 +151,15 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Vui lòng chọn it nhất một dịch vụ", obj = "" }, new JsonSerializerSettings());
         }
 
-
         [HttpPost]
         public async Task<IActionResult> UpdateCheckOut(Guid MaPK, ChiTietDV[] dichVus)
         {
             string MaNVHD = (await _userManager.GetUserAsync(User)).Id;
-            var result = await _service.UpDateDichVu(MaNVHD, MaPK, dichVus.ToList());
+            var result = await _service.UpDateDichVu(MaNVHD,MaPK,dichVus.ToList());
 
             if (result != null)
             {
-
+               
 
 
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
@@ -173,6 +168,8 @@ namespace TES_MEDICAL.GUI.Controllers
             else
                 return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
         }
+
+
 
 
         [HttpPost]
@@ -180,24 +177,24 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             model.MaNVHD = (await _userManager.GetUserAsync(User)).Id;
             var result = await _service.CreatePK(model);
-            
 
-            if (result != null)
-            {
+                    if (result != null)
+                    {
                 var stt = new STTViewModel { STT = result.MaPKNavigation.STTPhieuKham.STT, HoTen = result.MaPKNavigation.MaBNNavigation.HoTen, UuTien = result.MaPKNavigation.STTPhieuKham.MaUuTien, MaPK = result.MaPK };
-                await _hubContext.Clients.All.SendAsync("SentDocTor", model.MaBS);
+                await _hubContext.Clients.All.SendAsync("SentDocTor",model.MaBS );
+               
 
-                await _service.DeletePhieuDatLichById(model.MaPhieuDatLich);
                 return Json(new { status = 1, title = "", text = "Thêm thành công.", redirectUrL = Url.Action("ThemPhieuKham", "TiepNhan"), obj = "" }, new JsonSerializerSettings());
-                
-            }
+                    }
 
-            else
-                return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
+                    else
+                        return Json(new { status = -2, title = "", text = "Thêm không thành công", obj = "" }, new JsonSerializerSettings());
+                
+
 
         }
-
-
+        
+      
 
         public async Task<IActionResult> QuanLyDatLich(PhieuDatLichSearchModel model)
         {
@@ -228,8 +225,8 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var phieuKham = await _service.GetPhieuKhamById(MaPK);
             var listOld = await _service.GetListDVByPK(MaPK);
-
-
+               
+           
             var listNew = await _dichvuRep.GetDichVu(Guid.Empty);
             var listDV = listNew.Where(x => !listOld.Any(y => y.MaDV == x.MaDV));
             ViewBag.ListOld = listOld;
@@ -239,17 +236,20 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public async Task<IActionResult> ReLoadCapNhat(PhieuKhamSearchModel model)
         {
+           
+                var listmodel = await _service.GetListPhieuKham(model);
 
-            var listmodel = await _service.GetListPhieuKham(model);
+                if (!model.Page.HasValue) model.Page = 1;
 
-            if (!model.Page.HasValue) model.Page = 1;
 
-            ViewBag.Names = listmodel;
-            ViewBag.Page = model.Page;
-            ViewBag.Data = model;
 
-            return PartialView("_ListPhieuKham", listmodel);
 
+                ViewBag.Names = listmodel;
+                ViewBag.Page = model.Page;
+                ViewBag.Data = model;
+
+                return PartialView("_ListPhieuKham", listmodel);
+            
         }
         public IActionResult ThemDichVuMoi()
         {
@@ -261,6 +261,9 @@ namespace TES_MEDICAL.GUI.Controllers
             var chiTietDatLich = await _service.GetPhieuDatLichById(id);
             return PartialView("_ChiTietDatLich", chiTietDatLich);
         }
+
+
+
 
         public async Task<IActionResult> Edit(string id)
         {
@@ -281,7 +284,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PhieuDatLich model)
         {
-
+            
             if (await _service.Edit(model) != null)
                 return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             else
@@ -297,6 +300,9 @@ namespace TES_MEDICAL.GUI.Controllers
 
             if (!model.Page.HasValue) model.Page = 1;
 
+
+
+
             ViewBag.Names = listmodel;
             ViewBag.Page = model.Page;
             ViewBag.Data = model;
@@ -304,24 +310,10 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_ListDatLich", listmodel);
         }
 
-        /// <summary>
-        /// QR CODE
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult QRCodeSample()
+        //Phần QR CODE
+        public IActionResult ViewQRCode()
         {
             return View("QRCodeSample");
-        }
-
-        public IActionResult ScanPhieuDatLich()
-        {
-            return PartialView("_ScanPhieuDatLich");
-        }
-
-        public async Task<IActionResult> LoadThongTinByMaDatLich(string id)
-        {
-            var chiTietDatLich = await _service.GetPhieuDatLichById(id);
-            return Ok(chiTietDatLich);
         }
 
     }
