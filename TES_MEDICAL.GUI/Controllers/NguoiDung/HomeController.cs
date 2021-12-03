@@ -2,13 +2,20 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using OtpSharp;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
@@ -25,11 +32,23 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ITinTuc _tintucService;
         private readonly IDuocSi _duocSiService;
         private readonly IDichVu _dichVuService;
+        private readonly ITienIch _tienichRep;
+        private OTPCLASS totp;
+
 
 
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService, IDuocSi duocSiService,IDichVu dichvuService)
+        public HomeController(ILogger<HomeController> logger,
+                                ICustomer service,
+                                IValidate valid,
+                                IHubContext<SignalServer> hubContext,
+                                ITinTuc tintucService,
+                                IDuocSi duocSiService,
+                                IDichVu dichvuService,
+                                ITienIch tienichRep,
+                                OTPCLASS toptpRep
+            )
         {
             _logger = logger;
             _service = service;
@@ -38,6 +57,8 @@ namespace TES_MEDICAL.GUI.Controllers
             _tintucService = tintucService;
             _duocSiService = duocSiService;
             _dichVuService = dichvuService;
+            _tienichRep = tienichRep;
+            totp = toptpRep;
 
         }
 
@@ -58,8 +79,6 @@ namespace TES_MEDICAL.GUI.Controllers
 
         public IActionResult DatLich()
         {
-
-
             return View();
         }
 
@@ -69,19 +88,23 @@ namespace TES_MEDICAL.GUI.Controllers
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
-                if(model.NgayKham<DateTime.Now)
+                if (model.NgayKham < DateTime.Now)
                 {
                     ModelState.AddModelError("NgayKham", "Ngày khám phải sau ngày hiện tại");
                     return View(model);
-                }    
+                }
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
+                    if (model.Email != null)
+                    {
+                        var request = HttpContext.Request;
+                        var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL))); //SendMail
 
-                    var request = HttpContext.Request;
-                    var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
-                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model,_baseURL)); //SendMail
+                        th_one.Start();
 
+                    }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
@@ -94,12 +117,87 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
 
+        [Produces("application/json")]
+        [HttpGet("searchtrieuchung")]
+        [Route("api/ChanDoan/searchtrieuchung")]
+        public async Task<IActionResult> SearchTrieuChung()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                return Ok(trieuchung);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [Produces("application/json")]
+        [HttpPost("GetTrieuChungNew")]
+        [Route("api/ChanDoan/GetTrieuChungNew")]
+        public IActionResult GetTrieuChungNew(string[] ListTrieuChung)
+        {
+            try
+            {
+
+                var trieuchungs = _tienichRep.GetListChanDoan(ListTrieuChung.ToList());
+                return Ok(trieuchungs);
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
+
+        [Produces("application/json")]
+        [HttpPost("KetQuaChanDoan")]
+        [Route("api/ChanDoan/KetQuaChanDoan")]
+        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
+        {
+            try
+            {
+                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList()).OrderBy(x => x.SoTrieuChung).ThenBy(x => x.TongCong);
+                List<DataPoint> dataPoints1 = new List<DataPoint>();
+                List<DataPoint> dataPoints2 = new List<DataPoint>();
+
+                foreach (var item in result)
+                {
+                    dataPoints1.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.SoTrieuChung));
+                }
+                foreach (var item in result)
+                {
+                    dataPoints2.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.TongCong - item.SoTrieuChung));
+                }
+
+
+                return Ok(new { DataPoint1 = dataPoints1, DataPoint2 = dataPoints2 });
+            }
+            catch
+            {
+                return Ok(new List<string>());
+            }
+        }
+
+
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
         {
             var model = await _service.GetPhieuDat(MaPhieu);
-            return View(model);
+            if (model != null)
+            {
+                return View(model);
+            }
+            return RedirectToAction("DatLichError", "Home");
+        }
+
+        public IActionResult DatLichError()
+        {
+            return View();
         }
 
         public IActionResult LichSuDatLich()
@@ -113,11 +211,23 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //Nội dung mail
-        private string message(PhieuDatLich model,string _baseURL)
+        private string message(PhieuDatLich model, string _baseURL)
         {
-            
+
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            string Base64 = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(model.MaPhieu, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    bitMap.Save(ms, ImageFormat.Png);
+                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                }
+            }
+
             using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
             {
                 string readFile = reader.ReadToEnd();
@@ -126,17 +236,24 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
-                //Url.Action("ResultDatLich", "Home", new { maPhieu = HttpUtility.UrlEncode(model.MaPhieu) }, _baseURL);
+                StrContent = StrContent.Replace("{Base64QR}", $"<img src='{Base64}' alt='' style='height: 150px; width: 150px' />");
+
                 return StrContent.ToString();
             }
 
         }
-        //Partial View TinTuc Theo TheLoai
+
+        /// <summary>
+        /// Partial tin tức theo thể loại
+        /// </summary>
+        /// <param name="MaTL"></param>
+        /// <returns></returns>
         public async Task<IActionResult> ListTheLoai(Guid MaTL)
         {
 
             return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
         }
+
 
         public async Task<IActionResult> TinChiTiet(Guid id)
         {
@@ -144,7 +261,7 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.TL1 = await _tintucService.GetTinMin(Guid.Empty);
 
             ViewBag.Hinh = baiViet.Hinh;
-            
+
             if (baiViet == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -152,29 +269,40 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(baiViet);
         }
 
-        public async Task<IActionResult> SearchByPhoneNumber(string SDT)
-        {
-            var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
-            if (listPhieuKham.Count() > 0)
-            {
 
-                return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
-                new JsonSerializerSettings
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT, string otp)
+        {
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
+            if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
+            {
+                var listPhieuKham = await _service.SearchByPhoneNumber(SDT);
+                if (listPhieuKham.Count() > 0)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+                    return Json(JsonConvert.SerializeObject(listPhieuKham, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+                else
+                {
+                    return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
             else
             {
-
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+
         }
 
         public IActionResult LichSuKham()
         {
             return View();
         }
+
 
         public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
         {
@@ -184,25 +312,59 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT)
+        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT, string otp)
         {
-            var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
-            if (listPhieuDatLich.Count() > 0)
+            byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+            totp.Totp = new Totp(rfcKey, 120,
+                                     OtpHashMode.Sha1, 6);
+            if (totp.Totp.VerifyTotp(otp, out long timeStepMatched, new VerificationWindow(0, 0)))
             {
-
-                return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
-                new JsonSerializerSettings
+                var listPhieuDatLich = await _service.SearchDatLichByPhonenumber(SDT);
+                if (listPhieuDatLich.Count() > 0)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }));
+
+                    return Json(JsonConvert.SerializeObject(listPhieuDatLich, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+                }
+                else
+                {
+
+                    return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                }
             }
             else
             {
+                return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+            }
 
-                return Json(new { status = -2, title = "", text = "Không tìm thấy", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+
+
+        public IActionResult ChanDoan()
+        {
+            return View();
+        }
+
+        //Gen OTP
+        public IActionResult Generate(string SDT)
+        {
+            if (!string.IsNullOrWhiteSpace(SDT))
+            {
+                byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
+
+                // Generating TOTP
+                totp.Totp = new Totp(rfcKey, 120,
+                                        OtpHashMode.Sha1, 6);
+                return Ok(totp.Totp.ComputeTotp());
+            }
+            else
+            {
+                return BadRequest();
             }
         }
 
-        
     }
 }
