@@ -315,6 +315,16 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View("QRCodeSample");
         }
+        public IActionResult ScanPhieuDatLich()
+        {
+            return PartialView("_ScanPhieuDatLich");
+        }
+
+        public async Task<IActionResult> LoadThongTinByMaDatLich(string id)
+        {
+            var chiTietDatLich = await _service.GetPhieuDatLichById(id);
+            return Ok(chiTietDatLich);
+        }
 
     }
 }
