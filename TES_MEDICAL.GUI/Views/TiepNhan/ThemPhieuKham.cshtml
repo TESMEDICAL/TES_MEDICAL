@@ -13,7 +13,7 @@
             <div class="block-title">
                 <h2><strong>Thông tin cá nhân</strong></h2>
             </div>
-            <input style="display:none" name="MaBN" id="MaBN" />
+            
             @Html.HiddenFor(model => model.UuTien)
             @Html.HiddenFor(model =>model.MaPhieuDatLich)
 
@@ -244,19 +244,19 @@
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
                     $("#DiaChi").val(data.DiaChi);
                     if (data.GioiTinh) {
-                        $('#GioiTinh').prop("selectedIndex",0)
+                        $('#GioiTinh').prop("selectedIndex",1)
                     }
                     else {
-                        $('#GioiTinh').prop("selectedIndex", 1)
+                        $('#GioiTinh').prop("selectedIndex", 0)
                     }
-                    $("#MaBN").val(data.MaBN);
+                    
                 }
                 else {
                     $("#HoTen").val("");
                     $("#NgaySinh").val("");
                     $("#DiaChi").val(data.DiaChi);
 
-                    $('#GioiTinh').val(0);
+                    $('#GioiTinh').val("0");
 
                     $("#MaBN").val("");
                 }
