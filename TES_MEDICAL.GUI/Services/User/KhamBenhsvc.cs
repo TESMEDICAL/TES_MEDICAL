@@ -11,6 +11,7 @@ using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 using X.PagedList;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -40,14 +41,14 @@ namespace TES_MEDICAL.GUI.Services
         }
         public async Task<PhieuKham> GetPK(Guid MaPK)
         {
-            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
+            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.ChiTietBenh).ThenInclude(x=>x.MaBenhNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
             return item;
         }
         public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
         {
             return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<string> TrieuChungs)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
         {
             try
             {
@@ -71,24 +72,34 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
                     phieuKham.TrangThai = 1;
-                    var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == model.ChanDoan);
-                    if(benh==null)
+                    foreach(var chitiet in ListCT)
                     {
-                        benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
-                        _context.Entry(benh).State = EntityState.Added;
-                        await _context.SaveChangesAsync();
-                    }
-                    phieuKham.MaBenh = benh.MaBenh;
-                    phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
-                    foreach(var item in TrieuChungs)
-                    {
-                        List<SqlParameter> parms = new List<SqlParameter>
+                        var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == chitiet.TenBenh);
+                        if (benh == null)
+                        {
+                            benh = new Benh { MaBenh = Guid.NewGuid(), TenBenh = chitiet.TenBenh, MaCK = Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
+                            _context.Entry(benh).State = EntityState.Added;
+                            await _context.SaveChangesAsync();
+                        }
+                      
+                        foreach (var item in chitiet.TrieuChung)
+                        {
+                            List<SqlParameter> parms = new List<SqlParameter>
                             {
                                 new SqlParameter { ParameterName = "@Mabenh", Value= benh.MaBenh },
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item },
                             };
-                        var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
-                    }    
+                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
+                        }
+                        var chiTietBenh = new ChiTietBenh { MaBenh = benh.MaBenh, MaPK = phieuKham.MaPK, KetQuaKham = string.Join(",", chitiet.TrieuChung) };
+                        await _context.ChiTietBenh.AddAsync(chiTietBenh);
+                    }
+                    
+                   
+                   
+                  
+                    
+                      
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
                     var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };

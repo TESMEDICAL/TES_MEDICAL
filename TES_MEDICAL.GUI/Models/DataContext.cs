@@ -42,6 +42,7 @@ namespace TES_MEDICAL.GUI.Models
         public virtual DbSet<ToaThuoc> ToaThuoc { get; set; }
         public virtual DbSet<TrieuChung> TrieuChung { get; set; }
         public virtual DbSet<TheLoai> TheLoai { get; set; }
+        public virtual DbSet<ChiTietBenh> ChiTietBenh { get; set; }
         public virtual DbSet<ThongKeDichVuViewModel> ThongKeViewModel { get; set; }
         public virtual DbSet<ListResponse> ListResponses { get; set; }
         public virtual DbSet<ResponseChanDoan> ResponseChanDoans { get; set; }
@@ -165,6 +166,24 @@ namespace TES_MEDICAL.GUI.Models
                     .IsRequired()
                     .HasMaxLength(15)
                     .IsUnicode(false);
+            });
+            modelBuilder.Entity<ChiTietBenh>(entity =>
+            {
+                entity.HasKey(e => new { e.MaPK, e.MaBenh })
+                    .HasName("PK__ChiTietBenh__339EF89FCA764F6C");
+
+               
+                entity.HasOne(d => d.MaPKNavigation)
+                    .WithMany(p => p.ChiTietBenh)
+                    .HasForeignKey(d => d.MaPK)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChiTietBenh__MaPK__3A81B327");
+
+                entity.HasOne(d => d.MaBenhNavigation)
+                    .WithMany(p => p.ChiTietBenh)
+                    .HasForeignKey(d => d.MaBenh)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChiTietBenh__MaBenh__3B75D760");
             });
 
             modelBuilder.Entity<CTTrieuChung>(entity =>

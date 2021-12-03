@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
@@ -98,7 +99,12 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> GetToaThuoc(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-            ViewBag.LisTTC = item.KetQuaKham.Split(',').ToList();
+            var ListCTBenh = new List<ChiTietBenhModel>();
+            foreach(var chitiet in item.ChiTietBenh)
+            {
+                ListCTBenh.Add(new ChiTietBenhModel { TenBenh = chitiet.MaBenhNavigation.TenBenh, TrieuChung = chitiet.KetQuaKham.Split(',').ToList() });
+            }
+            ViewBag.LisTTC = ListCTBenh;
             return PartialView("_XacNhanKetQua", item);
         }
 
@@ -148,14 +154,14 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ThemToa(PhieuKham model, List<string> ListTrieuChung)
+        public async Task<IActionResult> ThemToa(PhieuKham model,List<ChiTietBenhModel> ListCT)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
                 item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }    
-            var result = await _khambenhRep.AddToaThuoc(model,ListTrieuChung);
+            var result = await _khambenhRep.AddToaThuoc(model,ListCT);
 
             if (result != null)
             {
@@ -181,7 +187,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> XacNhanKetQua(PhieuKham model,List<string> ListTrieuChung)
+        public async Task<IActionResult> XacNhanKetQua(PhieuKham model, List<string> ListTrieuChung,List<ChiTietBenhModel> ListCT)
         {
             if (ListTrieuChung != null && ListTrieuChung.Count > 0)
 
@@ -191,7 +197,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     item.MaThuocNavigation = new Thuoc();
                     item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
                 }
-                ViewBag.LisTTC = ListTrieuChung;
+                ViewBag.LisTTC = ListCT;
 
 
             return PartialView("_XacNhanKetQua", model);

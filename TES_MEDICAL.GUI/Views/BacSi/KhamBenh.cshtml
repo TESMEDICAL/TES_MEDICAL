@@ -196,35 +196,38 @@
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
-                <div class="row">
-                    <!--Vòng lập bắt đầu-->
-                    <div class="row col-12 mb-3" style="padding-inline: 38px;">
-                        <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                        <div class="col-sm-6 row">
-                            <div class="col-sm-10 pe-0 me-0">
-                                <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                <div class="row" >
+                    <div id="ListChiTietBenh">
+                        <div class="row col-12 mb-3 ChiTietBenh" style="padding-inline: 38px;">
+                            <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                            <div class="col-sm-6 row">
+                                <div class="col-sm-10 pe-0 me-0">
+                                    <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                </div>
+                                <div class="button-reload col-sm-2 text-end">
+                                    <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                                </div>
                             </div>
-                            <div class="button-reload col-sm-2 text-end">
-                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
+                            <div class="col-sm-6" style="padding-inline: 38px; margin-top: -25px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="padding-inline: 38px; margin-top: -25px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                            <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
+                                <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC" >
+                                </ul>
                             </div>
-                        </div>
-                        <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
-                            <ul class="symptom-list mt-2" id="ListTrieuChung">
-                            </ul>
                         </div>
                     </div>
+                    <!--Vòng lập bắt đầu-->
+                   
                     <!--Vòng lặp kết thúc-->
 
                     <div class="col-12">
                         <div class="row">
                             <div class="button-reload col-sm-4">
-                                <button class="btn border-0" style="color: white; margin: 40px 0px 0px 25px;"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</button>
+                                <a class="btn border-0" style="color: white; margin: 40px 0px 0px 25px;" onclick="AddChanDoan()"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</a>
                             </div>
                             <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
                                 <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
@@ -383,38 +386,40 @@
         function () {
 
 
-            $("#frmKhamBenh").validate({
-                // Specify validation rules
-                rules: {
-                    Mach: "required",
-
-                    HuyetAp: "required",
-
-                    KetQuaKham: "required",
-
-                    ChanDoan: "required"
-
-                },
-                messages: {
-                    Mach: {
-                        required: "Bạn cần nhập tần số mạch",
-                    },
-
-                    HuyetAp: {
-                        required: "Bạn cần nhập huyết áp",
-                    },
-
-                    KetQuaKham: {
-                        required: "Bạn cần nhập kết quả khám",
-                    },
-
-                    ChanDoan: {
-                        required: "Bạn cần nhập chẩn đoán",
-                    }
-                },
-
-            });
+            ValidatePK();
         });
+    function ValidatePK() {
+
+        $("#frmKhamBenh").validate({
+            // Specify validation rules
+            rules: {
+                Mach: "required",
+
+                HuyetAp: "required",
+
+                KetQuaKham: "required",
+
+                
+
+            },
+            messages: {
+                Mach: {
+                    required: "Bạn cần nhập tần số mạch",
+                },
+
+                HuyetAp: {
+                    required: "Bạn cần nhập huyết áp",
+                },
+
+                KetQuaKham: {
+                    required: "Bạn cần nhập kết quả khám",
+                },
+
+               
+            },
+
+        });
+    }
     function BindOld(item) {
         $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
             oldPK = data;
@@ -440,45 +445,15 @@
         var Phieukham =@(Html.Raw(ViewBag.PhieuKham));
         var ToaThuoc = {};
         var oldPK = {};
+        var ListCTBenh = [];
+       
+        
 
         var ListTrieuChung = [];
         var $modal = $('#myModal');
         var $myModalContent = $("#myModalContent");
-        $(document).ready(
-            function () {
-                $("#frmKhamBenh").validate({
-                    // Specify validation rules
-                    rules: {
-                        Mach: "required",
-
-                        HuyetAp: "required",
-
-                        KetQuaKham: "required",
-
-                        ChanDoan: "required"
-
-                    },
-                    messages: {
-                        Mach: {
-                            required: "Bạn cần nhập tần số mạch",
-                        },
-
-                        HuyetAp: {
-                            required: "Bạn cần nhập huyết áp",
-                        },
-
-                        KetQuaKham: {
-                            required: "Bạn cần nhập kết quả khám",
-                        },
-
-                        ChanDoan: {
-                            required: "Bạn cần nhập chẩn đoán",
-                        }
-                    },
-
-                });
-
-            $("#ChanDoan").autocomplete({
+        function addAuto() {
+            $(".ChanDoan").autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         url: '/api/benh/search',
@@ -553,6 +528,99 @@
 
                 }
             });
+            $(".trieuchungauto").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/api/benh/searchtrieuchung',
+                        headers: {
+                            "RequestVerificationToken":
+                                $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        data: { "term": request.term },
+                        dataType: "json",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (xhr, textStatus, error) {
+                            alert(xhr.statusText);
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.responseText);
+                        }
+                    });
+                },
+                /*   focus: function () { return false; },*/
+                open: function (event, ui) {
+                    var firstElement = $(this).data("uiAutocomplete").menu.element[0].children[0]
+                        , inpt = $(this)
+                        , original = inpt.val()
+                        , firstElementText = $(firstElement).text();
+
+                    /*
+                       here we want to make sure that we're not matching something that doesn't start
+                       with what was typed in
+                    */
+
+                    if (accents_supr(firstElementText).toLowerCase().indexOf(accents_supr(original).toLowerCase()) === 0) {
+                        inpt.val(firstElementText);//change the input to the first match
+
+                        inpt[0].selectionStart = original.length; //highlight from end of input
+                        inpt[0].selectionEnd = firstElementText.length;//highlight to the end
+                    }
+                }
+            });
+
+            $('.trieuchungauto').on("keyup", function (e) {
+                if (e.keyCode == 13 && $(this).val() ) {
+
+                    var $ct = $(this).parent().parent().parent();
+                   
+                 
+                    $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$(this).val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+                   
+                   
+                    $(this).val("");
+                }
+            });
+        }
+       
+        $(document).ready(
+            function () {
+                $("#frmKhamBenh").validate({
+                    // Specify validation rules
+                    rules: {
+                        Mach: "required",
+
+                        HuyetAp: "required",
+
+                        KetQuaKham: "required",
+
+                        ChanDoan: "required"
+
+                    },
+                    messages: {
+                        Mach: {
+                            required: "Bạn cần nhập tần số mạch",
+                        },
+
+                        HuyetAp: {
+                            required: "Bạn cần nhập huyết áp",
+                        },
+
+                        KetQuaKham: {
+                            required: "Bạn cần nhập kết quả khám",
+                        },
+
+                        ChanDoan: {
+                            required: "Bạn cần nhập chẩn đoán",
+                        }
+                    },
+
+                });
+
+                addAuto();
 
 
                 $.get("GetListThuoc", function (data) {
@@ -578,69 +646,15 @@
                         }
                     )
                 });
-
-                $("#trieuchungauto").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '/api/benh/searchtrieuchung',
-                            headers: {
-                                "RequestVerificationToken":
-                                    $('input[name="__RequestVerificationToken"]').val()
-                            },
-                            data: { "term": request.term },
-                            dataType: "json",
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return item;
-                                }))
-                            },
-                            error: function (xhr, textStatus, error) {
-                                alert(xhr.statusText);
-                            },
-                            failure: function (response) {
-                                alert("failure " + response.responseText);
-                            }
-                        });
-                    },
-                 /*   focus: function () { return false; },*/
-                    open: function (event, ui) {
-                        var firstElement = $(this).data("uiAutocomplete").menu.element[0].children[0]
-                            , inpt = $(this)
-                            , original = inpt.val()
-                            , firstElementText = $(firstElement).text();
-
-                        /*
-                           here we want to make sure that we're not matching something that doesn't start
-                           with what was typed in
-                        */
-
-                        if (accents_supr(firstElementText).toLowerCase().indexOf(accents_supr(original).toLowerCase()) === 0) {
-                            inpt.val(firstElementText);//change the input to the first match
-
-                            inpt[0].selectionStart = original.length; //highlight from end of input
-                            inpt[0].selectionEnd = firstElementText.length;//highlight to the end
-                        }
-                    }
-                });
-
-                $('#trieuchungauto').on("keyup", function (e) {
-                    if (e.keyCode == 13) {
-                        addTrieuChung($(this).val());
-                        $(this).val("");
-                    }
-                });
-
-
-
             });
 
-        function addTrieuChung(name) {
-            if (name) {
-                $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
-                $('#trieuchungauto').val("");
-            }
+        ////function addTrieuChung(name) {
+        ////    if (name) {
+        ////        $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+        ////        $('#trieuchungauto').val("");
+        ////    }
             
-        }
+        ////}
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
             $.ajax({
@@ -742,75 +756,106 @@
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
-            ListTrieuChung =[];
-            if ($("#frmKhamBenh").valid()) {
-                $(".SinhHieu").each(function () {
-                    var obj = {};
-                    obj.MaPK = $('#MaPK').val();
-                    obj.TenSH = $(this).find("[name='TenSH']").val();
-                    obj.ThongTinChiTiet = $(this).find("[name='ChiSo']").val();
+            var error = 0;
+            $.each($("input[name='ChanDoan']"), function (index, value) {
+                if (value.value.length == 0) {
+                    toastr.warning("Vui lòng nhập tất cả chẩn đoán");
+                    error = 1;
+                    return;
+                }
+            });
+            if (!error) {
+                ListTrieuChung = [];
+                ListCTBenh = [];
+                if ($("#frmKhamBenh").valid()) {
+                    
+                    $(".SinhHieu").each(function () {
+                        var obj = {};
+                        obj.MaPK = $('#MaPK').val();
+                        obj.TenSH = $(this).find("[name='TenSH']").val();
+                        obj.ThongTinChiTiet = $(this).find("[name='ChiSo']").val();
 
-                    ctSH.push(obj);
+                        ctSH.push(obj);
 
-                });
+                    });
+                   
 
-                $(".trieuchungPK").each(function () {
+                    $(".ChiTietBenh").each(function () {
+                        var chitietbenh = {};
+                        chitietbenh.TrieuChung = [];
+
+                        chitietbenh.TenBenh = $(this).find("[name='ChanDoan']").val();
+                        var $ListTC = $(this).find("[name='ListTC']");
+                        $ListTC.find(".trieuchungPK").each(function () {
+                            chitietbenh.TrieuChung.push($(this).find("[name='trieuChung']").html());
+                        });
+
+                        ListCTBenh.push(chitietbenh);
+                        
+
+                    });
+                    
+
+                    $(".trieuchungPK").each(function () {
 
 
 
-                    ListTrieuChung.push($(this).find("[name='trieuChung']").html());
+                        ListTrieuChung.push($(this).find("[name='trieuChung']").html());
 
-                });
+                    });
 
-                ToaThuoc.MaPhieuKham = Phieukham.MaPK;
-                ToaThuoc.TrangThai = 0;
-                ToaThuoc.ChiTietToaThuoc = listCTThuoc;
-                Phieukham.ChiTietSinhHieu = ctSH;
-                Phieukham.Mach = $("#Mach").val();
-                Phieukham.NhietDo = $('#NhietDo').val();
-                Phieukham.ChanDoan = $('#ChanDoan').val();
-                Phieukham.HuyetAp = $('#HuyetAp').val();
-                Phieukham.KetQuaKham = $('#KetQuaKham').val();
-                Phieukham.ToaThuoc = ToaThuoc;
+                    ToaThuoc.MaPhieuKham = Phieukham.MaPK;
+                    ToaThuoc.TrangThai = 0;
+                    ToaThuoc.ChiTietToaThuoc = listCTThuoc;
+                    Phieukham.ChiTietSinhHieu = ctSH;
+                    Phieukham.Mach = $("#Mach").val();
+                    Phieukham.NhietDo = $('#NhietDo').val();
+                    Phieukham.ChanDoan = $('#ChanDoan').val();
+                    Phieukham.HuyetAp = $('#HuyetAp').val();
+                    Phieukham.KetQuaKham = $('#KetQuaKham').val();
+                    Phieukham.ToaThuoc = ToaThuoc;
 
 
 
-                $.ajax({
-                    url: "/BacSi/XacNhanKetQua/",
-                    type: 'Post',
-                    data:
-                    {
-                        model: Phieukham,
-                        ListTrieuChung: ListTrieuChung
+                    $.ajax({
+                        url: "/BacSi/XacNhanKetQua/",
+                        type: 'Post',
+                        data:
+                        {
+                            model: Phieukham,
+                            ListTrieuChung: ListTrieuChung,
+                            ListCT: ListCTBenh
 
-                    }
-                       ,
-                    success: function (response) {
-                        if (response.status == -2) {
-                            toastr.warning(response.text)
                         }
-                        else {
+                        ,
+                        success: function (response) {
+                            if (response.status == -2) {
+                                toastr.warning(response.text)
+                            }
+                            else {
 
-                            $("#myModalContent").html(response);
-                            $("#Title").html("Xác nhận thông tin");
-                            $('#myModal').modal('show');
-                            $('#btSend').show();
-                            $('#btUse').hide();
-                            $('#danhSach_filter').addClass("col-sm-12");
+                                $("#myModalContent").html(response);
+                                $("#Title").html("Xác nhận thông tin");
+                                $('#myModal').modal('show');
+                                $('#btSend').show();
+                                $('#btUse').hide();
+                                $('#danhSach_filter').addClass("col-sm-12");
+                            }
+
+
+
                         }
-                      
-
-
-                    }
-                });
+                    });
+                }
             }
+         
 
         }
         $(document).on('click', '.addThuoc', function () {
 
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-            console.log($td.eq(2).text());
+           
             $("#listToaThuoc").append(`<tr>
                         <th class="col-8">
                               <input style="display:none" name="MaThuoc" value="${$td.eq(2).text()}"  />
@@ -929,7 +974,8 @@
                 url: "/Bacsi/ThemToa/",
                 data: {
                     model: Phieukham,
-                    ListTrieuChung: ListTrieuChung
+                    ListTrieuChung: ListTrieuChung,
+                    ListCT: ListCTBenh
 
                 },
                 success: function (result) {
@@ -1017,6 +1063,33 @@
                     $('#preloader-wrapper').toggleClass('hide');
                 }
             });
+        }
+        function AddChanDoan() {
+            $('#ListChiTietBenh').append(`
+               <div class="row col-12 mb-3 ChiTietBenh" style="padding-inline: 38px;">
+                        <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                        <div class="col-sm-6 row">
+                            <div class="col-sm-10 pe-0 me-0">
+                                <input class="form-control trieuchungauto" name ="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                            </div>
+                            <div class="button-reload col-sm-2 text-end">
+                                <a class="btn text-light border-0" ><i class="fas fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="padding-inline: 38px; margin-top: -25px;">
+                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control ChanDoan" name="ChanDoan"  placeholder="Vui lòng nhập chẩn đoán">
+                            </div>
+                        </div>
+                        <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
+                            <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
+                            </ul>
+                        </div>
+                    </div>
+             `)
+            addAuto();
+           
         }
 
         const connection = new signalR.HubConnectionBuilder()
