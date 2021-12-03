@@ -16,7 +16,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<PhieuDatLich> GetPhieuDatLichById(string id);
         Task<PhieuDatLich> Edit(PhieuDatLich model);
         Task<HoaDon> CreatePK(PhieuKhamViewModel model);
-        Task<BenhNhan> GetBN(string SDT);
+        BenhNhan GetBN(string SDT);
         Task<IPagedList<PhieuKham>> GetListPhieuKham(PhieuKhamSearchModel model);
         Task<PhieuKham> GetPhieuKhamById(Guid id);
         Task<HoaDon> UpDateDichVu(string MaNV, Guid MaPK, List<ChiTietDV> chiTietDVs);
