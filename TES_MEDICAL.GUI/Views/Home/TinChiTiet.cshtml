@@ -20,6 +20,11 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+/*    .related-news{
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+    }*/
 </style>
 
 
@@ -67,7 +72,7 @@
                     <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
                         <!-- Top Rated Product Widget -->
 
-                        <div class="widget ltn__top-rated-product-widget">
+                        <div class="widget ltn__top-rated-product-widget related-news">
                             <h4 class="ltn__widget-title ltn__widget-title-border">Tin liên quan</h4>
                             <div class="list-news-contact">
                                 @foreach (var item in ViewBag.TL1)
