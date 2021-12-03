@@ -103,12 +103,12 @@
                 <tr>
                     <td class="col-3">@(i+1)</td>
                     <td class="col-6">@Model.dichVus.ElementAt(i).TenDV</td>
-                    <td class="col-3">@Model.dichVus.ElementAt(i).DonGia.ToString("n0").Replace(",", ".") VNĐ</td>
+                    <td class="col-3">@Model.dichVus.ElementAt(i).DonGia?.ToString("n0").Replace(",", ".") VNĐ</td>
                 </tr>
             }
         </table>
         <div id="TongTien" style="text-align:right">
-            <h4>Tổng tiền : @Model.dichVus.Sum(x => x.DonGia).ToString("n0").Replace(",", ".") VNĐ</h4>
+            <h4>Tổng tiền : @((Model.dichVus.Sum(x => x.DonGia))?.ToString("n0").Replace(",", ".")) VNĐ</h4>
         </div>
     </div>
 

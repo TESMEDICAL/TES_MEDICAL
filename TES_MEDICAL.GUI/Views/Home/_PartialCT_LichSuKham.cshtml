@@ -24,18 +24,25 @@
         </tr>
     </table>
 
-    <table class="table table-bordered">
-        <tr>
-            <th class="col-9"><p>Tên dịch vụ</p></th>
-            <th class="col-3 text-center"><p>Đơn giá</p></th>
-        </tr>
-        @foreach (var item in ViewBag.CTLichSuDichVu as IEnumerable<DichVu>)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td class="col-9">@item.TenDV</td>
-                <td class="col-3 text-center">@item.DonGia.ToString("#,###") VNĐ</td>
+                <th class="col-3">Tên dịch vụ</th>
+                <th class="col-1 text-center">Đơn giá</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.CTLichSuDichVu as IEnumerable<DichVu>)
+            {
+                <tr>
+                    <td class="col-3">@item.TenDV</td>
+                    <td class="col-1 text-center">@item.DonGia?.ToString("n0").Replace(",", ".")</td>
+
+                </tr>
+            }
+
+            
+        </tbody>
     </table>
 
     <table class="table table-bordered">

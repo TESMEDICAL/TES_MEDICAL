@@ -87,7 +87,7 @@
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
                         <td class="col-2 text-center">@item.MaThuocNavigation.Vitri</td>
-                        <td class="col-2">@item.MaThuocNavigation.DonGia.ToString("n0").Replace(',', '.') VNĐ</td>
+                        <td class="col-2">@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
 
                     </tr>
                 }

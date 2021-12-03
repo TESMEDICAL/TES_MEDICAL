@@ -23,7 +23,8 @@ namespace TES_MEDICAL.GUI.Models
         public string Vitri { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập đơn giá")]
-        public decimal DonGia { get; set; }
+        [RegularExpression(@"^(\d+),(\d{2})$", ErrorMessage = "Chỉ chấp nhận kiểu số dương")]
+        public decimal? DonGia { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập thông tin")]
         public string ThongTin { get; set; }
