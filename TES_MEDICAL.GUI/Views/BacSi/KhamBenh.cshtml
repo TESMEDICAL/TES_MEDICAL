@@ -301,7 +301,7 @@
             </div>
             <div class="form-group">
                 <div class="button-reload form-group" style="padding-inline: 38px; text-align: right;">
-                    <button style="color:white; border: none" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button style="color:white; border: none" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="fa fa-plus text-white"></i>
                         Thêm thuốc
                     </button>
@@ -323,7 +323,7 @@
         <!--Button-->
         <div class="form-group" style="text-align: right; margin-right: 10px;">
             <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
-            <button type="button" class="btn btn-danger" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
         </div>
         <br /><br />
     </div>
@@ -362,9 +362,9 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btUse" class="btn btn-primary" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
-                    <button type="button" id="btSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
-                    <button type="button" class="btn btn-danger" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    <button type="button" id="btUse" class="btn"  onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
+                    <button type="button" id="btSend" class="btn"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
+                    <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -504,7 +504,7 @@
                 select: function (event, ui) {
 
                     Swal.fire({
-                        title: `Sủ dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
+                        title: `Sử dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
 
                         icon: 'info',
                         showCancelButton: true,
@@ -817,10 +817,10 @@
                             <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${$td.eq(0).text()}</h6>
                             <div class="row" style="margin-inline: 20px;">
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Ngày uống <input style="width: 25%" type="number" class="form-control;" name="LanTrongNgay" > lần.</label>
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" name="LanTrongNgay" > lần.</label>
                                 </div>
                                 <div class="mb-2 col-sm-4">
-                                    <label for="">Mỗi lần <input style="width: 25%" type="number" class="form-control;" name="VienMoiLan"> viên.</label>
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" name="VienMoiLan"> viên.</label>
                                 </div>
                                 <div class="form-check col-sm-4 mb-2">
                                     <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
@@ -850,10 +850,10 @@
                         </th>
                         <th class="col-2">
                             <div class="input-group mb-3">
-                                <input type="number"  placeholder="Số lượng..." class="form-control" name ="SoLuong">
+                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" name ="SoLuong">
                             </div>
                         </th>
-                        <th class="col-2 text-center"><button class="btn btn-danger deleteThuoc"><i class="fa fa-trash"></i></button></th>
+                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
                     </tr>
               `);
             table
@@ -865,7 +865,7 @@
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
 
-            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-success btn-sm addThuoc" style="border-radius: 60px;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
+            var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-sm addThuoc" id="btnAddThuoc" style="border-radius: 50%;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
 
 
             $(rowNode).find('td').eq(1).addClass('text-center');

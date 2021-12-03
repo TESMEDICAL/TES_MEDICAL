@@ -98,19 +98,19 @@
                             <p style="font-style: italic">@item.GhiChu</p>
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
-                        <td>@item.MaThuocNavigation.DonGia.ToString("n0").Replace(',', '.') VNĐ</td>
-                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia).ToString("n0").Replace(',', '.')) VNĐ</td>
+                        <td>@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
+                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia)?.ToString("n0").Replace(',', '.')) VNĐ</td>
 
                     </tr>
-                    toTal += (item.SoLuong * item.MaThuocNavigation.DonGia);
+                    toTal +=(decimal)(item.SoLuong * item.MaThuocNavigation.DonGia);
                 }
 
             </tbody>
         </table>
     </div>
 
-    <div class="p-3">
-        <h4 style="color: seagreen; font-weight: bold; text-align: right;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
+    <div class="p-3" id="TongTien">
+        <h4 style="text-align: right;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
     </div>
 </div>
 

@@ -60,7 +60,17 @@
 
     <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
     <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+    @if (string.IsNullOrWhiteSpace((await UserManager.GetUserAsync(User)).Theme))
+    {
+        <link rel="stylesheet" href="~/MainElement/css/themes/spring.css">
+    }
+    else
+    {
+        <link rel="stylesheet" href="@((await UserManager.GetUserAsync(User)).Theme)">
+    }
     <link rel="stylesheet" href="~/MainElement/css/themes.css">
+
+
     <!-- END Stylesheets -->
     <!-- Modernizr (browser feature detection library) -->
     <script src="~/MainElement/js/vendor/modernizr.min.js"></script>
@@ -340,13 +350,13 @@
 
                         <ul class="sidebar-section sidebar-themes clearfix sidebar-nav-mini-hide">
                             <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
+                                <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/MainElement/css/themes/spring.css" data-toggle="tooltip" title="Xanh lục"></a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
+                                <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/MainElement/css/themes/amethyst.css" data-toggle="tooltip" title="Tím"></a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
+                                <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/MainElement/css/themes/flatie.css" data-toggle="tooltip" title="Vàng"></a>
                             </li>
 
                             <li>
@@ -384,8 +394,8 @@
                                 <li class="@Html.IsSelected(actions: "QuanLyDatLich", controllers: "TiepNhan")">
                                     <a href="@Url.Action("QuanLyDatLich","TiepNhan")"><i class="fas fa-calendar-week sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Quản lý đặt lịch</span></a>
                                 </li>
-                                <li class="@(ViewBag.Current == "capnhatdichvu" ? "active" : "")">
-                                    <a href="/tiepnhan/capnhatdichvu"><i class="fas fa-pen-alt sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Cập nhật dịch vụ</span></a>
+                                <li class="@Html.IsSelected(actions: "CapNhatDichVu", controllers: "TiepNhan")">
+                                    <a href="@Url.Action("CapNhatDichVu","TiepNhan")"><i class="fas fa-pen-alt sidebar-nav-icon me-3 ms-2"></i><span class="sidebar-nav-mini-hide"> Cập nhật dịch vụ</span></a>
                                 </li>
                             }
                             else if ((await UserManager.GetUserAsync(User)).ChucVu == 3)
@@ -467,9 +477,10 @@
                                 <!-- Top Stats -->
                                 <div class="header-text-right">
                                     <h2 class="animation-hatch">
-                                        <strong>27&deg; C</strong><br>
-                                        <small><i class="fa fa-map-marker"></i> Hồ Chí Minh</small>
+                                        <strong id="DoC"></strong><br>
+                                        <small id="locationMain"><i class="fa fa-map-marker"></i></small>
                                     </h2>
+                                    <button onclick="getLocation()" id="btThoiTiet" class="display-none">Try It</button>
                                 </div>
                                 <!-- END Top Stats -->
                             </div>
@@ -571,12 +582,47 @@
 
     <!--Script chạy Active trên Menu-->
     <script>
+        var DefaulTheme = '@(string.IsNullOrWhiteSpace((await UserManager.GetUserAsync(User)).Theme)? "spring.css": (await UserManager.GetUserAsync(User)).Theme)';
+        var colorList = $('.sidebar-themes');
+        var themeLink = $('#theme-link');
+        var themeColor = themeLink.length ? themeLink.attr('href') : 'default';
+        $('a[data-theme="' + themeColor + '"]', colorList)
+            .parent('li')
+            .addClass('active');
+
         function myActive(e) {
             var elems = document.querySelectorAll(".active");
             [].forEach.call(elems, function (el) {
                 el.classList.remove("active");
             });
             e.target.className = "active";
+        }
+
+        //Hàm get vị trí 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function showPosition(position) {
+            console.log(position.coords.latitude, position.coords.longitude);
+            LoadThoiTiet(position.coords.latitude, position.coords.longitude);
+        }
+
+        $(document).ready(
+            function () {
+                             
+                $("#btThoiTiet").trigger('click');
+               
+            });
+
+        function LoadTheme(name) {
+            if (Themes != null && Themes != '') {
+                $(`link[href="${DefaulTheme}"]`).before(`<link id="theme-link" rel="stylesheet" href="${name}">`);
+            }
         }
 
         //Hàm load hình
@@ -593,6 +639,23 @@
             reader.readAsDataURL(file);
 
         });
+
+        //Load thời tiết
+        function LoadThoiTiet(lat,lon) {
+            $.ajax({
+                url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=1f8c83dd8445415660abe62e1f2dd416`,
+                type: "Get",
+                timeout: 20000,
+                data: JSON,
+                async: true,
+                success: function (result) {                   
+                    $('#DoC').html(Math.ceil(result.main.temp - 273.15) + '&deg;C');
+                    $('#locationMain').html(result.name);
+          
+                }
+            });
+        }
+
 
         //Hàm open modal ChangePass
         function OpenChangePass() {
@@ -641,7 +704,7 @@
         }
 
         //Hàm edit info NhanVienYTe
-        function Edit() {
+        function EditInfo() {
             if ($("#frm1").valid()) {
                 var formData = new FormData();
                 var fileUpload = $("#upload-back").get(0);
@@ -725,6 +788,42 @@
                 });
             }
         }
+        $('a', colorList).click(function (e) {
+            // Get theme name
+           var themeColor = $(this).data('theme');
+
+            $('li', colorList).removeClass('active');
+            $(this).parent('li').addClass('active');
+
+            if (themeColor === 'default') {
+                if (themeLink.length) {
+                    themeLink.remove();
+                    themeLink = $('#theme-link');
+                }
+            } else {
+                if (themeLink.length) {
+                    themeLink.attr('href', themeColor);
+                } else {
+                    $('link[href="/MainElement/css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + themeColor + '">');
+                    themeLink = $('#theme-link');
+                    $.ajax({
+                        url: '@Url.Action("ChangeTheme","Identity")',
+                        type: "Get",
+                        timeout: 20000,
+                        data: {
+                            ThemeUrl: themeColor
+                        },
+                        async: true,
+                        success: function (result) {
+
+                          
+                        }
+                    });
+                }
+            }
+
+          
+        });
 
     </script>
 

@@ -72,7 +72,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     user.Hinh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
                 }
 
                 if (file != null)
@@ -167,6 +167,25 @@ namespace TES_MEDICAL.GUI.Controllers
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
             return View();
+        }
+
+        public async Task<IActionResult> ChangeTheme(string ThemeUrl)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                user.Theme = ThemeUrl;
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+                return Json(new { status = 1, title = "", text = "Đổi chủ đề thành công." });
+            }
+            catch
+            {
+                return Json(new { status = 0, title = "", text = "Có lỗi xảy ra vui lòng kiểm tra lại." });
+            }
+
+          
+
         }
 
 

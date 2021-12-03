@@ -90,7 +90,7 @@ namespace TES_MEDICAL.GUI.Controllers
                     model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
                 }
 
                 model.MaNguoiDung = Guid.NewGuid();
@@ -157,7 +157,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(NguoiDung model)
         {
-            var user = await _service.Get(Guid.Parse(HttpContext.Session.GetString(SessionKey.Nguoidung.MaNguoiDung)));
+            var user = await _service.Get(model.MaNguoiDung);
             user.ChucVu = model.ChucVu;
             user.TrangThai = model.TrangThai;
             var result = await _service.Edit(user);

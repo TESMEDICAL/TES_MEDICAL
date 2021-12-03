@@ -423,7 +423,9 @@
                 success: function (response) {
                     $('#ResultTCNew').fadeIn('slow');
                     $('#LoadingTCNew').hide();
-                    
+                    $('#ListTrieuChungNew').html("")
+                    if (response.length > 0) {
+                      =
                         response.forEach(function (item) {
                             $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
                                             <label class="checkbox-inline" style="font-size: 20px;">

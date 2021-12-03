@@ -657,6 +657,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("GhiChu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("NgayKham")
                         .IsRequired()
                         .HasColumnType("datetime");

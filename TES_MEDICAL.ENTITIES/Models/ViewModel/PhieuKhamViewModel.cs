@@ -8,6 +8,7 @@ namespace TES_MEDICAL.GUI.Models.ViewModel
 {
     public class PhieuKhamViewModel
     {
+        public string MaPhieuDatLich { get; set; } 
         public Guid MaBN { get; set; }      
         [Required(ErrorMessage ="Bạn cần nhập họ tên")]
         public string HoTen { get; set; }

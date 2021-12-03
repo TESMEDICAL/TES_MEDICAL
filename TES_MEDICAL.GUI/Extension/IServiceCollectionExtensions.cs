@@ -51,8 +51,9 @@ namespace TES_MEDICAL.GUI.Extension
 
                 .AddScoped<IAutoBackground, AutoBackgroundSvc>()
                 .AddScoped<IReport, ReportSvc>()
-
+                .AddScoped<OTPCLASS>()
                 .AddScoped<IDuocSi, DuocSisvc>();
+
 
                 
 

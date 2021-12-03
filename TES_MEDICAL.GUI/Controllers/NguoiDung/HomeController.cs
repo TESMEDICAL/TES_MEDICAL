@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
@@ -26,21 +25,11 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly ITinTuc _tintucService;
         private readonly IDuocSi _duocSiService;
         private readonly IDichVu _dichVuService;
-        private readonly ITienIch _tienichRep;
-
 
 
         private IHubContext<SignalServer> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger,
-                                ICustomer service,
-                                IValidate valid,
-                                IHubContext<SignalServer> hubContext,
-                                ITinTuc tintucService,
-                                IDuocSi duocSiService,
-                                IDichVu dichvuService,
-                                ITienIch tienichRep
-            )
+        public HomeController(ILogger<HomeController> logger, ICustomer service, IValidate valid, IHubContext<SignalServer> hubContext, ITinTuc tintucService, IDuocSi duocSiService,IDichVu dichvuService)
         {
             _logger = logger;
             _service = service;
@@ -49,7 +38,6 @@ namespace TES_MEDICAL.GUI.Controllers
             _tintucService = tintucService;
             _duocSiService = duocSiService;
             _dichVuService = dichvuService;
-            _tienichRep = tienichRep;
 
         }
 
@@ -81,18 +69,19 @@ namespace TES_MEDICAL.GUI.Controllers
             model.MaPhieu = "PK_" + (Helper.GetUniqueKey()).ToUpper();
             if (ModelState.IsValid)
             {
-                if (model.NgayKham < DateTime.Now)
+                if(model.NgayKham<DateTime.Now)
                 {
                     ModelState.AddModelError("NgayKham", "Ngày khám phải sau ngày hiện tại");
                     return View(model);
-                }
+                }    
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {
-                    if (model.Email != null)
-                    {
-                        Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model)); //SendMail
-                    }
+
+                    var request = HttpContext.Request;
+                    var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                    Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model,_baseURL)); //SendMail
+
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
@@ -105,87 +94,12 @@ namespace TES_MEDICAL.GUI.Controllers
 
         }
 
-        [Produces("application/json")]
-        [HttpGet("searchtrieuchung")]
-        [Route("api/ChanDoan/searchtrieuchung")]
-        public async Task<IActionResult> SearchTrieuChung()
-        {
-            try
-            {
-                string term = HttpContext.Request.Query["term"].ToString();
-                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
-                return Ok(trieuchung);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-
-        [Produces("application/json")]
-        [HttpPost("GetTrieuChungNew")]
-        [Route("api/ChanDoan/GetTrieuChungNew")]
-        public IActionResult GetTrieuChungNew(string[] ListTrieuChung)
-        {
-            try
-            {
-
-                var trieuchungs = _tienichRep.GetListChanDoan(ListTrieuChung.ToList());
-                return Ok(trieuchungs);
-            }
-            catch
-            {
-                return Ok(new List<string>());
-            }
-        }
-
-
-        [Produces("application/json")]
-        [HttpPost("KetQuaChanDoan")]
-        [Route("api/ChanDoan/KetQuaChanDoan")]
-        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
-        {
-            try
-            {
-                var result = _tienichRep.KetQuaChanDoan(ListTrieuChung.ToList()).OrderBy(x => x.SoTrieuChung).ThenBy(x => x.TongCong);
-                List<DataPoint> dataPoints1 = new List<DataPoint>();
-                List<DataPoint> dataPoints2 = new List<DataPoint>();
-
-                foreach (var item in result)
-                {
-                    dataPoints1.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.SoTrieuChung));
-                }
-                foreach (var item in result)
-                {
-                    dataPoints2.Add(new DataPoint((item.TenBenh + "(" + item.SoTrieuChung + "/" + item.TongCong + ")").ToString(), item.TongCong - item.SoTrieuChung));
-                }
-
-
-                return Ok(new { DataPoint1 = dataPoints1, DataPoint2 = dataPoints2 });
-            }
-            catch
-            {
-                return Ok(new List<string>());
-            }
-        }
-
-
 
 
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
-        {           
-            var model = await _service.GetPhieuDat(MaPhieu);
-            if (model != null)
-            {
-                return View(model);
-            }                        
-            return RedirectToAction("DatLichError", "Home");
-        }
-
-        public IActionResult DatLichError()
         {
-            return View();
+            var model = await _service.GetPhieuDat(MaPhieu);
+            return View(model);
         }
 
         public IActionResult LichSuDatLich()
@@ -199,10 +113,10 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private string message(PhieuDatLich model)
+        //Nội dung mail
+        private string message(PhieuDatLich model,string _baseURL)
         {
-            var request = HttpContext.Request;
-            var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+            
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
             {
@@ -212,22 +126,17 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
+                //Url.Action("ResultDatLich", "Home", new { maPhieu = HttpUtility.UrlEncode(model.MaPhieu) }, _baseURL);
                 return StrContent.ToString();
             }
 
         }
-
-        /// <summary>
-        /// Partial tin tức theo thể loại
-        /// </summary>
-        /// <param name="MaTL"></param>
-        /// <returns></returns>
+        //Partial View TinTuc Theo TheLoai
         public async Task<IActionResult> ListTheLoai(Guid MaTL)
         {
 
             return PartialView("_ListTheLoai", await _tintucService.GetTinTuc(MaTL));
         }
-
 
         public async Task<IActionResult> TinChiTiet(Guid id)
         {
@@ -235,14 +144,13 @@ namespace TES_MEDICAL.GUI.Controllers
             ViewBag.TL1 = await _tintucService.GetTinMin(Guid.Empty);
 
             ViewBag.Hinh = baiViet.Hinh;
-
+            
             if (baiViet == null)
             {
                 return RedirectToAction("Index", "Home");
             }
             return View(baiViet);
         }
-        
 
         public async Task<IActionResult> SearchByPhoneNumber(string SDT)
         {
@@ -267,7 +175,6 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View();
         }
-
 
         public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
         {
@@ -296,12 +203,6 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-
-        public IActionResult ChanDoan()
-        {
-            return View();
-        }
-
-
+        
     }
 }

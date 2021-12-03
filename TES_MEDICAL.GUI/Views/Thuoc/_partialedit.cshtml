@@ -131,7 +131,7 @@
             <div class="form-group col-12">               
                 @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
                 <div id="image-holder2">
-                    <img src="~/images/@Model.HinhAnh" style='width: 250px;'>
+                    <img src="~/images/imagesThuoc/@Model.HinhAnh" style='width: 250px;'>
                 </div>
                 <label class="btn-img btn mt-4">
                     <i class="fa fa-image"></i> &nbsp; Chọn hình<input style="display:none;" class="form-control" type="file" id="upload-back" accept="image/*" />
@@ -141,7 +141,7 @@
     }
 </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@*@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }*@
 <script>
 
     $(document).ready(function () {

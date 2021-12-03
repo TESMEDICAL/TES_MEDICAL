@@ -26,6 +26,10 @@
         margin-top: 20px;
         padding-inline: 20px;
     }
+    #btclose {
+        background-color: #FA4F4F;
+        color: white;
+    }
 </style>
 <div>
     <div class="modal-header">
@@ -64,14 +68,20 @@
                         @Model.NgayKham
                     </h6>
                 </div>
+                <div class="col-sm-6 mt-4 mb-3">
+                    <h6>
+                        <strong>Ghi chú</strong><br />                   
+                        @(string.IsNullOrEmpty(Model.GhiChu)?"Không có":Model.GhiChu)
+                    </h6>
+                </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <div class="text-right">
-            <a id="btSave" class="btn border-0" style="background-color: seagreen; color: white;" href="@Url.Action("ThemPhieuKham","TiepNhan", new {MaPhieu=Model.MaPhieu })"><i class="far fa-print"></i>&nbsp;Tạo phiếu</a>
+            <a id="btSave" class="btn border-0" style="color: white;" href="@Url.Action("ThemPhieuKham","TiepNhan", new {MaPhieu=Model.MaPhieu })"><i class="far fa-print"></i>&nbsp;Tạo phiếu</a>
 
-            <button type="button" class="btn btn-danger border-0" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            <button type="button" class="btn border-0" id="btclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
         </div>
     </div>
 </div>

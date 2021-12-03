@@ -274,6 +274,7 @@ namespace TES_MEDICAL.GUI.Models
                 entity.Property(e => e.TenDV)
                     .IsRequired()
                     .HasMaxLength(100);
+                entity.Property(e => e.DonGia).IsRequired().HasColumnType("money");
             });
             modelBuilder.Entity<HoaDon>(entity =>
             {
@@ -513,6 +514,7 @@ namespace TES_MEDICAL.GUI.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
+                entity.Property(e => e.DonGia).IsRequired().HasColumnType("money");
             });
             modelBuilder.Entity<STTTOATHUOC>(entity =>
             {
