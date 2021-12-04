@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Models
         [Required(ErrorMessage = "Bạn cần nhập vị trí")]
         public string Vitri { get; set; }
 
-        [Required(ErrorMessage = "Bạn cần nhập đơn giá")]
+        [Required(ErrorMessage = "Bạn cần nhập đơn giá.")]
         [Range(0, 9999999999.999999, ErrorMessage = "Đơn Giá không âm")]
         public decimal? DonGia { get; set; }
 
