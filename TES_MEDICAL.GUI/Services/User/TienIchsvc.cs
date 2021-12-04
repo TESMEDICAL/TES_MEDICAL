@@ -35,6 +35,39 @@ namespace TES_MEDICAL.GUI.Services
                     where b.TenBenh.Equals(TenBenh)&&pk.TrangThai>=1&&pk.TrangThai<=2
                     select pk).FirstOrDefaultAsync();           
         }
+
+        public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(string TenBenh)
+        {
+            PhieuKham result = null;
+
+            result = await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+
+                            where pk.ChanDoan.Equals(TenBenh) && pk.TrangThai >= 1 && pk.TrangThai <= 2
+                            select pk).FirstOrDefaultAsync();
+            if (result != null) return result.ToaThuoc.ChiTietToaThuoc.ToList() ;
+           
+                
+            else
+            {
+                var listToaThuoc = new List<ChiTietToaThuoc>();
+                var listBenh = TenBenh.Split(",");
+                foreach (var benh in listBenh)
+                {
+                    var List = (from pk in _context.PhieuKham.Include(x => x.ChiTietBenh).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+
+                               join ctbenh in _context.ChiTietBenh.Include(x => x.MaBenhNavigation)
+                                on pk.MaPK equals ctbenh.MaPK
+                                where ctbenh.MaBenhNavigation.TenBenh == benh
+                                && pk.ChiTietBenh.Count() == 1
+                                && !string.IsNullOrWhiteSpace(pk.ChanDoan)
+                                 && pk.TrangThai >= 1 && pk.TrangThai <= 2
+                                orderby pk.NgayKham descending
+                                select pk).FirstOrDefault();
+                    listToaThuoc.Concat(List.ToaThuoc.ChiTietToaThuoc);
+                }
+                return listToaThuoc;
+            }
+        }
         public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
         {
             return await _context.TrieuChung.Where(x =>

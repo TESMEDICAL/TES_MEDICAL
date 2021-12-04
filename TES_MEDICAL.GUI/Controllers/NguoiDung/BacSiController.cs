@@ -160,7 +160,9 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
-            }    
+            }
+            model.ChanDoan = string.Join(",", ListCT.Select(x => x.TenBenh).ToArray());
+   
             var result = await _khambenhRep.AddToaThuoc(model,ListCT);
 
             if (result != null)
