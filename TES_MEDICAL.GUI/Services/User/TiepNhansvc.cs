@@ -77,7 +77,7 @@ namespace TES_MEDICAL.GUI.Services
             {
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
-                    new SqlParameter { ParameterName = "@MaBN", Value= model.MaBN },
+                    
                     new SqlParameter { ParameterName = "@HoTen", Value= model.HoTen },
                     new SqlParameter { ParameterName = "@SDT", Value= model.SDT },
                     new SqlParameter { ParameterName = "@NgaySinh", Value= model.NgaySinh },
@@ -92,7 +92,7 @@ namespace TES_MEDICAL.GUI.Services
                     new SqlParameter { ParameterName = "@MaHD", Value= maHD },
                     new SqlParameter { ParameterName = "@listDetail", Value= listContent }
                 };
-                var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @MaBN, @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
+                var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
             }
             catch {}
         }

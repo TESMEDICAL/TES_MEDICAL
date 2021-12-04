@@ -55,7 +55,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [Route("/tiepnhan/ThemPhieuKham")]
         public async Task<IActionResult> ThemPhieuKham(string MaPhieu)
         {
-            ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetAll(), "MaCK", "TenCK");
+            ViewBag.ListCK = new SelectList(await _chuyenkhoaRep.GetChuyenKhoaHaveDoctor(), "MaCK", "TenCK");
 
             ViewBag.ListDV = await _dichvuRep.GetDichVu(Guid.Empty);
 
