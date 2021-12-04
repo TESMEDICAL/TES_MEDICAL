@@ -108,10 +108,10 @@
                         {
                             foreach (var ct in ViewBag.ListTC as List<ChiTietBenhModel>)
                             {
-                                <h1>@ct.TenBenh</h1>
+                                <h5 style="font-weight: 600; text-transform: capitalize;">@ct.TenBenh</h5>
                                 @foreach (var tc in ct.TrieuChung)
                                 {
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-6">
 
                                         <h6>
                                             <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2 mb-1" />
