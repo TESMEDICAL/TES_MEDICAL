@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211204140119_update5")]
+    partial class update5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -710,6 +712,9 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaPK")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("BenhMaBenh")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ChanDoan")
                         .HasColumnType("nvarchar(max)");
 
@@ -751,6 +756,8 @@ namespace TES_MEDICAL.GUI.Migrations
 
                     b.HasKey("MaPK")
                         .HasName("PK__PhieuKha__2725E7FDD3F81957");
+
+                    b.HasIndex("BenhMaBenh");
 
                     b.HasIndex(new[] { "MaBN" }, "IX_PhieuKham_MaBN");
 
@@ -1123,6 +1130,10 @@ namespace TES_MEDICAL.GUI.Migrations
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.PhieuKham", b =>
                 {
+                    b.HasOne("TES_MEDICAL.GUI.Models.Benh", null)
+                        .WithMany("PhieuKham")
+                        .HasForeignKey("BenhMaBenh");
+
                     b.HasOne("TES_MEDICAL.GUI.Models.BenhNhan", "MaBNNavigation")
                         .WithMany("PhieuKham")
                         .HasForeignKey("MaBN")
@@ -1197,6 +1208,8 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("ChiTietBenh");
 
                     b.Navigation("CTTrieuChung");
+
+                    b.Navigation("PhieuKham");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.BenhNhan", b =>

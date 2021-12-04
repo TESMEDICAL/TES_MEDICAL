@@ -27,20 +27,13 @@ namespace TES_MEDICAL.GUI.Services
                .Take(10).ToListAsync();
 
         }
-        public async Task<PhieuKham> GetAuToFill(string TenBenh)
-        {
-            return await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
-                    join b in _context.Benh
-                    on pk.MaBenh equals (b.MaBenh)
-                    where b.TenBenh.Equals(TenBenh)&&pk.TrangThai>=1&&pk.TrangThai<=2
-                    select pk).FirstOrDefaultAsync();           
-        }
+       
 
         public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh)
         {
             PhieuKham result = null;
 
-            result = await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+            result = await (from pk in _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 
                             where pk.ChanDoan.Equals(string.Join(",",TenBenh)) && pk.TrangThai >= 1 && pk.TrangThai <= 2
                             select pk).FirstOrDefaultAsync();

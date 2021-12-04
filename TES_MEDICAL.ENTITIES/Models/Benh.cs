@@ -22,7 +22,7 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaCK { get; set; }
         public virtual ChuyenKhoa MaCKNavigation { get; set; }
         public virtual ICollection<CTTrieuChung> CTTrieuChung { get; set; }
-        public virtual ICollection<PhieuKham> PhieuKham { get; set; }
+
         public virtual ICollection<ChiTietBenh> ChiTietBenh { get; set; }
 
     }

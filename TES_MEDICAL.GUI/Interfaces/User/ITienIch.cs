@@ -10,7 +10,7 @@ namespace TES_MEDICAL.GUI.Interfaces
      public interface ITienIch
      {
         Task<List<Benh>> SearchBenh(string KeyWord);
-        Task<PhieuKham> GetAuToFill(string TenBenh);
+      
         Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh);
         Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung);
         List<ListResponse> GetListChanDoan(List<string> ListTrieuChung);

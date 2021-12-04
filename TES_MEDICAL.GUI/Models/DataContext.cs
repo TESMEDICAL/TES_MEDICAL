@@ -486,10 +486,7 @@ namespace TES_MEDICAL.GUI.Models
                     .WithMany(p => p.PhieuKham)
                     .HasForeignKey(d => d.MaBS)
                     .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
-                entity.HasOne(d => d.MaBenhNavigation)
-                      .WithMany(p => p.PhieuKham)
-                      .HasForeignKey(d => d.MaBenh)
-                      .HasConstraintName("FK_PhieuKham_MaBenh");
+              
             });
 
 

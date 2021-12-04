@@ -68,7 +68,6 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.NhietDo = model.NhietDo;
                     phieuKham.HuyetAp = model.HuyetAp;
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
-                    phieuKham.KetQuaKham = model.KetQuaKham;
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
                     phieuKham.TrangThai = 1;
