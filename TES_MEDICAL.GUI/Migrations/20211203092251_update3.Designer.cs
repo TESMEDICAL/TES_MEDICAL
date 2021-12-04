@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TES_MEDICAL.GUI.Models;
 
 namespace TES_MEDICAL.GUI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211203092251_update3")]
+    partial class update3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -332,8 +334,8 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Property<Guid>("MaBenh")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("KetQuaKham")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("KetQuaKham")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MaPK", "MaBenh")
                         .HasName("PK__ChiTietBenh__339EF89FCA764F6C");
@@ -718,6 +720,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<string>("KetQuaKham")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaBN")
                         .HasColumnType("uniqueidentifier");
 
@@ -725,6 +730,9 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<Guid?>("MaBenh")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Mach")
                         .HasMaxLength(50)
@@ -751,6 +759,8 @@ namespace TES_MEDICAL.GUI.Migrations
 
                     b.HasKey("MaPK")
                         .HasName("PK__PhieuKha__2725E7FDD3F81957");
+
+                    b.HasIndex("MaBenh");
 
                     b.HasIndex(new[] { "MaBN" }, "IX_PhieuKham_MaBN");
 
@@ -1134,6 +1144,13 @@ namespace TES_MEDICAL.GUI.Migrations
                         .HasForeignKey("MaBS")
                         .HasConstraintName("FK__PhieuKham__MaBS__2A4B4B5E");
 
+                    b.HasOne("TES_MEDICAL.GUI.Models.Benh", "MaBenhNavigation")
+                        .WithMany("PhieuKham")
+                        .HasForeignKey("MaBenh")
+                        .HasConstraintName("FK_PhieuKham_MaBenh");
+
+                    b.Navigation("MaBenhNavigation");
+
                     b.Navigation("MaBNNavigation");
 
                     b.Navigation("MaBSNavigation");
@@ -1197,6 +1214,8 @@ namespace TES_MEDICAL.GUI.Migrations
                     b.Navigation("ChiTietBenh");
 
                     b.Navigation("CTTrieuChung");
+
+                    b.Navigation("PhieuKham");
                 });
 
             modelBuilder.Entity("TES_MEDICAL.GUI.Models.BenhNhan", b =>

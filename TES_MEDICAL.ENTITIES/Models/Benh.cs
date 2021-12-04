@@ -11,6 +11,8 @@ namespace TES_MEDICAL.GUI.Models
         public Benh()
         {
             CTTrieuChung = new HashSet<CTTrieuChung>();
+            ChiTietBenh = new HashSet<ChiTietBenh>();
+          
         }
         public Guid MaBenh { get; set; }
         [Required(ErrorMessage = "Bạn cần nhập tên bệnh")]
@@ -20,6 +22,8 @@ namespace TES_MEDICAL.GUI.Models
         public Guid MaCK { get; set; }
         public virtual ChuyenKhoa MaCKNavigation { get; set; }
         public virtual ICollection<CTTrieuChung> CTTrieuChung { get; set; }
-        public virtual ICollection<PhieuKham> PhieuKham { get; set; }
+
+        public virtual ICollection<ChiTietBenh> ChiTietBenh { get; set; }
+
     }
 }

@@ -27,13 +27,39 @@ namespace TES_MEDICAL.GUI.Services
                .Take(10).ToListAsync();
 
         }
-        public async Task<PhieuKham> GetAuToFill(string TenBenh)
+       
+
+        public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh)
         {
-            return await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
-                    join b in _context.Benh
-                    on pk.MaBenh equals (b.MaBenh)
-                    where b.TenBenh.Equals(TenBenh)&&pk.TrangThai>=1&&pk.TrangThai<=2
-                    select pk).FirstOrDefaultAsync();           
+            PhieuKham result = null;
+
+            result = await (from pk in _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+
+                            where pk.ChanDoan.Equals(string.Join(",",TenBenh)) && pk.TrangThai >= 1 && pk.TrangThai <= 2
+                            select pk).FirstOrDefaultAsync();
+            if (result != null) return result.ToaThuoc.ChiTietToaThuoc.ToList() ;
+           
+                
+            else
+            {
+                var listToaThuoc = new List<ChiTietToaThuoc>();
+                
+                foreach (var benh in TenBenh)
+                {
+                    var List = (from pk in _context.PhieuKham.Include(x => x.ChiTietBenh).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
+
+
+
+                                where !string.IsNullOrWhiteSpace(pk.ChanDoan)
+                                && pk.ChanDoan == benh
+                                 && pk.TrangThai >= 1 && pk.TrangThai <= 2
+                                orderby pk.NgayKham descending
+                                select pk).FirstOrDefault();
+                    if(List!=null)
+                    listToaThuoc.AddRange(List.ToaThuoc.ChiTietToaThuoc.ToList().Except(listToaThuoc));
+                }
+                return listToaThuoc;
+            }
         }
         public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
         {

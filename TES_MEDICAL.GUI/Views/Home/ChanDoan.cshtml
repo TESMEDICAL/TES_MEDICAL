@@ -431,7 +431,7 @@
                     $('#LoadingTCNew').hide();
                     $('#ListTrieuChungNew').html("")
                     if (response.length > 0) {
-                       /* btFinal*/
+                      =
                         response.forEach(function (item) {
                             $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
                                             <label class="checkbox-inline" style="font-size: 20px;">
@@ -439,15 +439,7 @@
                                             </label>
                                         </div>`)
                         });
-                    }
-                    else {
-                        $('#ListTrieuChungNew').append(`<h3 class="row text-center" >
-                                           Không có kết quả
-                                        </h3>`)
-                    }
-
-                   
-
+                    
                 }
             });
         }
