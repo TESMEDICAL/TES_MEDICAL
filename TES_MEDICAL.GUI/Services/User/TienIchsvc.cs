@@ -36,13 +36,13 @@ namespace TES_MEDICAL.GUI.Services
                     select pk).FirstOrDefaultAsync();           
         }
 
-        public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(string TenBenh)
+        public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh)
         {
             PhieuKham result = null;
 
             result = await (from pk in _context.PhieuKham.Include(x => x.MaBenhNavigation).Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 
-                            where pk.ChanDoan.Equals(TenBenh) && pk.TrangThai >= 1 && pk.TrangThai <= 2
+                            where pk.ChanDoan.Equals(string.Join(",",TenBenh)) && pk.TrangThai >= 1 && pk.TrangThai <= 2
                             select pk).FirstOrDefaultAsync();
             if (result != null) return result.ToaThuoc.ChiTietToaThuoc.ToList() ;
            
@@ -50,20 +50,20 @@ namespace TES_MEDICAL.GUI.Services
             else
             {
                 var listToaThuoc = new List<ChiTietToaThuoc>();
-                var listBenh = TenBenh.Split(",");
-                foreach (var benh in listBenh)
+                
+                foreach (var benh in TenBenh)
                 {
                     var List = (from pk in _context.PhieuKham.Include(x => x.ChiTietBenh).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 
-                               join ctbenh in _context.ChiTietBenh.Include(x => x.MaBenhNavigation)
-                                on pk.MaPK equals ctbenh.MaPK
-                                where ctbenh.MaBenhNavigation.TenBenh == benh
-                                && pk.ChiTietBenh.Count() == 1
-                                && !string.IsNullOrWhiteSpace(pk.ChanDoan)
+
+
+                                where !string.IsNullOrWhiteSpace(pk.ChanDoan)
+                                && pk.ChanDoan == benh
                                  && pk.TrangThai >= 1 && pk.TrangThai <= 2
                                 orderby pk.NgayKham descending
                                 select pk).FirstOrDefault();
-                    listToaThuoc.Concat(List.ToaThuoc.ChiTietToaThuoc);
+                    if(List!=null)
+                    listToaThuoc.AddRange(List.ToaThuoc.ChiTietToaThuoc.ToList().Except(listToaThuoc));
                 }
                 return listToaThuoc;
             }

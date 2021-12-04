@@ -423,6 +423,7 @@
     function BindOld(item) {
         $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
             oldPK = data;
+            console.log(oldPK);
             UseOld()
 
         });
@@ -477,7 +478,15 @@
                     });
                 },
                 select: function (event, ui) {
+                    var tenbenh = [];
+                    $(".ChanDoan").each(function () {
 
+
+
+                        tenbenh.push($(this).val());
+
+                    });
+                   
                     Swal.fire({
                         title: `Sử dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
 
@@ -491,14 +500,16 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 url: "/BacSi/GetAutoFill/",
-                                type: 'GET',
+                                type: 'POST',
                                 data: {
-                                    TenBenh: ui.item.value
+                                    TenBenh: tenbenh
 
                                 },
                                 success: function (data) {
-
-                                    oldPK = data;
+                                    console.log(data);
+                                    var ToaThuocOld = {};
+                                    ToaThuocOld.ChiTietToaThuoc = data;
+                                    oldPK.ToaThuoc = ToaThuocOld;
                                     UseOld()
 
                                 }
@@ -657,28 +668,28 @@
         ////}
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
-            $.ajax({
-                url: "/BacSi/GetToaThuoc/",
-                type: 'GET',
-                data: {
-                    MaPK:MaPK
-
-                },
-                success: function (response) {
-
-                    $("#myModalContent").html(response);
-                    $("#Title").html("Lịch sử khám");
-                    $('#myModal').modal('show');
-                    $('#btSend').hide();
-                    $('#btUse').show();
-
-
-                }
-            });
+            
             $.get("/BacSi/GetJsonPK", { MaPK: MaPK }, function (data) {
                
                 oldPK = data;
+                $.ajax({
+                    url: "/BacSi/GetToaThuoc/",
+                    type: 'POST',
+                    data: {
+                        phieukham: oldPK
 
+                    },
+                    success: function (response) {
+
+                        $("#myModalContent").html(response);
+                        $("#Title").html("Lịch sử khám");
+                        $('#myModal').modal('show');
+                        $('#btSend').hide();
+                        $('#btUse').show();
+
+
+                    }
+                });
 
             });
 
@@ -699,6 +710,7 @@
         }
 
         function UseOld() {
+            console.log(oldPK);
             Phieukham.ToaThuoc = {};
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
