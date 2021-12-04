@@ -393,11 +393,12 @@
                     }
                     else {
                         toastr.warning(result.text);
-                        $(this).prop("disabled", false);
-
-                        $(this).html(
-                            'Retry');
+                        
                     }
+                    $("#btCheckOut").prop("disabled", false);
+
+                    $("#btCheckOut").html(
+                        'Retry');
 
                 },
                 error: function (errormessage) {

@@ -92,7 +92,7 @@ namespace TES_MEDICAL.GUI.Services
                     new SqlParameter { ParameterName = "@MaHD", Value= maHD },
                     new SqlParameter { ParameterName = "@listDetail", Value= listContent }
                 };
-                var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @HoTen,@SDT, @NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
+                var result = (_context.PhieuKham.FromSqlRaw("EXEC dbo.AddPhieuKhamBN @HoTen,@SDT,@NgaySinh,@GioiTinh,@DiaChi,@Email,@MaBS,@TrieuChung,@UuTien,@MaNV,@MaHD,@MaPK,@listDetail", parms.ToArray()).ToList()).FirstOrDefault();
             }
             catch {}
         }
