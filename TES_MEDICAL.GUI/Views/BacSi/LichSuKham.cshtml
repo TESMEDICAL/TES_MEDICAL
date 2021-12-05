@@ -126,22 +126,28 @@
 
         function _Detail(id_) {
             $myModalContent.html("");
+            $.get("/BacSi/GetJsonPK", { MaPK: id_ }, function (data) {
 
-            $.ajax({
-                url: "/BacSi/GetToaThuoc/",
-                type: 'GET',
-                data: {
-                    MaPK: id_
+                
+                $.ajax({
+                    url: "/BacSi/GetToaThuoc/",
+                    type: 'POST',
+                    data: {
+                        phieukham: data
 
-                },
-                success: function (response) {
+                    },
+                    success: function (response) {
 
-                    $("#myModalContent").html(response);
-                    $("#Title").html("Lịch sử khám");
-                    $('#myModal').modal('show');
-                   
-                }
+                        $("#myModalContent").html(response);
+                        $("#Title").html("Lịch sử khám");
+                        $('#myModal').modal('show');
+
+
+                    }
+                });
+
             });
+           
         }
 
 
