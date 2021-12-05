@@ -17,6 +17,10 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<bool> Delete(Guid Id);
         Task<IPagedList<Benh>> SearchByCondition(BenhSearchModel model);
         Task<IEnumerable<ChuyenKhoa>> ChuyenKhoaNav();
+        List<Benh> GetAllBenh();
+
+        List<TrieuChung> GetAllTrieuChung();
+       
     }
 }
 

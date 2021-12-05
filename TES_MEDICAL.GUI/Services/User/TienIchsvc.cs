@@ -8,23 +8,43 @@ using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
 using Microsoft.Data.SqlClient;
+using TES_MEDICAL.GUI.Helpers;
 
 namespace TES_MEDICAL.GUI.Services
 {
     public class TienIchsvc : ITienIch
     {
         private readonly DataContext _context;
-        public TienIchsvc(DataContext context)
+        private ICacheBase _cacheMemory;
+        private readonly IBenh _benhService;
+        private readonly IThuoc _thuocService;
+        public TienIchsvc(
+                           DataContext context,
+                           ICacheBase caheMemory,
+                           IBenh benhService,
+                           IThuoc thuocService
+                           )
         {
             _context = context;
+            _cacheMemory = caheMemory;
+            _benhService = benhService;
+            _thuocService = thuocService;
+            
         }
-        public async Task<List<Benh>> SearchBenh(string KeyWord)
+        public IEnumerable<Benh> SearchBenh(string KeyWord)
         {
-           return await _context.Benh.Where(x =>
-           string.IsNullOrWhiteSpace(KeyWord) ||
-           EF.Functions.Collate(x.TenBenh, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(KeyWord, "SQL_Latin1_General_Cp1_CI_AI"))
-           )
-               .Take(10).ToListAsync();
+            try
+            {
+                List<Benh> benhsCache = _cacheMemory.GetOrCreate<List<Benh>>("BENH_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllBenh);
+
+                return benhsCache.Where(x => Helper.ConvertToUnSign(x.TenBenh).IndexOf(Helper.ConvertToUnSign(KeyWord), StringComparison.CurrentCultureIgnoreCase) >= 0).Take(10);
+            }
+            catch (Exception ex)
+            {
+                return new List<Benh>();
+            }
+           
+          
 
         }
        
@@ -61,14 +81,47 @@ namespace TES_MEDICAL.GUI.Services
                 return listToaThuoc;
             }
         }
-        public async Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung)
+        public IEnumerable<TrieuChung> GetTrieuChung(string TenTrieuChung)
         {
-            return await _context.TrieuChung.Where(x =>
-         
-          EF.Functions.Collate(x.TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(TenTrieuChung, "SQL_Latin1_General_Cp1_CI_AI"))
-          )
-              .OrderBy(x => x.TenTrieuChung).Take(10).ToListAsync();
+            try
+            {
+                List<TrieuChung> trieuchungsCache = _cacheMemory.GetOrCreate<List<TrieuChung>>("TRIEUCHUNG_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllTrieuChung);
+
+                return trieuchungsCache.Where(x => Helper.ConvertToUnSign(x.TenTrieuChung).IndexOf(Helper.ConvertToUnSign(TenTrieuChung), StringComparison.CurrentCultureIgnoreCase) >= 0).Take(10);
+            }
+            catch (Exception ex)
+            {
+                return new List<TrieuChung>();
+            }
         }
+
+        public IEnumerable<Thuoc> GetAllThuoc()
+        {
+            try
+            {
+                return _cacheMemory.GetOrCreate<List<Thuoc>>("THUOC_CACHE", TimeSpan.FromHours(12), _thuocService.GetAllThuoc);
+
+               
+            }
+            catch (Exception ex)
+            {
+                return new List<Thuoc>();
+            }
+
+        }
+        public Thuoc GetThuoc(Guid MaThuoc)
+        {
+            try
+            {
+                List<Thuoc> thuocsCache = _cacheMemory.GetOrCreate<List<Thuoc>>("THUOC_CACHE", TimeSpan.FromMinutes(60), _thuocService.GetAllThuoc);
+
+                return thuocsCache.FirstOrDefault(x => x.MaThuoc == MaThuoc);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }    
         public List<ListResponse> GetListChanDoan(List<string> ListTrieuChung)
         {
             try

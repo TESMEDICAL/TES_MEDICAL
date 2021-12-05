@@ -334,7 +334,7 @@
         <!--Button-->
         <div class="form-group" style="text-align: right; margin-right: 10px;">
             <button type="button" id="btSave" class="btn btn-info" onclick="OpenXacNhanKetQua()"><i class="far fa-check"></i>&nbsp;Xác nhận</button>
-            <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btclose" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+            <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btclose" onclick="window.location.href = '@Url.Action("Phieukham", "BacSi")';"><i class="fa fa-close"></i>&nbsp;Đóng</button>
         </div>
         <br /><br />
     </div>
@@ -780,6 +780,7 @@
         });
         $(document).on('click', '.addTrieuChungCT', function () {
             var $ct = $(this).parent().parent().parent().parent();
+            if ($ct.find("[name='trieuchungauto']").val())
             $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$ct.find("[name='trieuchungauto']").val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
             
 
@@ -793,7 +794,7 @@
             var error = 0;
             $.each($("input[name='ChanDoan']"), function (index, value) {
                 if (value.value.length == 0) {
-                    toastr.warning("Vui lòng nhập tất cả chẩn đoán");
+                   
                     error = 1;
                     return;
                 }
@@ -802,7 +803,7 @@
                 ListTrieuChung = [];
                 ListCTBenh = [];
                 if ($("#frmKhamBenh").valid()) {
-                    
+
                     $(".SinhHieu").each(function () {
                         var obj = {};
                         obj.MaPK = $('#MaPK').val();
@@ -812,7 +813,7 @@
                         ctSH.push(obj);
 
                     });
-                   
+
 
                     $(".ChiTietBenh").each(function () {
                         var chitietbenh = {};
@@ -825,10 +826,10 @@
                         });
 
                         ListCTBenh.push(chitietbenh);
-                        
+
 
                     });
-                    
+
 
                     $(".trieuchungPK").each(function () {
 
@@ -881,6 +882,8 @@
                         }
                     });
                 }
+            } else {
+                toastr.warning("Vui lòng nhập tất cả chẩn đoán");
             }
          
 

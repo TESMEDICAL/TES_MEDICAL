@@ -9,10 +9,12 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
      public interface ITienIch
      {
-        Task<List<Benh>> SearchBenh(string KeyWord);
+        IEnumerable<Benh> SearchBenh(string KeyWord);
       
         Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh);
-        Task<List<TrieuChung>> GetTrieuChung(string TenTrieuChung);
+        IEnumerable<TrieuChung> GetTrieuChung(string TenTrieuChung);
+        IEnumerable<Thuoc> GetAllThuoc();
+        Thuoc GetThuoc(Guid MaThuoc);
         List<ListResponse> GetListChanDoan(List<string> ListTrieuChung);
         List<ResponseChanDoan> KetQuaChanDoan(List<string> ListTrieuChung);
      }
