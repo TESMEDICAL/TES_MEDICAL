@@ -110,6 +110,7 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_XacNhanKetQua", phieukham);
         }
 
+
         public async Task<IActionResult> GetJsonPK(string MaPK)
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));

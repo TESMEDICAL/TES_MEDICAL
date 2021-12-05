@@ -197,28 +197,36 @@
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
                 <div class="row" >
-                    <div id="ListChiTietBenh">
-                        <div class="row col-12 mb-3 ChiTietBenh" style="padding-inline: 38px;">
-                            <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                            <div class="col-sm-6 row">
-                                <div class="col-sm-10 pe-0 me-0">
-                                    <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                    <div id="ListChiTietBenh" class="row">
+                        <div class="col-12 row ChiTietBenh" style="padding-inline: 38px;">
+                            <div class="col-sm-6">
+                                <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                                <div class="col-12 row mb-3">
+                                    <div class="col-sm-10 pe-0 me-0">
+                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    </div>
+                                    <div class="button-reload col-sm-2 text-end">
+                                        <a class="btn text-light border-0 addTrieuChungCT"><i class="fas fa-plus"></i></a>
+                                    </div>
                                 </div>
-                                <div class="button-reload col-sm-2 text-end">
-                                    <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
-                                </div>
-                            </div>
-                            <div class="col-sm-5" style="padding-inline: 38px; margin-top: -25px;">
                                 <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-md-11">
-                                    <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                <div class="col-12 row">
+                                    <div class="col-md-10 pe-0 me-0">
+                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    </div>
+                                    @*<div class="col-sm-2 text-end">
+                                        <a class="btn text-light border-0" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
+                                    </div>*@
                                 </div>
                             </div>
-                            <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
-                                <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC" >
-                                </ul>
+                            <div class="col-sm-6" style="margin-bottom: 35px;">
+                                <div class="col-12 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
+                                    <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                            <hr />
+                        </div>                        
                     </div>
                     <!--Vòng lập bắt đầu-->
                    
@@ -423,7 +431,7 @@
     function BindOld(item) {
         $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
             oldPK = data;
-            console.log(oldPK);
+           
             UseOld()
 
         });
@@ -506,7 +514,7 @@
 
                                 },
                                 success: function (data) {
-                                    console.log(data);
+                                    
                                     var ToaThuocOld = {};
                                     ToaThuocOld.ChiTietToaThuoc = data;
                                     oldPK.ToaThuoc = ToaThuocOld;
@@ -586,7 +594,7 @@
             $('.trieuchungauto').on("keyup", function (e) {
                 if (e.keyCode == 13 && $(this).val() ) {
 
-                    var $ct = $(this).parent().parent().parent();
+                    var $ct = $(this).parent().parent().parent().parent();
                    
                  
                     $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$(this).val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
@@ -710,7 +718,7 @@
         }
 
         function UseOld() {
-            console.log(oldPK);
+            
             Phieukham.ToaThuoc = {};
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
@@ -765,6 +773,20 @@
 
 
         });
+        $(document).on('click', '.removeCtBenh', function () {
+            $(this).parent().parent().parent().parent().remove();
+
+
+        });
+        $(document).on('click', '.addTrieuChungCT', function () {
+            var $ct = $(this).parent().parent().parent().parent();
+            $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$ct.find("[name='trieuchungauto']").val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
+            
+
+
+        });
+       
+       
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
@@ -1078,30 +1100,36 @@
         }
         function AddChanDoan() {
             $('#ListChiTietBenh').append(`
-               <div class="row col-12 mb-3 ChiTietBenh" style="padding-inline: 38px;">
-                        <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                        <div class="col-sm-6 row">
-                            <div class="col-sm-10 pe-0 me-0">
-                                <input class="form-control trieuchungauto" name ="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+               <div class="col-12 row ChiTietBenh" style="padding-inline: 38px; margin-top: 16px;">
+                            <div class="col-sm-6">
+                                <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                                <div class="col-12 row mb-3">
+                                    <div class="col-sm-10 pe-0 me-0">
+                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    </div>
+                                    <div class="button-reload col-sm-2 text-end">
+                                        <a class="btn text-light border-0"><i class="fas fa-plus"></i></a>
+                                    </div>
+                                </div>
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                                <div class="col-12 row">
+                                    <div class="col-md-10 pe-0 me-0">
+                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    </div>
+                                    <div class="col-sm-2 text-end">
+                                        <a class="btn text-light border-0 removeCtBenh" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="button-reload col-sm-2 text-end">
-                                <a class="btn text-light border-0" ><i class="fas fa-plus"></i></a>
+                            <div class="col-sm-6" style="margin-bottom: 35px;">
+                                <div class="col-12 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
+                                    <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
+                                    </ul>
+                                </div>
                             </div>
+                            <hr />
                         </div>
-                        <div class="col-sm-5" style="padding-inline: 38px; margin-top: -25px;">
-                            <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control ChanDoan" name="ChanDoan"  placeholder="Vui lòng nhập chẩn đoán">
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            <button type="button" class="btn text-light border-0" style="background-color: #FA4F4F"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                        <div class="col-sm-5 mt-4 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
-                            <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
-                            </ul>
-                        </div>
-                    </div>
+                        
              `)
             addAuto();
            
@@ -1115,7 +1143,7 @@
         async function start() {
             try {
                 await connection.start();
-                console.log("SignalR Connected.");
+              
             } catch (err) {
                 console.log(err);
                 setTimeout(start, 5000);
