@@ -120,12 +120,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpGet("searchtrieuchung")]
         [Route("api/ChanDoan/searchtrieuchung")]
-        public async Task<IActionResult> SearchTrieuChung()
+        public IActionResult SearchTrieuChung()
         {
             try
             {
                 string term = HttpContext.Request.Query["term"].ToString();
-                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                var trieuchung = _tienichRep.GetTrieuChung(term).Select(x => x.TenTrieuChung);
                 return Ok(trieuchung);
             }
             catch
@@ -156,7 +156,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpPost("KetQuaChanDoan")]
         [Route("api/ChanDoan/KetQuaChanDoan")]
-        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
+        public IActionResult KetQuaChanDoan(string[] ListTrieuChung)
         {
             try
             {

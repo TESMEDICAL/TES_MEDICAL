@@ -120,10 +120,7 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).ThenInclude(x=>x.PhieuKham).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
         }
-        public async Task<IEnumerable<Thuoc>> GetAllThuoc()
-        {
-            return await _context.Thuoc.Where(x => x.TrangThai).ToListAsync();
-        }
+      
         public async Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model)
         {
             IEnumerable<PhieuKham> listUnpaged = null;
