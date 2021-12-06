@@ -252,10 +252,10 @@
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
                     $("#DiaChi").val(data.DiaChi);
                     if (data.GioiTinh) {
-                        $('#GioiTinh').prop("selectedIndex",0)
+                        $('#GioiTinh').prop("selectedIndex",1)
                     }
                     else {
-                        $('#GioiTinh').prop("selectedIndex", 1)
+                        $('#GioiTinh').prop("selectedIndex",0)
                     }
                     $("#MaBN").val(data.MaBN);
                 }
