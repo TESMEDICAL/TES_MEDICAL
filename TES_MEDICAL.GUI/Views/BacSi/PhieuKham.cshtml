@@ -65,6 +65,31 @@
                 }
             });
         }
+        function ChangeDoUuTien(_maPK) {
+            $.ajax({
+                url: "@Url.Action("ChangeUuTien","BacSi")",
+                type: 'POST',
+                data: {
+                    maPK: _maPK
+                },
+                success: function (response) {
+                    if (response.status >= 1) {
+
+                        toastr.success(response.text);
+                        reloadpage(1);
+                    }
+                    else {
+                        toastr.warning(response.text);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                },
+                failure: function (message) {
+                    $('#preloader-wrapper').toggleClass('hide');
+                }
+            });
+        }
 
 
         $("#TimKiem").keyup(function () {
@@ -108,7 +133,7 @@
         async function start() {
             try {
                 await connection.start();
-                console.log("SignalR Connected.");
+               
             } catch (err) {
                 console.log(err);
                 setTimeout(start, 5000);

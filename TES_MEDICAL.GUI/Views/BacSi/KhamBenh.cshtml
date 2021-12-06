@@ -7,9 +7,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
 
 <style>
-    #danhSach_filter input {
-        width: 100% !important;
-    }
+   
 
     .error {
         color: red !important;
@@ -882,6 +880,9 @@
                         }
                     });
                 }
+                else {
+                    toastr.warning("Vui lòng nhập đầy đủ thông tin khám bệnh");
+                }
             } else {
                 toastr.warning("Vui lòng nhập tất cả chẩn đoán");
             }
@@ -1051,11 +1052,12 @@
                         })
                     }
                     else {
-                        toastr.warning(result.text);
                         $(this).prop("disabled", false);
 
                         $(this).html(
                             'Retry');
+                        toastr.warning(result.text);
+                     
                     }
 
                 },

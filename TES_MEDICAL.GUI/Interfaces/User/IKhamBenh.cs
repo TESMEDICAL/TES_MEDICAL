@@ -12,11 +12,12 @@ namespace TES_MEDICAL.GUI.Interfaces
 {
     public interface IKhamBenh
     {
-        Task<IEnumerable<STTViewModel>> GetList(string MaBS);
+        
         Task<PhieuKham> AddToaThuoc(PhieuKham model,List<ChiTietBenhModel> ListCT);
         Task<PhieuKham> GetPK(Guid MaPK);
        
         Task<IEnumerable<PhieuKham>> GetLichSu(string Hoten, DateTime NgaySinh);
         Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model);
+        Task<STTPhieuKham> ChangeUuTien(Guid MaPK);
     }
 }

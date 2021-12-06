@@ -110,6 +110,16 @@ namespace TES_MEDICAL.GUI.Controllers
             return PartialView("_XacNhanKetQua", phieukham);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeUuTien(Guid MaPk)
+        {
+            var stt =await _khambenhRep.ChangeUuTien(MaPk);
+            if(stt!=null)
+                return Json(new { status = 1, title = "", text = "Đổi thứ tự thành công.", obj = "" }, new JsonSerializerSettings());
+            else
+                return Json(new { status = -1, title = "", text = "Thao tác không thành công.", obj = "" }, new JsonSerializerSettings());
+        }
+
 
         public async Task<IActionResult> GetJsonPK(string MaPK)
         {

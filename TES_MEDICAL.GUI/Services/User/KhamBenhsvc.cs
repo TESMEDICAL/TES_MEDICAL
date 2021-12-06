@@ -22,22 +22,39 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<STTViewModel>> GetList(string MaBS)
-        {
-            return await (from x in _context.PhieuKham
-                          join y in _context.STTPhieuKham
+        //public async Task<IEnumerable<STTViewModel>> GetList(string MaBS)
+        //{
+        //    return await (from x in _context.PhieuKham
+        //                  join y in _context.STTPhieuKham
 
-                          on x.MaPK equals y.MaPhieuKham
-                          join bn in _context.BenhNhan
-                          on x.MaBN equals bn.MaBN
-                          where x.MaBS == MaBS && y.TrangThai == false&&x.TrangThai ==0
-                          select new STTViewModel
-                          {
-                              STT = y.STT,
-                              HoTen = bn.HoTen,
-                              UuTien = y.MaUuTien,
-                              MaPK = x.MaPK
-                          }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
+        //                  on x.MaPK equals y.MaPhieuKham
+        //                  join bn in _context.BenhNhan
+        //                  on x.MaBN equals bn.MaBN
+        //                  where x.MaBS == MaBS && y.TrangThai == false&&x.TrangThai ==0
+        //                  select new STTViewModel
+        //                  {
+        //                      STT = y.STT,
+        //                      HoTen = bn.HoTen,
+        //                      UuTien = y.MaUuTien,
+        //                      MaPK = x.MaPK
+        //                  }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
+        //}
+
+        public async Task<STTPhieuKham> ChangeUuTien(Guid MaPK)
+        {
+            try
+            {
+                var stt = await _context.STTPhieuKham.FindAsync(MaPK);
+                stt.MaUuTien = "C";
+                _context.Update(stt);
+                await _context.SaveChangesAsync();
+                return stt;
+            }
+            catch
+            {
+                return null;
+            }
+           
         }
         public async Task<PhieuKham> GetPK(Guid MaPK)
         {
@@ -104,7 +121,7 @@ namespace TES_MEDICAL.GUI.Services
                     var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
                     var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
-                    sttpk.TrangThai = true;
+                    
                     _context.Update(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
