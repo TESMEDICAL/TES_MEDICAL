@@ -106,9 +106,9 @@
                             <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
                         </div>
                         <span asp-validation-for="Input.Password" class="text-danger" style="margin-left: 52px;"></span>
-                        <spa class="text-danger" style="margin-left:50px;">
+                        <span class="text-danger">
                             @(string.IsNullOrWhiteSpace(Model.Error)?"":Model.Error)
-                        </spa>
+                        </span>
                         @*<span  class="text-danger">kkkkkkkk</span>*@
                     </div>
                 </div>
