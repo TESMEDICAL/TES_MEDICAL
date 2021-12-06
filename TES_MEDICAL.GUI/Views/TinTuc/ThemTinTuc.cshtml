@@ -299,8 +299,7 @@
             obj.TieuDe = jQuery("textarea#TieuDe").val();
             obj.MaTL = $('#MaTL').val();
             obj.NoiDung = jQuery("textarea#NoiDung").val();
-            $myModalContent.html("");
-            console.log(obj);
+            $myModalContent.html("");           
             $.ajax({
                 url: '/TinTuc/Preview/',
                 type: "POST",
