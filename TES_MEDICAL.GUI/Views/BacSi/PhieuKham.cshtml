@@ -1,4 +1,4 @@
-﻿@inject UserManager<NhanVienYte> UserManager;
+﻿@inject UserManager<NhanVienYte> UserManager
 @using X.PagedList;
 @{
     ViewData["Title"] = "Danh sách chờ";
@@ -35,7 +35,6 @@
 
             function () {
 
-                reloadpage(1);
                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
 
             });

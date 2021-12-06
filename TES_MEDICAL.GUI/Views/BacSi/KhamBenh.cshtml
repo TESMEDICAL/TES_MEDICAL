@@ -1,4 +1,5 @@
-﻿@model PhieuKham;
+﻿@model PhieuKham
+@inject UserManager<NhanVienYte> UserManager
 @{
     ViewData["Title"] = "Khám bệnh";
 
@@ -7,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
 
 <style>
-   
+
 
     .error {
         color: red !important;
@@ -143,58 +144,58 @@
             </div>
             <br /><br />
             @*<div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
-                <div class="block-title">
-                    <h2><strong>Thông tin khám bệnh</strong></h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5" style="padding-inline: 38px;">
-                        <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
-                        <div class="row">
-                            <div class="col-sm-10 pe-0 me-0">
-                                <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
-                            </div>
-                            <div class="button-reload col-sm-2 text-end">
-                                <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
-                            <ul class="symptom-list mt-2" id="ListTrieuChung">
-                            </ul>
-                        </div>
+                    <div class="block-title">
+                        <h2><strong>Thông tin khám bệnh</strong></h2>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="row">
-                            <div class="col-sm-12" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-md-11">
-                                    <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                    <div class="row">
+                        <div class="col-sm-5" style="padding-inline: 38px;">
+                            <label class="col-sm-4 control-label" for="example-textarea-input">Kết quả khám</label>
+                            <div class="row">
+                                <div class="col-sm-10 pe-0 me-0">
+                                    <input class="form-control" id="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                </div>
+                                <div class="button-reload col-sm-2 text-end">
+                                    <a class="btn text-light border-0" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)"><i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
-                                <div class="col-md-10">
-                                    <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
-                                </div>
+                            <div class="mt-4" style="border: 1px solid #dee2e6; overflow: scroll; overflow-x: hidden; height: 180px; ">
+                                <ul class="symptom-list mt-2" id="ListTrieuChung">
+                                </ul>
                             </div>
-                            <br>
-                            <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
-                                <div class="col-md-10">
-                                    <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-12" style="padding-inline: 38px;">
+                                    <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                                    <div class="col-md-11">
+                                        <input type="text" class="form-control" asp-for="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                    <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                                    <div class="col-md-10">
+                                        <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-sm-6 mt-3" style="padding-inline: 38px;">
+                                    <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                                    <div class="col-md-10">
+                                        <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
             // DEMO
             <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
-                <div class="row" >
+                <div class="row">
                     <div id="ListChiTietBenh" class="row">
                         <div class="col-12 row ChiTietBenh" style="padding-inline: 38px;">
                             <div class="col-sm-6">
@@ -213,8 +214,8 @@
                                         <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
                                     </div>
                                     @*<div class="col-sm-2 text-end">
-                                        <a class="btn text-light border-0" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
-                                    </div>*@
+                                            <a class="btn text-light border-0" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
+                                        </div>*@
                                 </div>
                             </div>
                             <div class="col-sm-6" style="margin-bottom: 35px;">
@@ -224,10 +225,9 @@
                                 </div>
                             </div>
                             <hr />
-                        </div>                        
+                        </div>
                     </div>
                     <!--Vòng lập bắt đầu-->
-                   
                     <!--Vòng lặp kết thúc-->
 
                     <div class="col-12">
@@ -371,7 +371,7 @@
 
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" id="btUse" class="btn"  onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
+                    <button type="button" id="btUse" class="btn" onclick="UseOld()" data-bs-dismiss="modal"><i class="fas fa-sync"></i>&nbsp;Dùng toa thuốc</button>
                     <button type="button" id="btSend" class="btn"><i class="fa fa-save"></i>&nbsp;Gửi toa thuốc</button>
                     <button type="button" class="btn" style="background-color: #FA4F4F; color: white;" id="btmodelclose" data-bs-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
                 </div>
@@ -405,7 +405,7 @@
 
                 KetQuaKham: "required",
 
-                
+
 
             },
             messages: {
@@ -421,7 +421,7 @@
                     required: "Bạn cần nhập kết quả khám",
                 },
 
-               
+
             },
 
         });
@@ -429,7 +429,7 @@
     function BindOld(item) {
         $.get("/BacSi/GetAutoFill", { TenBenh: item }, function (data) {
             oldPK = data;
-           
+
             UseOld()
 
         });
@@ -453,8 +453,9 @@
         var ToaThuoc = {};
         var oldPK = {};
         var ListCTBenh = [];
-       
-        
+        var Clienid;
+
+
 
         var ListTrieuChung = [];
         var $modal = $('#myModal');
@@ -492,7 +493,7 @@
                         tenbenh.push($(this).val());
 
                     });
-                   
+
                     Swal.fire({
                         title: `Sử dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
 
@@ -512,7 +513,7 @@
 
                                 },
                                 success: function (data) {
-                                    
+
                                     var ToaThuocOld = {};
                                     ToaThuocOld.ChiTietToaThuoc = data;
                                     oldPK.ToaThuoc = ToaThuocOld;
@@ -593,18 +594,19 @@
                 if (e.keyCode == 13 && $(this).val() ) {
 
                     var $ct = $(this).parent().parent().parent().parent();
-                   
-                 
+
+
                     $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$(this).val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
-                   
-                   
+
+
                     $(this).val("");
                 }
             });
         }
-       
+
         $(document).ready(
             function () {
+                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
                 $("#frmKhamBenh").validate({
                     // Specify validation rules
                     rules: {
@@ -659,7 +661,7 @@
                                     "previous": "<"
                                 },
                             }
-                            
+
                         }
                     )
                 });
@@ -670,13 +672,13 @@
         ////        $('#ListTrieuChung').append(` <li class="trieuchungPK"><span name="trieuChung">${name}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
         ////        $('#trieuchungauto').val("");
         ////    }
-            
+
         ////}
         //Hàm mở modal của Lịch sử khám
         function OpenLichSuKham(MaPK) {
-            
+
             $.get("/BacSi/GetJsonPK", { MaPK: MaPK }, function (data) {
-               
+
                 oldPK = data;
                 $.ajax({
                     url: "/BacSi/GetToaThuoc/",
@@ -716,7 +718,7 @@
         }
 
         function UseOld() {
-            
+
             Phieukham.ToaThuoc = {};
             $.ajax({
                 url: "/BacSi/ReLoadThuoc/",
@@ -749,11 +751,11 @@
                                         "previous": "<"
                                     },
                                 }
-                                
+
                             }
                         )
                     }
-                   
+
 
                 }
             });
@@ -780,19 +782,19 @@
             var $ct = $(this).parent().parent().parent().parent();
             if ($ct.find("[name='trieuchungauto']").val())
             $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$ct.find("[name='trieuchungauto']").val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
-            
+
 
 
         });
-       
-       
+
+
 
         //Hàm mở modal của Xác nhận kết quả
         function OpenXacNhanKetQua() {
             var error = 0;
             $.each($("input[name='ChanDoan']"), function (index, value) {
                 if (value.value.length == 0) {
-                   
+
                     error = 1;
                     return;
                 }
@@ -886,14 +888,14 @@
             } else {
                 toastr.warning("Vui lòng nhập tất cả chẩn đoán");
             }
-         
+
 
         }
         $(document).on('click', '.addThuoc', function () {
 
             $tr = $(this).parent().parent();
             var $td = $tr.find("td");
-           
+
             $("#listToaThuoc").append(`<tr>
                         <th class="col-8">
                               <input style="display:none" name="MaThuoc" value="${$td.eq(2).text()}"  />
@@ -1018,7 +1020,7 @@
                 },
                 success: function (result) {
                     $('#preloader-wrapper').toggleClass('hide');
-                   
+
                     if (result.status >= 1) {
 
                         let timerInterval
@@ -1057,7 +1059,7 @@
                         $(this).html(
                             'Retry');
                         toastr.warning(result.text);
-                     
+
                     }
 
                 },
@@ -1134,10 +1136,10 @@
                             </div>
                             <hr />
                         </div>
-                        
+
              `)
             addAuto();
-           
+
         }
 
         const connection = new signalR.HubConnectionBuilder()
@@ -1148,7 +1150,7 @@
         async function start() {
             try {
                 await connection.start();
-              
+
             } catch (err) {
                 console.log(err);
                 setTimeout(start, 5000);
@@ -1168,7 +1170,7 @@
             if (Clienid == id) {
 
                 toastr.success("Có một bệnh nhân mới");
-               
+
             }
         });
 

@@ -1,4 +1,4 @@
-﻿
+﻿@inject UserManager<NhanVienYte> UserManager
 @using X.PagedList;
 
 
@@ -59,7 +59,14 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+        var Clienid;
+          $(document).ready(
 
+            function () {
+
+                Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
+
+            });
         function reloadpage(page) {
             obj = {};
 
@@ -113,7 +120,7 @@
                 });
             }
 
-           
+
 
         });
 
@@ -128,7 +135,7 @@
             $myModalContent.html("");
             $.get("/BacSi/GetJsonPK", { MaPK: id_ }, function (data) {
 
-                
+
                 $.ajax({
                     url: "/BacSi/GetToaThuoc/",
                     type: 'POST',
@@ -147,7 +154,7 @@
                 });
 
             });
-           
+
         }
 
 
@@ -179,7 +186,7 @@
             if (Clienid == id) {
 
                 toastr.success("Có một bệnh nhân mới");
-              
+
             }
         });
     </script>
