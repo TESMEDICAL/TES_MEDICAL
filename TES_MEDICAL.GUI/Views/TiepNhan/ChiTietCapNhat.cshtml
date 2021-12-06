@@ -372,5 +372,30 @@
             $("#listDV").append(`<tr class="NewDV"><td style="display:none">${$td.eq(0).text()}</td><td class="col-6">${$td.eq(1).text()}</td><td class="col-4">${$td.eq(2).text()}</td><td class="col-2 text-center"><button class="btn btn-sm remove" style="background-color: rgb(250, 79, 79); color: white;"> <i class="fa fa-trash"></i></button></td></tr>`);
             $tr.remove();
         });
+
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalServer")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+        connection.onclose(async () => {
+            await start();
+        });
+        // Start the connection.
+        start();
+        connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
+            toastr.success("Có một lịch đặt mới");
+
+        });       
     </script>
 }
