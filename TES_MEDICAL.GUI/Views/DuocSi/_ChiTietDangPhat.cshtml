@@ -52,8 +52,23 @@
             <div class="col-sm-6 mt-4">
                 <h6>
 
-                    <strong>Số điện thoại</strong><br />
+                    <strong>Số điện thoại:</strong><br />
                     @Model.MaPhieuKhamNavigation.MaBNNavigation.SDT
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h6>
+                    <strong>
+                        Ngày sinh:
+                    </strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")
+                </h6>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h6>
+
+                    <strong>Địa chỉ</strong><br />
+                    @Model.MaPhieuKhamNavigation.MaBNNavigation.DiaChi
                 </h6>
             </div>
         </div>
