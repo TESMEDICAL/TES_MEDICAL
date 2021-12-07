@@ -55,7 +55,7 @@ namespace TES_MEDICAL.GUI.Services
 
         public async Task<List<PhieuKham>> SearchByPhoneNumber(string SDT)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x => x.MaBNNavigation.SDT == SDT).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x => x.MaBNNavigation.SDT == SDT).Where(x => x.TrangThai == 2).ToListAsync();
 
         }
 

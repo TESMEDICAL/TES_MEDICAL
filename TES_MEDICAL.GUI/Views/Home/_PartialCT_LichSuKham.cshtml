@@ -20,11 +20,15 @@
         </tr>
         <tr>
             <td class="col-3">Ngày lập hóa đơn :</td>
-            <td class="col-9"><p style="font-weight: 600;">@Model.NgayKham</p></td>
+            <td class="col-9"><p style="font-weight: 600;">@Model.NgayKham.ToString("dd/MM/yyyy HH:mm:ss")</p></td>
+        </tr>
+        <tr>
+            <td class="col-3">Chẩn đoán :</td>
+            <td class="col-9"><p style="font-weight: 600;">@Model.ChanDoan</p></td>
         </tr>
     </table>
 
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th class="col-3">Tên dịch vụ</th>
@@ -48,8 +52,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th class="col-9"><p>Tên thuốc</p></th>
-                <th class="col-3 text-center"><p>Số lượng</p></th>
+                <th class="col-9"><p style="color: black">Tên thuốc</p></th>
+                <th class="col-3 text-center"><p style="color: black">Số lượng</p></th>
             </tr>
         </thead>
         @foreach (var item in ViewBag.CTLichSuThuoc as IEnumerable<ChiTietToaThuoc>)
