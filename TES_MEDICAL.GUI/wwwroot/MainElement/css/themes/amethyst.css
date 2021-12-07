@@ -41,7 +41,15 @@ header.navbar-inverse.navbar-fixed-top,
 .table-pricing th.table-featured {
     border-bottom-color: #583a63;
 }
-
+#addTrieuChung {
+    color: #583a63;
+    font-size: 25px;
+    background-color: white;
+    border: none;
+    outline: none;
+    font-weight: bold;
+    margin-top: -7px;
+}
 .navbar.navbar-inverse {
     background-color: #684d71;
 }
