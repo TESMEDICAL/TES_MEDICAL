@@ -33,9 +33,35 @@ namespace TES_MEDICAL.GUI.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("ThemPhieuKham", "TiepNhan");
+            return Redirect("~/Identity/Account/Login");
 
         }
+
+        public async Task<IActionResult> initialLogin()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if(user!=null)
+            {
+                if (user.ChucVu == 1)
+                {
+                    return Redirect("~/TiepNhan/ThemPhieuKham");
+                }
+                else if (user.ChucVu == 3)
+                {
+                    return Redirect("~/DuocSi/ToaThuoc");
+                }
+                else
+                {
+                    return Redirect("~/Bacsi/");
+                }
+
+            }    
+            else
+            {
+                return Redirect("~/Identity/Account/Login");
+            }
+           
+        }    
 
 
         public IActionResult NoneUserNVYT()

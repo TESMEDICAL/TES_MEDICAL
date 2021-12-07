@@ -23,6 +23,8 @@
         -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
         background-clip: padding-box;
+        font-family:Arial !important;
+
     }
 
     .title {
@@ -66,6 +68,12 @@
             background-color: rgb(10, 154, 115);
             color: white;
         }
+            .test-foot .test-foot-btn button:disabled {
+                width: 150px;
+                height: 40px;
+                background-color: #95d5b2;
+                color: white;
+            }
 
     .test .test-result {
         margin-top: 2%;
@@ -363,12 +371,17 @@
 
 
         function addTrieuChung(name) {
-            $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
+       
+
+            if (name && name.length > 0) {
+                $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
                                                         <img src="~/GuestElement/img/circle_PNG17.png" />
                                                         <p name="TenTrieuChung">${name}</p>
                                                         <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
                                                     </div>`)
-            $('#trieuchungauto').val("");
+                $('#trieuchungauto').val("");
+            }
+          
         }
 
 
@@ -417,15 +430,12 @@
                 data: {
                     ListTrieuChung: ListTrieuChung
 
-                }
-
-                ,
+                },
                 success: function (response) {
                     $('#ResultTCNew').fadeIn('slow');
                     $('#LoadingTCNew').hide();
                     $('#ListTrieuChungNew').html("")
                     if (response.length > 0) {
-                       /* btFinal*/
                         response.forEach(function (item) {
                             $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
                                             <label class="checkbox-inline" style="font-size: 20px;">
@@ -433,15 +443,8 @@
                                             </label>
                                         </div>`)
                         });
-                    }
-                    else {
-                        $('#ListTrieuChungNew').append(`<h3 class="row text-center" >
-                                           Không có kết quả
-                                        </h3>`)
-                    }
 
-                   
-
+                    }
                 }
             });
         }

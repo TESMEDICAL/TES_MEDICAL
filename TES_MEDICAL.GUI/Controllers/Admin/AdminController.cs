@@ -139,7 +139,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
 
 
         [HttpGet]
-        public async Task<IActionResult> ChangeInfo()
+        public IActionResult ChangeInfo()
         {
             string EmailNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.UserName);
             string HoTenNguoiDung = HttpContext.Session.GetString(SessionKey.Nguoidung.FullName);

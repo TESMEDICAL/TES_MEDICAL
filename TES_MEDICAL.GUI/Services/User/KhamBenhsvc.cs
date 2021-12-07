@@ -11,6 +11,7 @@ using TES_MEDICAL.GUI.Models;
 using TES_MEDICAL.GUI.Models.ViewModel;
 using TES_MEDICAL.SHARE.Models.ViewModel;
 using X.PagedList;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 
 namespace TES_MEDICAL.GUI.Services
 {
@@ -21,33 +22,50 @@ namespace TES_MEDICAL.GUI.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<STTViewModel>> GetList(string MaBS)
-        {
-            return await (from x in _context.PhieuKham
-                          join y in _context.STTPhieuKham
+        //public async Task<IEnumerable<STTViewModel>> GetList(string MaBS)
+        //{
+        //    return await (from x in _context.PhieuKham
+        //                  join y in _context.STTPhieuKham
 
-                          on x.MaPK equals y.MaPhieuKham
-                          join bn in _context.BenhNhan
-                          on x.MaBN equals bn.MaBN
-                          where x.MaBS == MaBS && y.TrangThai == false&&x.TrangThai ==0
-                          select new STTViewModel
-                          {
-                              STT = y.STT,
-                              HoTen = bn.HoTen,
-                              UuTien = y.MaUuTien,
-                              MaPK = x.MaPK
-                          }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
+        //                  on x.MaPK equals y.MaPhieuKham
+        //                  join bn in _context.BenhNhan
+        //                  on x.MaBN equals bn.MaBN
+        //                  where x.MaBS == MaBS && y.TrangThai == false&&x.TrangThai ==0
+        //                  select new STTViewModel
+        //                  {
+        //                      STT = y.STT,
+        //                      HoTen = bn.HoTen,
+        //                      UuTien = y.MaUuTien,
+        //                      MaPK = x.MaPK
+        //                  }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
+        //}
+
+        public async Task<STTPhieuKham> ChangeUuTien(Guid MaPK)
+        {
+            try
+            {
+                var stt = await _context.STTPhieuKham.FindAsync(MaPK);
+                stt.MaUuTien = "C";
+                _context.Update(stt);
+                await _context.SaveChangesAsync();
+                return stt;
+            }
+            catch
+            {
+                return null;
+            }
+           
         }
         public async Task<PhieuKham> GetPK(Guid MaPK)
         {
-            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
+            var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.ChiTietBenh).ThenInclude(x=>x.MaBenhNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
             return item;
         }
         public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
         {
             return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<string> TrieuChungs)
+        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
         {
             try
             {
@@ -67,34 +85,43 @@ namespace TES_MEDICAL.GUI.Services
                     phieuKham.NhietDo = model.NhietDo;
                     phieuKham.HuyetAp = model.HuyetAp;
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
-                    phieuKham.KetQuaKham = model.KetQuaKham;
                     phieuKham.NgayTaiKham = model.NgayTaiKham;
                     phieuKham.ChanDoan = model.ChanDoan;
                     phieuKham.TrangThai = 1;
-                    var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == model.ChanDoan);
-                    if(benh==null)
+                    foreach(var chitiet in ListCT)
                     {
-                        benh = new Benh {MaBenh = Guid.NewGuid(),TenBenh = model.ChanDoan,MaCK =Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
-                        _context.Entry(benh).State = EntityState.Added;
-                        await _context.SaveChangesAsync();
-                    }
-                    phieuKham.MaBenh = benh.MaBenh;
-                    phieuKham.KetQuaKham = string.Join(",", TrieuChungs);
-                    foreach(var item in TrieuChungs)
-                    {
-                        List<SqlParameter> parms = new List<SqlParameter>
+                        var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == chitiet.TenBenh);
+                        if (benh == null)
+                        {
+                            benh = new Benh { MaBenh = Guid.NewGuid(), TenBenh = chitiet.TenBenh, MaCK = Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
+                            _context.Entry(benh).State = EntityState.Added;
+                            await _context.SaveChangesAsync();
+                        }
+                      
+                        foreach (var item in chitiet.TrieuChung)
+                        {
+                            List<SqlParameter> parms = new List<SqlParameter>
                             {
                                 new SqlParameter { ParameterName = "@Mabenh", Value= benh.MaBenh },
                                 new SqlParameter { ParameterName = "@TenTrieuChung", Value= item },
                             };
-                        var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
-                    }    
+                            var result = _context.Database.ExecuteSqlRaw("EXEC dbo.AddCTrieuChung @Mabenh,@TenTrieuChung", parms.ToArray());
+                        }
+                        var chiTietBenh = new ChiTietBenh { MaBenh = benh.MaBenh, MaPK = phieuKham.MaPK, KetQuaKham = string.Join(",", chitiet.TrieuChung) };
+                        await _context.ChiTietBenh.AddAsync(chiTietBenh);
+                    }
+                    
+                   
+                   
+                  
+                    
+                      
                     _context.Update(phieuKham);
                     await _context.ToaThuoc.AddAsync(model.ToaThuoc);
                     var sttoathuoc = new STTTOATHUOC { MaPK = model.MaPK, STT =_context.STTTOATHUOC.Count()>0? (_context.STTTOATHUOC.Max(x=>x.STT)+1):1, UuTien = uuTien };
                     await _context.STTTOATHUOC.AddAsync(sttoathuoc);
                     var sttpk = await _context.STTPhieuKham.FindAsync(model.MaPK);
-                    sttpk.TrangThai = true;
+                    
                     _context.Update(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -110,10 +137,7 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.ToaThuoc.Include(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.MaPhieuKhamNavigation).Include(x=>x.MaPhieuKhamNavigation.MaBNNavigation).ThenInclude(x=>x.PhieuKham).FirstOrDefaultAsync(x=>x.MaPhieuKham==MaPK);
         }
-        public async Task<IEnumerable<Thuoc>> GetAllThuoc()
-        {
-            return await _context.Thuoc.Where(x => x.TrangThai).ToListAsync();
-        }
+      
         public async Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model)
         {
             IEnumerable<PhieuKham> listUnpaged = null;

@@ -134,10 +134,11 @@ namespace TES_MEDICAL.GUI
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+               
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+           
                 options.SlidingExpiration = true;
             });
 

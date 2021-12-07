@@ -88,13 +88,13 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var checkUser = await _userManager.FindByNameAsync(Input.Email);
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-
-                    if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if(user!=null)
+                {
+                    if (user.TrangThai == true)
                     {
-                        var user = await _userManager.FindByNameAsync(Input.Email);
-                        if (user.TrangThai == true)
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                        if (result.Succeeded)
                         {
                             _logger.LogInformation("User logged in.");
                             if (user.ChucVu == 1)
@@ -110,31 +110,30 @@ namespace TES_MEDICAL.GUI.Areas.Identity.Pages.Account
                                 return LocalRedirect("~/Bacsi/");
                             }
                         }
+                        if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                        }
+                        if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning("User account locked out.");
+                            return RedirectToPage("./Lockout");
+                        }
                         else
                         {
-                          return RedirectToAction("NoneUserNVYT", "Identity");
-                         }
-                        
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
+                            //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
+                            Error = "Đăng nhập thất bại.";
+                            return Page();
+                        }
                     }
                     else
                     {
-                        //ModelState.AddModelError(string.Empty, "Đăng nhập thất bại.");
-                        Error = "Đăng nhập thất bại.";
-                        return Page();
+                        return RedirectToAction("NoneUserNVYT", "Identity");
                     }
-                
-                
+                }
 
-
+                Error = "Đăng nhập thất bại.";
+                return Page();
             }
 
             // If we got this far, something failed, redisplay form

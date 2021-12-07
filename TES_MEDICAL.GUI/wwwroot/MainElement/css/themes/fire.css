@@ -48,7 +48,15 @@ header.navbar-inverse.navbar-fixed-top,
 .button-reload button {
     background: #4a2e2b;
 }
-
+#addTrieuChung {
+    color: #4a2e2b;
+    font-size: 25px;
+    background-color: white;
+    border: none;
+    outline: none;
+    font-weight: bold;
+    margin-top: -7px;
+}
 .button-reload a {
     background: #4a2e2b;
 }

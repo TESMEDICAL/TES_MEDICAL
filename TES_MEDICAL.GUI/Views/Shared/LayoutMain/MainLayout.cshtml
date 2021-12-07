@@ -598,7 +598,7 @@
             e.target.className = "active";
         }
 
-        //Hàm get vị trí 
+        //Hàm get vị trí
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
@@ -608,15 +608,15 @@
         }
 
         function showPosition(position) {
-            console.log(position.coords.latitude, position.coords.longitude);
+
             LoadThoiTiet(position.coords.latitude, position.coords.longitude);
         }
 
         $(document).ready(
             function () {
-                             
+
                 $("#btThoiTiet").trigger('click');
-               
+
             });
 
         function LoadTheme(name) {
@@ -648,10 +648,10 @@
                 timeout: 20000,
                 data: JSON,
                 async: true,
-                success: function (result) {                   
+                success: function (result) {
                     $('#DoC').html(Math.ceil(result.main.temp - 273.15) + '&deg;C');
                     $('#locationMain').html(result.name);
-          
+
                 }
             });
         }
@@ -667,7 +667,6 @@
                 timeout: 20000,
                 async: true,
                 success: function (result) {
-                    console.log(result);
                     $('#myModalContent_ChangePass').html(result);
                     $('#modal-user-changepass').modal('show');
 
@@ -681,26 +680,25 @@
         }
 
         //Hàm open modal ChangeInfo
+
         function OpenChangeInfo() {
-            $('#contentChangeInfo').html("");
 
-            $.ajax({
-                url: '/Identity/ChangeInfo/',
-                type: "Get",
-                timeout: 20000,
-                async: true,
-                success: function (result) {
-                    console.log(result);
-                    $('#myModalContent_ChangeInfo').html(result);
-                    $('#modal_user_changeinfo').modal('show');
+             $('#contentChangeInfo').html("");
+               $.get("@Url.Action("ChangeInfo","Identity")", function (result) {
+            $('#myModalContent_ChangeInfo').html(result);
 
 
-                    $('#preloader-wrapper').toggleClass('hide');
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
-                }
-            });
+                   $('#modal_user_changeinfo').modal('show');
+
+
+                });
+
+           
+
+
+
+
+
         }
 
         //Hàm edit info NhanVienYTe
@@ -816,13 +814,13 @@
                         async: true,
                         success: function (result) {
 
-                          
+
                         }
                     });
                 }
             }
 
-          
+
         });
 
     </script>

@@ -312,7 +312,6 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             return View("QRCodeSample");
         }
-
         public IActionResult ScanPhieuDatLich()
         {
             return PartialView("_ScanPhieuDatLich");
@@ -323,6 +322,8 @@ namespace TES_MEDICAL.GUI.Controllers
             var chiTietDatLich = await _service.GetPhieuDatLichById(id);
             return Ok(chiTietDatLich);
         }
+
+       
 
     }
 }

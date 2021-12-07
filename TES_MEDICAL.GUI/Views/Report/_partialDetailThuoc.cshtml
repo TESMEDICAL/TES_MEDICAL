@@ -666,7 +666,7 @@
 
         <!-- Main Content -->
         <main>
-            <div class="row">        
+            <div class="row">
                 <p class="mb-0" style="text-align: right;">Mã hóa đơn: <strong>@Model.MaHD</strong> </p>
                 <p class="mb-0" style="text-align: right;">Nhân viên: <strong>@Model.MaNVNavigation.HoTen</strong> </p>
                 <div class="mb-3 text-sm-end" style="text-align: right;">Thời gian khám: <strong>@Model.NgayHD</strong></div>
@@ -690,8 +690,8 @@
                     <strong>Địa chỉ:</strong>
                     <p>@Model.MaPKNavigation.MaPhieuKhamNavigation.MaBNNavigation.DiaChi</p>
                 </div>
-                
-                
+
+
             </div>
             <div class="card">
                 <div class="card-body p-0">
@@ -722,7 +722,7 @@
                                 <tr>
                                     <td class="col-3"></td>
                                     <td class="col-4"></td>
-                                    <td class="col-2 border-bottom-0 text-center"><strong>Tổng tiền</strong></td>                                    
+                                    <td class="col-2 border-bottom-0 text-center"><strong>Tổng tiền</strong></td>
                                     <td class="col-6 border-bottom-0 text-end"><strong>@Model.TongTien.ToString("n0").Replace(',', '.') VNĐ</strong></td>
                                 </tr>
                             </tfoot>
@@ -746,6 +746,6 @@
         </footer>
     </div>
     <!-- Back to My Account Link -->
-    <p class="text-center d-print-none"><a href="#" data-bs-dismiss="modal">&laquo; Quay lại</a></p>
+    <p class="text-center d-print-none"><button class="btn btn-primary" id="btnClose" onclick="clearContent()" data-bs-dismiss="modal">&laquo; Quay lại</button></p>
 </body>
 </html>

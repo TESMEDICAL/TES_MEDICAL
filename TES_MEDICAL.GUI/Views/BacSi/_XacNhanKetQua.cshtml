@@ -95,30 +95,31 @@
             <h6 id="title-history" class="p-2" style="font-weight: 600;">Kết quả khám bệnh</h6>
         </div>
         <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 22px;">
-            <div class="mt-4">
-                <div class="ms-3">
-                    <h6 style="margin-inline: 7px;"><strong class="mb-2">Chẩn đoán: </strong> @Model.ChanDoan</h6>
-                </div>
-            </div>
-            <div class="mt-2">
-                <div style="background-color: white; position: absolute;" class="ms-3"><h6 style="margin-inline: 7px"><strong>Kết quả khám:</strong></h6></div>
-                <div id="title-border" style="margin-top: 10px; margin-bottom: 20px; margin-inline: 10px;">
+       
+           
+               
                     <div class="row mt-4 ms-4 mb-1">
                         @if (ViewBag.ListTC != null)
                         {
-                            foreach (var tc in ViewBag.ListTC as List<string>)
+                            foreach (var ct in ViewBag.ListTC as List<ChiTietBenhModel>)
                             {
-                                <div class="col-sm-5">
-                                    <h6>
-                                        <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2 mb-1" />
-                                        @tc
-                                    </h6>
-                                </div>
+                                <h5 style="font-weight: 600; text-transform: capitalize;">@ct.TenBenh</h5>
+                                @foreach (var tc in ct.TrieuChung)
+                                {
+                                    <div class="col-sm-6">
+
+                                        <h6>
+                                            <img src="~/MainElement/img/circle_PNG17.png" style="width: 5px;" class="me-2 mb-1" />
+                                            @tc
+                                        </h6>
+                                    </div>
+                                }
+
                             }
                         }
                     </div>
-                </div>
-            </div>
+               
+            
         </div>
     </div>
 

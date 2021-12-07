@@ -18,11 +18,11 @@
                     {
                         <tr>
                             <td>@item.STTPhieuKham.STT</td>
-                            <td>@item.MaBNNavigation.HoTen</td>
+                            <td style="text-align: left;">@item.MaBNNavigation.HoTen</td>
                             <td>@item.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</td>
                             <td>
                                 <a class="btn btn-info btn-sm active" title="Khám bệnh" href="@Url.Action("KhamBenh","BacSi",new {MaPK = item.MaPK })"> <i class="fas fa-stethoscope" aria-hidden="true"></i></a>
-                                <a class="btn btn-info btn-sm active" title="Huỷ bỏ"> <i class="fas fa-close" aria-hidden="true"></i></a>
+                                <a class="btn btn-info btn-sm active" title="Xuống cuối danh sách" onclick="ChangeDoUuTien('@item.STTPhieuKham.MaPhieuKham')"> <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     }

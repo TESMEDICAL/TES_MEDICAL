@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TES_MEDICAL.ENTITIES.Models.SearchModel;
+using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
@@ -18,14 +19,14 @@ namespace TES_MEDICAL.GUI.Controllers
     public class BacSiController : Controller
     {
         private readonly IKhamBenh _khambenhRep;
-        private readonly IThuoc _thuocRep;
+       
         private readonly UserManager<NhanVienYte> _userManager;
         private readonly IHubContext<SignalServer> _hubContext;
         private readonly ITienIch _tienichRep;
 
         public BacSiController(
             IKhamBenh khambenhRep,
-            IThuoc thuocRep,
+            
             UserManager<NhanVienYte> userManager,
             IHubContext<SignalServer> hubContext,
             ITienIch tienichRep
@@ -33,7 +34,7 @@ namespace TES_MEDICAL.GUI.Controllers
             
         {
             _khambenhRep = khambenhRep;
-            _thuocRep = thuocRep;
+         
             _userManager = userManager;
             _hubContext = hubContext;
             _tienichRep = tienichRep;
@@ -89,18 +90,36 @@ namespace TES_MEDICAL.GUI.Controllers
             
         }
 
-        public async Task<IActionResult> GetListThuoc()
+        public IActionResult GetListThuoc()
         {
 
-            return PartialView("_partialToaThuoc", await _khambenhRep.GetAllThuoc());
+            return PartialView("_partialToaThuoc",  _tienichRep.GetAllThuoc());
         
         }
-        public async Task<IActionResult> GetToaThuoc(string MaPK)
+        [HttpPost]
+        public IActionResult GetToaThuoc(PhieuKham phieukham)
         {
-            var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
-            ViewBag.LisTTC = item.KetQuaKham.Split(',').ToList();
-            return PartialView("_XacNhanKetQua", item);
+           
+            var ListCTBenh = new List<ChiTietBenhModel>();
+          
+            foreach(var chitiet in phieukham.ChiTietBenh)
+            {
+                ListCTBenh.Add(new ChiTietBenhModel { TenBenh = chitiet.MaBenhNavigation.TenBenh, TrieuChung = chitiet.KetQuaKham.Split(',').ToList() });
+            }
+            ViewBag.LisTTC = ListCTBenh;
+            return PartialView("_XacNhanKetQua", phieukham);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUuTien(Guid MaPk)
+        {
+            var stt =await _khambenhRep.ChangeUuTien(MaPk);
+            if(stt!=null)
+                return Json(new { status = 1, title = "", text = "Đổi thứ tự thành công.", obj = "" }, new JsonSerializerSettings());
+            else
+                return Json(new { status = -1, title = "", text = "Thao tác không thành công.", obj = "" }, new JsonSerializerSettings());
+        }
+
 
         public async Task<IActionResult> GetJsonPK(string MaPK)
         {
@@ -114,12 +133,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpGet("search")]
         [Route("api/Benh/search")]
-        public async Task<IActionResult> Search()
+        public IActionResult Search()
         {
             try
             {
                 string term = HttpContext.Request.Query["term"].ToString();
-                var benh = (await _tienichRep.SearchBenh(term)).Select(x=>x.TenBenh);
+                var benh = ( _tienichRep.SearchBenh(term)).Select(x=>x.TenBenh);
                 return Ok(benh);
             }
             catch
@@ -131,12 +150,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpGet("searchtrieuchung")]
         [Route("api/Benh/searchtrieuchung")]
-        public async Task<IActionResult> SearchTrieuChung()
+        public IActionResult SearchTrieuChung()
         {
             try
             {
                 string term = HttpContext.Request.Query["term"].ToString();
-                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                var trieuchung = ( _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
                 return Ok(trieuchung);
             }
             catch
@@ -148,14 +167,16 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ThemToa(PhieuKham model, List<string> ListTrieuChung)
+        public async Task<IActionResult> ThemToa(PhieuKham model,List<ChiTietBenhModel> ListCT)
         {
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
-                item.DonGiaThuoc = (await _thuocRep.Get(item.MaThuoc)).DonGia;
+                item.DonGiaThuoc = (_tienichRep.GetThuoc(item.MaThuoc)).DonGia;
                 item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
-            }    
-            var result = await _khambenhRep.AddToaThuoc(model,ListTrieuChung);
+            }
+            model.ChanDoan = string.Join(",", ListCT.Select(x => x.TenBenh).ToArray());
+   
+            var result = await _khambenhRep.AddToaThuoc(model,ListCT);
 
             if (result != null)
             {
@@ -169,10 +190,10 @@ namespace TES_MEDICAL.GUI.Controllers
                 return Json(new { status = -2, title = "", text = "Gửi không thành công", obj = "" }, new JsonSerializerSettings());
         }
 
-
-        public async Task<IActionResult> GetAutoFill(string TenBenh)
+        [HttpPost]
+        public async Task<IActionResult> GetAutoFill(List<string> TenBenh)
         {
-            var item = await _tienichRep.GetAuToFill(TenBenh);
+            var item = await _tienichRep.GetToaThuocFill(TenBenh);
 
             return Ok(item);
 
@@ -181,7 +202,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> XacNhanKetQua(PhieuKham model,List<string> ListTrieuChung)
+        public IActionResult XacNhanKetQua(PhieuKham model, List<string> ListTrieuChung,List<ChiTietBenhModel> ListCT)
         {
             if (ListTrieuChung != null && ListTrieuChung.Count > 0)
 
@@ -189,9 +210,9 @@ namespace TES_MEDICAL.GUI.Controllers
                 foreach (var item in model.ToaThuoc.ChiTietToaThuoc)
                 {
                     item.MaThuocNavigation = new Thuoc();
-                    item.MaThuocNavigation = (await _thuocRep.Get(item.MaThuoc));
+                    item.MaThuocNavigation = _tienichRep.GetThuoc(item.MaThuoc);
                 }
-                ViewBag.LisTTC = ListTrieuChung;
+                ViewBag.LisTTC = ListCT;
 
 
             return PartialView("_XacNhanKetQua", model);
@@ -205,16 +226,16 @@ namespace TES_MEDICAL.GUI.Controllers
         
 
         [HttpPost]
-        public async Task<IActionResult> ReLoadThuoc(PhieuKham model)
+        public IActionResult ReLoadThuoc(PhieuKham model)
         {
-            if(model.MaPK==Guid.Empty)
+            if(model.ToaThuoc==null)
             {
                return Json(new { status = -2, title = "", text = "Chưa có toa thuốc nào cho bệnh này", obj = "" }, new JsonSerializerSettings());
             }
             else
             {
                 var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
-                var listNew = await _khambenhRep.GetAllThuoc();
+                var listNew = _tienichRep.GetAllThuoc();
                 var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
                 ViewBag.Thuoc = listThuoc;
                 return PartialView("_partialToaThuocOld", model.ToaThuoc);
@@ -255,9 +276,9 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<IActionResult> ChiTietThuoc(Guid id)
+        public IActionResult ChiTietThuoc(Guid id)
         {
-            if (await _thuocRep.Get(id) == null)
+            if (_tienichRep.GetThuoc(id) == null)
             {
                 return NotFound(); ;
             }
@@ -265,7 +286,7 @@ namespace TES_MEDICAL.GUI.Controllers
             {
 
 
-                return PartialView("_ChiTietThuoc", await _thuocRep.Get(id));
+                return PartialView("_ChiTietThuoc", _tienichRep.GetThuoc(id));
             }
         }
 

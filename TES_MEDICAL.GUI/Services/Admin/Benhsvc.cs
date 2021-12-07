@@ -195,18 +195,18 @@ namespace TES_MEDICAL.GUI.Services
             return listPaged;
 
         }
-
-
-
-        protected IEnumerable<Benh> GetAllFromDatabase()
+        public List<Benh> GetAllBenh()
         {
-            List<Benh> data = new List<Benh>();
-
-            data = _context.Benh.ToList();
-
-            return data;
-
+            return _context.Benh.AsNoTracking().ToList();
         }
+        public List<TrieuChung>GetAllTrieuChung()
+        {
+            return _context.TrieuChung.AsNoTracking().ToList();
+        
+        }
+
+
+       
     }
 }
 

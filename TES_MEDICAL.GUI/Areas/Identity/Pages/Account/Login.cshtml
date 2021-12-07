@@ -106,16 +106,16 @@
                             <input asp-for="Input.Password" class="form-control input-lg" placeholder="Mật khẩu">
                         </div>
                         <span asp-validation-for="Input.Password" class="text-danger" style="margin-left: 52px;"></span>
-                        <spa class="text-danger" style="margin-left:50px;">
+                        <span class="text-danger">
                             @(string.IsNullOrWhiteSpace(Model.Error)?"":Model.Error)
-                        </spa>
+                        </span>
                         @*<span  class="text-danger">kkkkkkkk</span>*@
                     </div>
                 </div>
                 <div class="form-group form-actions" style="display: flex; margin-inline: 5px; margin-bottom: 7%;">
                     <div style="width: 60%; margin-top: 10px;">
                         <label data-toggle="tooltip" title="Remember Me?">
-                            <input type="checkbox" id="login-remember-me" name="login-remember-me" checked>
+                            <input type="checkbox" asp-for="Input.RememberMe">
                             <span style="font-weight: 400; color: rgb(54, 172, 105); "> Ghi nhớ đăng nhập</span>
                         </label>
                     </div>

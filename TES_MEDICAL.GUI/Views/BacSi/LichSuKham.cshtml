@@ -1,4 +1,4 @@
-﻿
+﻿@inject UserManager<NhanVienYte> UserManager
 @using X.PagedList;
 
 
@@ -59,7 +59,14 @@
         var $myModalContentins = $("#myModalContentins");
         var $myModalTitle = $("#myModalTitle");
         var $myModalTitleins = $("#myModalTitleins");
+        var Clienid;
+          $(document).ready(
 
+            function () {
+
+                Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
+
+            });
         function reloadpage(page) {
             obj = {};
 
@@ -113,7 +120,7 @@
                 });
             }
 
-           
+
 
         });
 
@@ -126,22 +133,28 @@
 
         function _Detail(id_) {
             $myModalContent.html("");
+            $.get("/BacSi/GetJsonPK", { MaPK: id_ }, function (data) {
 
-            $.ajax({
-                url: "/BacSi/GetToaThuoc/",
-                type: 'GET',
-                data: {
-                    MaPK: id_
 
-                },
-                success: function (response) {
+                $.ajax({
+                    url: "/BacSi/GetToaThuoc/",
+                    type: 'POST',
+                    data: {
+                        phieukham: data
 
-                    $("#myModalContent").html(response);
-                    $("#Title").html("Lịch sử khám");
-                    $('#myModal').modal('show');
-                   
-                }
+                    },
+                    success: function (response) {
+
+                        $("#myModalContent").html(response);
+                        $("#Title").html("Lịch sử khám");
+                        $('#myModal').modal('show');
+
+
+                    }
+                });
+
             });
+
         }
 
 
@@ -173,7 +186,7 @@
             if (Clienid == id) {
 
                 toastr.success("Có một bệnh nhân mới");
-              
+
             }
         });
     </script>

@@ -199,7 +199,7 @@
                         <label class="form-label">Nội dung (*)</label>
                     </div>
                     <div class="mt-2">
-                        <a class="btn btn-success" onclick="_Preview()"><i class="fas fa-eye"></i> Xem trước</a>
+                        <a class="btn text-light" style="background-color: #52B788" onclick="_Preview()"><i class="fas fa-eye"></i> Xem trước</a>
                     </div>
                 </div>    
 
@@ -209,7 +209,7 @@
             </div>
             <div class="box-btn d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn-savee btn" type="submit" ><i class="fas fa-save"></i> Xác nhận</button>
-                <button type="submit" class="btn-closee btn"><i class="fas fa-close"></i> Đóng</button>
+                <a class="btn-closee btn" href="@Url.ActionLink("Index","TinTuc")"><i class="fas fa-close"></i> Đóng</a>
             </div>
         </form>
 
@@ -299,8 +299,7 @@
             obj.TieuDe = jQuery("textarea#TieuDe").val();
             obj.MaTL = $('#MaTL').val();
             obj.NoiDung = jQuery("textarea#NoiDung").val();
-            $myModalContent.html("");
-            console.log(obj);
+            $myModalContent.html("");           
             $.ajax({
                 url: '/TinTuc/Preview/',
                 type: "POST",

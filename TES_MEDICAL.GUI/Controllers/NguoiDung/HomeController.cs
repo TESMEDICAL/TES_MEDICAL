@@ -98,10 +98,12 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     if (model.Email != null)
                     {
-                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model))); //SendMail
+                        var request = HttpContext.Request;
+                        var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL))); //SendMail
 
                         th_one.Start();
-                        
+
                     }
 
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
@@ -118,12 +120,12 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpGet("searchtrieuchung")]
         [Route("api/ChanDoan/searchtrieuchung")]
-        public async Task<IActionResult> SearchTrieuChung()
+        public IActionResult SearchTrieuChung()
         {
             try
             {
                 string term = HttpContext.Request.Query["term"].ToString();
-                var trieuchung = (await _tienichRep.GetTrieuChung(term)).Select(x => x.TenTrieuChung);
+                var trieuchung = _tienichRep.GetTrieuChung(term).Select(x => x.TenTrieuChung);
                 return Ok(trieuchung);
             }
             catch
@@ -154,7 +156,7 @@ namespace TES_MEDICAL.GUI.Controllers
         [Produces("application/json")]
         [HttpPost("KetQuaChanDoan")]
         [Route("api/ChanDoan/KetQuaChanDoan")]
-        public async Task<IActionResult> KetQuaChanDoan(string[] ListTrieuChung)
+        public IActionResult KetQuaChanDoan(string[] ListTrieuChung)
         {
             try
             {
@@ -180,16 +182,14 @@ namespace TES_MEDICAL.GUI.Controllers
             }
         }
 
-
-
-
+      
         public async Task<IActionResult> ResultDatLich(string MaPhieu)
         {           
             var model = await _service.GetPhieuDat(MaPhieu);
             if (model != null)
             {
                 return View(model);
-            }                        
+            }
             return RedirectToAction("DatLichError", "Home");
         }
 
@@ -209,10 +209,9 @@ namespace TES_MEDICAL.GUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private string message(PhieuDatLich model)
+        private string message(PhieuDatLich model, string _baseURL)
         {
-            var request = HttpContext.Request;
-            var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+
             var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             string Base64 = null;
             using (MemoryStream ms = new MemoryStream())
@@ -223,7 +222,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 using (Bitmap bitMap = qrCode.GetGraphic(20))
                 {
                     bitMap.Save(ms, ImageFormat.Png);
-                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());                    
+                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
                 }
             }
 
@@ -267,9 +266,9 @@ namespace TES_MEDICAL.GUI.Controllers
             }
             return View(baiViet);
         }
-        
 
-        public async Task<IActionResult> SearchByPhoneNumber(string SDT,string otp)
+
+        public async Task<IActionResult> SearchByPhoneNumber(string SDT, string otp)
         {
             byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
             totp.Totp = new Totp(rfcKey, 120,
@@ -294,7 +293,7 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            
+
         }
 
         public IActionResult LichSuKham()
@@ -311,7 +310,7 @@ namespace TES_MEDICAL.GUI.Controllers
         }
 
 
-        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT,string otp)
+        public async Task<IActionResult> SearchDatLichByPhoneNumber(string SDT, string otp)
         {
             byte[] rfcKey = UTF8Encoding.ASCII.GetBytes(SDT);
             totp.Totp = new Totp(rfcKey, 120,
@@ -338,7 +337,7 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 return Json(new { status = -3, title = "", text = "Mã xác thực không đúng.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            
+
         }
 
 

@@ -141,14 +141,9 @@ namespace TES_MEDICAL.GUI.Services
 
         }
 
-        protected IEnumerable<Thuoc> GetAllFromDatabase()
+        public List<Thuoc> GetAllThuoc()
         {
-            List<Thuoc> data = new List<Thuoc>();
-
-            data = _context.Thuoc.ToList();
-
-            return data;
-
+            return  _context.Thuoc.Where(x => x.TrangThai).AsNoTracking().ToList();
         }
     }
 }
