@@ -160,29 +160,42 @@
         }
 
         function ChangeDoUuTien(_maPK) {
-            $.ajax({
-                url: "/DuocSi/ChangeSoUuTien/",
-                type: 'POST',
-                data: {
-                    maPK: _maPK
-                },
-                success: function (response) {
-                    if (response.status >= 1) {
+            Swal.fire({
+                title: 'Bạn có muốn đưa toa thuốc này xuống cuối hàng chờ ?',
+                text: "Thao tác không thể thay đổi !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Huỷ bỏ',
+                confirmButtonText: 'Xác nhận'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/DuocSi/ChangeSoUuTien/",
+                        type: 'POST',
+                        data: {
+                            maPK: _maPK
+                        },
+                        success: function (response) {
+                            if (response.status >= 1) {
 
-                        toastr.success(response.text);
-                        ReloadPage(1);
-                    }
-                    else {
-                        toastr.warning(response.text);
-                    }
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                },
-                failure: function (message) {
-                    $('#preloader-wrapper').toggleClass('hide');
+                                toastr.success(response.text);
+                                ReloadPage(1);
+                            }
+                            else {
+                                toastr.warning(response.text);
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+                        },
+                        failure: function (message) {
+                            $('#preloader-wrapper').toggleClass('hide');
+                        }
+                    });
                 }
-            });
+            })
         }
 
         //Sự kiện b
