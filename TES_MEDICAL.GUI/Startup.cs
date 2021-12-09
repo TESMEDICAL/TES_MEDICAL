@@ -28,6 +28,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
+using Hangfire.Dashboard;
 
 namespace TES_MEDICAL.GUI
 {
@@ -210,7 +211,11 @@ namespace TES_MEDICAL.GUI
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
             });
-            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                IsReadOnlyFunc = (DashboardContext context) => true
+            });
             recurringJobManager.AddOrUpdate(
                 "Run every minute",
                 () => serviceProvider.GetService<IAutoBackground>().AutoDelete(),
