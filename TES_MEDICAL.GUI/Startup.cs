@@ -1,33 +1,26 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using System.Linq;
+using System.Net;
+using System.Text;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.ResponseCompression;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TES_MEDICAL.GUI.Extension;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
 using TES_MEDICAL.GUI.Interfaces;
 using TES_MEDICAL.GUI.Models;
-using TES_MEDICAL.GUI.Services;
-
-using Hangfire;
-
-using Microsoft.AspNetCore.Identity;
-using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
 
 namespace TES_MEDICAL.GUI
 {
@@ -43,10 +36,14 @@ namespace TES_MEDICAL.GUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
+
             //Token tồn tại trong 2 tiếng
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-   opt.TokenLifespan = TimeSpan.FromHours(2));
+                opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddResponseCompression(opts =>
             {
@@ -54,100 +51,86 @@ namespace TES_MEDICAL.GUI
                     new[] { "application/octet-stream" });
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddDistributedMemoryCache(); // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
 
             services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(120); });
-            
+
 
             var jwtSettings = Configuration.GetSection("JWTSettings");
             services.AddAuthentication()
-    .AddCookie(options =>
-    {
+                .AddCookie(options => { options.SlidingExpiration = true; }
+                )
 
-
-        options.SlidingExpiration = true;
-
-    }
-    )
-
-            // Adding Jwt Bearer
-            .AddJwtBearer(options =>
-            {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                // Adding Jwt Bearer
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = Configuration["JWT:ValidAudience"],
-                    ValidIssuer = Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-                };
-            }).AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = Configuration["Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
-            });
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["JWT:ValidAudience"],
+                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    };
+                }).AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = Configuration["Google:ClientId"];
+                    googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
+                });
 
 
-            services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            
-            services.AddDefaultIdentity<NhanVienYte>(options => {
-                options.SignIn.RequireConfirmedAccount = false;
+            services.AddControllersWithViews().AddNewtonsoftJson(x =>
+                x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-            }).AddRoles<IdentityRole>().AddErrorDescriber<CustomErrorDescriber>()
-                   .AddEntityFrameworkStores<DataContext>();
+            services.AddDefaultIdentity<NhanVienYte>(options => { options.SignIn.RequireConfirmedAccount = false; })
+                .AddRoles<IdentityRole>().AddErrorDescriber<CustomErrorDescriber>()
+                .AddEntityFrameworkStores<DataContext>();
             services
-              .AddDatabase(Configuration)
-
-              .AddRepositories();
+                .AddDatabase(Configuration)
+                .AddRepositories();
 
             services.AddSignalR();
-
-
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             }));
-
-
-
 
             services.AddHangfire(config =>
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseDefaultTypeSerializer()
-                .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseDefaultTypeSerializer()
+                    .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
             );
             services.AddHangfireServer();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
-               .AddRazorPagesOptions(options =>
-               {
-                   options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                   options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-               }).AddRazorRuntimeCompilation();
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                }).AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.Name = ".AspNetCore.Identity.Application";
-               
-                options.LoginPath = $"/Identity/Account/Login";
-                options.LogoutPath = $"/Identity/Account/Logout";
-                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-           
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
                 options.SlidingExpiration = true;
             });
-
-
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -169,11 +152,13 @@ namespace TES_MEDICAL.GUI
                     context.Request.Path = "/Admin/NoneUser";
                     await next();
                 }
+
                 if (context.Response.StatusCode == 404)
                 {
                     context.Request.Path = "/Error/Error400";
                     await next();
                 }
+
                 if (context.Response.StatusCode == 500)
                 {
                     context.Request.Path = "/Error/Error500";
@@ -190,6 +175,10 @@ namespace TES_MEDICAL.GUI
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -200,12 +189,12 @@ namespace TES_MEDICAL.GUI
             app.UseAuthentication();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}");
+                    "default",
+                    "{controller=Home}/{action=Index}");
                 endpoints.MapHub<SignalServer>("/signalServer");
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
@@ -215,7 +204,7 @@ namespace TES_MEDICAL.GUI
                 "Run every minute",
                 () => serviceProvider.GetService<IAutoBackground>().AutoDelete(),
                 "00 19 * * *"
-                );
+            );
         }
     }
 }
