@@ -199,7 +199,11 @@ namespace TES_MEDICAL.GUI
                 endpoints.MapHub<RealtimeHub>("/PhieuKham");
                 endpoints.MapRazorPages();
             });
-            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                IsReadOnlyFunc = (DashboardContext context) => true
+            });
             recurringJobManager.AddOrUpdate(
                 "Run every minute",
                 () => serviceProvider.GetService<IAutoBackground>().AutoDelete(),
