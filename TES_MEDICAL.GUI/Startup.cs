@@ -47,7 +47,7 @@ namespace TES_MEDICAL.GUI
 
             var jwtSettings = Configuration.GetSection("JWTSettings");
             services.AddAuthentication()
-                .AddCookie(options => { options.SlidingExpiration = true; }
+                .AddCookie(options => { options.SlidingExpiration = false; }
                 )
 
                 
@@ -95,8 +95,8 @@ namespace TES_MEDICAL.GUI
                 options.LoginPath = "/Identity/Account/Login";
                 options.LogoutPath = "/Identity/Account/Logout";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-
-                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(6);
+                options.SlidingExpiration = false;
             });
         }
 
