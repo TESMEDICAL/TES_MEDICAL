@@ -69,11 +69,18 @@
         @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "d-flex flex-wrap", name = "frm", id = "frm", enctype = "multipart/form-data" }))
         {
             <div class="box-left col-sm-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-4" style="display:none">
+                    <label class="control-label col-md-6" for="MaBenh">MaBenh</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MaBenh, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MaBenh, "", new { @class = "text-danger" })
+                    </div>
+                </div>
                 <div class="box-left-title">
                     <div class="box-label">
-                        <label class="form-label">Tên bệnh (*)</label>
+                        <label class="form-label">Tên bệnh</label>
                     </div>
-
                     <div class="box-left-input mt-3 mb-3">
                         @Html.EditorFor(model => model.TenBenh, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TenBenh, "", new { @class = "text-danger" })
@@ -81,12 +88,13 @@
                 </div>
                 <div class="box-left-title">
                     <div class="box-label">
-                        <label class="form-label">Chuyên khoa (*)</label>
+                        <label class="form-label">Chuyên khoa</label>
                     </div>
 
                     <div class="box-left-select mt-3 mb-3">
                         <select class="form-select" asp-for="MaCK" asp-items="ViewBag.MaCK">
                         </select>
+
                         @Html.ValidationMessageFor(model => model.MaCK, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -94,16 +102,18 @@
             <div class="box-right col-sm-7">
                 <div class="box-right-infomation">
                     <div class="box-label">
-                        <label class="form-label">Thông tin bệnh (*)</label>
+                        <label class="form-label">Thông tin bệnh</label>
                     </div>
                     <div class="box-right-textarea mt-3 mb-3">
-                        <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" style="height: 150px"></textarea>
+                        <textarea class="form-control" placeholder="Nhập thông tin bệnh ..." id="ThongTin" name="ThongTin" rows="7" style="height: 150px">@Model.ThongTin</textarea>
                         @Html.ValidationMessageFor(model => model.ThongTin, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <div class="text-danger"></div>
 
+
+
+          
         }
     </div>
 
@@ -135,7 +145,10 @@
 
 </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial2"); }
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
 
 
 

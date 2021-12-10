@@ -99,9 +99,7 @@
                 <div class="header-input-1 col-7">
                     @Html.EditorFor(model => model.KeyWord, new { htmlAttributes = new { @class = "mr-2 mb-2 form-control", @placeholder = "Nhập thông tin cần tìm ..." } })
                 </div>
-                @*<div class="header-btn col-3">
-                    <button type="button" class="btn" onclick="Timkiem()" id="btSeach"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Tìm kiếm</button>
-                </div>*@
+             
             </div>
             <div class="header-modal-right col-sm-4 row">
                 <div class="header-btn col-7">
@@ -145,7 +143,7 @@
 
     </div>
 </div>
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 
 @section scripts{
     

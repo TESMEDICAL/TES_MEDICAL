@@ -1,12 +1,17 @@
 ﻿
 
 
+using Hangfire;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using TES_MEDICAL.GUI.Interfaces;
@@ -19,15 +24,34 @@ namespace TES_MEDICAL.GUI.Extension
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
+
+            //Token tồn tại trong 2 tiếng
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(2));
+
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
             // Configure DbContext with Scoped lifetime
             services.AddDbContext<DataContext>(options =>
                 {
-                    options.UseSqlServer(configuration.GetConnectionString("DataContextConnection"));
+                    options.UseSqlServer(@"Data Source=14.225.254.183;Initial Catalog=db_a7aba3_clinicdbs;User Id=Sa;Password=3xHGF5JLOr");
                     
                 }
             );
 
-
+            services.AddHangfire(config =>
+             config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                 .UseSimpleAssemblyNameTypeSerializer()
+                 .UseDefaultTypeSerializer()
+                 .UseSqlServerStorage(@"Data Source=14.225.254.183;Initial Catalog=db_a7aba3_clinicdbs;User Id=Sa;Password=3xHGF5JLOr")
+         );
 
             return services;
         }

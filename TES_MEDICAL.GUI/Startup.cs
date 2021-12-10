@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Hangfire;
+using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -26,30 +27,18 @@ namespace TES_MEDICAL.GUI
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
-            });
-
-            //Token tồn tại trong 2 tiếng
-            services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(2));
-
-            services.AddResponseCompression(opts =>
-            {
-                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { "application/octet-stream" });
-            });
+         
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache(); // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
 
@@ -61,20 +50,9 @@ namespace TES_MEDICAL.GUI
                 .AddCookie(options => { options.SlidingExpiration = true; }
                 )
 
-                // Adding Jwt Bearer
-                .AddJwtBearer(options =>
-                {
-                    options.SaveToken = true;
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidAudience = Configuration["JWT:ValidAudience"],
-                        ValidIssuer = Configuration["JWT:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-                    };
-                }).AddGoogle(googleOptions =>
+                
+               
+                .AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = Configuration["Google:ClientId"];
                     googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
@@ -100,12 +78,7 @@ namespace TES_MEDICAL.GUI
                     .AllowAnyHeader();
             }));
 
-            services.AddHangfire(config =>
-                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseDefaultTypeSerializer()
-                    .UseSqlServerStorage(Configuration.GetConnectionString("DataContextConnection"))
-            );
+           
             services.AddHangfireServer();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
