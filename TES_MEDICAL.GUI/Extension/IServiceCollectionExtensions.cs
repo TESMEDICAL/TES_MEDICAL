@@ -41,7 +41,7 @@ namespace TES_MEDICAL.GUI.Extension
             // Configure DbContext with Scoped lifetime
             services.AddDbContext<DataContext>(options =>
                 {
-                    options.UseSqlServer(@"Data Source=14.225.254.183;Initial Catalog=db_a7aba3_clinicdbs;User Id=Sa;Password=3xHGF5JLOr");
+                    options.UseSqlServer(configuration.GetConnectionString("DataContextConnection"));
                     
                 }
             );
@@ -50,7 +50,7 @@ namespace TES_MEDICAL.GUI.Extension
              config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                  .UseSimpleAssemblyNameTypeSerializer()
                  .UseDefaultTypeSerializer()
-                 .UseSqlServerStorage(@"Data Source=14.225.254.183;Initial Catalog=db_a7aba3_clinicdbs;User Id=Sa;Password=3xHGF5JLOr")
+                 .UseSqlServerStorage(configuration.GetConnectionString("DataContextConnection"))
          );
 
             return services;
