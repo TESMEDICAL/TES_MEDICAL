@@ -233,7 +233,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 List<DataPoint> dataPoints = new List<DataPoint>();
                 foreach (var item in (await _service.ThongKeLuotKham((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
                 {
-                    dataPoints.Add(new DataPoint("Tháng " + item.luotKham.ToString(), item.thang));
+                    dataPoints.Add(new DataPoint("Tháng " + item.thang.ToString(), item.luotKham));
                 }
                 return Ok(new { dataPoints = dataPoints, dataTable = listmodel });
             }

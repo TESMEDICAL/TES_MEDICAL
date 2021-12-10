@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -16,9 +17,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class ThuocController : BaseController
     {
         private readonly IThuoc _service;
-        public ThuocController(IThuoc service)
+        private readonly IWebHostEnvironment _env;
+        public ThuocController(IThuoc service, IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
 
         public async Task<IActionResult> Index(ThuocSearchModel model)
@@ -83,7 +86,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
+                    filePath = Path.Combine(_env.WebRootPath, "images/imagesThuoc", fileName);
                 }
 
                 model.MaThuoc = Guid.NewGuid();
@@ -155,7 +158,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\imagesThuoc", fileName);
+                    filePath = Path.Combine(_env.WebRootPath, "images/imagesThuoc", fileName);
                 }
 
                 var result = await _service.Edit(model);

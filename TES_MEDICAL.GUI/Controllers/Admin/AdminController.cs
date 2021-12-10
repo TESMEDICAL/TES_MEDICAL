@@ -162,7 +162,7 @@ namespace TES_MEDICAL.GUI.Controllers.Admin
 
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     user.HinhAnh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
+                    filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images/NguoiDung", fileName);
                 }
 
                               

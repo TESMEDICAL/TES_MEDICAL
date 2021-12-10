@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -17,14 +18,16 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly INhanVienYte _service;
         private readonly IChuyenKhoa _chuyenkhoaRep;
+        private readonly IWebHostEnvironment _env;
         private readonly UserManager<NhanVienYte> _userManager;
       
-        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager)
+        public NhanVienYTeController(INhanVienYte service, IChuyenKhoa chuyenkhoaRep, UserManager<NhanVienYte> userManager, IWebHostEnvironment env)
         {
             _service = service;
             _chuyenkhoaRep = chuyenkhoaRep;
             _userManager = userManager;
-      
+            _env = env;
+
         }
 
         public async Task<ActionResult> Index(NhanVienYteSearchModel model)
@@ -86,7 +89,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     model.Hinh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
+                    filePath = Path.Combine(_env.WebRootPath, "images/NguoiDung", fileName);
                 }
 
 
