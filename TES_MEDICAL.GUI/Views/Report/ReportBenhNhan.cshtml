@@ -114,10 +114,9 @@
                 <table class="table">
                     <thead class="table-head-fixed">
                         <tr>
-                            <th scope="col" id="tenBenhId">Lượt khám</th>
-                            <th scope="col" id="tenThuocId">Tháng</th>
                             <th scope="col">Năm</th>
-
+                            <th scope="col" id="tenThuocId">Tháng</th>
+                            <th scope="col" id="tenBenhId">Lượt khám</th>
                         </tr>
                     </thead>
                     <tbody id="BieuDoCot">
@@ -169,7 +168,7 @@
                         toolTipContent: "<b>{label}</b>: {y}%",
                         showInLegend: "true",
                         legendText: "{label}",
-                        indexLabel: "Tháng {label} - {y} lượt",
+                        indexLabel: "{label} - {y} lượt",
                         dataPoints: response.dataPoints
                     }]
                 });
@@ -180,10 +179,10 @@
                 $(".table").show();
                 (response.dataTable.obj).forEach(function (item) {
                     $("#BieuDoCot").append(`
-                            <tr>
-                                <td>${item.luotKham}</td>
-                                <td>${item.thang}</td>
+                            <tr>                               
                                 <td>${item.nam}</td>
+                                <td>${item.thang}</td>
+                                <td>${item.luotKham}</td>
                             </tr>
                         `)
                         ;

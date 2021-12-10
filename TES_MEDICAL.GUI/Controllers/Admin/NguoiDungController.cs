@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
 using TES_MEDICAL.GUI.Constant;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -18,9 +19,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class NguoiDungController : BaseController
     {
         private readonly INguoiDung _service;
-        public NguoiDungController(INguoiDung service)
+        private readonly IWebHostEnvironment _env;
+        public NguoiDungController(INguoiDung service, IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
 
         public async Task <ActionResult> Index(NguoiDungSearchModel model)
@@ -87,10 +90,9 @@ namespace TES_MEDICAL.GUI.Controllers
                 else
                 {
                     //file = HttpContext.Request.Form.Files[0];
-                    model.HinhAnh = DateTime.Now.ToString("ddMMyyyyss") + file.FileName;
-
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
+                    model.HinhAnh = fileName;
+                    filePath = Path.Combine(_env.WebRootPath, "images/NguoiDung", fileName);
                 }
 
                 model.MaNguoiDung = Guid.NewGuid();

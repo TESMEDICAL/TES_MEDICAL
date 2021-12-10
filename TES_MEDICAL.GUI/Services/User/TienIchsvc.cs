@@ -87,7 +87,7 @@ namespace TES_MEDICAL.GUI.Services
             {
                 List<TrieuChung> trieuchungsCache = _cacheMemory.GetOrCreate<List<TrieuChung>>("TRIEUCHUNG_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllTrieuChung);
 
-                return trieuchungsCache.Where(x => Helper.ConvertToUnSign(x.TenTrieuChung).IndexOf(Helper.ConvertToUnSign(TenTrieuChung), StringComparison.CurrentCultureIgnoreCase) >= 0).Take(10);
+                return trieuchungsCache.Where(x => Helper.ConvertToUnSign(x.TenTrieuChung).IndexOf(Helper.ConvertToUnSign(TenTrieuChung), StringComparison.CurrentCultureIgnoreCase) >= 0).OrderBy(x=>x.TenTrieuChung.Length).Take(10);
             }
             catch (Exception ex)
             {

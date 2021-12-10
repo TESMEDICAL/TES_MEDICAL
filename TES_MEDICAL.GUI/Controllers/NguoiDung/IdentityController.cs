@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
@@ -22,12 +23,14 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly UserManager<NhanVienYte> _userManager;
         private readonly SignInManager<NhanVienYte> _signInManager;
         private readonly ILogger<IdentityController> _logger;
+        private readonly IWebHostEnvironment _env;
 
-        public IdentityController(SignInManager<NhanVienYte> signInManager, ILogger<IdentityController> logger, UserManager<NhanVienYte> userManager)
+        public IdentityController(SignInManager<NhanVienYte> signInManager, ILogger<IdentityController> logger, UserManager<NhanVienYte> userManager, IWebHostEnvironment env)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _env = env;
         }
 
         public async Task<IActionResult> Logout()
@@ -98,7 +101,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 {
                     var fileName = Path.GetFileName(DateTime.Now.ToString("ddMMyyyyss") + file.FileName);
                     user.Hinh = fileName;
-                    filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\NguoiDung", fileName);
+                    filePath = Path.Combine(_env.WebRootPath, "images/NguoiDung", fileName);
                 }
 
                 if (file != null)
