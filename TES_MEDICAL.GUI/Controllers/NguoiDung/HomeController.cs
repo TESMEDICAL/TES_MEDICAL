@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -34,6 +35,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly IDichVu _dichVuService;
         private readonly ITienIch _tienichRep;
         private OTPCLASS totp;
+        private readonly IWebHostEnvironment _env;
 
 
 
@@ -47,7 +49,8 @@ namespace TES_MEDICAL.GUI.Controllers
                                 IDuocSi duocSiService,
                                 IDichVu dichvuService,
                                 ITienIch tienichRep,
-                                OTPCLASS toptpRep
+                                OTPCLASS toptpRep,
+                                IWebHostEnvironment env
             )
         {
             _logger = logger;
@@ -59,6 +62,7 @@ namespace TES_MEDICAL.GUI.Controllers
             _dichVuService = dichvuService;
             _tienichRep = tienichRep;
             totp = toptpRep;
+            _env = env;
 
         }
 
@@ -212,7 +216,7 @@ namespace TES_MEDICAL.GUI.Controllers
         private string message(PhieuDatLich model, string _baseURL)
         {
 
-            var root = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
+            var root = Path.Combine(_env.WebRootPath, "MailTheme");
             string Base64 = null;
             using (MemoryStream ms = new MemoryStream())
             {
@@ -226,7 +230,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 }
             }
 
-            using (var reader = new System.IO.StreamReader(root + @"/MailTheme/index.html"))
+            using (var reader = new System.IO.StreamReader(root + "/index.html"))
             {
                 string readFile = reader.ReadToEnd();
                 string StrContent = string.Empty;
