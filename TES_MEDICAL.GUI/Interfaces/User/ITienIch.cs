@@ -10,7 +10,8 @@ namespace TES_MEDICAL.GUI.Interfaces
      public interface ITienIch
      {
         IEnumerable<Benh> SearchBenh(string KeyWord);
-      
+        void refreshCacheBenh();
+        void refreshCacheTrieuChung();
         Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh);
         IEnumerable<TrieuChung> GetTrieuChung(string TenTrieuChung);
         IEnumerable<Thuoc> GetAllThuoc();

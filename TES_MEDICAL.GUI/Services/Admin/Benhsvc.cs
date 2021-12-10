@@ -197,6 +197,7 @@ namespace TES_MEDICAL.GUI.Services
         }
         public List<Benh> GetAllBenh()
         {
+
             return _context.Benh.AsNoTracking().ToList();
         }
         public List<TrieuChung>GetAllTrieuChung()

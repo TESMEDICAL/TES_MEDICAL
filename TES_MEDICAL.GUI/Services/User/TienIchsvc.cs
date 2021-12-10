@@ -47,7 +47,18 @@ namespace TES_MEDICAL.GUI.Services
           
 
         }
-       
+
+       public void refreshCacheBenh()
+        {
+            _cacheMemory.Remove("BENH_CACHE");
+            _cacheMemory.GetOrCreate("BENH_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllBenh);
+        }
+        public void refreshCacheTrieuChung()
+        {
+            _cacheMemory.Remove("TRIEUCHUNG_CACHE");
+            _cacheMemory.GetOrCreate("TRIEUCHUNG_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllTrieuChung);
+
+        }
 
         public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh)
         {
@@ -56,7 +67,7 @@ namespace TES_MEDICAL.GUI.Services
             result = await (from pk in _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 
                             where pk.ChanDoan.Equals(string.Join(",",TenBenh)) && pk.TrangThai >= 1 && pk.TrangThai <= 2
-                            select pk).FirstOrDefaultAsync();
+                            select pk).OrderBy(x=>x.NgayKham).FirstOrDefaultAsync();
             if (result != null) return result.ToaThuoc.ChiTietToaThuoc.ToList() ;
            
                 

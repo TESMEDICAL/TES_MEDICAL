@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -178,9 +179,15 @@ namespace TES_MEDICAL.GUI.Controllers
    
             var result = await _khambenhRep.AddToaThuoc(model,ListCT);
 
-            if (result != null)
+            if (result.errorCode >=0)
             {
-
+                if (result.errorCode == 1)
+                {
+                    BackgroundJob.Enqueue(() => _tienichRep.refreshCacheBenh());
+                    BackgroundJob.Enqueue(() => _tienichRep.refreshCacheTrieuChung());
+                }    
+                    
+               
 
                 await _hubContext.Clients.All.SendAsync("SendToaThuoc");
                 return Json(new { status = 1, title = "", text = "Gửi thành công.", redirectUrL = Url.Action("PhieuKham", "BacSi"), obj = "" }, new JsonSerializerSettings());

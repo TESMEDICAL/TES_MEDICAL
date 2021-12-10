@@ -69,13 +69,15 @@ namespace TES_MEDICAL.GUI
                 .AddDatabase(Configuration)
                 .AddRepositories();
 
-            services.AddSignalR();
+            services.AddSignalR(options =>
+            {
+                options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+                options.EnableDetailedErrors = true;
+            });
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                builder.AllowCredentials();
             }));
 
            
@@ -162,7 +164,7 @@ namespace TES_MEDICAL.GUI
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            app.UseWebSockets();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

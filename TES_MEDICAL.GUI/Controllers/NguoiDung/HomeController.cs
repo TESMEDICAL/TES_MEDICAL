@@ -103,13 +103,14 @@ namespace TES_MEDICAL.GUI.Controllers
                     if (model.Email != null)
                     {
                         var request = HttpContext.Request;
-                        var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
+                    var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
                         Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL))); //SendMail
 
                         th_one.Start();
 
-                    }
 
+                   
+                    }
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 
                     return RedirectToAction("ResultDatLich", "Home", new { MaPhieu = model.MaPhieu });
@@ -217,18 +218,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
 
             var root = Path.Combine(_env.WebRootPath, "MailTheme");
-            string Base64 = null;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(model.MaPhieu, QRCodeGenerator.ECCLevel.Q);
-                QRCode qrCode = new QRCode(qrCodeData);
-                using (Bitmap bitMap = qrCode.GetGraphic(20))
-                {
-                    bitMap.Save(ms, ImageFormat.Png);
-                    Base64 = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                }
-            }
+          
 
             using (var reader = new System.IO.StreamReader(root + "/index.html"))
             {
@@ -238,7 +228,7 @@ namespace TES_MEDICAL.GUI.Controllers
                 //Assing the field values in the template
                 StrContent = StrContent.Replace("{MaPhieu}", model.MaPhieu);
                 StrContent = StrContent.Replace("{UrlResult}", _baseURL);
-                StrContent = StrContent.Replace("{Base64QR}", $"<img src='{Base64}' alt='' style='height: 150px; width: 150px' />");
+
 
                 return StrContent.ToString();
             }

@@ -65,10 +65,11 @@ namespace TES_MEDICAL.GUI.Services
         {
             return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
-        public async Task<PhieuKham> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
+        public async Task<Response<PhieuKham>> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
         {
             try
             {
+                var checkBenh = 0;
                 var uuTien = (await _context.PhieuKham.Include(x => x.STTPhieuKham).FirstOrDefaultAsync(x => x.MaPK == model.MaPK)).STTPhieuKham.MaUuTien;
                 using (var transaction = _context.Database.BeginTransaction())
                 {
@@ -93,6 +94,7 @@ namespace TES_MEDICAL.GUI.Services
                         var benh = await _context.Benh.FirstOrDefaultAsync(x => x.TenBenh == chitiet.TenBenh);
                         if (benh == null)
                         {
+                            checkBenh = 1;
                             benh = new Benh { MaBenh = Guid.NewGuid(), TenBenh = chitiet.TenBenh, MaCK = Guid.Parse(phieuKham.MaBSNavigation.ChuyenKhoa.ToString()) };
                             _context.Entry(benh).State = EntityState.Added;
                             await _context.SaveChangesAsync();
@@ -125,12 +127,13 @@ namespace TES_MEDICAL.GUI.Services
                     _context.Update(sttpk);
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return model;
+                    if (checkBenh == 1) return new Response<PhieuKham> { errorCode = 1, Obj = model };
+                    else return new Response<PhieuKham> { errorCode = 0, Obj = model };
                 }                
             }
             catch
             {
-                return null;
+                return new Response<PhieuKham> {errorCode=-1,Obj = model };
             }
         }
         public async Task<ToaThuoc> GetToaThuoc(Guid MaPK)
