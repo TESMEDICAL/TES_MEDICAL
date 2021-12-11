@@ -75,7 +75,7 @@ namespace TES_MEDICAL.GUI.Services
             {
                 var listToaThuoc = new List<ChiTietToaThuoc>();
                 
-                foreach (var benh in TenBenh)
+                foreach (var benh in TenBenh.GroupBy(x=>x).Select(y => y.First()))
                 {
                     var List = (from pk in _context.PhieuKham.Include(x => x.ChiTietBenh).Include(x => x.ToaThuoc).ThenInclude(x => x.ChiTietToaThuoc).ThenInclude(x => x.MaThuocNavigation)
 

@@ -493,6 +493,7 @@
                         tenbenh.push($(this).val());
 
                     });
+                    tenbenh.push(ui.item.value);
 
                     Swal.fire({
                         title: `Sử dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
@@ -504,7 +505,9 @@
                         cancelButtonText: 'Huỷ bỏ',
                         confirmButtonText: 'Xác nhận'
                     }).then((result) => {
+
                         if (result.isConfirmed) {
+                            
                             $.ajax({
                                 url: "/BacSi/GetAutoFill/",
                                 type: 'POST',
@@ -513,7 +516,7 @@
 
                                 },
                                 success: function (data) {
-
+                                   
                                     var ToaThuocOld = {};
                                     ToaThuocOld.ChiTietToaThuoc = data;
                                     oldPK.ToaThuoc = ToaThuocOld;
