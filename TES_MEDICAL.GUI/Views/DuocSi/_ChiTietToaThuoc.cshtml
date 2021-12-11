@@ -33,9 +33,9 @@
 <br />
 
 <div style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; margin-inline: 5px; margin-top: -5px;" id="pannelToaThuoc">
-    <div class="tab-modal" id="tabModal">
-        <button id="tab1" onclick="showDonThuoc()" class="tablinks active">Toa thuốc</button>
-        <button id="tab2" onclick="showThongTin()" class="tablinks">Thông tin bệnh nhân</button>
+    <div class="tab-modal" id="tabModal" style="display: inline-flex"">
+        <button id="tab1" onclick="showDonThuoc()" class="tablinks active" style="font-size: 2.5vmin">Toa thuốc</button>
+        <button id="tab2" onclick="showThongTin()" class="tablinks" style="font-size: 2.5vmin;">Thông tin bệnh nhân</button>
     </div>
     <div style="text-align: right; color: seagreen; margin-bottom: 10px; font-weight: bold;">
         <input style="display:none" value="@Model.MaPhieuKham" id="maPK" />
@@ -47,7 +47,7 @@
         </div>
         <div class="row ms-1 me-1 mb-1" id="title-border" style="margin-top: 20px;">
             <div class="col-sm-6 mt-4">
-                <h6>
+                <h6 style=" font-size: 3vmin">
                     <strong>
                         Tên bệnh nhân:
                     </strong><br />
@@ -55,20 +55,20 @@
                 </h6>
             </div>
             <div class="col-sm-6 mt-4">
-                <h6>
+                <h6 style=" font-size: 3vmin">
 
                     <strong>Số điện thoại</strong><br />
                     @Model.MaPhieuKhamNavigation.MaBNNavigation.SDT
                 </h6>
             </div>
             <div class="col-sm-6 mt-4">
-                <h6>
+                <h6 style=" font-size: 3vmin">
                     <strong>Ngày sinh</strong><br />
                     @Model.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")
                 </h6>
             </div>
             <div class="col-sm-6 mt-4">
-                <h6>
+                <h6 style=" font-size: 3vmin">
                     <strong>Địa chỉ</strong><br />
                     @Model.MaPhieuKhamNavigation.MaBNNavigation.DiaChi
                 </h6>
@@ -80,11 +80,11 @@
 
     <div id="PHP" class="tabcontent p-3 border-0" style="font-size: 17px">
         <table class="table table-bordered">
-            <tr id="table-header" class="text-light">
-                <th class="col-6">Tên thuốc</th>
+            <tr id="table-header" class="text-light" style="font-size: 2.5vmin">
+                <th class="col-5">Tên thuốc</th>
                 <th class="col-2 text-center">Số lượng</th>
                 <td class="col-2">Đơn giá</td>
-                <td class="col-2">Thành tiền</td>
+                <td class="col-3">Thành tiền</td>
             </tr>
             <tbody id="toathuocFinal">
                 @{
@@ -92,14 +92,14 @@
                 }
                 @foreach (var item in ViewBag.CTToaThuoc as IEnumerable<ChiTietToaThuoc>)
                 {
-                    <tr>
-                        <td class="col-8">
-                            <h6 style="font-weight: bold">@item.MaThuocNavigation.TenThuoc</h6>
+                    <tr style="font-size: 2.5vmin">
+                        <td class="col-5">
+                            <h6 style="font-weight: bold; font-size: 3vmin">@item.MaThuocNavigation.TenThuoc</h6>
                             <p style="font-style: italic">@item.GhiChu</p>
                         </td>
                         <td class="col-2 text-center">@item.SoLuong</td>
-                        <td>@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
-                        <td>@((item.SoLuong*item.MaThuocNavigation.DonGia)?.ToString("n0").Replace(',', '.')) VNĐ</td>
+                        <td class="col-2">@item.MaThuocNavigation.DonGia?.ToString("n0").Replace(',', '.') VNĐ</td>
+                        <td class="col-3">@((item.SoLuong*item.MaThuocNavigation.DonGia)?.ToString("n0").Replace(',', '.')) VNĐ</td>
 
                     </tr>
                     toTal +=(decimal)(item.SoLuong * item.MaThuocNavigation.DonGia);
@@ -110,7 +110,7 @@
     </div>
 
     <div class="p-3" id="TongTien">
-        <h4 style="text-align: right;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
+        <h4 style="text-align: right; font-size: 3vmin;">Tổng tiền: @toTal.ToString("n0").Replace(',', '.') VNĐ</h4>
     </div>
 </div>
 

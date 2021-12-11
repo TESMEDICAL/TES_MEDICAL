@@ -378,7 +378,7 @@
                         <!-- Sidebar Navigation -->
                         <ul class="sidebar-nav" onclick="myActive(e)">
                             <li>
-                                <a href="index.html"><i class="fas fa-home me-3 ms-2"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
+                                <a class="d-none"><i class="fas fa-home me-3 ms-2"></i><span class="sidebar-nav-mini-hide">Trang chủ</span></a>
                             </li>
                             @if ((await UserManager.GetUserAsync(User)).ChucVu == 1)
                             {
