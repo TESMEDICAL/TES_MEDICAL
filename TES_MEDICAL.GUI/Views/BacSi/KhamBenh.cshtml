@@ -38,6 +38,8 @@
                 transform: scale(1.1);
                 color: #ff002b;
             }
+
+
 </style>
 
 <div class="col-12">
@@ -197,25 +199,21 @@
                 </div>
                 <div class="row">
                     <div id="ListChiTietBenh" class="row">
-                        <div class="col-12 row ChiTietBenh" style="padding-inline: 38px;">
-                            <div class="col-sm-6">
+                        <div class="col-12 row ChiTietBenh">
+                            <div class="col-sm-6 mb-2">
                                 <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                                <div class="col-12 row mb-3">
-                                    <div class="col-sm-10 pe-0 me-0">
-                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
-                                    </div>
-                                    <div class="col-sm-2 text-end">
+                                <div class="col-12 mb-3" style="display: inline-flex">
+                                    <input class="form-control trieuchungauto" name="trieuchungauto" style="width: 85% ;margin-right: 15px;" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    <div style="width: 15%; text-align:center;">
                                         <a class="btn border-0 addTrieuChungCT" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-12 row">
-                                    <div class="col-md-10 pe-0 me-0">
-                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                <div class="col-12" style="display: inline-flex">
+                                    <input type="text" class="form-control ChanDoan" style="margin-right: 20px; width: 85%;" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    <div style="width: 15%; text-align:center;visibility: hidden;">
+                                        <a class="btn text-light border-0 removeCtBenh" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
                                     </div>
-                                    @*<div class="col-sm-2 text-end">
-                                            <a class="btn text-light border-0" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
-                                        </div>*@
                                 </div>
                             </div>
                             <div class="col-sm-6" style="margin-bottom: 35px;">
@@ -233,17 +231,17 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="button-reload col-sm-4">
-                                <a class="btn border-0" style="color: white; margin: 40px 0px 0px 25px;" onclick="AddChanDoan()"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</a>
+                                <a class="btn border-0" style="color: white; margin: 40px 0px 0px 0px;" onclick="AddChanDoan()"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</a>
                             </div>
-                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
+                            <div class="col-sm-4 mt-3">
+                                <label class="control-label" for="example-textarea-input">Ngày khám</label>
                                 <div class="col-md-10">
                                     <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
                                 </div>
                             </div>
                             <br>
-                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
-                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
+                            <div class="col-sm-4 mt-3">
+                                <label class="control-label" for="example-textarea-input">Ngày tái khám</label>
                                 <div class="col-md-10">
                                     <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
                                 </div>
@@ -1110,23 +1108,19 @@
         }
         function AddChanDoan() {
             $('#ListChiTietBenh').append(`
-               <div class="col-12 row ChiTietBenh" style="padding-inline: 38px; margin-top: 16px;">
-                            <div class="col-sm-6">
+               <div class="col-12 row ChiTietBenh">
+                            <div class="col-sm-6 mb-2">
                                 <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                                <div class="col-12 row mb-3">
-                                    <div class="col-sm-10 pe-0 me-0">
-                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
-                                    </div>
-                                    <div class="button-reload col-sm-2 text-end">
-                                        <a class="btn border-0" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                <div class="col-12 mb-3" style="display: inline-flex">
+                                    <input class="form-control trieuchungauto" name="trieuchungauto" style="width: 85% ;margin-right: 15px;" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    <div style="width: 15%; text-align:center;">
+                                        <a class="btn border-0 addTrieuChungCT" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-12 row">
-                                    <div class="col-md-10 pe-0 me-0">
-                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
-                                    </div>
-                                    <div class="col-sm-2 text-end">
+                                <div class="col-12" style="display: inline-flex">
+                                    <input type="text" class="form-control ChanDoan" style="margin-right: 20px; width: 85%;" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    <div style="width: 15%; text-align:center;">
                                         <a class="btn text-light border-0 removeCtBenh" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </div>
@@ -1139,7 +1133,6 @@
                             </div>
                             <hr />
                         </div>
-
              `)
             addAuto();
 

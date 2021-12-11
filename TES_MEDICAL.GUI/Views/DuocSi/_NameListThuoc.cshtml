@@ -16,7 +16,7 @@
 
     <div style="min-height:400px">
         <table class="table table-bordered text-center" style="width:100%">
-            <tr id="table-header" class="text-light">
+            <tr id="table-header" class="text-light" style="font-size: 2.5vmin">
                 <th style="text-align: left;">Tên thuốc</th>
                 <th>Vị trí</th>
                 <th>Đơn giá</th>
@@ -26,7 +26,7 @@
             </tr>                
                 @foreach (var item in ViewBag.Names as IEnumerable<Thuoc>)
                 {
-                    <tr>
+                    <tr style="font-size: 2.5vmin">
                         <td style="text-align: left;">@item.TenThuoc</td>
                         <td>@item.Vitri</td>
                         <td>@item.DonGia?.ToString("n0").Replace(',', '.')</td>
