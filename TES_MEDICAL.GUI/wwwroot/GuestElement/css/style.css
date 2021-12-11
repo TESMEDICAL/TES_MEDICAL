@@ -1301,7 +1301,7 @@ ul {
   font-weight: bold;
   height: 40px;
   width: 40px;
-  right: 3%;
+  left: 3%;
   text-align: center;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
