@@ -219,7 +219,7 @@
                             <a href="@Url.ActionLink("Index","Home")">Trang Chủ</a>
                         </li>
                         <li>
-                            <a href="#">Chẩn Đoán</a>
+                            <a href="@Url.ActionLink("ChanDoan","Home")">Chẩn Đoán</a>
                         </li>
                         <li>
                             <a href="@Url.ActionLink("DatLich","Home")">Đặt Lịch</a>
@@ -228,7 +228,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">Lịch Sử Khám</a>
+                            <a href="@Url.ActionLink("LichSuKham","Home")">Lịch Sử Khám</a>
                         </li>
                         <li>
                             <a href="@Url.ActionLink("GioiThieu","Home")">Giới Thiệu</a>
@@ -709,7 +709,7 @@
         }(document, 'script', 'facebook-jssdk'));
 
 
-        setInterval(function () { $("#SlideHeader .slick-next").trigger("click"); }, 7000);
+        /*setInterval(function () { $("#SlideHeader .slick-next").trigger("click"); }, 7000);*/
     </script>
     @RenderSection("Scripts", required: false)
 

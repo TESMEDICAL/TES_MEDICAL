@@ -6,7 +6,7 @@
 
     <div style="min-height:400px">
         <table class="table table-bordered text-center" style="width:100%">
-            <tr id="table-header" class="text-light">
+            <tr id="table-header" class="text-light" style="font-size: 2.5vmin">
                 <th>STT</th>
                 <th style="text-align: left;">Tên Bệnh nhân</th>
                 <th>Ngày sinh</th>
@@ -16,7 +16,7 @@
             {
                 @foreach (var item in ViewBag.Names as IEnumerable<ToaThuoc>)
                 {
-                    <tr>
+                    <tr style="font-size: 2.5vmin">
                         <td>@item.STTTOATHUOC.STT</td>
                         <td style="text-align: left;">@item.MaPhieuKhamNavigation.MaBNNavigation.HoTen</td>
                         <td>@item.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</td>
