@@ -1,9 +1,5 @@
-using System;
-using System.Linq;
-using System.Net;
-using System.Text;
 using Hangfire;
-using Hangfire.Dashboard;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -11,12 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
 using TES_MEDICAL.GUI.Extension;
 using TES_MEDICAL.GUI.Helpers;
 using TES_MEDICAL.GUI.Infrastructure;
@@ -33,12 +28,12 @@ namespace TES_MEDICAL.GUI
             Configuration = configuration;
         }
 
-       
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-         
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache(); // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
 
@@ -50,8 +45,8 @@ namespace TES_MEDICAL.GUI
                 .AddCookie(options => { options.SlidingExpiration = false; }
                 )
 
-                
-               
+
+
                 .AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = Configuration["Google:ClientId"];
@@ -80,7 +75,7 @@ namespace TES_MEDICAL.GUI
                 builder.AllowCredentials();
             }));
 
-           
+
             services.AddHangfireServer();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
@@ -177,7 +172,14 @@ namespace TES_MEDICAL.GUI
             //app.UseHangfireDashboard();
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
-                IsReadOnlyFunc = (DashboardContext context) => true
+                Authorization = new[]
+                {
+                        new HangfireCustomBasicAuthenticationFilter{
+                            User = Configuration.GetSection("HangfireSettings:UserName").Value,
+                            Pass = Configuration.GetSection("HangfireSettings:Password").Value
+                        }
+                }
+
             });
             recurringJobManager.AddOrUpdate(
                 "Run every minute",

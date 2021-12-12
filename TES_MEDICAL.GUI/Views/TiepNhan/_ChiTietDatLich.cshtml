@@ -52,20 +52,20 @@
                 </div>
                 <div class="col-sm-6 mt-4 mb-3">
                     <h6>
-                        <strong>Ngày khám:</strong><br />
+                        <strong>Số điện thoại:</strong><br />
                         @Model.SDT
                     </h6>
                 </div>
                 <div class="col-sm-6 mt-4 mb-3">
                     <h6>
-                        <strong>Ngày tái khám</strong><br />
+                        <strong>Ngày sinh</strong><br />
                         @Model.NgaySinh?.ToString("dd/MM/yyyy")
                     </h6>
                 </div>
                 <div class="col-sm-6 mt-4 mb-3">
                     <h6>
-                        <strong>Ngày tái khám</strong><br />
-                        @Model.NgayKham
+                        <strong>Ngày khám</strong><br />
+                        @Model.NgayKham?.ToString("dd/MM/yyyy hh:mm tt")
                     </h6>
                 </div>
                 <div class="col-sm-6 mt-4 mb-3">

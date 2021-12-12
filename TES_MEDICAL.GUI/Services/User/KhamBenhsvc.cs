@@ -154,11 +154,11 @@ namespace TES_MEDICAL.GUI.Services
             }
             else
             {
-               listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where(x =>
+               listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x=>x.ToaThuoc).Where(x =>
                (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
                EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
                EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-               && x.MaBS == model.MaBS && x.TrangThai >= 1 &&x.TrangThai<=2&& x.STTPhieuKham != null).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
+               && x.MaBS == model.MaBS && x.TrangThai >= 1 &&x.TrangThai<=2&&x.ToaThuoc!=null).OrderByDescending(x=>x.NgayKham));
             }
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
             if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)

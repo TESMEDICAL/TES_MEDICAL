@@ -35,7 +35,7 @@
                             <td  style="text-align: left; font-size: 2vmin;">@item.TenBN</td>
                             <td  style="font-size: 2vmin;">@item.SDT</td>
                             <td  style="font-size: 2vmin;">@item.NgaySinh?.ToString("dd/MM/yyyy")</td>
-                            <td  style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy")</td>
+                            <td  style="font-size: 2vmin;">@item.NgayKham?.ToString("dd/MM/yyyy hh:mm tt")</td>
                             <td  >
                                 <a onclick=Edit('@item.MaPhieu') class='btn btn-info btn-sm btn-sm active'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
                                 <a class='btn btn-info btn-sm active' onclick="_delete('@item.MaPhieu')"> <i class='fa fa-trash'></i></a>

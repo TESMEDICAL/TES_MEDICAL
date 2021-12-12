@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -104,12 +105,13 @@ namespace TES_MEDICAL.GUI.Controllers
                     {
                         var request = HttpContext.Request;
                     var _baseURL = $"{request.Scheme}://{request.Host}/Home/ResultDatLich?MaPhieu={model.MaPhieu}";
-                        Thread th_one = new Thread(() => Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL))); //SendMail
+                      
+                        using (new BackgroundJobServer())
+                        {
+                            Helper.SendMail(model.Email, "[TES-MEDICAL] Xác nhận đặt lịch khám", message(model, _baseURL));
+                        }
 
-                        th_one.Start();
 
-
-                   
                     }
                     await _hubContext.Clients.All.SendAsync("ReceiveMessage", result.TenBN, result.NgaySinh?.ToString("dd/MM/yyyy"), result.SDT, result.NgayKham, result.MaPhieu);
 

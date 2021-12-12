@@ -183,8 +183,12 @@ namespace TES_MEDICAL.GUI.Controllers
             {
                 if (result.errorCode == 1)
                 {
-                    BackgroundJob.Enqueue(() => _tienichRep.refreshCacheBenh());
-                    BackgroundJob.Enqueue(() => _tienichRep.refreshCacheTrieuChung());
+                    using (new BackgroundJobServer())
+                    {
+                        _tienichRep.refreshCacheBenh();
+                        _tienichRep.refreshCacheTrieuChung();
+                    }
+                   
                 }    
                     
                
