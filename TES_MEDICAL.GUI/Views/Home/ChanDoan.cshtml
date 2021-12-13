@@ -56,6 +56,7 @@
         height: 50px;
         background-color: rgb(10, 154, 115);
         color: white;
+        margin-left: 50px;
     }
 
     .test-foot {
@@ -168,6 +169,54 @@
     .canvasjs-chart-credit {
         display: none;
     }
+    .test-head {
+        background-color: rgb(228, 228, 228);
+        height: 50px;
+        padding-top: 10px; 
+    }
+    input.form-control{
+        height: 50px;
+    }
+    .button-add-1 {
+        display: none;
+    }
+    .button-add-1 .btn-select {
+        width: 80px;
+        height: 30px;
+        background-color: rgb(10, 154, 115);
+        color: white;
+        font-size: 10px;
+        margin-left: 10px;
+    }
+    @@media only screen and (max-width: 600px){
+        .container{
+            
+        }
+        .test-head {
+            height: 30px;
+            padding-top: 6px;
+        }
+        .bd-highlight p {
+            font-size: 10px;
+        }
+        .test .test-detail .test-body-1 {
+            padding-inline: 10px;
+        }
+        input.form-control {
+            height: 30px;         
+            padding: 5px;
+        }
+        input.form-control ::placeholder{
+            font-size: 10px;
+        }
+        .button-add {
+            display: none;
+        }
+        .button-add-1{
+            display: block;
+        }
+        
+    }
 </style>
 <!--[if lte IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
@@ -185,16 +234,19 @@
                 <br>
                 <div class="test">
                     <div class="test-detail border">
-                        <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
-                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng cơ bản bạn đang mắc phải: </p></div>
+                        <div class="test-head d-flex justify-content-start">
+                            <div class="bd-highlight" style="margin-left: 10px;"><p>Các triệu chứng cơ bản bạn đang mắc phải: </p></div>
                         </div>
                         <div class="test-body-1 row">
                             <div class="test-body-left d-flex">
                                 <div class="w-100">
-                                    <input type="text" style="height: 50px;" id="trieuchungauto" placeholder="Nhập triệu chứng đang mắc phải ..." class="form-control mt-4" />
+                                    <input type="text" id="trieuchungauto" placeholder="Nhập triệu chứng đang mắc phải ..." class="form-control mt-4" />
                                 </div>
-                                <div class="text-end">
-                                    <button class="btn-select mt-4 ms-5 float-end" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)">Thêm vào danh sách</button>
+                                <div class="text-end button-add">
+                                    <button class="btn-select mt-4 float-end" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)">Thêm vào danh sách</button>
+                                </div>
+                                <div class="text-end button-add-1">
+                                    <button class="btn-select mt-4 float-end" onclick="addTrieuChung(`${$('#trieuchungauto').val()}`)">Thêm</button>
                                 </div>
                             </div>
                             <div class="test-body-right">

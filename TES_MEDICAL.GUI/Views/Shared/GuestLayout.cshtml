@@ -20,6 +20,17 @@
     <link rel="stylesheet" href="~/GuestElement/css/style.css">
     <!-- Responsive css -->
     <link rel="stylesheet" href="~/GuestElement/css/responsive.css">
+    <style>
+        @@media only screen and (max-width: 600px) {
+            #homeLogo{
+                width: 100px;
+            }
+            .ltn__top-bar-menu ul li a{
+                font-size: 10px;
+            }
+        }
+        
+    </style>
 </head>
 
 <body>
@@ -71,7 +82,7 @@
                         <div class="col">
                             <div class="site-logo-wrap">
                                 <div class="site-logo">
-                                    <a href="/Home"><img src="~/GuestElement/img/TESLogo2.png" width="170px" alt="Logo"></a>
+                                    <a href="/Home"><img src="~/GuestElement/img/TESLogo2.png" width="170px" id="homeLogo" alt="Logo"></a>
                                 </div>
                                 <div class="get-support clearfix d-none">
                                     <div class="get-support-icon">
@@ -333,7 +344,7 @@
         <!-- ABOUT US AREA START -->
     </div>
     <!-- Body Content Start -->
-    <div class="p-4">
+    <div>
         @RenderBody()
     </div>
 
