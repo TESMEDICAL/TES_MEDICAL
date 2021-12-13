@@ -40,7 +40,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
+                    <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "Report",cssClass:"menu-is-opening menu-open")" >
                         <a href="@Url.Action("Index","Report")" class="nav-link @Html.IsSelected(actions: "Index", controllers: "Report")">
                             <i class="fas fa-hand-holding-usd nav-icon"></i>
                             <p>Doanh Thu</p>
