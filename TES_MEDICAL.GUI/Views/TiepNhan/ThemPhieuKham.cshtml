@@ -3,7 +3,15 @@
     ViewData["Title"] = "THÊM PHIẾU KHÁM";
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
+<style>
+    #buttonChiTiet {
+        cursor: pointer;
+    }
 
+        #buttonChiTiet:hover {
+            text-decoration: underline;
+        }    
+</style>
 @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data", @class = "row form needs-validation" }))
 {
     <div class="col-md-6">
@@ -15,72 +23,72 @@
             </div>
             <input style="display:none" name="MaBN" id="MaBN" />
             @Html.HiddenFor(model => model.UuTien)
-            @Html.HiddenFor(model =>model.MaPhieuDatLich)
+            @Html.HiddenFor(model => model.MaPhieuDatLich)
 
             <!-- END Form Elements Title -->
             <!-- Basic Form Elements Content -->
-        <div class="form-horizontal form-bordered">
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="Hoten" class="col-form-label">SĐT<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+            <div class="form-horizontal form-bordered">
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="Hoten" class="col-form-label">SĐT<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
+                        <span asp-validation-for="SDT" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-3">
+                        <a id="btn-confirm" class="btn me-1 border-0 w-100" style="color:white; font-size: 13px;" onclick="OpenScanner()">
+                            <i class="fa fa-qrcode" aria-hidden="true"></i>&nbsp;Quét mã QR
+                        </a>
+                    </div>
                 </div>
-                <div class="col-sm-7">
-                    <input type="text" asp-for="SDT" class="form-control" placeholder="Vui lòng nhập số điện thoại">
-                    <span asp-validation-for="SDT" class="text-danger"></span>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="Hoten" class="col-form-label">Họ tên<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="col-sm-3">
-                    <a id="btn-confirm" class="btn me-1 border-0 w-100" style="color:white; font-size: 13px;" onclick="OpenScanner()">
-                        <i class="fa fa-qrcode" aria-hidden="true"></i>&nbsp;Quét mã QR
-                    </a>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="NgaySinh" class="col-form-label">Ngày sinh<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
+                        <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="GioiTinh" class="col-form-label">Giới tính</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
+                            <option value="false">Nam</option>
+                            <option value="true">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="Email" class="col-form-label">Email</label>
+                    </div>
+                    <div class="input-validation col-sm-10">
+                        <input type="email" asp-for="Email" class="form-control">
+                    </div>
+                </div>
+                <div class="row g-2 align-items-center m-1">
+                    <div class="col-sm-2">
+                        <label for="DiaChi" class="col-form-label">Địa chỉ<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                    </div>
+                    <div class="input-validation col-sm-10">
+                        <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
+                        <span asp-validation-for="DiaChi" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="Hoten" class="col-form-label">Họ tên<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                </div>
-                <div class="col-sm-10">
-                    <input type="text" asp-for="HoTen" class="form-control" placeholder="Vui lòng nhập họ tên">
-                    <span asp-validation-for="HoTen" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="NgaySinh" class="col-form-label">Ngày sinh<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                </div>
-                <div class="col-sm-10">
-                    <input type="date" value="@(Model.NgaySinh!=null?Model.NgaySinh?.ToString("yyyy-MM-dd"):"")" asp-for="NgaySinh" class="form-control">
-                    <span asp-validation-for="NgaySinh" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="GioiTinh" class="col-form-label">Giới tính</label>
-                </div>
-                <div class="col-sm-10">
-                    <select style="font-size: 13px;" class="form-select" asp-for="GioiTinh">
-                        <option value="false">Nam</option>
-                        <option value="true">Nữ</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="Email" class="col-form-label">Email</label>
-                </div>
-                <div class="input-validation col-sm-10">
-                    <input type="email" asp-for="Email" class="form-control">                    
-                </div>
-            </div>
-            <div class="row g-2 align-items-center m-1">
-                <div class="col-sm-2">
-                    <label for="DiaChi" class="col-form-label">Địa chỉ<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                </div>
-                <div class="input-validation col-sm-10">
-                    <textarea type="textarea" asp-for="DiaChi" class="form-control"></textarea>
-                    <span asp-validation-for="DiaChi" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
             <!-- END Basic Form Elements Content -->
         </div>
         <!-- END Basic Form Elements Block -->
@@ -117,7 +125,7 @@
                             <span asp-validation-for="MaBS" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-12">                       
+                    <div class="col-12">
                         <label for="TrieuChung" class="col-form-label">Triệu chứng</label>
                         <div class="col-12">
                             <textarea type="textarea" asp-for="TrieuChung" class="form-control" style="height: 165px;"></textarea>
@@ -147,20 +155,23 @@
         <div class="form-group collapse mt-3 table-bordered" id="LichSuKham">
             <table class="table table-bordered">
                 <tr id="table-header" class="text-light">
-                    <th class="col-4 text-center">Ngày khám</th>
-                    <th class="col-4 text-center">Chẩn đoán</th>
-                    <th class="col-4 text-center">Thao tác</th>
+                    <th class="col-3 text-center">Ngày khám</th>
+                    <th class="col-3 text-center">Chẩn đoán</th>
+                    <th class="col-3 text-center">Bác sĩ</th>
+                    <th class="col-3 text-center">Thao tác</th>
                 </tr>
-
+                <tbody id="ShowLichSuKhamTiepNhan">
+                    @*Lịch sử khám*@
+                </tbody>
             </table>
 
         </div>
     </div>
-    
+
 </div>
 
 <div class="col-12">
-    <div class="block">       
+    <div class="block">
         <div class="d-flex justify-content-end">
             <div class="form-group">
                 <button id="btn-confirm" class="btn me-1" style="color:white;" onclick="OpenThemDichVu()">
@@ -185,7 +196,7 @@
                 </tbody>
             </table>
             <div class=" form-group mb-2 mt-5" style="text-align:right">
-                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>               
+                <button class="btn btn-primary me-1" onclick="OpenXacNhanDV()" id="btn-confirm"><i class="fa fa-check"></i> Xác nhận</button>
             </div>
         </div>
     </div>
@@ -197,7 +208,7 @@
 <div id="myModal" class="modal fade" style="overflow-x: hidden;">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">           
+        <div class="modal-content">
             <div class="modal-body">
 
                 <div id="myModalContent">
@@ -228,7 +239,7 @@
             </div>
             <div class="modal-footer">
                 <div class="text-right">
-                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;"  id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
+                    <button type="button" class="btn" style="background-color: rgb(250, 79, 79); color: white;" id="btclose" data-bs-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Đóng</button>
                 </div>
             </div>
         </div>
@@ -241,8 +252,8 @@
 
 <!--Model QRCODE-->
 <div id="myModalQrCode" class="modal fade">
-    <div class="modal-dialog modal-lg">       
-            <!-- Modal content-->
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
         <div class="modal-content" style="padding: 50px 0;">
 
             <div class="modal-body" id="myModalContentQrCode">
@@ -254,10 +265,10 @@
                 </div>
             </div>
         </div>
-        
-            
-        </div>
+
+
     </div>
+</div>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
@@ -275,12 +286,13 @@
                     $("#NgaySinh").val(data.NgaySinh.substring(0, 10));
                     $("#DiaChi").val(data.DiaChi);
                     if (data.GioiTinh) {
-                        $('#GioiTinh').prop("selectedIndex",1)
+                        $('#GioiTinh').prop("selectedIndex", 1)
                     }
                     else {
-                        $('#GioiTinh').prop("selectedIndex",0)
+                        $('#GioiTinh').prop("selectedIndex", 0)
                     }
                     $("#MaBN").val(data.MaBN);
+                    LichSuKhamTiepNhan();
                 }
                 else {
                     $("#HoTen").val("");
@@ -290,18 +302,79 @@
                     $('#GioiTinh').val(0);
 
                     $("#MaBN").val("");
+
+                    $("#ShowLichSuKhamTiepNhan").append(`
+                            <div class="col-sm-12 text-center text-danger">
+                                <h6 style="font-weight:bold"><a>Không tìm thấy</a></h6>
+                            </div>
+                        `)
                 }
             });
 
-        });      
+        });
     });
 
-    
+
 </script>
 @section Scripts{
 
 
     <script>
+        function LichSuKhamTiepNhan() {
+            $('#ShowLichSuKhamTiepNhan').html("");
+            $.ajax({
+                url: "/TiepNhan/LichSuKhamTiepNhan/",
+                type: 'GET',
+                async: true,
+                data: {
+                    hoTen: $('#HoTen').val(),
+                    SDT: $('#SDT').val()
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.status == -2) {
+                        $("#ShowLichSuKhamTiepNhan").append(`
+                                <div class="col-sm-12 text-center text-danger">
+                                    <h6 style="font-weight:bold"><a>Không tìm thấy</a></h6>
+                                </div>
+                            `)
+                    }
+                    else {
+                        JSON.parse(response).forEach(function (item) {
+                            var stringDate = new Date(item.NgayKham);
+                            $("#ShowLichSuKhamTiepNhan").append(`
+                                    <tr>
+                                        <td class="col-3 text-center">${item.NgayKham}</td>
+                                        <td class="col-3 text-center">${item.ChanDoan}</td>
+                                        <td class="col-3 text-center">${item.MaBSNavigation.HoTen}</td>
+                                        <td class="col-3 text-center">
+                                            <a id="buttonChiTiet" style="color:blue" onclick="OpenChiTietKham('${item.MaPK}')" >Chi tiết</a>
+                                        </td>
+                                    </tr>
+                        `)
+                        });
+                    }
+
+                }
+            });
+        }
+        function OpenChiTietKham(_MaPK) {
+            $.ajax({
+                url: "/TiepNhan/ChiTietLichSuKham/",
+                type: 'GET',
+                data: {
+                    MaPK: _MaPK
+                },
+                success: function (response) {
+                    $('#btCheckOut').hide();
+                    $("#myModalContent").html(response);
+                    $('#myModal').modal('show');
+                    $('#btSave').show();
+                    $('#btupdate').hide();
+
+                }
+            });
+        }
         function OpenThemDichVu() {
             $('#modalDV').modal('show');
             $('#btSave').show();
@@ -423,9 +496,9 @@
                         $("#btCheckOut").html(
                             'Retry');
                         toastr.warning(result.text);
-                        
+
                     }
-                  
+
 
                 },
                 error: function (errormessage) {
@@ -439,7 +512,7 @@
                 }
             });
 
-        });        
+        });
         $("#MaCK").change(function () {
 
             var id = $(this).val();
@@ -491,7 +564,8 @@
         start();
         connection.on("ReceiveMessage", (Ten, NgaySinh, SDT, NgayKham, MaPhieu) => {
             toastr.success("Có một lịch đặt mới");
-            
-        });       
+
+        });
+
     </script>
 }

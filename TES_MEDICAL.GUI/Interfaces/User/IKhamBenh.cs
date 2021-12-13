@@ -19,5 +19,7 @@ namespace TES_MEDICAL.GUI.Interfaces
         Task<IEnumerable<PhieuKham>> GetLichSu(string Hoten, string SDT);
         Task<IPagedList<PhieuKham>> SearchByCondition(PhieuKhamSearchModel model);
         Task<STTPhieuKham> ChangeUuTien(Guid MaPK);
+        Task<PhieuKham> GetLichSuKhamById(Guid MaPK);
+
     }
 }

@@ -39,7 +39,17 @@ namespace TES_MEDICAL.GUI.Services
         //                      MaPK = x.MaPK
         //                  }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
         //}
-
+        public async Task<PhieuKham> GetLichSuKhamById(Guid MaPK)
+        {
+            return await _context.PhieuKham
+                .Include(x => x.MaBNNavigation)
+                .Include(x => x.ToaThuoc)
+                .ThenInclude(x => x.ChiTietToaThuoc)
+                .Include(x => x.HoaDon).ThenInclude(x => x.ChiTietDV)
+                .ThenInclude(x => x.MaDVNavigation)
+                .Include(x => x.MaBSNavigation)
+                .FirstOrDefaultAsync(x => x.MaPK == MaPK);
+        }
         public async Task<STTPhieuKham> ChangeUuTien(Guid MaPK)
         {
             try
@@ -63,7 +73,7 @@ namespace TES_MEDICAL.GUI.Services
         }
         public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,string SDT)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.SDT==SDT&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBSNavigation).Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.SDT==SDT&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
         public async Task<Response<PhieuKham>> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
         {
