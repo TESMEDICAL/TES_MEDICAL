@@ -81,7 +81,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
-            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,(DateTime)item.MaBNNavigation.NgaySinh);
+            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,item.MaBNNavigation.SDT);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
                new JsonSerializerSettings
                 {
