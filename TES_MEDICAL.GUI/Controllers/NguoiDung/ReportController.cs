@@ -182,7 +182,7 @@ namespace TES_MEDICAL.GUI.Controllers
             if (listmodel.errorCode == 0)
             {
                 List<DataPoint> dataPoints = new List<DataPoint>();
-                foreach (var item in (await _service.ThongKeBenh((DateTime)ngayBatDau, (DateTime)ngayKetThuc)).Obj)
+                foreach (var item in listmodel.Obj.OrderBy(x=>x.soLuong))
                 {
                     dataPoints.Add(new DataPoint(item.tenBenh, item.soLuong));
                 }
