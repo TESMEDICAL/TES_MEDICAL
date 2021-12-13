@@ -142,7 +142,7 @@
                 <tbody id="listDV">
                     @foreach (var item in  ViewBag.ListOld as List<ChiTietDV>)
                     {
-                        <tr><td style="display:none">@item.MaDV</td><td class="col-6">@item.MaDVNavigation.TenDV</td><td class="col-4">@item.MaDVNavigation.DonGia</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove" disabled> <i class="fa fa-trash"></i></button></td></tr>
+                        <tr><td style="display:none">@item.MaDV</td><td class="col-6">@item.MaDVNavigation.TenDV</td><td class="col-4">@item.MaDVNavigation.DonGia?.ToString("n0").Replace(",", ".")</td><td class="col-2 text-center"><button class="btn btn-danger btn-sm remove" disabled> <i class="fa fa-trash"></i></button></td></tr>
                     }
                 </tbody>
             </table>
