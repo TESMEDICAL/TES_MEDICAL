@@ -39,7 +39,17 @@ namespace TES_MEDICAL.GUI.Services
         //                      MaPK = x.MaPK
         //                  }).OrderByDescending(x => x.UuTien).ThenBy(x => x.STT).ToListAsync();
         //}
-
+        public async Task<PhieuKham> GetLichSuKhamById(Guid MaPK)
+        {
+            return await _context.PhieuKham
+                .Include(x => x.MaBNNavigation)
+                .Include(x => x.ToaThuoc)
+                .ThenInclude(x => x.ChiTietToaThuoc)
+                .Include(x => x.HoaDon).ThenInclude(x => x.ChiTietDV)
+                .ThenInclude(x => x.MaDVNavigation)
+                .Include(x => x.MaBSNavigation)
+                .FirstOrDefaultAsync(x => x.MaPK == MaPK);
+        }
         public async Task<STTPhieuKham> ChangeUuTien(Guid MaPK)
         {
             try
@@ -61,9 +71,9 @@ namespace TES_MEDICAL.GUI.Services
             var item = await _context.PhieuKham.Include(x => x.MaBNNavigation).ThenInclude(x => x.PhieuKham).Include(x=>x.ToaThuoc).ThenInclude(x=>x.ChiTietToaThuoc).ThenInclude(x=>x.MaThuocNavigation).Include(x=>x.ChiTietBenh).ThenInclude(x=>x.MaBenhNavigation).FirstOrDefaultAsync(x => x.MaPK == MaPK);
             return item;
         }
-        public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,DateTime NgaySinh)
+        public async Task<IEnumerable<PhieuKham>>GetLichSu(string Hoten,string SDT)
         {
-            return await _context.PhieuKham.Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.NgaySinh == NgaySinh&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
+            return await _context.PhieuKham.Include(x => x.MaBSNavigation).Include(x => x.MaBNNavigation).Where(x =>x.MaBNNavigation.HoTen == Hoten &&x.MaBNNavigation.SDT==SDT&&x.TrangThai>=1&&x.TrangThai<=2).ToListAsync();
         }
         public async Task<Response<PhieuKham>> AddToaThuoc(PhieuKham model, List<ChiTietBenhModel> ListCT)
         {
@@ -150,15 +160,15 @@ namespace TES_MEDICAL.GUI.Services
                  (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
                  EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
                  EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-                 && x.MaBS == model.MaBS && x.TrangThai == 0&&x.STTPhieuKham!=null).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
+                 && x.MaBS == model.MaBS && x.TrangThai == 0).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
             }
             else
             {
-               listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x=>x.ToaThuoc).Where(x =>
+               listUnpaged = (_context.PhieuKham.Include(x => x.MaBNNavigation).Include(x => x.STTPhieuKham).Where(x =>
                (string.IsNullOrWhiteSpace(model.KeywordSearch) ||
                EF.Functions.Collate(x.MaBNNavigation.HoTen, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")) ||
                EF.Functions.Collate(x.MaBNNavigation.SDT, "SQL_Latin1_General_Cp1_CI_AI").Contains(EF.Functions.Collate(model.KeywordSearch, "SQL_Latin1_General_Cp1_CI_AI")))
-               && x.MaBS == model.MaBS && x.TrangThai >= 1 &&x.TrangThai<=2&&x.ToaThuoc!=null).OrderByDescending(x=>x.NgayKham));
+               && x.MaBS == model.MaBS && x.TrangThai >= 1 &&x.TrangThai<=2).OrderBy(x => x.STTPhieuKham.MaUuTien).ThenBy(x => x.STTPhieuKham.STT));
             }
             var listPaged = await listUnpaged.ToPagedListAsync(model.Page ?? 1, 10);
             if (listPaged.PageNumber != 1 && model.Page.HasValue && model.Page > listPaged.PageCount)
