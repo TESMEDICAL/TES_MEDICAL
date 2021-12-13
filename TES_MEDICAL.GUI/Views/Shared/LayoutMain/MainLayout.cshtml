@@ -116,6 +116,11 @@
             .header-text-right h2 {
                 font-size: 5vmin;
             }
+        @@media only screen and (min-width: 600px) {
+            #navBaricon{
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -455,7 +460,7 @@
                     <ul class="nav navbar-nav-custom">
                         <!-- Main Sidebar Toggle Button -->
                         <li>
-                            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
+                            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();" id="navBaricon">
                                 <i class="fas fa-bars"></i>
                             </a>
                         </li>
