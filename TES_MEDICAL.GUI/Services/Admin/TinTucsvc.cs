@@ -141,11 +141,19 @@ namespace TES_MEDICAL.GUI.Services
         {
             if (MaTL != Guid.Empty)
             {
+                
+
                 return await _context.TinTuc.OrderByDescending(x => x.ThoiGian).Include(x =>x.MaTLNavigation).Where(x => x.MaTL == MaTL && x.TrangThai == true).ToListAsync();
             }
             else
             {
-                return await _context.TinTuc.OrderByDescending(x => x.ThoiGian).Include(x => x.MaTLNavigation).Where(x =>x.TrangThai == true).ToListAsync();
+               
+                return await (from tintuc in _context.TinTuc.Include(x => x.MaTLNavigation).Include(x => x.MaNguoiVietNavigation)
+                              join theloai in _context.TheLoai.Include(x=>x.TinTuc)
+                              on tintuc.MaTL equals theloai.MaTL
+                              where tintuc.TrangThai && theloai.TinTuc.Count>=3
+                              orderby tintuc.ThoiGian descending
+                              select tintuc).ToListAsync();
             }          
         }
 
