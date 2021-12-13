@@ -74,6 +74,7 @@
                 height: 40px;
                 background-color: #95d5b2;
                 color: white;
+                cursor: not-allowed;
             }
 
     .test .test-result {
@@ -188,7 +189,16 @@
         font-size: 10px;
         margin-left: 10px;
     }
-    @@media only screen and (max-width: 600px){
+    .test-foot{
+        margin-right: 55px;
+    }
+    label.checkbox-inline{
+        font-size: 20px;
+    }
+    .result-body{
+        padding: 10px 65px 0 65px;
+    }
+    @@media only screen and (max-width: 600px) {
         .container{
             
         }
@@ -206,7 +216,10 @@
             height: 30px;         
             padding: 5px;
         }
-        input.form-control ::placeholder{
+        .input-select input{
+            font-size: 10px;
+        }
+        .input-select input::-webkit-input-placeholder {
             font-size: 10px;
         }
         .button-add {
@@ -215,7 +228,78 @@
         .button-add-1{
             display: block;
         }
-        
+        #TenTrieuChung {
+            font-size: 13px;
+        }
+        #btnTrash i{
+            font-size: 15px; 
+        }
+        .test-foot{
+            margin-right: 0;
+        }
+        #btNext, #btFinal {
+            width: 80px;
+            height: 30px;
+            font-size: 10px;
+        }
+        label.checkbox-inline {
+            font-size: 13px;
+        }
+        label.checkbox-inline input[type=checkbox]{
+            margin-top: 5px;
+            transform: scale(0.7);
+        }
+        .result-body{
+            padding: 10px;
+        }
+        /*.result-body-title {
+            margin: 10px;
+        }*/
+        .result-body-title d-flex p{
+            font-size: 10px
+        }
+        .result-content {
+            display: flex;
+            padding: 10px;
+            margin-left: -10px;
+            flex-wrap: wrap;
+        }
+
+        .result-chart {
+            width: calc(80% - 10px);
+            margin-left: 10px;
+            font-size: 10px;
+        }
+
+        .result-btn {
+            width: 19%;
+            margin: 20px 0 0 20px;
+            text-align: right;
+        }
+        .btn-contact {
+            width: 230px;
+            height: 50px;
+            background-color: rgb(245, 249, 250);
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            position: relative;
+        }
+
+        .result-btn .btn-booking {
+            width: 230px;
+            height: 50px;
+            background-color: rgb(10, 154, 115);
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .btn-disease {
+            width: 230px;
+            height: 50px;
+            background-color: rgb(10, 154, 115);
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
     }
 </style>
 <!--[if lte IE 9]>
@@ -239,7 +323,7 @@
                         </div>
                         <div class="test-body-1 row">
                             <div class="test-body-left d-flex">
-                                <div class="w-100">
+                                <div class="input-select w-100">
                                     <input type="text" id="trieuchungauto" placeholder="Nhập triệu chứng đang mắc phải ..." class="form-control mt-4" />
                                 </div>
                                 <div class="text-end button-add">
@@ -271,14 +355,14 @@
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
                             <div class="test-foot-btn p-2 bd-highlight">
-                                <button style="margin-right: 68px;" onclick="GetTrieuChungNew()" id="btNext" disabled>Tiếp theo</button>
+                                <button onclick="GetTrieuChungNew()" id="btNext" disabled>Tiếp theo</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingTCNew"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
                     <div class="test-detail border" id="ResultTCNew">
-                        <div class="test-head d-flex justify-content-start" style="background-color: rgb(228, 228, 228); height: 50px;">
-                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Các triệu chứng liên quan: </p></div>
+                        <div class="test-head d-flex justify-content-start">
+                            <div class="bd-highlight" style="margin-left: 10px;"><p>Các triệu chứng liên quan: </p></div>
                         </div>
                         <div class="test-body row" id="ListTrieuChungNew">
                             <!--Vòng lặp-->
@@ -286,18 +370,18 @@
                         </div>
                         <div class="test-foot d-flex justify-content-end">
                             <!-- <div class="p-2 bd-highlight">C</div> -->
-                            <div class="test-foot-btn p-2 bd-highlight"><button style="margin-right: 68px;" onclick="FinalCheck()" id="btFinal">Hoàn tất</button></div>
+                            <div class="test-foot-btn p-2 bd-highlight"><button onclick="FinalCheck()" id="btFinal">Hoàn tất</button></div>
                         </div>
                     </div>
                     <div class="col-2 m-auto mt-5 bg-light" style="border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" id="LoadingResult"><p class="text-center p-2 text-secondary"><i class="fa fa-circle-o-notch fa-spin" style="font-size:15px"></i> Đang tải dữ liệu</p></div>
                     <div class="test-result border" id="ResultContent">
-                        <div class="test-head d-flex justify-content-start" style="height: 50px;"> 
-                            <div class="bd-highlight" style="margin-top: 10px; margin-left: 10px;"><p>Kết quả: </p></div>
+                        <div class="test-head d-flex justify-content-start"> 
+                            <div class="bd-highlight" style="margin-left: 10px;"><p>Kết quả: </p></div>
                         </div>
-                        <div class="result-body row" style="padding: 10px 90px 20px 90px;">
-                            <div class="d-flex justify-content-start">
+                        <div class="result-body row" >
+                            <div class="result-body-title d-flex justify-content-start">
                                 <div class="bd-highlight">
-                                    <p style="font-size: 20px;">
+                                    <p>
                                         Dựa theo các triệu chứng mà bạn cung cấp,
                                         chúng tôi đưa ra kết quả như sau:
                                     </p>
@@ -428,8 +512,8 @@
             if (name && name.length > 0) {
                 $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
                                                         <img src="~/GuestElement/img/circle_PNG17.png" />
-                                                        <p name="TenTrieuChung">${name}</p>
-                                                        <button><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
+                                                        <p id="TenTrieuChung" name="TenTrieuChung">${name}</p>
+                                                        <button id="btnTrash"><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
                                                     </div>`)
                 $('#trieuchungauto').val("");
             }
@@ -490,7 +574,7 @@
                     if (response.length > 0) {
                         response.forEach(function (item) {
                             $('#ListTrieuChungNew').append(`<div class="test-body-item col-sm-4 row" >
-                                            <label class="checkbox-inline" style="font-size: 20px;">
+                                            <label class="checkbox-inline">
                                                 <input type="checkbox" name="TCNew" value="${item.result}"> ${item.result}
                                             </label>
                                         </div>`)
