@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
 using TES_MEDICAL.GUI.Constant;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -17,11 +18,13 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly ITinTuc _service;
         private readonly ITheLoai _theLoaiRep;
+        private readonly IWebHostEnvironment _env;
 
-        public TinTucController(ITinTuc service, ITheLoai theLoaiRep)
+        public TinTucController(ITinTuc service, ITheLoai theLoaiRep, IWebHostEnvironment env)
         {
             _service = service;
             _theLoaiRep = theLoaiRep;
+            _env = env;
         }
 
 
@@ -169,7 +172,7 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 string sImageName = vFileName + DateTime.Now.ToString("ddMMyyyyss");
 
-                var vImageSavePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images\photos\") + sImageName + vExtension;
+                var vImageSavePath = Path.Combine(_env.WebRootPath, "images/photos/") + sImageName + vExtension;
                 vReturnImagePath = "/images/photos/" + sImageName + vExtension;
                 ViewBag.Msg = vImageSavePath;
                 var path = vImageSavePath;
