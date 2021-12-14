@@ -31,14 +31,19 @@ namespace TES_MEDICAL.GUI.Controllers
         private readonly INhanVienYte _nhanvienyteRep;
         private readonly IHubContext<RealtimeHub> _hubContext;
         private readonly UserManager<NhanVienYte> _userManager;
+        private readonly IKhamBenh _khamBenh;
+        private readonly IDuocSi _duocSiService;
+
+
         public TiepNhanController(
             ITiepNhan service,
             IChuyenKhoa chuyenKhoaRep,
             IDichVu dichvuRep,
             INhanVienYte nhanVienYteRep,
             IHubContext<RealtimeHub> hubContext,
-            UserManager<NhanVienYte> userManager
-
+            UserManager<NhanVienYte> userManager,
+            IKhamBenh khamBenh,
+            IDuocSi duocSiService
             )
         {
             _service = service;
@@ -47,9 +52,35 @@ namespace TES_MEDICAL.GUI.Controllers
             _nhanvienyteRep = nhanVienYteRep;
             _hubContext = hubContext;
             _userManager = userManager;
-
+            _khamBenh = khamBenh;
+            _duocSiService = duocSiService;
         }
 
+        public async Task<IActionResult> ChiTietLichSuKham(Guid MaPK)
+        {
+            ViewBag.CTLichSuDichVu = await _dichvuRep.GetDichVu(MaPK);
+            ViewBag.CTLichSuThuoc = await _duocSiService.GetChiTiet(MaPK);
+            return PartialView("_PartialCT_LichSuKhamTiepNhan", await _khamBenh.GetLichSuKhamById(MaPK));
+        }
+
+        [Route("/tiepnhan/LichSuKhamTiepNhan")]
+        public async Task<IActionResult> LichSuKhamTiepNhan(string hoTen, string SDT)
+        {
+            var result = await _khamBenh.GetLichSu(hoTen, SDT);
+            if(result.Count() > 0)
+            {
+                return Json(JsonConvert.SerializeObject(result, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }));
+            }
+            else
+            {
+                return Json(new { status = -2}, new JsonSerializerSettings());
+
+            }
+        }
 
         [Route("/tiepnhan")]
         [Route("/tiepnhan/ThemPhieuKham")]

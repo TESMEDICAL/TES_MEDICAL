@@ -684,7 +684,7 @@
                 </div>
                 <div class="col-6">
                     <strong>Ngày sinh:</strong>
-                    <p>@Model.MaPKNavigation.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh</p>
+                    <p>@Model.MaPKNavigation.MaPhieuKhamNavigation.MaBNNavigation.NgaySinh?.ToString("dd/MM/yyyy")</p>
                 </div>
                 <div class="col-6">
                     <strong>Địa chỉ:</strong>
@@ -699,8 +699,8 @@
                         <table class="table mb-0">
                             <thead class="card-header">
                                 <tr>
-                                    <td class="col-3"><strong>Tên thuốc</strong></td>
-                                    <td class="col-4"><strong>Ghi chú</strong></td>
+                                    <td class="col-7"><strong>Tên thuốc</strong></td>
+                                    @*<td class="col-4"><strong>Ghi chú</strong></td>*@
                                     <td class="col-2 text-center"><strong>Số lượng</strong></td>
                                     <td class="col-3 text-end"><strong>Thành tiền</strong></td>
                                 </tr>
@@ -709,10 +709,14 @@
                                 @foreach (var item in Model.MaPKNavigation.ChiTietToaThuoc)
                                 {
                                     <tr>
-                                        <td class="col-3"><strong>@item.MaThuocNavigation.TenThuoc</strong></td>
-                                        <td class="col-4"><strong>@item.GhiChu</strong></td>
+                                        <td class="col-7"><strong>@item.MaThuocNavigation.TenThuoc</strong><br />
+                                        
+                                         <i>@item.GhiChu</i>
+                                        
+                                        </td>
+                                        @*<td class="col-4"><strong>@item.GhiChu</strong></td>*@
                                         <td class="col-2 text-center"><strong>@item.SoLuong</strong></td>
-                                        <td class="col-3 text-end"><strong>@((item.DonGiaThuoc * item.SoLuong)?.ToString("n0").Replace(',', '.'))</strong></td>
+                                        <td class="col-3 text-end"><strong>@((item.DonGiaThuoc * item.SoLuong)?.ToString("n0").Replace(',', '.')) VNĐ</strong></td>
                                     </tr>
                                 }
 
@@ -720,8 +724,7 @@
                             </tbody>
                             <tfoot class="card-footer">
                                 <tr>
-                                    <td class="col-3"></td>
-                                    <td class="col-4"></td>
+                                    <td class="col-7"></td>                                    
                                     <td class="col-2 border-bottom-0 text-center"><strong>Tổng tiền</strong></td>
                                     <td class="col-6 border-bottom-0 text-end"><strong>@Model.TongTien.ToString("n0").Replace(',', '.') VNĐ</strong></td>
                                 </tr>

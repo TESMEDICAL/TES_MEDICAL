@@ -81,7 +81,7 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
-            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,(DateTime)item.MaBNNavigation.NgaySinh);
+            ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,item.MaBNNavigation.SDT);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
                new JsonSerializerSettings
                 {
@@ -173,7 +173,7 @@ namespace TES_MEDICAL.GUI.Controllers
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
                 item.DonGiaThuoc = (_tienichRep.GetThuoc(item.MaThuoc)).DonGia;
-                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
+                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan} viên,uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chiều" : "")}.";
             }
             model.ChanDoan = string.Join(",", ListCT.Select(x => x.TenBenh).ToArray());
    

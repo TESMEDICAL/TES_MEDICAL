@@ -507,8 +507,6 @@
 
 
         function addTrieuChung(name) {
-       
-
             if (name && name.length > 0) {
                 $('#ListTrieuChung').append(`<div class="symptom-item col-sm-6 trieuChungOld">
                                                         <img src="~/GuestElement/img/circle_PNG17.png" />
@@ -516,6 +514,12 @@
                                                         <button id="btnTrash"><i class="fa fa-trash removeTC" aria-hidden="true"></i></button>
                                                     </div>`)
                 $('#trieuchungauto').val("");
+            }
+            if ($('.trieuChungOld').length > 0) {
+                $('#btNext').prop('disabled', false);
+            }
+            else {
+                $('#btNext').prop('disabled', true);
             }
           
         }
