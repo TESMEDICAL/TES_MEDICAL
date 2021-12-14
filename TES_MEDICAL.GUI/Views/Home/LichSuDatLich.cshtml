@@ -68,6 +68,22 @@
         -webkit-appearance: none;
         margin: 0;
     }
+    @@media only screen and (max-width: 600px) {
+        .ltn__utilize-menu-inner {
+            margin-left: 20px;
+        }
+
+        .tblheader th {
+            font-size: 10px;
+        }
+
+        #tblLichSuDatLich td a {
+            font-size: 10px;
+        }
+        .not-found h6 a{
+            font-size: 10px;
+        }
+    }
 </style>
 
 <div class="row">
@@ -99,34 +115,31 @@
                 </div>
 
                 <!--Tiêu Đề-->
-                <div class="mini-cart-product-area">
-                    <div class="mini-cart-item clearfix">
-                        <div class="mini-cart-info row">
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Họ và tên</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Số điện thoại</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Ngày khám</a></h6>
-                            </div>
-                            <div class="col-sm-3">
-                                <h6 style="font-weight:bold"><a>Mã phiếu khám</a></h6>
-                            </div>
-                        </div>
-                    </div>
+                <div class="mini-cart-product-area">                    
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-header tblheader">
+                                <th class="head-item ">Họ và tên</th>
+                                <th class="head-item text-center">Số điện thoại</th>
+                                <th class="head-item text-center">Ngày khám</th>
+                                <th class="head-item text-center">Mã phiếu khám</th>
+                            </tr>
+                        </thead>
+                        <!--Show dữ liệu lịch sử khám-->
+                        <tbody id="ShowLichSu">
+                        </tbody>
+                    </table>
                 </div>
 
                 <!--Dữ liệu-->
-                <div class="mini-cart-product-area">
+                @*<div class="mini-cart-product-area">
                     <div class="mini-cart-item clearfix">
                         <div id="ShowLichSu" class="mini-cart-info row">
 
 
                         </div>
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>
@@ -246,9 +259,9 @@
                     $("#ShowLichSu").html("");
                     if (response.status == -2) {
                         $("#ShowLichSu").append(`
-                            <div class="col-sm-12 text-center text-danger">
+                            <td class="col-sm-12 text-center text-danger not-found" colspan="4">
                                 <h6 style="font-weight:bold"><a href="#">Không tìm thấy</a></h6>
-                            </div>
+                            </td>
                     `)
                     }
                     else {
@@ -262,19 +275,15 @@
                             var mm = stringDate.getMinutes();
                             var ss = stringDate.getSeconds();
                             var ngayKham = dd + "/" + MM + "/" + yyyy + ", " + hh + ":" + mm + ":" + ss;
-                            $("#ShowLichSu").append(`
-                                <div class="col-sm-3">
-                                    <h6><a>${item.TenBN}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a>${item.SDT}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a id="demo">${ngayKham}</a></h6>
-                                </div>
-                                <div class="col-sm-3">
-                                    <h6><a>${item.MaPhieu}</a></h6>
-                                </div>
+                            $("#ShowLichSu").append(`                                
+                                <tr class="table-body" style="background-color: white;" id="tblLichSuDatLich">
+                                    <td class="body-item"><a>${item.TenBN}</a></td>
+                                    <td class="body-item text-center"><a>${item.SDT}</a></td>
+                                    <td class="body-item text-center"><a>${ngayKham}</a></td>
+                                    <td class="body-item text-center">
+                                        <a id="ButtonChiTiet" style="color:blue">${item.MaPhieu}</a>
+                                    </td>
+                                </tr>
 
                     `)
 
