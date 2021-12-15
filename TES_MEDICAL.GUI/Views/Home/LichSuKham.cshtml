@@ -71,6 +71,21 @@
         -webkit-appearance: none;
         margin: 0;
     }
+    @@media only screen and (max-width: 600px) {
+        .ltn__utilize-menu-inner{
+            margin-left: 20px;
+        }
+        .tblheader th {
+            font-size: 10px;
+        }
+        #tblLichSuKham td a {
+            font-size: 10px;
+        }
+        .not-found h6 a{
+            font-size: 10px;
+        }
+    }
+
 </style>
 <div class="row">
     <div class="col-lg-8 m-auto">
@@ -101,7 +116,7 @@
                 <div class="mini-cart-product-area">          
                     <table class="table table-bordered">
                         <thead>
-                            <tr class="table-header">
+                            <tr class="table-header tblheader">
                                 <th class="head-item">Họ và tên</th>
                                 <th class="head-item text-center">Số điện thoại</th>
                                 <th class="head-item text-center">Ngày khám</th>
@@ -225,16 +240,16 @@
                     $("#ShowLichSu").html("");
                     if (response.status == -2) {
                         $("#ShowLichSu").append(`
-                            <div class="col-sm-12 text-center text-danger">
+                            <td class="col-sm-12 text-center text-danger not-found" colspan="4">
                                 <h6 style="font-weight:bold"><a>Không tìm thấy</a></h6>
-                            </div>
+                            </td>
                     `)
                     }
                     else {
                         JSON.parse(response).forEach(function (item) {                            
                             var stringDate = new Date(item.NgayKham);
                             $("#ShowLichSu").append(`
-                                <tr class="table-body" style="background-color: white;">
+                                <tr class="table-body" style="background-color: white;" id="tblLichSuKham">
                                     <td class="body-item"><a>${item.MaBNNavigation.HoTen}</a></td>
                                     <td class="body-item text-center"><a>${item.MaBNNavigation.SDT}</a></td>
                                     <td class="body-item text-center"><a>${stringDate.toLocaleString("es-CL")}</a></td>
