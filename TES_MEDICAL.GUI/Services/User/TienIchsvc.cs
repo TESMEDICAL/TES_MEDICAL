@@ -59,7 +59,12 @@ namespace TES_MEDICAL.GUI.Services
             _cacheMemory.GetOrCreate("TRIEUCHUNG_CACHE", TimeSpan.FromMinutes(60), _benhService.GetAllTrieuChung);
 
         }
+        public void refreshCacheThuoc()
+        {
+            _cacheMemory.Remove("THUOC_CACHE");
+            _cacheMemory.GetOrCreate("THUOC_CACHE", TimeSpan.FromMinutes(60), _thuocService.GetAllThuoc);
 
+        }
         public async Task<List<ChiTietToaThuoc>> GetToaThuocFill(List<string> TenBenh)
         {
             PhieuKham result = null;

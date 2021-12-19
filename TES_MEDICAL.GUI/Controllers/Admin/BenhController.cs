@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TES_MEDICAL.ENTITIES.Models.ViewModel;
 using TES_MEDICAL.GUI.Controllers.Admin;
+using Hangfire;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -16,9 +17,11 @@ namespace TES_MEDICAL.GUI.Controllers
     public class BenhController : BaseController
     {
         private readonly IBenh _service;
-        public BenhController(IBenh service)
+        private readonly ITienIch _tienichRep;
+        public BenhController(IBenh service, ITienIch tienichRep)
         {
             _service = service;
+            _tienichRep = tienichRep;
         }
 
         public async Task<IActionResult> Index(BenhSearchModel model)
@@ -162,7 +165,15 @@ namespace TES_MEDICAL.GUI.Controllers
                         return PartialView("_partialedit", model);
                     }
                     if (result.errorCode == 0)
-                        return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                    {
+                        using (new BackgroundJobServer())
+                        {
+                            _tienichRep.refreshCacheBenh();
+                            _tienichRep.refreshCacheTrieuChung();
+                            return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                        }
+                    }    
+                        
                     else
                         return Json(new { status = -2, title = "", text = "Cập nhật không thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }

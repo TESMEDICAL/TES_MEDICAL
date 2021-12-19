@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TES_MEDICAL.GUI.Controllers.Admin;
 using Microsoft.AspNetCore.Hosting;
+using Hangfire;
 
 namespace TES_MEDICAL.GUI.Controllers
 {
@@ -18,10 +19,12 @@ namespace TES_MEDICAL.GUI.Controllers
     {
         private readonly IThuoc _service;
         private readonly IWebHostEnvironment _env;
-        public ThuocController(IThuoc service, IWebHostEnvironment env)
+        private readonly ITienIch _tienIchRep;
+        public ThuocController(IThuoc service, IWebHostEnvironment env,ITienIch tienIichRep)
         {
             _service = service;
             _env = env;
+            _tienIchRep = tienIichRep;
         }
 
         public async Task<IActionResult> Index(ThuocSearchModel model)
@@ -104,9 +107,12 @@ namespace TES_MEDICAL.GUI.Controllers
                         {
                             file.CopyTo(fileStream);
                         }
-
+                    
                     }
-
+                    using (new BackgroundJobServer())
+                    {
+                        _tienIchRep.refreshCacheThuoc();
+                    }
                     return Json(new { status = 1, title = "", text = "Thêm thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }
                 else
@@ -176,6 +182,11 @@ namespace TES_MEDICAL.GUI.Controllers
                         {
                             file.CopyTo(fileStream);
                         }
+                    }
+                    using (new BackgroundJobServer())
+                    {
+
+                        _tienIchRep.refreshCacheThuoc();
                     }
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, new Newtonsoft.Json.JsonSerializerSettings());
                 }
