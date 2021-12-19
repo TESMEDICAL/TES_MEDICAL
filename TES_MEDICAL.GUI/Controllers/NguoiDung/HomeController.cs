@@ -96,6 +96,12 @@ namespace TES_MEDICAL.GUI.Controllers
                     ModelState.AddModelError("NgayKham", "Ngày khám phải sau ngày hiện tại");
                     return View(model);
                 }
+                if(((DateTime)model.NgayKham - DateTime.Now).Days>60)
+                {
+                    ModelState.AddModelError("NgayKham", "Ngày đặt không quá 60 ngày");
+                    return View(model);
+                }
+               
                 var result = await _service.DatLich(model);
                 if (result != null)
                 {

@@ -17,7 +17,7 @@
             </tr>
                 @if ((ViewBag.Names as IEnumerable<PhieuKham>).Count() > 0)
                 {
-                    @foreach (var item in ViewBag.Names as IEnumerable<PhieuKham>)
+                    @foreach (var item in (ViewBag.Names as IEnumerable<PhieuKham>).OrderByDescending(x=>x.NgayKham))
                     {
                         <tr>
                             <td style="text-align: left;">@item.MaBNNavigation.HoTen</td>
