@@ -457,27 +457,7 @@
         var ListCTBenh = [];
         var Clienid;
         var curThuoc = {};
-        var projects = [
-            {
-                value: "jquery",
-                label: "jQuery",
-                desc: "the write less, do more, JavaScript library",
-                icon: "jquery_32x32.png"
-            },
-            {
-                value: "jquery-ui",
-                label: "jQuery UI",
-                desc: "the official user interface library for jQuery",
-                icon: "jqueryui_32x32.png"
-            },
-            {
-                value: "sizzlejs",
-                label: "Sizzle JS",
-                desc: "a pure-JavaScript CSS selector engine",
-                icon: "sizzlejs_32x32.png"
-            }
-        ];
-
+   
 
 
 
@@ -631,78 +611,37 @@
             });
         }
 
-        $(document).ready(
+        function AutoThuoc() {
+            $('#SearchThuoc').autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    response($.map(DataThuoc, function (item) {
+                        var name = item.TenThuoc.toUpperCase();
 
-            function () {
-                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
-                $("#frmKhamBenh").validate({
-                    // Specify validation rules
-                    rules: {
-                        Mach: "required",
+                        if (name.indexOf(request.term.toUpperCase()) != -1) {
+                            return {
+                                image: item.HinhAnh,
+                                val: item.MaThuoc,
+                                desc: item.TenThuoc,
+                                all: item
 
-                        HuyetAp: "required",
-
-                        KetQuaKham: "required",
-
-                        ChanDoan: "required"
-
-                    },
-                    messages: {
-                        Mach: {
-                            required: "Bạn cần nhập tần số mạch",
-                        },
-
-                        HuyetAp: {
-                            required: "Bạn cần nhập huyết áp",
-                        },
-
-                        KetQuaKham: {
-                            required: "Bạn cần nhập kết quả khám",
-                        },
-
-                        ChanDoan: {
-                            required: "Bạn cần nhập chẩn đoán",
+                                //Type: item.type
+                            }
                         }
-                    },
-
-                });
-
-                addAuto();
+                        else {
+                            return null;
+                        }
 
 
-                $.get("GetListThuoc", function (res) {
+                    }))
+                },
+                focus: function (event, ui) {
+                    $("#SearchThuoc").val(ui.item.TenThuoc);
+                    return false;
+                },
+                select: function (event, ui) {
 
-                    $('#ThuocContent').html(res)
-                    $('#SearchThuoc').autocomplete({
-                        minLength: 0,
-                        source: function (request, response) {
-                            response($.map(DataThuoc, function (item) {
-                                var name = item.TenThuoc.toUpperCase();
-
-                                if (name.indexOf(request.term.toUpperCase()) != -1) {
-                                    return {
-                                        image: item.HinhAnh,
-                                        val: item.MaThuoc,
-                                        desc: item.TenThuoc,
-                                        all: item
-
-                                        //Type: item.type
-                                    }
-                                }
-                                else {
-                                    return null;
-                                }
-
-
-                            }))
-                        },
-                        focus: function (event, ui) {
-                            $("#SearchThuoc").val(ui.item.TenThuoc);
-                            return false;
-                        },
-                        select: function (event, ui) {
-
-                            $("#listToaThuoc").append(`<tr>
+                    $("#listToaThuoc").append(`<tr>
                         <th class="col-8">
                               <input style="display:none" name="MaThuoc" value="${ui.item.val}"  />
                             <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${ui.item.desc}</h6>
@@ -749,24 +688,69 @@
               `);
 
 
-                            DataThuoc.splice(DataThuoc.indexOf(ui.item.all), 1)
+                    DataThuoc.splice(DataThuoc.indexOf(ui.item.all), 1)
 
-                            var tableRow = $("#danhSach td").filter(function () {
-                                return $(this).text() == ui.item.all.MaThuoc;
-                            }).parent();
-                            tableRow.remove();
+                    var tableRow = $("#danhSach td").filter(function () {
+                        return $(this).text() == ui.item.all.MaThuoc;
+                    }).parent();
+                    tableRow.remove();
 
 
-                            //__doPostBack("txtFirstName", "OnTextChanged");
-                            return false;
+                    //__doPostBack("txtFirstName", "OnTextChanged");
+                    return false;
+                }
+            })
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+                        .append(`<div> ${item.val} <br> ${item.desc} </div><img  src="/images/imagesThuoc/${item.image}"/>`)
+                        .appendTo(ul);
+                };
+        }
+
+        $(document).ready(
+
+            function () {
+                 Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
+                $("#frmKhamBenh").validate({
+                    // Specify validation rules
+                    rules: {
+                        Mach: "required",
+
+                        HuyetAp: "required",
+
+                        KetQuaKham: "required",
+
+                        ChanDoan: "required"
+
+                    },
+                    messages: {
+                        Mach: {
+                            required: "Bạn cần nhập tần số mạch",
+                        },
+
+                        HuyetAp: {
+                            required: "Bạn cần nhập huyết áp",
+                        },
+
+                        KetQuaKham: {
+                            required: "Bạn cần nhập kết quả khám",
+                        },
+
+                        ChanDoan: {
+                            required: "Bạn cần nhập chẩn đoán",
                         }
-                    })
-                        .autocomplete("instance")._renderItem = function (ul, item) {
-                            return $("<li>")
-                                .append(`<div> + ${item.val} <br> + ${item.desc} </div><img  src="/images/imagesThuoc/${item.image}"/>`)
-                                .appendTo(ul);
-                        };
-                    
+                    },
+
+                });
+
+                addAuto();
+
+
+                $.get("GetListThuoc", function (res) {
+
+                    $('#ThuocContent').html(res)
+
+                    AutoThuoc();
              
                     table =  $('#danhSach').DataTable(
                         {
@@ -862,103 +846,8 @@
                             success: function (response) {
                                 
                                 DataThuoc = JSON.parse(response)
-
-                                $("#SearchThuoc").autocomplete({
-                                    minLength: 2,
-                                    search: function (event, ui) {
-                                        $('#searching').prop('style', 'display: block');
-
-                                    },
-                                    html: true,
-                                    source: function (request, response) {
-                                        response($.map(DataThuoc, function (item) {
-
-
-                                            var name = item.TenThuoc.toUpperCase();
-
-                                            if (name.indexOf(request.term.toUpperCase()) != -1) {
-                                                return {
-                                                    label: `<div class="row">
-                                            <div class="col-md-10">
-                                               <h3>${item.TenThuoc}</h6>
-                                                     <p>${item.ThongTin}</p>
-                                                   </div>
-                                               <div class="col-md-2">${item.HinhAnh}</div>
-                                                 </div>`,
-                                                    val: item.MaThuoc,
-                                                    desc: item.TenThuoc,
-                                                    all: item
-
-                                                    //Type: item.type
-                                                }
-                                            }
-                                            else {
-                                                return null;
-                                            }
-
-                                        }))
-                                    },
-
-                                    focus: function (event, ui) {
-
-                                        $("#SearchThuoc").val();
-                                        return false;
-                                    },
-                                    select: function (event, ui) {
-
-                                        $("#listToaThuoc").append(`<tr>
-                        <th class="col-8">
-                              <input style="display:none" name="MaThuoc" value="${ui.item.val}"  />
-                            <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${ui.item.desc}</h6>
-                            <div class="row" style="margin-inline: 20px;">
-                                <div class="mb-2 col-sm-4">
-                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" name="LanTrongNgay" > lần.</label>
-                                </div>
-                                <div class="mb-2 col-sm-4">
-                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" name="VienMoiLan"> viên.</label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống trước khi ăn
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Sang" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống sáng
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Trua" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống trưa
-                                    </label>
-                                </div>
-                                <div class="form-check col-sm-4 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="" name ="Chieu" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Uống tối
-                                    </label>
-                                </div>
-                            </div>
-                        </th>
-                        <th class="col-2">
-                            <div class="input-group mb-3">
-                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" name ="SoLuong">
-                            </div>
-                        </th>
-                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
-                    </tr>
-              `);
-
-
-                                        DataThuoc.splice(DataThuoc.indexOf(ui.item.all), 1)
-
-                                        //__doPostBack("txtFirstName", "OnTextChanged");
-                                        return false;
-                                    }
-                                })
+                                AutoThuoc();
+                             
 
 
 
