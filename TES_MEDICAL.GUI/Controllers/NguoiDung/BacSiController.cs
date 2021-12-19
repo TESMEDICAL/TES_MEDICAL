@@ -1,5 +1,4 @@
-﻿using Hangfire;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -81,6 +80,11 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
+            ViewBag.DataThuoc = JsonConvert.SerializeObject(_tienichRep.GetAllThuoc().OrderBy(x=>x.TenThuoc).ThenBy(x=>x.TenThuoc.Length), Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               }) ;
             ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,item.MaBNNavigation.SDT);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
                new JsonSerializerSettings
@@ -91,9 +95,10 @@ namespace TES_MEDICAL.GUI.Controllers
             
         }
 
+
         public IActionResult GetListThuoc()
         {
-
+           
             return PartialView("_partialToaThuoc",  _tienichRep.GetAllThuoc());
         
         }
@@ -173,25 +178,15 @@ namespace TES_MEDICAL.GUI.Controllers
             foreach(var item in model.ToaThuoc.ChiTietToaThuoc)
             {
                 item.DonGiaThuoc = (_tienichRep.GetThuoc(item.MaThuoc)).DonGia;
-                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan} viên,uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chiều" : "")}.";
+                item.GhiChu = $"Ngày uống {item.LanTrongNgay} lần, mỗi lần {item.VienMoiLan},uống {(item.TruocKhian ? "trước khi ăn":"sau khi ăn")},Uống {(item.Sang ? "Sáng" : "")}{(item.Trua ? ", trưa" : "")}{(item.Chieu ? ", chieu" : "")}.";
             }
             model.ChanDoan = string.Join(",", ListCT.Select(x => x.TenBenh).ToArray());
    
             var result = await _khambenhRep.AddToaThuoc(model,ListCT);
 
-            if (result.errorCode >=0)
+            if (result != null)
             {
-                if (result.errorCode == 1)
-                {
-                    using (new BackgroundJobServer())
-                    {
-                        _tienichRep.refreshCacheBenh();
-                        _tienichRep.refreshCacheTrieuChung();
-                    }
-                   
-                }    
-                    
-               
+
 
                 await _hubContext.Clients.All.SendAsync("SendToaThuoc");
                 return Json(new { status = 1, title = "", text = "Gửi thành công.", redirectUrL = Url.Action("PhieuKham", "BacSi"), obj = "" }, new JsonSerializerSettings());
@@ -252,6 +247,45 @@ namespace TES_MEDICAL.GUI.Controllers
                 return PartialView("_partialToaThuocOld", model.ToaThuoc);
             }
           
+        }
+        [HttpPost]
+        public IActionResult GetJsonThuoc(PhieuKham model)
+        {
+            if (model.ToaThuoc == null)
+            {
+                return Json(new { status = -2, title = "", text = "Chưa có toa thuốc nào cho bệnh này", obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
+                var listNew = _tienichRep.GetAllThuoc();
+                var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
+               
+                return Json(JsonConvert.SerializeObject(listThuoc.OrderBy(x=>x.TenThuoc).ThenBy(x=>x.TenThuoc.Length), Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               })) ;
+            }
+
+        }
+        [HttpGet]
+        public IActionResult GetInforThuoc(Guid Mathuoc)
+        {
+            var result = _tienichRep.GetAllThuoc().FirstOrDefault(x => x.MaThuoc == Mathuoc);
+            if (result != null)
+            {
+                return Json(JsonConvert.SerializeObject(result, Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               }));
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet]

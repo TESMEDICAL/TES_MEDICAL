@@ -6,10 +6,27 @@
     Layout = "~/Views/Shared/LayoutMain/MainLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <style>
 
+    .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover {
+        border: 1px solid #000;
+        background: #000;
+    }
+    .ui-autocomplete input {
+        position: relative;
+        z-index: 1000;
+    }
+    .ui-front {
+        z-index: 5000;
+        position: relative;
+    }
+    .ui-autocomplete {
+        position:absolute!important;
+        z-index: 2147483647;
+    }
 
+  
     .error {
         color: red !important;
     }
@@ -18,28 +35,7 @@
         line-height: 40px;
     }
 
-    .button-delete-symptom {
-        height: 20px;
-        padding: 0;
-        float: right;
-        margin-right: 10px;
-        background-color: white;
-        border: none;
-    }
-
-        .button-delete-symptom i {
-            font-size: 18px;
-            color: #ff6b6b;
-            padding-inline: 10px;
-            margin-top: 10px;
-        }
-
-            .button-delete-symptom i:hover {
-                transform: scale(1.1);
-                color: #ff002b;
-            }
-
-
+    
 </style>
 
 <div class="col-12">
@@ -193,31 +189,35 @@
                     </div>
                 </div>*@
             // DEMO
+
             <div enctype="multipart/form-data" class="form-horizontal p-0" onsubmit="return false;">
                 <div class="block-title">
                     <h2><strong>Thông tin khám bệnh</strong></h2>
                 </div>
                 <div class="row">
                     <div id="ListChiTietBenh" class="row">
-                        <div class="col-12 row ChiTietBenh">
-                            <div class="col-sm-6 mb-2">
-                                <label class="control-label" for="example-textarea-input">Triệu chứng</label>
-                                <div class="col-12 mb-3" style="display: inline-flex">
-                                    <input class="form-control trieuchungauto" name="trieuchungauto" style="width: 85% ;margin-right: 15px;" placeholder="Nhập triệu chứng phát hiện ..." />
-                                    <div style="width: 15%; text-align:center;">
+                        <div class="col-12 row ChiTietBenh" style="padding-inline: 38px;">
+                            <div class="col-sm-6">
+                                <label class="control-label" for="example-textarea-input">Kết quả khám</label>
+                                <div class="col-12 row mb-3">
+                                    <div class="col-sm-10 pe-0 me-0">
+                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    </div>
+                                    <div class="col-sm-2 text-end">
                                         <a class="btn border-0 addTrieuChungCT" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
-                                <label class="col-md-5 control-label" for="example-textarea-input" style="margin-top: 20px;">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-12" style="display: inline-flex;">
-                                    <input type="text" class="form-control ChanDoan" style="margin-right: 20px; width: 85%;" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
-                                    <div style="width: 15%; text-align:center;visibility: hidden;">
-                                        <a class="btn text-light border-0 removeCtBenh" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                                <div class="col-12 row">
+                                    <div class="col-md-10 pe-0 me-0">
+                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
                                     </div>
+                                    @*<div class="col-sm-2 text-end">
+                                            <a class="btn text-light border-0" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
+                                        </div>*@
                                 </div>
                             </div>
                             <div class="col-sm-6" style="margin-bottom: 35px;">
-                                <label class="control-label" style="margin-left: 10px">Kết quả khám</label>
                                 <div class="col-12 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
                                     <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
                                     </ul>
@@ -232,17 +232,17 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="button-reload col-sm-4">
-                                <a class="btn border-0" style="color: white; margin: 40px 0px 0px 0px;" onclick="AddChanDoan()"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</a>
+                                <a class="btn border-0" style="color: white; margin: 40px 0px 0px 25px;" onclick="AddChanDoan()"><i class="fa fa-plus text-white"></i>  Thêm chẩn đoán</a>
                             </div>
-                            <div class="col-sm-4 mt-3">
-                                <label class="control-label" for="example-textarea-input">Ngày khám</label>
+                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày khám</label>
                                 <div class="col-md-10">
                                     <input type="Text" class="form-control" value="@Model.NgayKham.ToString("MM/dd/yyyy")" placeholder="Vui lòng nhập ngày khám" readonly>
                                 </div>
                             </div>
                             <br>
-                            <div class="col-sm-4 mt-3">
-                                <label class="control-label" for="example-textarea-input">Ngày tái khám</label>
+                            <div class="col-sm-4 mt-3" style="padding-inline: 38px;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Ngày tái khám</label>
                                 <div class="col-md-10">
                                     <input type="date" class="form-control" asp-for="NgayTaiKham" placeholder="Vui lòng nhập ngày tái khám">
                                 </div>
@@ -344,7 +344,7 @@
 
 @*Modal Thêm thuốc*@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 5px">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl ui-front">
         <div class="modal-content" id="ThuocContent">
 
         </div>
@@ -382,6 +382,7 @@
 
 
 
+ 
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 <script>
@@ -444,15 +445,39 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="~/js/datetime.js"></script>
 
+
     <script>
         var table;
         var listCTThuoc = [];
         var ctSH = [];
         var Phieukham =@(Html.Raw(ViewBag.PhieuKham));
+        var DataThuoc = @(Html.Raw(ViewBag.DataThuoc));
         var ToaThuoc = {};
         var oldPK = {};
         var ListCTBenh = [];
         var Clienid;
+        var curThuoc = {};
+        var projects = [
+            {
+                value: "jquery",
+                label: "jQuery",
+                desc: "the write less, do more, JavaScript library",
+                icon: "jquery_32x32.png"
+            },
+            {
+                value: "jquery-ui",
+                label: "jQuery UI",
+                desc: "the official user interface library for jQuery",
+                icon: "jqueryui_32x32.png"
+            },
+            {
+                value: "sizzlejs",
+                label: "Sizzle JS",
+                desc: "a pure-JavaScript CSS selector engine",
+                icon: "sizzlejs_32x32.png"
+            }
+        ];
+
 
 
 
@@ -460,6 +485,7 @@
         var $modal = $('#myModal');
         var $myModalContent = $("#myModalContent");
         function addAuto() {
+           
             $(".ChanDoan").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -492,7 +518,6 @@
                         tenbenh.push($(this).val());
 
                     });
-                    tenbenh.push(ui.item.value);
 
                     Swal.fire({
                         title: `Sử dụng toa thuốc gần nhất cho bệnh ${ui.item.value}`,
@@ -504,9 +529,7 @@
                         cancelButtonText: 'Huỷ bỏ',
                         confirmButtonText: 'Xác nhận'
                     }).then((result) => {
-
                         if (result.isConfirmed) {
-                            
                             $.ajax({
                                 url: "/BacSi/GetAutoFill/",
                                 type: 'POST',
@@ -515,7 +538,7 @@
 
                                 },
                                 success: function (data) {
-                                   
+
                                     var ToaThuocOld = {};
                                     ToaThuocOld.ChiTietToaThuoc = data;
                                     oldPK.ToaThuoc = ToaThuocOld;
@@ -592,10 +615,12 @@
                 }
             });
 
+
+
             $('.trieuchungauto').on("keyup", function (e) {
                 if (e.keyCode == 13 && $(this).val() ) {
 
-                    var $ct = $(this).parent().parent().parent();
+                    var $ct = $(this).parent().parent().parent().parent();
 
 
                     $ct.find("[name='ListTC']").append(` <li class="trieuchungPK"><span name="trieuChung">${$(this).val()}</span> <a class="button-delete-symptom btn removeTC"><i class="fas fa-trash-alt"></i></a></li>`)
@@ -607,6 +632,7 @@
         }
 
         $(document).ready(
+
             function () {
                  Clienid = '@Html.Raw((await UserManager.GetUserAsync(User)).Id)';
                 $("#frmKhamBenh").validate({
@@ -644,8 +670,104 @@
                 addAuto();
 
 
-                $.get("GetListThuoc", function (data) {
-                    $('#ThuocContent').html(data)
+                $.get("GetListThuoc", function (res) {
+
+                    $('#ThuocContent').html(res)
+                    $('#SearchThuoc').autocomplete({
+                        minLength: 0,
+                        source: function (request, response) {
+                            response($.map(DataThuoc, function (item) {
+                                var name = item.TenThuoc.toUpperCase();
+
+                                if (name.indexOf(request.term.toUpperCase()) != -1) {
+                                    return {
+                                        image: item.HinhAnh,
+                                        val: item.MaThuoc,
+                                        desc: item.TenThuoc,
+                                        all: item
+
+                                        //Type: item.type
+                                    }
+                                }
+                                else {
+                                    return null;
+                                }
+
+
+                            }))
+                        },
+                        focus: function (event, ui) {
+                            $("#SearchThuoc").val(ui.item.TenThuoc);
+                            return false;
+                        },
+                        select: function (event, ui) {
+
+                            $("#listToaThuoc").append(`<tr>
+                        <th class="col-8">
+                              <input style="display:none" name="MaThuoc" value="${ui.item.val}"  />
+                            <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${ui.item.desc}</h6>
+                            <div class="row" style="margin-inline: 20px;">
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" name="LanTrongNgay" > lần.</label>
+                                </div>
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" name="VienMoiLan"> viên.</label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trước khi ăn
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Sang" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống sáng
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Trua" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trưa
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Chieu" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống tối
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="col-2">
+                            <div class="input-group mb-3">
+                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" name ="SoLuong">
+                            </div>
+                        </th>
+                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
+                    </tr>
+              `);
+
+
+                            DataThuoc.splice(DataThuoc.indexOf(ui.item.all), 1)
+
+                            var tableRow = $("#danhSach td").filter(function () {
+                                return $(this).text() == ui.item.all.MaThuoc;
+                            }).parent();
+                            tableRow.remove();
+
+
+                            //__doPostBack("txtFirstName", "OnTextChanged");
+                            return false;
+                        }
+                    })
+                        .autocomplete("instance")._renderItem = function (ul, item) {
+                            return $("<li>")
+                                .append(`<div> + ${item.val} <br> + ${item.desc} </div><img  src="/images/imagesThuoc/${item.image}"/>`)
+                                .appendTo(ul);
+                        };
+                    
+             
                     table =  $('#danhSach').DataTable(
                         {
                             "order": [0, "asc"],
@@ -733,7 +855,116 @@
                     }
                     else {
                         $("#ThuocContent").html(response);
+                        $.ajax({
+                            url: "/BacSi/GetJsonThuoc/",
+                            type: 'Post',
+                            data: oldPK,
+                            success: function (response) {
+                                
+                                DataThuoc = JSON.parse(response)
 
+                                $("#SearchThuoc").autocomplete({
+                                    minLength: 2,
+                                    search: function (event, ui) {
+                                        $('#searching').prop('style', 'display: block');
+
+                                    },
+                                    html: true,
+                                    source: function (request, response) {
+                                        response($.map(DataThuoc, function (item) {
+
+
+                                            var name = item.TenThuoc.toUpperCase();
+
+                                            if (name.indexOf(request.term.toUpperCase()) != -1) {
+                                                return {
+                                                    label: `<div class="row">
+                                            <div class="col-md-10">
+                                               <h3>${item.TenThuoc}</h6>
+                                                     <p>${item.ThongTin}</p>
+                                                   </div>
+                                               <div class="col-md-2">${item.HinhAnh}</div>
+                                                 </div>`,
+                                                    val: item.MaThuoc,
+                                                    desc: item.TenThuoc,
+                                                    all: item
+
+                                                    //Type: item.type
+                                                }
+                                            }
+                                            else {
+                                                return null;
+                                            }
+
+                                        }))
+                                    },
+
+                                    focus: function (event, ui) {
+
+                                        $("#SearchThuoc").val();
+                                        return false;
+                                    },
+                                    select: function (event, ui) {
+
+                                        $("#listToaThuoc").append(`<tr>
+                        <th class="col-8">
+                              <input style="display:none" name="MaThuoc" value="${ui.item.val}"  />
+                            <h6 style="margin-inline: 20px; font-weight:bold;" name ="TenThuoc" >${ui.item.desc}</h6>
+                            <div class="row" style="margin-inline: 20px;">
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Ngày uống <input style="width: 25%" type="number" min="1" class="form-control;" name="LanTrongNgay" > lần.</label>
+                                </div>
+                                <div class="mb-2 col-sm-4">
+                                    <label for="">Mỗi lần <input style="width: 25%" type="number" min="1" class="form-control;" name="VienMoiLan"> viên.</label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" name ="TruocKhian" value="" >
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trước khi ăn
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Sang" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống sáng
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Trua" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống trưa
+                                    </label>
+                                </div>
+                                <div class="form-check col-sm-4 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="" name ="Chieu" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Uống tối
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="col-2">
+                            <div class="input-group mb-3">
+                                <input type="number" min="1" placeholder="Số lượng..." class="form-control" name ="SoLuong">
+                            </div>
+                        </th>
+                        <th class="col-2 text-center"><button class="btn deleteThuoc" style="background-color: #FA4F4F; color: white;"><i class="fa fa-trash"></i></button></th>
+                    </tr>
+              `);
+
+
+                                        DataThuoc.splice(DataThuoc.indexOf(ui.item.all), 1)
+
+                                        //__doPostBack("txtFirstName", "OnTextChanged");
+                                        return false;
+                                    }
+                                })
+
+
+
+
+                            }
+                        });
                         ConfirmToaThuoc();
                         table = $('#danhSach').DataTable(
                             {
@@ -761,6 +992,7 @@
 
                 }
             });
+       
         }
 
 
@@ -788,6 +1020,7 @@
 
 
         });
+        
 
 
 
@@ -951,7 +1184,11 @@
 
         $(document).on('click', '.deleteThuoc', function () {
             $tr = $(this).parent().parent();
+            $.get("/BacSi/GetInforThuoc", { Mathuoc: $tr.find("[name='MaThuoc']").val() }, function (data) {
 
+                DataThuoc.push(JSON.parse(data));
+            });
+            
             var rowNode = table.row.add([$tr.find("[name='TenThuoc']").html(), `<button class="btn btn-sm addThuoc" id="btnAddThuoc" style="border-radius: 50%;"><i class="fas fa-plus"></i></button> | <button class="btn-info btn btn-sm active " onclick="_Detail('${$tr.find("[name='MaThuoc']").val()}')" style="border-radius: 60px;"><i class="fa fa-info-circle" ></i></button>`, $tr.find("[name='MaThuoc']").val()]).draw().node();
 
 
@@ -1109,25 +1346,28 @@
         }
         function AddChanDoan() {
             $('#ListChiTietBenh').append(`
-               <div class="col-12 row ChiTietBenh">
-                            <div class="col-sm-6 mb-2">
+               <div class="col-12 row ChiTietBenh" style="padding-inline: 38px; margin-top: 16px;">
+                            <div class="col-sm-6">
                                 <label class="control-label" for="example-textarea-input">Kết quả khám</label>
-                                <div class="col-12 mb-3" style="display: inline-flex">
-                                    <input class="form-control trieuchungauto" name="trieuchungauto" style="width: 85% ;margin-right: 15px;" placeholder="Nhập triệu chứng phát hiện ..." />
-                                    <div style="width: 15%; text-align:center;">
-                                        <a class="btn border-0 addTrieuChungCT" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                <div class="col-12 row mb-3">
+                                    <div class="col-sm-10 pe-0 me-0">
+                                        <input class="form-control trieuchungauto" name="trieuchungauto" placeholder="Nhập triệu chứng phát hiện ..." />
+                                    </div>
+                                    <div class="button-reload col-sm-2 text-end">
+                                        <a class="btn border-0" id="addTrieuChung"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
-                                <label class="col-md-5 control-label" for="example-textarea-input" style="margin-top: 20px;">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
-                                <div class="col-12" style="display: inline-flex">
-                                    <input type="text" class="form-control ChanDoan" style="margin-right: 20px; width: 85%;" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
-                                    <div style="width: 15%; text-align:center;">
+                                <label class="col-md-5 control-label" for="example-textarea-input">Chẩn đoán<strong style="color:#b10c0c">&nbsp;(*)</strong></label>
+                                <div class="col-12 row">
+                                    <div class="col-md-10 pe-0 me-0">
+                                        <input type="text" class="form-control ChanDoan" name="ChanDoan" placeholder="Vui lòng nhập chẩn đoán">
+                                    </div>
+                                    <div class="col-sm-2 text-end">
                                         <a class="btn text-light border-0 removeCtBenh" style="background-color: #FA4F4F;"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6" style="margin-bottom: 35px;">
-                            <label class="control-label" style="margin-left: 10px">Kết quả khám</label>
                                 <div class="col-12 pe-0" style="border: 1px solid #dee2e6; margin-left: 11px; overflow: scroll; overflow-x: hidden; height: 140px; ">
                                     <ul class="symptom-list mt-2 ListTrieuChung" name="ListTC">
                                     </ul>
@@ -1135,6 +1375,7 @@
                             </div>
                             <hr />
                         </div>
+
              `)
             addAuto();
 
