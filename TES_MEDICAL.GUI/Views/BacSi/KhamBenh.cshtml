@@ -10,9 +10,14 @@
 <style>
 
     .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-state-active.ui-button:hover {
-        border: 1px solid #000;
-        background: #000;
+        border: none;
+        background: #3498DB;
     }
+    /*.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+        background: #6693bc !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+    } */
     .ui-autocomplete input {
         position: relative;
         z-index: 1000;
@@ -35,7 +40,34 @@
         line-height: 40px;
     }
 
-    
+    .search-drug {
+        display: flex;
+        padding: 5px 10px;
+        background-color: white;
+        cursor: pointer;
+        border-bottom: 1px solid lightgray;
+    }
+        .search-drug:hover {
+            background-color: #3498DB !important;
+        }
+    .search-left {
+        width: 75%;
+        padding: 5px 15px;
+    }
+    i.drug-info{
+        margin-top: -10px;
+    }
+    .search-right {
+        text-align: center;
+        width: 25%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+        .search-right .img {
+            width: 70px;
+        }
 </style>
 
 <div class="col-12">
@@ -623,6 +655,7 @@
                                 image: item.HinhAnh,
                                 val: item.MaThuoc,
                                 desc: item.TenThuoc,
+                                info: item.ThongTin,
                                 all: item
 
                                 //Type: item.type
@@ -702,7 +735,7 @@
             })
                 .autocomplete("instance")._renderItem = function (ul, item) {
                     return $("<li>")
-                        .append(`<div> ${item.val} <br> ${item.desc} </div><img  src="/images/imagesThuoc/${item.image}"/>`)
+                        .append(`<div class="search-drug"><div class="search-left"><p class="d-none">${item.val}</p><h2 class="drug-name">${item.desc}</h3><i class="drug-info">${item.info}</i></div><div class="search-right"><img src="/images/imagesThuoc/${item.image}" alt="" class="img"></div></div>`)
                         .appendTo(ul);
                 };
         }
