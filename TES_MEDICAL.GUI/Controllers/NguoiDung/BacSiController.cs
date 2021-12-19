@@ -81,6 +81,11 @@ namespace TES_MEDICAL.GUI.Controllers
         {
             var item = await _khambenhRep.GetPK(Guid.Parse(MaPK));
             item.NgayTaiKham = item.NgayKham.AddDays(7);
+            ViewBag.DataThuoc = JsonConvert.SerializeObject(_tienichRep.GetAllThuoc().OrderBy(x => x.TenThuoc).ThenBy(x => x.TenThuoc.Length), Formatting.Indented,
+             new JsonSerializerSettings
+             {
+                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+             });
             ViewBag.LichSuKham = await _khambenhRep.GetLichSu(item.MaBNNavigation.HoTen,item.MaBNNavigation.SDT);
             ViewBag.PhieuKham = JsonConvert.SerializeObject(item, Formatting.Indented,
                new JsonSerializerSettings
@@ -299,6 +304,45 @@ namespace TES_MEDICAL.GUI.Controllers
 
                 return PartialView("_ChiTietThuoc", _tienichRep.GetThuoc(id));
             }
+        }
+        [HttpPost]
+        public IActionResult GetJsonThuoc(PhieuKham model)
+        {
+            if (model.ToaThuoc == null)
+            {
+                return Json(new { status = -2, title = "", text = "Chưa có toa thuốc nào cho bệnh này", obj = "" }, new JsonSerializerSettings());
+            }
+            else
+            {
+                var listhuocExist = model.ToaThuoc.ChiTietToaThuoc;
+                var listNew = _tienichRep.GetAllThuoc();
+                var listThuoc = listNew.Where(x => !listhuocExist.Any(y => y.MaThuoc == x.MaThuoc));
+
+                return Json(JsonConvert.SerializeObject(listThuoc.OrderBy(x => x.TenThuoc).ThenBy(x => x.TenThuoc.Length), Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               }));
+            }
+
+        }
+        [HttpGet]
+        public IActionResult GetInforThuoc(Guid Mathuoc)
+        {
+            var result = _tienichRep.GetAllThuoc().FirstOrDefault(x => x.MaThuoc == Mathuoc);
+            if (result != null)
+            {
+                return Json(JsonConvert.SerializeObject(result, Formatting.Indented,
+               new JsonSerializerSettings
+               {
+                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+               }));
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         public IActionResult ThemThuoc()
